@@ -13,18 +13,20 @@ namespace Hoarding_managment.Controllers
     {
         private readonly IDashboard _context;
         private readonly db_hoarding_managementContext _dbContext;
+        private readonly AutocompleteService _autocompleteService;
         private readonly IQuotation _Quoatations_context;
         IWebHostEnvironment hostingenvironment;
         private readonly ICustomer _customer;
 
-        public DashboardController(IDashboard dashboard, IWebHostEnvironment hc, IQuotation quotation, db_hoarding_managementContext dbContext,ICustomer customer)
+        public DashboardController(IDashboard dashboard, IWebHostEnvironment hc, IQuotation quotation, db_hoarding_managementContext dbContext,ICustomer customer, AutocompleteService autocompleteService)
         {
             _context = dashboard;
             hostingenvironment = hc;
             _Quoatations_context = quotation;
             _dbContext = dbContext;
             _customer = customer;
-           
+            _autocompleteService = autocompleteService;
+
         }
         public IActionResult Index()
         {
@@ -111,9 +113,19 @@ namespace Hoarding_managment.Controllers
             return Json(new { success = false, Message = "Creating error." });
         }
 
+        public JsonResult GetVendorName(string query)
+        {
+            var subproduct = _autocompleteService.Getvendorname(query);
+
+            var result = subproduct
+              .Where(f => f.VendorName.ToLower().Contains(query.ToLower())).Select(s => new { Name = s.VendorName, Id = s.Id })
+              .ToList();
+            return Json(result);
+        }
+
 
         [HttpPost]
-        public async Task<IActionResult> UpdateInventoryItems(int id, string city, string area, string width, string height, string rate, string VendorName,string Image)
+        public async Task<IActionResult> UpdateInventoryItems(int id, string city, string area, string width, string height, string rate, string VendorName,int vendorid,string Image,string location,string vendoramt)
         {
             if (!ModelState.IsValid)
             {
@@ -133,8 +145,11 @@ namespace Hoarding_managment.Controllers
             existingItem.Width = width;
             existingItem.Height = height;
             existingItem.Rate = rate;
-            existingItem.FkVendorId = this._dbContext.TblVendors.Where(x => x.VendorName.Trim() == VendorName.Trim() && x.IsDelete == 0).FirstOrDefault()?.Id;
+            existingItem.FkVendorId = vendorid;
             existingItem.Image = Image;
+            existingItem.Location = location;
+            existingItem.VendorAmt = vendoramt;
+
             // Save changes to the database
             this._dbContext.SaveChanges();
 
@@ -409,19 +424,20 @@ namespace Hoarding_managment.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNewInventory(string city, string Area, string location, string width, string height, string rate, string vendoramt, string Image)
+        public async Task<IActionResult> AddNewInventory(string city, string area, string location, string width, string height, string rate, string vendoramt, string Image,int vendorid)
         {
             
                 var data = new TblInventory
                 {
                     City = city,
-                    Area = Area,
+                    Area = area,
                     Location = location,
                     Width = width,
                     Height = height,
                     Rate = rate,
                     VendorAmt = vendoramt,
                     Image = Image,
+                    FkVendorId= vendorid,
                     IsDelete = 0,
                     CreatedAt = DateTime.Now,
                     CreatedBy = "Admin",

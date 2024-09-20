@@ -36,6 +36,119 @@
         border-color: #80bdff;
     }
 </style>
+<style>
+    .autocomplete-suggestions {
+        position: absolute;
+        border: 1px solid #ddd;
+        background-color: white;
+        max-height: 150px;
+        overflow-y: auto;
+        margin-left: -3px;
+        border-radius: 11px;
+        z-index: 1000;
+    }
+
+    td .autocomplete-suggestions {
+        position: relative !important;
+        border: 1px solid #ddd;
+        background-color: white;
+        max-height: 71px;
+        overflow-y: auto;
+        z-index: 1000;
+    }
+
+    .autocomplete-suggestion {
+        padding: 5px;
+        cursor: pointer;
+    }
+
+        .autocomplete-suggestion:hover,
+        .autocomplete-suggestion.active {
+            background-color: #007bff;
+            color: #453b3b;
+        }
+
+
+    #profile-upload {
+        background-image: url('');
+        background-size: cover;
+        background-position: center;
+      
+        width: 300px;
+        border: 1px solid #bbb;
+        position: relative;
+      /*  border-radius: 250px;*/
+        overflow: hidden;
+    }
+
+        #profile-upload:hover input.upload {
+            display: block;
+        }
+
+        #profile-upload:hover .hvr-profile-img {
+            display: inline-block;
+        }
+
+        #profile-upload .fa {
+            margin: auto;
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            text-align: center;
+            right: 0;
+            padding: 6px;
+            opacity: 1;
+            transition: opacity 1s linear;
+            -webkit-transform: scale(.75);
+        }
+
+        #profile-upload:hover .fa {
+            opacity: 7;
+            -webkit-transform: scale(1);
+        }
+
+        #profile-upload input.upload {
+            z-index: 1;
+            left: 0;
+            margin: 0;
+            bottom: 0;
+            top: 0;
+            padding: 0;
+            opacity: 0;
+            outline: none;
+            cursor: pointer;
+            position: absolute;
+            background: #ccc;
+            width: 100%;
+            display: none;
+        }
+
+        #profile-upload .hvr-profile-img {
+            width: 100%;
+            height: 100%;
+            display: none;
+            position: absolute;
+            vertical-align: middle;
+            position: relative;
+            background: #766666bd;
+        }
+
+        #profile-upload .fa:after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0px;
+            background: rgba(0,0,0,0.3);
+            z-index: -1;
+            transition: height 0.3s;
+        }
+
+        #profile-upload:hover .fa:after {
+            height: 100%;
+        }
+</style>
 
 <body>
     <div class="container-fluid my-2">
@@ -112,7 +225,7 @@
 
                                                         <div class="end-icons">
                                                           @*   <img src="/img/detail.svg" alt="Details" onclick="showDetail(@i.Id)" /> *@
-                                                            <img src="/img/edit.svg" data-toggle="modal" data-target="#editModal" onclick="editCratModal('@i.Id', '@i.City', '@i.Area', '@i.Width','@i.Height', '@i.Rate', '@i.VendorName','@i.Image')" />
+                                                            <img src="/img/edit.svg" data-toggle="modal" data-target="#editModal" onclick="editCratModal('@i.Id', '@i.City', '@i.Area', '@i.Width','@i.Height', '@i.Rate', '@i.VendorName','@i.Image','@i.FkVendorId','@i.location','@i.vendoramt')" />
                                                             <img src="/img/delete.svg" class="mr-2" data-toggle="modal" data-target="#deleteModal" onclick="setDeleteItem(@i.Id)" />
                                                         </div>
 @*                                                         <i class="bi bi-pencil"></i>
@@ -161,13 +274,13 @@
                                             <input type="text" class="form-control custom-border" id="location" name="location" placeholder="Enter Location" required>
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="width">Width <span class="text-danger">*</span></label>
+                                            <label for="width">Width (metre) <span class="text-danger">*</span></label>
                                             <input type="text" class="form-control custom-border" id="width" name="width" placeholder="Enter Width" required>
                                         </div>
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <label for="height">Height <span class="text-danger">*</span></label>
+                                            <label for="height">Height (metre)<span class="text-danger">*</span></label>
                                             <input type="text" class="form-control custom-border" id="height" name="height" placeholder="Enter Height" required>
                                         </div>
                                         <div class="form-group col-md-6">
@@ -175,19 +288,28 @@
                                             <input type="text" class="form-control custom-border" id="rate" name="rate" placeholder="Enter Rate">
                                         </div>
                                     </div>
+                                    
                                     <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="height">vendor name</label>
+                                          
+                                            <input type="text" class="autocomplete form-control custom-border" id="vendorName" name="vendorName" placeholder="Enter Height" data-id="vendorName"  data-width="nowidth" autocomplete="off" required>
+                                            
+                                        </div>
+                                         <div class="form-group col-md-6" style="display:none">
+                                            <label for="vendoramt">Vendor id</label>
+                                            <input type="text" class="form-control custom-border" id="vendorids" name="vendorids" placeholder="Enter Vandor Amount">
+                                        </div>
                                         <div class="form-group col-md-6">
                                             <label for="vendoramt">Vendor Amount</label>
                                             <input type="text" class="form-control custom-border" id="vendoramt" name="vendoramt" placeholder="Enter Vandor Amount">
                                         </div>
-                                       @*<div class="form-group col-md-6">
-                                            <label for="fileInput" class="form-label">Upload Image</label>
-                                            <div class="custom-file">
-                                                <input type="file" id="imageInput" accept="image/*" class="custom-file-input" onchange="updateFileName();" />
-                                                <label class="custom-file-label" id="fileName" for="fileInput">Choose image</label>
-                                            </div>
-                                        </div>*@
-                                        <div class="form-group col-md-6">
+                                     
+                                    </div>
+                                    <div class="form-row">
+                                      
+                                     
+                                        <div class="form-group col-md-12">
                                             <label for="fileInput" class="form-label">Upload Image</label>
                                             <div class="custom-file">
                                                 <input type="file" id="imageInput" accept="image/*" class="custom-file-input" onchange="updateFileName();" />
@@ -206,6 +328,100 @@
                         </div>
                     </div>
                 </div>
+
+               <!-- eddit start-->
+                <!--Add Inventory-->
+                <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel">Edit Inventory</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="addCustomerForm">
+                                    <div class="row">
+                                        <div class="col-6" style="display: flex;justify-content: space-evenly;">
+                                            <div id='profile-upload'>
+                                                <div class="hvr-profile-img" style="text-align: center;margin-top: 50%;"><input type="file" name="logo" id='getval' class="upload w180" title="Dimensions 180 X 180" id="imag" accept="image/*"> Upload new image</div>
+                                                <i class="fa fa-camera"></i>
+                                            </div>
+                                        </div> 
+                                        <div class="col-6">
+                                             <input type="hidden" id="id" />
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="height">Height (metre)<span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control custom-border" id="edit-height" name="edit-height" placeholder="Enter Height" required>
+                                                </div>
+
+
+
+                                                <div class="form-group col-md-6">
+                                                    <label for="width">Width (metre) <span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control custom-border" id="edit-width" name="edit-width" placeholder="Enter Width" required>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                      <label for="vendoramt">Vendor Amount</label>
+                                                     <input type="text" class="form-control custom-border" id="edit-vendoramt" name="edit-vendoramt" placeholder="Enter Vandor Amount">                                                   
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                   <label for="rate">Rate</label>
+                                                      <input type="text" class="form-control custom-border" id="edit-rate" name="edit-rate" placeholder="Enter Rate">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                               
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="location">Location <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control custom-border" id="edit-location" name="edit-location" placeholder="Enter Location" required>
+                                          
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                             <label for="Area">Area Name <span class="text-danger">*</span></label>
+                                             <input type="text" class="form-control custom-border" id="edit-Area" name="edit-Area" placeholder="Enter Area Name" required>
+                                           
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="height">vendor name</label>                                         
+                                            <input type="text" class="autocomplete form-control custom-border" id="edit-vendorName" name="edit-vendorName" placeholder="Enter Height" data-id="edit-vendorName"  data-width="nowidth" autocomplete="off" required>                                            
+                                        </div>
+                                         <div class="form-group col-md-6" style="display:none">
+                                            <label for="vendoramt">Vendor id</label>
+                                            <input type="text" class="form-control custom-border" id="edit-vendorids" name="edit-vendorids" placeholder="Enter Vandor Amount">
+                                        </div> 
+                                        <div class="form-group col-md-6" style="display:none">
+                                            <label for="vendoramt">Vendor image</label>
+                                            <input type="text" class="form-control custom-border" id="edit-image" name="edit-image" placeholder="Enter Vandor Amount">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="City">City Name <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control custom-border" id="edit-city" name="edit-city" placeholder="Enter City Name" required>
+                                          
+                                        </div>
+                                     
+                                    </div>
+                                
+                                </form>
+                            </div>
+                        
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-primary" id="editInventory">Save Changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               <!-- eddit End-->
 
                 <!--Closed Add Inventory-->
 
@@ -245,6 +461,7 @@
                                 <p class="text-muted-foreground text-center mt-2">Are you sure you want to delete this item?</p>
                                 <input type="hidden" id="selectedId" />
                             </div>
+
                             <div class="modal-footer justify-content-center">
                                 <button type="button" class="btn btn-danger" id="cnfdelete">Delete</button>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -287,75 +504,151 @@
                     </div>
                 </div>
 
-                <!-- Edit Modal -->
-                <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header bg-primary">
-                                <h5 class="modal-title text-white" id="editModalLabel">Edit Item</h5>
-                                <button type="button" class="close text-black" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="editForm">
-                                    <div class="row">
-                                       @* <div class="col-md-5">
-                                            <img src="~/images/login-mock.svg" class="img-fluid" alt="Image" width="100%" height="100%" />
-                                        </div>*@
-                                        <div class="col-md-5">
-                                            <img id="modalImage" src="~/images/login-mock.svg" class="img-fluid" alt="Image" width="100%" height="100%" />
-                                        </div>
-                                        <div class="col-md-7">
-                                            <div class="row">
-                                                <input type="hidden" id="id" />
-                                                <div class="col-12 col-md-6">
-                                                    <label for="editCity">City:</label>
-                                                    <input type="text" id="editCity" class="form-control" required>
-                                                </div>
-                                                <div class="col-12 col-md-6">
-                                                    <label for="editArea">Area:</label>
-                                                    <input type="text" id="editArea" class="form-control" required>
-                                                </div>
-                                                <div class="col-12 col-md-6">
-                                                    <label for="editWidth">Width:</label>
-                                                    <input type="text" id="editWidth" class="form-control" required>
-                                                </div>
-                                                <div class="col-12 col-md-6">
-                                                    <label for="editHeight">Height:</label>
-                                                    <input type="text" id="editHeight" class="form-control" required>
-                                                </div>
-                                                <div class="col-12 col-md-6">
-                                                    <label for="editRate">Rate:</label>
-                                                    <input type="text" id="editRate" class="form-control" required>
-                                                </div>
-                                                <div class="col-12 col-md-6">
-                                                    <label for="editVendorName">Vendor:</label>
-                                                    <input type="text" id="editVendorName" class="form-control" required>
-                                                </div>
-                                                <div class="form-group col-md-10">
-                                                    <label for="fileInput" class="form-label">Upload Image</label>
-                                                    <div class="custom-file">
-                                                        <input type="file" id="imageInputt" accept="image/*" class="custom-file-input" onchange="updateFileName();" />
-                                                        <label class="custom-file-label" id="fileNamee" for="fileInput">Choose image</label>
-                                                    </div>
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                <button type="button" class="btn btn-primary" id="editInventory">Save Changes</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+               
 
             </section>
         </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                document.getElementById('getval').addEventListener('change', readURL, true);
+                function readURL() {
+                    var file = document.getElementById("getval").files[0];
+                    var reader = new FileReader();
+                    reader.onloadend = function () {
+                        document.getElementById('profile-upload').style.backgroundImage = "url(" + reader.result + ")";
+                    }  
+                     reader.readAsDataURL(file);
+                     $('#edit-image').val("");
+
+                    if (file) {
+                        var reader1 = new FileReader();
+                        reader1.onloadend = function () {
+                            var base64String = reader1.result.replace("data:", "").replace(/^.+,/, ''); // Convert image to Base64 string
+                            $('#edit-image').val(base64String);
+                        };
+                        reader1.readAsDataURL(file); // Convert the image to Base64 string
+                    } else {
+                       toastr.error('Please select an image file.');
+                    }
+                   
+                }
+                document.querySelectorAll('.autocomplete').forEach(function (input) {
+                    let suggestionsContainer;
+                    let activeSuggestionIndex = -1;
+
+                    input.addEventListener('input', function () {
+                        const query = input.value;
+                        const id = input.getAttribute('data-id');
+
+                        let urls = "";
+                        let inputwidth = "";
+                    
+                        if (id === "vendorName") {
+                            urls = `/Dashboard/GetVendorName?query=${query}`;
+                        } 
+                        
+                        if (id === "edit-vendorName") {
+                            urls = `/Dashboard/GetVendorName?query=${query}`;
+                        }
+                        if (query.length < 1) {
+                            if (suggestionsContainer) {
+                                suggestionsContainer.innerHTML = '';
+                                suggestionsContainer.style.display = 'none';
+                            }
+                            return;
+                        }
+
+                        fetch(`${urls}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                if (!suggestionsContainer) {
+                                    suggestionsContainer = document.createElement('div');
+                                    suggestionsContainer.className = 'autocomplete-suggestions';
+                                    input.parentNode.appendChild(suggestionsContainer);
+                                }
+
+                                if (input.getAttribute('data-width') == "nowidth") {
+                                 suggestionsContainer.style.width = `${input.parentNode.offsetWidth}px`;
+                                }
+
+                             
+                                suggestionsContainer.innerHTML = '';
+                                suggestionsContainer.style.display = 'block';
+                                activeSuggestionIndex = -1;
+
+                                data.forEach((item, index) => {
+                                    const suggestionItem = document.createElement('div');
+                                    suggestionItem.className = 'autocomplete-suggestion';
+                                    suggestionItem.textContent = item.name;
+                                    suggestionItem.dataset.key = item.id;
+                                    suggestionItem.dataset.value = item.name;
+
+                                    suggestionItem.addEventListener('click', function () {
+                                        input.value = item.name;
+                                        suggestionsContainer.style.display = 'none';
+
+                                        if (id === "vendorName") {
+                                            $("#vendorids").val(item.id);
+                                        } 
+                                        if (id === "edit-vendorName") {
+                                            $("#edit-vendorids").val(item.id);
+                                        } 
+                                    });
+                                    suggestionsContainer.appendChild(suggestionItem);
+                                });
+                            });
+                    });
+
+                    input.addEventListener('keydown', function (e) {
+
+                        const idd = input.getAttribute('data-id');
+
+                        const suggestions = suggestionsContainer?.querySelectorAll('.autocomplete-suggestion');
+                        if (!suggestions) return;
+
+                        if (e.key === 'ArrowDown') {
+                            activeSuggestionIndex = (activeSuggestionIndex + 1) % suggestions.length;
+                            updateActiveSuggestion(suggestions);
+                        } else if (e.key === 'ArrowUp') {
+                            activeSuggestionIndex = (activeSuggestionIndex - 1 + suggestions.length) % suggestions.length;
+                            updateActiveSuggestion(suggestions);
+                        } else if (e.key === 'Enter') {
+                            e.preventDefault();
+                            if (activeSuggestionIndex > -1) {
+                                const activeSuggestion = suggestions[activeSuggestionIndex];
+                                input.value = activeSuggestion.dataset.value;
+                                suggestionsContainer.style.display = 'none';
+
+
+                                if (idd === "vendorName") {
+
+                                    $("#vendorids").val(activeSuggestion.dataset.key);
+
+                                } 
+                                if (idd === "edit-vendorName") {
+
+                                    $("#edit-vendorids").val(activeSuggestion.dataset.key);
+
+                                } 
+
+                            }
+                        }
+                    });
+
+                    document.addEventListener('click', function (event) {
+                        if (suggestionsContainer && !input.contains(event.target)) {
+                            suggestionsContainer.style.display = 'none';
+                        }
+                    });
+
+                    function updateActiveSuggestion(suggestions) {
+                        suggestions.forEach((suggestion, index) => {
+                            suggestion.classList.toggle('active', index === activeSuggestionIndex);
+                        });
+                    }
+                });
+            });
+        </script>
 
           <script>
                 function uploadFile() {
@@ -442,24 +735,42 @@
         </script>*@
         <script>
             // Set the values of the form fields in the modal
-            function editCratModal(id, city, area, width, height, rate, VendorName,Image)
+            function editCratModal(id, city, area, width, height, rate, VendorName,Image,vendorid,location,vendoramt)
             {
+
+                //city: $('#city').val(),
+                //    area: $('#Area').val(),
+                //        location: $('#location').val(),
+                //            width: $('#width').val(),
+                //                height: $('#height').val(),
+                //                    rate: $('#rate').val(),
+                //                        vendoramt: $('#vendoramt').val(),
+                //                            vendorid: $('#vendorids').val(),
+                 $('#edit-image').val("");
+
                 $('#id').val(id);
-                $('#editCity').val(city);
-                $('#editArea').val(area);
-                $('#editWidth').val(width);
-                $('#editHeight').val(height);
-                $('#editRate').val(rate);
-                $('#editVendorName').val(VendorName);
+                $('#edit-city').val(city);
+                $('#edit-Area').val(area);
+                $('#edit-location').val(location);
+                $('#edit-width').val(width);
+                $('#edit-height').val(height);
+                $('#edit-rate').val(rate);
+                $('#edit-vendoramt').val(vendoramt);
+                $('#edit-vendorName').val(VendorName);
+                $('#edit-vendorids').val(vendorid);
+              
 
                 if (Image) 
                 {
-                    $('#modalImage').attr('src', 'data:image/jpeg;base64,' + Image);
-                } else 
-                {
-                    // If no image is available, use a placeholder image
-                    $('#modalImage').attr('src', '~/images/login-mock.svg');
-                }
+                    const base64Image = 'data:image/png;base64,' + Image;
+                    // Select the div element by its ID
+                    const divElement = document.getElementById('profile-upload');
+
+                  // Set the background image using the base64 data
+                    divElement.style.backgroundImage = `url(${base64Image})`;
+                  //  $('#modalImage').attr('src', 'data:image/jpeg;base64,' + Image);
+                    $('#edit-image').val(Image);
+                } 
             }
             $('#editInventory').click(function () 
             {
@@ -467,56 +778,63 @@
                 //var form = $('#addCustomerForm')[0]; // Get the form element
                 //var formData = new FormData(form); // Create FormData object from form
                 var id = $('#id').val();
-                var city = $('#editCity').val();
-                var area = $('#editArea').val();
-                var width = $('#editWidth').val();
-                var height = $('#editHeight').val();
-                var rate = $('#editRate').val();
-                var vendorName = $('#editVendorName').val();
-                var imageFile = $('#imageInputt')[0].files[0]; // Get the selected image file
+                var city = $('#edit-city').val();
+                var area = $('#edit-Area').val();
+                var width = $('#edit-width').val();
+                var height = $('#edit-height').val();
+                var rate = $('#edit-rate').val();
+                var vendorName = $('#edit-vendorName').val();
+                var vendorid = $('#edit-vendorids').val();
+                var imageFile = $('#edit-image').val(); // Get the selected image file
+                var locations = $('#edit-location').val(); // Get the selected image file
+                var vendoramt = $('#edit-vendoramt').val(); // Get the selected image file
 
-                if (imageFile) 
+                if (imageFile !="" && vendorName != "") 
                 {
-                    var reader = new FileReader();
-
-                    reader.onloadend = function () {
-                        var base64String = reader.result.replace("data:", "").replace(/^.+,/, ''); // Convert image to Base64 string
-
-                        // Send the form data along with the Base64 string via AJAX
-                        $.ajax({
-                            type: "POST",
-                            url: '/Dashboard/UpdateInventoryItems',// Update the URL to match your controller action
-                            data: {
-                                Id: id,
-                                City: city,
-                                Area: area,
-                                Width: width,
-                                Height: height,
-                                Rate: rate,
-                                VendorName: vendorName,
-                                Image: base64String
-                            },
-                            success: function (response) 
+                   
+                    // Send the form data along with the Base64 string via AJAX
+                    $.ajax({
+                        type: "POST",
+                        url: '/Dashboard/UpdateInventoryItems',// Update the URL to match your controller action
+                        data: {
+                            Id: id,
+                            City: city,
+                            Area: area,
+                            Width: width,
+                            Height: height,
+                            Rate: rate,
+                            VendorName: vendorName,
+                            vendorid:vendorid,
+                            Image: imageFile,
+                            location: locations,
+                            vendoramt:vendoramt
+                        },
+                        success: function (response) 
+                        {
+                            if (response.success) 
                             {
-                                if (response.success) 
-                                {
-                                    toastr.success(response.message);
-                                    $('#editModal').modal('hide'); // Close the modal
-                                    // Optionally, refresh the page or update the UI
-                                    location.reload();
-                                } else {
-                                    toastr.error(response.message);
-                                }
-                            },
-                            error: function () {
-                                toastr.error('An error occurred while updating the item.');
+                                toastr.success(response.message);
+                                $('#editModal').modal('hide'); // Close the modal
+                                location.reload();
+                            } else {
+                                toastr.error(response.message);
                             }
-                        });
-                    };
-                    reader.readAsDataURL(imageFile); // Convert the image to Base64 string
-                } else 
+                        },
+                        error: function () {
+                            toastr.error('An error occurred while updating the item.');
+                        }
+                    });
+                   
+                } 
+                else 
                 {
-                    toastr.error('Please select an image file.');
+                    if (imageFile) {
+                        toastr.error('Please select vendor name.');
+                    }
+                    else {
+                        toastr.error('Please select an image file.');
+                    }
+                    
                 }
             });
             // Setup the event listener for Save Changes button
