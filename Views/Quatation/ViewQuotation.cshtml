@@ -1,4 +1,5 @@
-﻿<section>
+﻿
+<section>
     <div class="text-center">
         <button class="btn btn-info my-4 mb-2 ms-4" id="exportToPPT">Export to PPT</button>
         <button class="btn btn-info my-4 mb-2 ms-4" id="exportToPDF">Export to PDF</button>
@@ -8,12 +9,14 @@
         <div class="container-fluid my-2">
             <div class="mb-3">
                 <div class="row">
+
                     <div class="col-lg-6 text-center">
                         <img id="myImage" class="m-3" alt="Location Image" style="width:100%; max-width: 350px" />
                         <span id="imagedata" style="display:none"></span>
                         <img id="myImagetwo" class="m-3" alt="Location Image" style="display:none" />
                         <span id="imagedatatwo" style="display:none"></span>
                     </div>
+
 
                     <div class="col-lg-6 text-lg-right pr-4">
                         <div class="text-end">
@@ -30,10 +33,10 @@
                     <div class="row">
                         <div class="col-md-6 text-center mb-3 mb-md-0">
                             <input type="hidden" class="hidden" quotationId="@Model.Id" value="@Model.Id" />
-                            <p><strong>Quotation Number:</strong> @Model.QuotationNumber</p>
-                            <p style="display:none"><strong>Quotation Number  :</strong> @Model.QuotationNumber</p>
+                            <p><strong>Quotation Id:</strong> @Model.QuotationNumber</p>
+                            <p style="display:none"><strong>Quotation Id    :</strong> @Model.QuotationNumber</p>
                             <p><strong>Date:</strong> @Model.CreatedAt?.ToString("yyyy-MM-dd")</p>
-                            <p style="display:none"><strong>Date  :</strong> @Model.CreatedAt?.ToString("yyyy-MM-dd")</p>
+                            <p style="display:none"><strong>Date                   :</strong> @Model.CreatedAt?.ToString("yyyy-MM-dd")</p>
                         </div>
                         <div class="col-md-6 totalamountclass text-center">
                             <p><strong>Quotation For:</strong> @Model.CustomerName</p>
@@ -75,28 +78,132 @@
                 }
             </div>
         </div>
-         <div class="text-center">
-        <button class="btn btn-info my-4 mb-2 ms-4" id="exportToPPT">Export to PPT</button>
-        <button class="btn btn-info my-4 mb-2 ms-4" id="exportToPDF">Export to PDF</button>
     </div>
-    </div>
-   
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 
 
     <script>
-
-
         $(document).ready(function () {
+            //$("#exportToPDF").on("click", function () {
+            //    const element = document.getElementById('exportContent');
+            //    const opt = {
+            //        margin: [0.5, 0.5, 0.5, 0.5],
+            //        filename: 'Quotation.pdf',
+            //        image: { type: 'jpeg', quality: 0.98 },
+            //        html2canvas: { scale: 2 },
+            //        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            //    };
+
+            //    // Convert the HTML content to PDF
+            //    html2pdf().from(element).set(opt).save();
+            //});
+
             $("#exportToPDF").on("click", function () {
-                const element = document.getElementById('exportContent');
-                const opt = {
-                    margin: [ 0.5, 0.5, 0.5, 0.5 ],
-                    filename: 'Quotation.pdf',
-                    image: { type: 'jpeg', quality: 0.98 },
-                    html2canvas: { scale: 2 },
-                    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-                };
-                html2pdf().from(element).set(opt).save();
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'mm', 'a4');
+
+                // Set general font size and font type
+                pdf.setFontSize(16);
+                pdf.setFont('helvetica', 'bold');
+
+                pdf.addImage(document.getElementById('imagedatatwo').innerHTML, 'PNG', 10, 11, 190, 100);
+
+
+
+                // Add Hoarding Document title
+                pdf.text("Hoarding Document", 105, 120, { align: 'center' });
+
+                // Add company information
+                pdf.setFontSize(14);
+                pdf.text("SAHU OUTDOOR ADVERTISING", 105, 122, { align: 'center' });
+                pdf.setFont('helvetica', 'normal');
+                pdf.text("Office No. 307, Supreme Classic Building,", 105, 130, { align: 'center' });
+                pdf.text("Salunke Vihar Road, Pune 411048", 105, 135, { align: 'center' });
+                pdf.text("Email: marketing@sahuads.com GSTIN: 27ABJCS1061L1Z3", 105, 140, { align: 'center' });
+
+                // Add a static image
+                const staticImgSrc = document.getElementById('imagedata').src; // Check this ID and ensure it's correct
+                if (staticImgSrc) {
+                    // Ensure that the image source is a valid Base64 string or URL
+                    pdf.addImage(staticImgSrc, 'PNG', 10, 145, 180, 100); // Adjust position and size as needed
+                } else {
+                    console.error("Static image source not found!");
+                }
+
+                // Add Quotation Details section
+                pdf.setFontSize(14);
+                pdf.setFont('helvetica', 'bold');
+                pdf.text("Quotation Details", 20, 150);
+
+                pdf.setFontSize(12);
+                pdf.setFont('helvetica', 'normal');
+
+                const exportContent = $('#exportContent');
+                let quotationId = exportContent.find("input[quotationId]").val() || "Q-Q-00010";
+                let date = '10 July, 2024';  // Replace this with dynamic value if available
+                let customer = $('.totalamountclass p').eq(1).text() || "Sandeep Mishra";
+                let totalPrice = $('.totalamountclass p').eq(0).text() || "2,40,000/-";
+
+                // Displaying quotation details
+                pdf.text(`Quotation Id  : ${quotationId}`, 20, 155);
+                pdf.text(`Date                : ${date}`, 20, 160);
+                pdf.text(`Quotation For: ${customer}`, 20, 165);
+                pdf.text(`Total Quote   : ${totalPrice}`, 20, 170);
+
+                // Add each hoarding item details dynamically
+                let yPosition = 200; // Initial y position for item details
+
+                $('.card.mt-4').each(function (index) {
+                    const itemLocation = $(this).find('.media-body h5').text();
+                    const itemCity = $(this).find('p').eq(0).text().replace('City:', '').trim();
+                    const itemSize = $(this).find('p').eq(1).text().replace('Size:', '').trim();
+                    const itemVendor = $(this).find('p').eq(2).text().replace('Vendor Name:', '').trim();
+                    const itemRate = $(this).find('.text-primary').text().replace('Price:', '').trim();
+                    const itemImageSrc = $(this).find('img').attr('src');
+
+                    // Item box
+                    pdf.setFillColor(255, 238, 240);
+                    pdf.rect(15, yPosition, 180, 30, 'F');  // Draw a filled rectangle for item background
+
+                    // Adding item details
+                    pdf.setFont('helvetica', 'bold');
+                    pdf.text(`Location: ${itemLocation}`, 20, yPosition + 5);
+                    pdf.setFont('helvetica', 'normal');
+                    pdf.text(`City         : ${itemCity}`, 20, yPosition + 12);
+                    pdf.text(`Size         : ${itemSize}`, 20, yPosition + 19);
+                    pdf.text(`Vendor   : ${itemVendor}`, 20, yPosition + 26);
+                    pdf.setFont('helvetica', 'bold');
+                    pdf.text(`Price: ${itemRate}`, 160, yPosition + 26);
+
+                    if (itemImageSrc) {
+                        // Check if the image source is a base64 string or URL
+                        if (itemImageSrc.startsWith('data:image')) {
+                            pdf.addImage(itemImageSrc, 'PNG', 150, yPosition, 30, 30); // Adjust position and size as needed
+                        } else {
+                            console.error("Item image source is not a valid base64 image!");
+                        }
+                    } else {
+                        console.error("Item image source not found!");
+                    }
+
+                    // Move yPosition for the next item
+                    yPosition += 50;
+
+                    // Add a new page if we exceed the page height
+                    if (yPosition > 270) {
+                        pdf.addPage();
+                        yPosition = 20;  // Reset y position for new page
+                    }
+                });
+
+                // Add final thank you message at the bottom
+                pdf.setFontSize(18);
+                pdf.setFont('helvetica', 'bold');
+                pdf.text("Thank you", 105, yPosition + 20, { align: 'center' });
+
+                // Save the generated PDF
+                pdf.save('Quotation.pdf');
             });
 
             function getBase64ImageFromUrl(url, callback) {
@@ -105,13 +212,14 @@
                     .then(blob => {
                         var reader = new FileReader();
                         reader.onloadend = function () {
-                            var base64String = reader.result.replace("data:", "").replace(/^.+,/, ''); // Convert image to Base64 string
-                            callback(base64String); // Callback with the base64 string
+                            var base64String = reader.result.replace("data:", "").replace(/^.+,/, '');
+                            callback(base64String);
                         };
-                        reader.readAsDataURL(blob); // Read blob as data URL
+                        reader.readAsDataURL(blob);
                     })
                     .catch(error => console.error('Error converting image:', error));
             }
+
             var imageUrl = window.location.origin + "/img/logo.png";
             getBase64ImageFromUrl(imageUrl, function (base64String) {
                 console.log('Base64 String:', base64String);
@@ -130,7 +238,8 @@
 
 
         });
-   
+    </script>
+    <script>
 
         $(document).ready(function () {
             $("#exportToPPT").on("click", function () {
@@ -204,9 +313,9 @@
                         let end = Math.min(begin + sliceSize, bytesLength);
                         let bytes = new Array(end - begin);
                         for (let offset = begin, i = 0; offset < end; ++i, ++offset) {
-                            bytes[ i ] = byteCharacters[ offset ].charCodeAt(0);
+                            bytes[i] = byteCharacters[offset].charCodeAt(0);
                         }
-                        byteArrays[ sliceIndex ] = new Uint8Array(bytes);
+                        byteArrays[sliceIndex] = new Uint8Array(bytes);
                     }
                     let blob = new Blob(byteArrays, { type: contentType });
                     return URL.createObjectURL(blob);
@@ -246,7 +355,7 @@
                     let itemSize = $(this).find('p').eq(1).text().replace('Size:', '').trim();
                     let itemVendor = $(this).find('p').eq(2).text().replace('Vendor Name:', '').trim();
                     let itemRate = $(this).find('.text-primary').text().replace('Price:', '').trim();
-                    let itemImage = $(this).find('img').attr('src').split(',')[ 1 ];
+                    let itemImage = $(this).find('img').attr('src').split(',')[1];
 
                     totalQuote += parseFloat(itemRate.replace(/,/g, '')) || 0;
 
@@ -309,6 +418,7 @@
 
                     itemSlide.addText('Thank you', { x: 1.2, y: 5, ...titleT, align: 'center' });
                 }
+
                 // Save the presentation
                 pptx.writeFile('Quotation.pptx').then(function (fileName) {
                     console.log('Presentation saved as:', fileName);
@@ -318,9 +428,6 @@
             });
         });
 
-
     </script>
-
-
 
 </section>
