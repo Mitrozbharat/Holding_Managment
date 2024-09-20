@@ -1,0 +1,326 @@
+﻿<section>
+    <div class="text-center">
+        <button class="btn btn-info my-4 mb-2 ms-4" id="exportToPPT">Export to PPT</button>
+        <button class="btn btn-info my-4 mb-2 ms-4" id="exportToPDF">Export to PDF</button>
+    </div>
+
+    <div id="exportContent" class="card p-4 m-2">
+        <div class="container-fluid my-2">
+            <div class="mb-3">
+                <div class="row">
+                    <div class="col-lg-6 text-center">
+                        <img id="myImage" class="m-3" alt="Location Image" style="width:100%; max-width: 350px" />
+                        <span id="imagedata" style="display:none"></span>
+                        <img id="myImagetwo" class="m-3" alt="Location Image" style="display:none" />
+                        <span id="imagedatatwo" style="display:none"></span>
+                    </div>
+
+                    <div class="col-lg-6 text-lg-right pr-4">
+                        <div class="text-end">
+                            <h1 class="display-4 text-end">SAHU ADVERTISING</h1>
+                            <p class="lead">Office No. 307, Supreme Classic Building,<br /> Salunke Vihar Road, Pune 411048</p>
+                            <p>Email: <a href="mailto:marketing@sahuads.com">marketing@sahuads.com</a><br /> GSTIN: 27ABJCS1061L1Z3</p>
+                        </div>
+                    </div>
+                </div>
+                @if (Model != null)
+                {
+                    var totalprice = 0.0;
+                    <h4 class="text-center my-4">Quotation Details</h4>
+                    <div class="row">
+                        <div class="col-md-6 text-center mb-3 mb-md-0">
+                            <input type="hidden" class="hidden" quotationId="@Model.Id" value="@Model.Id" />
+                            <p><strong>Quotation Number:</strong> @Model.QuotationNumber</p>
+                            <p style="display:none"><strong>Quotation Number  :</strong> @Model.QuotationNumber</p>
+                            <p><strong>Date:</strong> @Model.CreatedAt?.ToString("yyyy-MM-dd")</p>
+                            <p style="display:none"><strong>Date  :</strong> @Model.CreatedAt?.ToString("yyyy-MM-dd")</p>
+                        </div>
+                        <div class="col-md-6 totalamountclass text-center">
+                            <p><strong>Quotation For:</strong> @Model.CustomerName</p>
+                            <p style="display:none"><strong>Quotation For    :</strong> @Model.CustomerName</p>
+                            @foreach (var item in Model.Items)
+                            {
+
+                                totalprice += Convert.ToDouble(item.Rate);
+
+                            }
+                            <p><strong>Total Quote: </strong> @totalprice -/</p>
+                            <p style="display:none"><strong>Total Quote        : </strong> @totalprice -/</p>
+                        </div>
+                    </div>
+                    <hr>
+                    @foreach (var item in Model.Items)
+                    {
+                        <div class="card mt-4">
+                            <div class="media my-2 flex-column flex-md-row align-items-center">
+                                <img src="data:image/png;base64,@item.Image" class=" img-size m-3" alt="Location Image" style="max-height:250px; max-width:350px;">
+
+                                <div class="media-body mt-4 text-center text-md-left">
+                                    <h5 class="mt-0">@item.Location</h5>
+                                    <p><strong>City:</strong> @item.City</p>
+                                    <p><strong>Size:</strong> @item.Width x @item.Height</p>
+                                    <p><strong>Vendor Name:</strong> @Model.VendorName</p>
+                                    <h5 class="text-primary">Price: @item.Rate/-</h5>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                }
+
+                else
+
+                {
+                    <p>No data available.</p>
+                }
+            </div>
+        </div>
+         <div class="text-center">
+        <button class="btn btn-info my-4 mb-2 ms-4" id="exportToPPT">Export to PPT</button>
+        <button class="btn btn-info my-4 mb-2 ms-4" id="exportToPDF">Export to PDF</button>
+    </div>
+    </div>
+   
+
+
+    <script>
+
+
+        $(document).ready(function () {
+            $("#exportToPDF").on("click", function () {
+                const element = document.getElementById('exportContent');
+                const opt = {
+                    margin: [ 0.5, 0.5, 0.5, 0.5 ],
+                    filename: 'Quotation.pdf',
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2 },
+                    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                };
+                html2pdf().from(element).set(opt).save();
+            });
+
+            function getBase64ImageFromUrl(url, callback) {
+                fetch(url)
+                    .then(response => response.blob())
+                    .then(blob => {
+                        var reader = new FileReader();
+                        reader.onloadend = function () {
+                            var base64String = reader.result.replace("data:", "").replace(/^.+,/, ''); // Convert image to Base64 string
+                            callback(base64String); // Callback with the base64 string
+                        };
+                        reader.readAsDataURL(blob); // Read blob as data URL
+                    })
+                    .catch(error => console.error('Error converting image:', error));
+            }
+            var imageUrl = window.location.origin + "/img/logo.png";
+            getBase64ImageFromUrl(imageUrl, function (base64String) {
+                console.log('Base64 String:', base64String);
+                document.getElementById('myImage').src = "data:image/png;base64," + base64String + "";
+                document.getElementById('imagedata').innerHTML = "data:image/png;base64," + base64String + "";
+
+            });
+
+            var imageUrl = window.location.origin + "/img/SlideImage.png";
+            getBase64ImageFromUrl(imageUrl, function (base64String) {
+                console.log('Base64 String:', base64String);
+                document.getElementById('myImagetwo').src = "data:image/png;base64," + base64String + "";
+                document.getElementById('imagedatatwo').innerHTML = "data:image/png;base64," + base64String + "";
+
+            });
+
+
+        });
+   
+
+        $(document).ready(function () {
+            $("#exportToPPT").on("click", function () {
+                let pptx = new PptxGenJS();
+
+                // Define the design template
+                const titleFont = { fontSize: 32, bold: true, color: '0088CC' };
+                const textFont = { fontSize: 18 };
+
+                // Add the welcome slide
+                let firstSlide = pptx.addSlide();
+                firstSlide.addImage({ path: document.getElementById('imagedatatwo').innerHTML, x: 0, y: 0, w: '100%', h: '100%' });
+                firstSlide.addImage({ path: document.getElementById('imagedata').innerHTML, x: 8.2, y: 0.3, w: 1.5, h: 0.5 });
+                const headerTextFont = { fontSize: 23, bold: true, color: '000000' };
+                firstSlide.addText('Hoarding Document', { x: 5.9, y: 4.7, w: '40%', h: 1, ...headerTextFont, align: 'right' });
+
+                let secondSlide = pptx.addSlide();
+                secondSlide.addShape(pptx.ShapeType.rect, {
+                    x: 0,
+                    y: 0,
+                    w: '100%',
+                    h: '100%',
+                    fill: { color: 'FFEEF0' }
+                });
+                secondSlide.addImage({ path: document.getElementById('imagedata').innerHTML, x: 1.7, y: 1.1, w: 2, h: 1 });
+
+                const headingFont = { fontSize: 14, bold: true, color: 'FF0000' }; // Red color and font size 13
+                const textFontone = { fontSize: 12, color: '000000' };
+                const textHeadingFont = { fontSize: 16, bold: true, color: '000000' };
+                const tabletext = { fontSize: 14, color: '000000' };
+
+                secondSlide.addText('SAHU OUTDOOR ADVERTISING', { x: 1, y: 1.2, ...headingFont, align: 'right' });
+                secondSlide.addText('Office No. 307, Supreme Classic Building,', { x: 1, y: 1.5, ...textFontone, align: 'right' });
+                secondSlide.addText('Salunke Vihar Road, Pune 411048', { x: 1, y: 1.7, ...textFontone, align: 'right' });
+                secondSlide.addText('Email: marketing@sahuads.com GSTIN: 27ABJCS1061L1Z3', { x: 1, y: 1.9, ...textFontone, align: 'right' });
+
+                secondSlide.addText('Quotation Details', { x: 1, y: 2.6, ...textHeadingFont, align: 'center' });
+
+                secondSlide.addShape(pptx.ShapeType.rect, {
+                    x: 1.4,
+                    y: 3,
+                    w: 7.5,
+                    h: 1.3,
+                    fill: { color: 'FFFFFF' },
+                    line: { color: 'FFFFFF', width: 15 }
+                });
+
+                let quotationId = $('#exportContent').find("input[quotationId]").val();
+                let date = $('.col-md-6 p').eq(1).text();
+                let dateone = $('.col-md-6 p').eq(3).text();
+                let customer = $('.totalamountclass p').eq(1).text();
+                let totalPrice = $('.totalamountclass p').eq(3).text();
+
+                secondSlide.addText(`${date}`, { x: 2, y: 3.5, ...tabletext, align: 'left' });
+                secondSlide.addText(`${dateone}`, { x: 2, y: 3.8, ...tabletext, align: 'left' });
+                secondSlide.addText(`${customer}`, { x: 5.5, y: 3.5, ...tabletext, align: 'left' });
+                secondSlide.addText(`${totalPrice}`, { x: 5.5, y: 3.8, ...tabletext, align: 'left' });
+
+
+                let totalQuote = 0;
+
+                // Function to convert base64 to Blob URL
+                function base64ToBlobUrl(base64, contentType) {
+                    let sliceSize = 1024;
+                    let byteCharacters = atob(base64);
+                    let bytesLength = byteCharacters.length;
+                    let sliceCount = Math.ceil(bytesLength / sliceSize);
+                    let byteArrays = new Array(sliceCount);
+                    for (let sliceIndex = 0; sliceIndex < sliceCount; sliceIndex++) {
+                        let begin = sliceIndex * sliceSize;
+                        let end = Math.min(begin + sliceSize, bytesLength);
+                        let bytes = new Array(end - begin);
+                        for (let offset = begin, i = 0; offset < end; ++i, ++offset) {
+                            bytes[ i ] = byteCharacters[ offset ].charCodeAt(0);
+                        }
+                        byteArrays[ sliceIndex ] = new Uint8Array(bytes);
+                    }
+                    let blob = new Blob(byteArrays, { type: contentType });
+                    return URL.createObjectURL(blob);
+                }
+
+                const itemslideloca = { fontSize: 16, bold: true, color: '000000' };
+                const itemslidePrice = { fontSize: 18, bold: true, color: '000000' };
+                const itemslideData = { fontSize: 16, color: '000000' };
+
+
+                let itemSlide;
+                let countforslide = 0;
+                let totalitemofthequation = 0;
+
+                $('.card.mt-4').each(function (index, element) {
+                    totalitemofthequation += 1;
+                });
+
+                $('.card.mt-4').each(function (index, element) {
+                    if (countforslide % 2 === 0) {
+
+                        itemSlide = pptx.addSlide();
+
+
+                        itemSlide.addShape(pptx.ShapeType.rect, {
+                            x: 0,
+                            y: 0,
+                            w: '100%',
+                            h: '100%',
+                            fill: { color: 'FFEEF0' }
+                        });
+                    }
+
+                    // Retrieve item details
+                    let itemLocation = $(this).find('.media-body h5').eq(0).text();
+                    let itemCity = $(this).find('p').eq(0).text().replace('City:', '').trim();
+                    let itemSize = $(this).find('p').eq(1).text().replace('Size:', '').trim();
+                    let itemVendor = $(this).find('p').eq(2).text().replace('Vendor Name:', '').trim();
+                    let itemRate = $(this).find('.text-primary').text().replace('Price:', '').trim();
+                    let itemImage = $(this).find('img').attr('src').split(',')[ 1 ];
+
+                    totalQuote += parseFloat(itemRate.replace(/,/g, '')) || 0;
+
+                    let yPosition = (countforslide % 2 === 0) ? 0.5 : 3;
+
+                    // Add item details to the slide
+                    itemSlide.addShape(pptx.ShapeType.rect, {
+                        x: 1.2,
+                        y: yPosition,
+                        w: 7.8,
+                        h: 1.8,
+                        fill: { color: 'FFFFFF' },
+                        line: { color: 'FFFFFF', width: 15 }
+                    });
+                    itemSlide.addImage({ path: base64ToBlobUrl(itemImage, 'image/png'), x: 1.3, y: yPosition + 0.1, w: 2.3, h: 1.6 });
+                    itemSlide.addText(`Location: ${itemLocation}`, { x: 3.7, y: yPosition + 0.1, ...itemslideloca });
+                    itemSlide.addText(`City         : ${itemCity}`, { x: 3.7, y: yPosition + 0.7, ...itemslideData });
+                    itemSlide.addText(`Size         : ${itemSize}`, { x: 3.7, y: yPosition + 1.1, ...itemslideData });
+                    itemSlide.addText(`Vendor   : ${itemVendor}`, { x: 3.7, y: yPosition + 1.5, ...itemslideData });
+                    itemSlide.addText(`Price: ${itemRate}`, { x: 6.9, y: yPosition + 1.5, ...itemslidePrice });
+
+                    // Increment the counter
+                    countforslide += 1;
+                });
+
+                const titleT = { fontSize: 25, bold: true, color: '000000', fontFace: 'Arial' };
+
+                if (totalitemofthequation % 2 === 0) {
+
+                    // Add thank you slide
+                    let lastSlide = pptx.addSlide();
+                    lastSlide.addShape(pptx.ShapeType.rect, {
+                        x: 0,
+                        y: 0,
+                        w: '100%',
+                        h: '100%',
+                        fill: { color: 'FFEEF0' }
+                    });
+
+                    lastSlide.addShape(pptx.ShapeType.line, {
+                        x: 3.7,
+                        y: 4.7,
+                        w: 2.5,
+                        h: 0,
+                        line: { color: 'FF0000', width: 4 }
+                    });
+
+                    lastSlide.addText('Thank you', { x: 1.2, y: 5, ...titleT, align: 'center' });
+
+                } else {
+
+
+                    itemSlide.addShape(pptx.ShapeType.line, {
+                        x: 3.7,
+                        y: 4.7,
+                        w: 2.5,
+                        h: 0,
+                        line: { color: 'FF0000', width: 4 }
+                    });
+
+                    itemSlide.addText('Thank you', { x: 1.2, y: 5, ...titleT, align: 'center' });
+                }
+                // Save the presentation
+                pptx.writeFile('Quotation.pptx').then(function (fileName) {
+                    console.log('Presentation saved as:', fileName);
+                }).catch(function (err) {
+                    console.error('Error saving presentation:', err);
+                });
+            });
+        });
+
+
+    </script>
+
+
+
+</section>

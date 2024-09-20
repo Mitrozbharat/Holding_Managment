@@ -1,0 +1,693 @@
+﻿@model InventoryPagedViewModel
+<style>
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+   
+
+    .custom-file {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+    }
+
+    .custom-file-input {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        cursor: pointer;
+    }
+
+    .custom-file-label {
+        margin-top: 0.5rem;
+        display: block;
+        color: #6c757d;
+        cursor: pointer;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .custom-file-input:focus ~ .custom-file-label {
+        color: #495057;
+        background-color: #e9ecef;
+        border-color: #80bdff;
+    }
+</style>
+
+<body>
+    <div class="container-fluid my-2">
+        <div class="card p-2">
+            <section>
+                <div class="container">
+                    <div class="row justify-content-between align-items-center">
+                        <div class="col-sm-12 col-md-6 col-lg-4 mb-2 mb-md-0">
+                            <h3 class="text-primary pt-2 ">Inventory </h3>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-8 d-flex justify-content-md-end">
+                            <div class="input-group">
+                                <input type="text" id="filterInput" class="form-control border border-dark rounded-pill mr-4" placeholder="Search by City, Area, or Vendor">
+                                <input class="form-control btn" type="file" id="formFile" style="display: none;">
+
+                                <button class="btn btn-primary ml-4" id="importExcelbutton" onclick="uploadFile()">Import Excel</button>
+
+                                   @* <input type="file" id="fileInput" accept=".xlsx, .xls" class="form-control" />
+                                    <button type="button" class="btn btn-primary" onclick="uploadFile()">Upload</button>*@
+                                    <!-- File Input (Hidden or Visible as Needed) -->
+                                    <input type="file" id="fileInput" style="display: none;" />
+                                <button type="button" class="btn btn-primary ml-4" id="addInventoryButton" data-toggle="modal" data-target="#addCustomerModal">
+                                    Add Inventory  
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+
+            <!-- Inventory Modal -->
+
+            <section>
+                <div class="row d-flex" style="padding:0px 10px 10px 10px">
+                    @if (Model.Inventories != null && Model.Inventories.Any())
+                    {
+                        @foreach (var i in Model.Inventories)
+                        {
+                            <div class="col-md-4 mt-3">
+                                <div class="card-container">
+                                    @if (i.BookingStatus == 5)
+                                    {
+                                        <div class="ribbon-wrapper">
+                                            <div class="ribbon">Booked</div>
+                                        </div>
+                                    }
+                                    <div class="card px-2">
+                                        <div class="row g-0">
+                                           
+                                            
+                                            <div class="col-lg-7 img-container" onclick="showDetail(@i.Id)">
+                                            @if (!string.IsNullOrEmpty(i.Image))
+                                            {
+                                                <img src="data:image/png;base64,@i.Image" class="img-fluid" alt="Image" width="100%" height="100%" />
+                                            }
+                                            else
+                                            {
+                                                <img src="~/images/Shahu-logo.png" class="img-fluid" alt="Image" width="100%" height="100%" />
+                                            }
+                                         </div>
+                                            <div class="col-lg-5">
+                                                <div class="my-2">
+                                                    <p><span class="bold-text">City:</span> <span>@i.City</span></p>
+                                                    <p><span class="bold-text">Area:</span> <span>@i.Area</span></p>
+                                                    <p><span class="bold-text">Size:</span> <span>@i.Width m X @i.Height m</span></p>
+                                                    <p><span class="bold-text">Rate:</span> <span>@i.Rate</span></p>
+                                                    <p><span class="bold-text">Vendor:</span> <span>@i.VendorName</span></p>
+
+                                                    <div class="action-icons mt-3 d-flex justify-content-center">
+                                                    <img src="/img/cart.svg" alt="Add to Cart" class="start-icon" id="AddQuotationbtn"
+                                                             onclick="createItem('@i.Id', '@i.Image', '@i.Area', '@i.City', '@i.Width', '@i.Height', '@i.Rate', '@i.FkVendorId', '@i.BookingStatus')" />
+
+                                                        <div class="end-icons">
+                                                          @*   <img src="/img/detail.svg" alt="Details" onclick="showDetail(@i.Id)" /> *@
+                                                            <img src="/img/edit.svg" data-toggle="modal" data-target="#editModal" onclick="editCratModal('@i.Id', '@i.City', '@i.Area', '@i.Width','@i.Height', '@i.Rate', '@i.VendorName','@i.Image')" />
+                                                            <img src="/img/delete.svg" class="mr-2" data-toggle="modal" data-target="#deleteModal" onclick="setDeleteItem(@i.Id)" />
+                                                        </div>
+@*                                                         <i class="bi bi-pencil"></i>
+ *@                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="col-12 text-center">
+                            <p>No records found.</p>
+                        </div>
+                    }
+                </div>
+
+                <!--Add Inventory-->
+                <div class="modal fade" id="addCustomerModal" tabindex="-1" aria-labelledby="addCustomerModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addCustomerModalLabel">Add Inventory</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="addCustomerForm">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="City">City Name <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control custom-border" id="city" name="city" placeholder="Enter City Name" required>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="Area">Area Name <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control custom-border" id="Area" name="Area" placeholder="Enter Area Name" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="location">Location <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control custom-border" id="location" name="location" placeholder="Enter Location" required>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="width">Width <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control custom-border" id="width" name="width" placeholder="Enter Width" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="height">Height <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control custom-border" id="height" name="height" placeholder="Enter Height" required>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="rate">Rate</label>
+                                            <input type="text" class="form-control custom-border" id="rate" name="rate" placeholder="Enter Rate">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="vendoramt">Vendor Amount</label>
+                                            <input type="text" class="form-control custom-border" id="vendoramt" name="vendoramt" placeholder="Enter Vandor Amount">
+                                        </div>
+                                       @*<div class="form-group col-md-6">
+                                            <label for="fileInput" class="form-label">Upload Image</label>
+                                            <div class="custom-file">
+                                                <input type="file" id="imageInput" accept="image/*" class="custom-file-input" onchange="updateFileName();" />
+                                                <label class="custom-file-label" id="fileName" for="fileInput">Choose image</label>
+                                            </div>
+                                        </div>*@
+                                        <div class="form-group col-md-6">
+                                            <label for="fileInput" class="form-label">Upload Image</label>
+                                            <div class="custom-file">
+                                                <input type="file" id="imageInput" accept="image/*" class="custom-file-input" onchange="updateFileName();" />
+                                                <label class="custom-file-label" id="fileName" for="fileInput">Choose image</label>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary" id="saveInventoryButton">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Closed Add Inventory-->
+
+                <!-- Pagination Controls -->
+                <nav aria-label="Page navigation float-right">
+                    <ul class="pagination float-right">
+                        <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+                            <a class="page-link" href="@Url.Action("HoardingInventory", new { pageNumber = Model.CurrentPage - 1, pageSize  = 9 })" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        @for (int i = 1; i <= Model.TotalPages; i++)
+                        {
+                            <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                                <a class="page-link" href="@Url.Action("HoardingInventory", new { pageNumber = i, pageSize =9  })">@i</a>
+                            </li>
+                        }
+                        <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                            <a class="page-link" href="@Url.Action("HoardingInventory", new { pageNumber = Model.CurrentPage + 1, pageSize = 9 })" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+
+                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content" style="border-radius:20px;">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-primary" id="deleteModalLabel">Delete</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p class="text-muted-foreground text-center mt-2">Are you sure you want to delete this item?</p>
+                                <input type="hidden" id="selectedId" />
+                            </div>
+                            <div class="modal-footer justify-content-center">
+                                <button type="button" class="btn btn-danger" id="cnfdelete">Delete</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detail Modal -->
+                <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content rounded-lg shadow-lg border-0">
+                            <div class="modal-header bg-primary text-white border-0 rounded-top">
+                                <h5 class="modal-title" id="detailModalLabel">Item Details</h5>
+                                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body p-4">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <img src="~/images/login-mock.svg" class="img-fluid" alt="Image" width="100%" height="100%" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="list-group">
+                                            <p class="list-group-item"><strong>City:</strong> <span id="detailCity"></span></p>
+                                            <p class="list-group-item"><strong>Area:</strong> <span id="detailArea"></span></p>
+                                            <p class="list-group-item"><strong>Size:</strong> <span id="detailSize"></span></p>
+                                            <p class="list-group-item"><strong>Rate:</strong> <span id="detailRate"></span></p>
+                                            <p class="list-group-item"><strong>Vendor:</strong> <span id="detailVendor"></span></p>
+                                            <p class="list-group-item"><strong>Status:</strong> <span id="detailStatus"></span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer bg-light border-0 rounded-bottom">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Edit Modal -->
+                <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary">
+                                <h5 class="modal-title text-white" id="editModalLabel">Edit Item</h5>
+                                <button type="button" class="close text-black" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="editForm">
+                                    <div class="row">
+                                       @* <div class="col-md-5">
+                                            <img src="~/images/login-mock.svg" class="img-fluid" alt="Image" width="100%" height="100%" />
+                                        </div>*@
+                                        <div class="col-md-5">
+                                            <img id="modalImage" src="~/images/login-mock.svg" class="img-fluid" alt="Image" width="100%" height="100%" />
+                                        </div>
+                                        <div class="col-md-7">
+                                            <div class="row">
+                                                <input type="hidden" id="id" />
+                                                <div class="col-12 col-md-6">
+                                                    <label for="editCity">City:</label>
+                                                    <input type="text" id="editCity" class="form-control" required>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <label for="editArea">Area:</label>
+                                                    <input type="text" id="editArea" class="form-control" required>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <label for="editWidth">Width:</label>
+                                                    <input type="text" id="editWidth" class="form-control" required>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <label for="editHeight">Height:</label>
+                                                    <input type="text" id="editHeight" class="form-control" required>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <label for="editRate">Rate:</label>
+                                                    <input type="text" id="editRate" class="form-control" required>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <label for="editVendorName">Vendor:</label>
+                                                    <input type="text" id="editVendorName" class="form-control" required>
+                                                </div>
+                                                <div class="form-group col-md-10">
+                                                    <label for="fileInput" class="form-label">Upload Image</label>
+                                                    <div class="custom-file">
+                                                        <input type="file" id="imageInputt" accept="image/*" class="custom-file-input" onchange="updateFileName();" />
+                                                        <label class="custom-file-label" id="fileNamee" for="fileInput">Choose image</label>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-primary" id="editInventory">Save Changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+
+          <script>
+                function uploadFile() {
+                    var fileInput = document.getElementById('fileInput');
+                    var file = fileInput.files[0];
+
+                    if (file) {
+                        var formData = new FormData();
+                        formData.append('file', file);
+
+                        fetch('https://localhost:7092/Dashboard/Upload',  
+                        {
+                            method: 'POST',
+                            body: formData,
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.text(); // Get response as text first
+                        })
+                        .then(text => {
+                            try {
+                                const data = JSON.parse(text); // Try to parse text as JSON
+                                console.log('Success:', data);
+                            } catch (e) {
+                                console.error('Failed to parse JSON:', text); // Handle parsing error
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                    } else {
+                        alert('Please select a file to upload.');
+                    }
+                }
+
+                // Automatically trigger file input click when the button is clicked
+                document.getElementById('importExcelbutton').addEventListener('click', function() {
+                    document.getElementById('fileInput').click();
+                });
+
+                // Automatically upload the file when a file is selected
+                document.getElementById('fileInput').addEventListener('change', function() {
+                    uploadFile();
+                });
+          </script>
+
+       @* <script>
+            function uploadFile() {
+                var fileInput = document.getElementById('fileInput');
+                var file = fileInput.files[0];
+
+                if (file) {
+                    var formData = new FormData();
+                    formData.append('file', file);
+
+                    fetch('https://localhost:7092/Dashboard/Upload', 
+                    {
+                        method: 'POST',
+                        body: formData,
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.text(); // Get response as text first
+                    })
+                    .then(text => {
+                        try {
+                            const data = JSON.parse(text); // Try to parse text as JSON
+                            console.log('Success:', data);
+                        } catch (e) {
+                            console.error('Failed to parse JSON:', text); // Handle parsing error
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+                } else {
+                    alert('Please select a file to upload.');
+                }
+            }
+        </script>*@
+        <script>
+            // Set the values of the form fields in the modal
+            function editCratModal(id, city, area, width, height, rate, VendorName,Image)
+            {
+                $('#id').val(id);
+                $('#editCity').val(city);
+                $('#editArea').val(area);
+                $('#editWidth').val(width);
+                $('#editHeight').val(height);
+                $('#editRate').val(rate);
+                $('#editVendorName').val(VendorName);
+
+                if (Image) 
+                {
+                    $('#modalImage').attr('src', 'data:image/jpeg;base64,' + Image);
+                } else 
+                {
+                    // If no image is available, use a placeholder image
+                    $('#modalImage').attr('src', '~/images/login-mock.svg');
+                }
+            }
+            $('#editInventory').click(function () 
+            {
+                
+                //var form = $('#addCustomerForm')[0]; // Get the form element
+                //var formData = new FormData(form); // Create FormData object from form
+                var id = $('#id').val();
+                var city = $('#editCity').val();
+                var area = $('#editArea').val();
+                var width = $('#editWidth').val();
+                var height = $('#editHeight').val();
+                var rate = $('#editRate').val();
+                var vendorName = $('#editVendorName').val();
+                var imageFile = $('#imageInputt')[0].files[0]; // Get the selected image file
+
+                if (imageFile) 
+                {
+                    var reader = new FileReader();
+
+                    reader.onloadend = function () {
+                        var base64String = reader.result.replace("data:", "").replace(/^.+,/, ''); // Convert image to Base64 string
+
+                        // Send the form data along with the Base64 string via AJAX
+                        $.ajax({
+                            type: "POST",
+                            url: '/Dashboard/UpdateInventoryItems',// Update the URL to match your controller action
+                            data: {
+                                Id: id,
+                                City: city,
+                                Area: area,
+                                Width: width,
+                                Height: height,
+                                Rate: rate,
+                                VendorName: vendorName,
+                                Image: base64String
+                            },
+                            success: function (response) 
+                            {
+                                if (response.success) 
+                                {
+                                    toastr.success(response.message);
+                                    $('#editModal').modal('hide'); // Close the modal
+                                    // Optionally, refresh the page or update the UI
+                                    location.reload();
+                                } else {
+                                    toastr.error(response.message);
+                                }
+                            },
+                            error: function () {
+                                toastr.error('An error occurred while updating the item.');
+                            }
+                        });
+                    };
+                    reader.readAsDataURL(imageFile); // Convert the image to Base64 string
+                } else 
+                {
+                    toastr.error('Please select an image file.');
+                }
+            });
+            // Setup the event listener for Save Changes button
+            //$(document).ready(function () {
+
+            //    $('#editInventory').on('click', function () {
+            //        var id = $('#id').val();
+            //        var city = $('#editCity').val();
+            //        var area = $('#editArea').val();
+            //        var width = $('#editWidth').val();
+            //        var height = $('#editHeight').val();
+            //        var rate = $('#editRate').val();
+            //        var vendorName = $('#editVendorName').val();
+
+            //        $.ajax({
+            //            url: '/Dashboard/UpdateInventoryItems',
+            //            type: 'POST',
+            //            data: {
+            //                Id: id,
+            //                City: city,
+            //                Area: area,
+            //                Width: width,
+            //                Height: height,
+            //                Rate: rate,
+            //                VendorName: vendorName
+            //            },
+            //            success: function (response) {
+            //                if (response.success) {
+            //                    toastr.success(response.message);
+            //                    $('#editModal').modal('hide'); // Close the modal
+            //                    // Optionally, refresh the page or update the UI
+            //                    location.reload();
+            //                } else {
+            //                    toastr.error(response.message);
+            //                }
+            //            },
+            //            error: function () {
+            //                toastr.error('An error occurred while updating the item.');
+            //            }
+            //        });
+            //    });
+            //});
+
+
+
+            function setDeleteItem(Id) {
+                $('#selectedId').val(Id);
+
+                $('#cnfdelete').off('click').on('click', function () {
+                    var selectedInventoryId = $('#selectedId').val();
+                    console.log("Selected ID: " + selectedInventoryId);
+
+                    $.ajax({
+                        url: '/Dashboard/DeleteInventory/' + selectedInventoryId, // Pass ID in the URL
+                        type: 'DELETE',
+                        success: function (response) {
+                            console.log("Deleted: " + response);
+
+                            if (response.success) {
+                                toastr.success(response.message);
+                                location.reload();
+                            } else {
+                                toastr.error(response.message);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error deleting inventory:', error);
+                            toastr.error('Error deleting inventory.');
+                        }
+                    });
+                });
+            }
+
+            function createItem(id, image, area, city, width,height, rate, fkVendorId) 
+            {
+
+                // Assign values to the form fields
+                $('#id').val(id);
+                $('#image').val(image);
+                $('#area').val(area);
+                $('#city').val(city);
+                $('#width').val(width);
+                $('#height').val(height);
+                $('#rate').val(rate);
+                $('#fk_VendorId').val(fkVendorId);
+                // $('#bookingStatus').val(bookingStatus);
+
+                $.ajax({
+                    type: "POST",
+                    url: '/Dashboard/CreateInventoryItems', // Ensure the URL matches the action method
+                    data: {
+                        Id: id,
+                        Image: image,
+                        Area: area,
+                        City: city,
+                        Width: width,
+                        Height: height,
+                        Rate: rate,
+                        FkVendorId: fkVendorId,
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            toastr.success(response.Message); // Display the success message from the response
+                            location.reload(); // Optionally reload the page
+                        } else {
+                            toastr.error(response.Message); // Display the error message from the response
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        toastr.error('An error occurred while adding the quotation.');
+                    }
+                });
+
+            }
+        </script>
+       @* <script>
+            const imageInput = document.getElementById('imageInput');
+            const fileName = document.getElementById('fileName');
+
+            imageInput.addEventListener('change', function() {
+                const file = this.files[0];
+
+                if (file) {
+                    fileName.textContent = file.name;
+                } else {
+                    fileName.textContent = 'No file chosen';
+                }
+            });
+        </script>*@
+        <script>
+            
+            const imageInput = document.getElementById('imageInput');
+            const fileName = document.getElementById('fileName');
+
+            imageInput.addEventListener('change', function () 
+            {
+                const file = this.files[0];
+
+                if (file)
+                {
+                    fileName.textContent = file.name;
+                } else
+                {
+                    fileName.textContent = 'No file chosen';
+                }
+            });
+        </script>
+        <script>
+         
+            const imageInput1 = document.getElementById('imageInputt');
+            const fileName1 = document.getElementById('fileNamee');
+
+            imageInput1.addEventListener('change', function () 
+            {
+                const file = this.files[0];
+
+                if (file)
+                {
+                    fileName1.textContent = file.name;
+                } else
+                {
+                    fileName1.textContent = 'No file chosen';
+                }
+            });
+        </script>
+
+
+
+   </div>
+
+</body>
+
+
+

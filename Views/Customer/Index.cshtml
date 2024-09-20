@@ -1,0 +1,365 @@
+﻿@model List<CustomerViewModel>
+@{
+    int num = 1;
+    var totalPages = (int)ViewData["TotalPages"];
+    var currentPage = (int)ViewData["CurrentPage"];
+    var pageSize = (int)ViewData["PageSize"];
+    }
+
+<body>
+    <div class="container-fluid mt-lg-2">
+        <div class="card p-2">
+            <div class="row align-items-center">
+                <div class="col-12 col-md-5 ">
+                    <h3 class="text-primary pt-2 pl-4">Customer List</h3>
+                </div>
+                <div class="col-12 col-md-7">
+
+                    <div class="d-flex flex-column flex-md-row justify-content-md-end">
+                        <button type="submit" class="mb-3 mb-md-0 w-25 w-md-25 text-white rounded btn btn-primary" data-toggle="modal" data-target="#addCustomerModal">Add Customer</button>
+
+                        <input type="search" id="searchInput" autocomplete="off" placeholder="Search" class="ml-4 rounded-pill p-2 ml-2 btn-outline-red" style="border:1px solid " />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12 grid-margin stretch-card mt-2">
+        <div class="card">
+            <div class="container-fluid p-2">
+
+                <div class="table-responsive mt-4">
+                    <table class="table table-striped" id="customersTable">
+                        <thead>
+                            <tr class="text-center">
+                                <th>Sr.NO</th>
+                                <th>Business Name</th>
+                                <th>Customer Name</th>
+                                <th>Email</th>
+                                <th>GSTN</th>
+                                <th>Contact</th>
+                                <th>Address</th>
+                              @*   <th>State</th> *@
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          
+                            @foreach (var item in Model)
+                            {
+                              
+                              
+                               
+                                <tr class="text-center">
+                                    <td>@num</td>
+                                    <td>@item.BusinessName</td>
+                                    <td>@item.CustomerName</td>
+                                    <td>@item.Email</td>
+                                    <td>@item.GstNo</td>
+                                    <td>@item.ContactNo</td>
+                                    <td>@item.Address</td>
+                                 @*    <td>@item.State</td> *@
+                                    <td>
+                            <button type="button" class="btn btn-primary p-2" data-toggle="modal" data-target="#editCustomerModal"
+                             onclick="openEditModal('@item.Id','@item.BusinessName','@item.CustomerName','@item.Email','@item.GstNo','@item.ContactNo','@item.AlternateNumber',
+                            '@item.Address','@item.State');">  <i class="mdi mdi-table-edit"></i>
+                                </button> |
+
+                                        <button type="button" class="btn btn-danger p-2" data-toggle="modal" data-target="#deleteModal" onclick="openDeleteModal(@item.Id)">
+                                            <i class=" mdi mdi-delete"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                num ++;
+                            }
+                           
+                        </tbody>
+                    </table>
+                    <div class="justify-content-end">
+                        <div class="pagination justify-content-end m-2">
+                            @if (totalPages > 0)
+                            {
+                                if (currentPage > 1)
+                                {
+                                    <a href="@Url.Action("Index", new { pageNumber = currentPage - 1, pageSize })" class="btn btn-primary">Previous</a>
+                                }
+
+                                for (int i = 1; i <= totalPages; i++)
+                                {
+                                    <a href="@Url.Action("Index", new { pageNumber = i, pageSize })" class="btn @(i == currentPage ? "btn-secondary" : "btn-light")">@i</a>
+                                }
+
+                                if (currentPage < totalPages)
+                                {
+                                    <a href="@Url.Action("Index", new { pageNumber = currentPage + 1, pageSize })" class="btn btn-primary">Next</a>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- add model -->
+    <div class="modal fade" id="addCustomerModal" tabindex="-1" aria-labelledby="addCustomerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCustomerModalLabel">Add Customer</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="addCustomerForm">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="businessName">Business Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control custom-border" id="businessName" name="businessName" placeholder="Business Name" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="customerName">Customer Person Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control custom-border" id="customerName" name="customerName" placeholder="Customer Person Name" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="email">Email <span class="text-danger">*</span></label>
+                                <input type="email" class="form-control custom-border" id="email" name="email" placeholder="Email" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="gstn">GST Number <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control custom-border" id="gstn" name="gstn" placeholder="GST Number" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="contactNumber">Contact Number <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control custom-border" id="contactNumber" name="contactNumber" placeholder="Contact Number" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="alternateNumber">Alternate Number</label>
+                                <input type="text" class="form-control custom-border" id="alternateNumber" name="alternateNumber" placeholder="Alternate Number">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="address">Address</label>
+                                <input type="text" class="form-control custom-border" id="address" name="address" placeholder="Address">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="state">State</label>
+                                <select class="form-control border-black" id="state" name="state" style="border: 1px solid black; border-radius:10px">
+                                    <option value="">Select state</option>
+                                    <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                                    <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                    <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                    <option value="Assam">Assam</option>
+                                    <option value="Bihar">Bihar</option>
+                                    <option value="Chandigarh">Chandigarh</option>
+                                    <option value="Chhattisgarh">Chhattisgarh</option>
+                                    <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+                                    <option value="Daman and Diu">Daman and Diu</option>
+                                    <option value="Delhi">Delhi</option>
+                                    <option value="Goa">Goa</option>
+                                    <option value="Gujarat">Gujarat</option>
+                                    <option value="Haryana">Haryana</option>
+                                    <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                    <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                                    <option value="Jharkhand">Jharkhand</option>
+                                    <option value="Karnataka">Karnataka</option>
+                                    <option value="Kerala">Kerala</option>
+                                    <option value="Ladakh">Ladakh</option>
+                                    <option value="Lakshadweep">Lakshadweep</option>
+                                    <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                    <option value="Maharashtra">Maharashtra</option>
+                                    <option value="Manipur">Manipur</option>
+                                    <option value="Meghalaya">Meghalaya</option>
+                                    <option value="Mizoram">Mizoram</option>
+                                    <option value="Nagaland">Nagaland</option>
+                                    <option value="Odisha">Odisha</option>
+                                    <option value="Puducherry">Puducherry</option>
+                                    <option value="Punjab">Punjab</option>
+                                    <option value="Rajasthan">Rajasthan</option>
+                                    <option value="Sikkim">Sikkim</option>
+                                    <option value="Tamil Nadu">Tamil Nadu</option>
+                                    <option value="Telangana">Telangana</option>
+                                    <option value="Tripura">Tripura</option>
+                                    <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                    <option value="Uttarakhand">Uttarakhand</option>
+                                    <option value="West Bengal">West Bengal</option>
+                                </select>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="saveCustomerButton">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Edit Customer Modal -->
+    <div class="modal fade" id="editCustomerModal" tabindex="-1" aria-labelledby="editCustomerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editCustomerModalLabel">Edit Customer</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <form id="editCustomerForm">
+
+                        <div class="form-row">
+                            <input type="hidden" id="editCustomerId"/>
+                            <div class="form-group col-md-6">
+                                <label for="editBusinessName">Business Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control custom-border" name="editBusinessName" id="editBusinessName" placeholder="Business Name" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="editCustomerName">Enter Contact Person Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control custom-border" name="editCustomerName" id="editCustomerName" placeholder="Customer" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="editEmail">Enter Email <span class="text-danger">*</span></label>
+                                <input type="email" class="form-control custom-border" name="editEmail" id="editEmail" placeholder="Email" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="editGstn">Enter GST Number <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control custom-border" id="editGstn" placeholder="GSTN" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="editContactNumber">Enter Contact Person Number <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control custom-border" id="editContactNumber" placeholder="Contact Number" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="editAlternateNumber">Alternate Number <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control custom-border" id="editAlternateNumber" placeholder="Alternate Number" required>
+                            </div>
+                        </div>
+
+                        <!-- Horizontal Line with Two Inputs -->
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="editAddress">Address</label>
+                                <input type="text" class="form-control custom-border" id="editAddress" placeholder="Address">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="editState">Enter State</label>
+                                <select class="form-control border-black" id="editState" name="state" style="border: 1px solid black; border-radius:10px">
+                                    <option value="">Select state</option>
+                                    <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                                    <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                    <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                    <option value="Assam">Assam</option>
+                                    <option value="Bihar">Bihar</option>
+                                    <option value="Chandigarh">Chandigarh</option>
+                                    <option value="Chhattisgarh">Chhattisgarh</option>
+                                    <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+                                    <option value="Daman and Diu">Daman and Diu</option>
+                                    <option value="Delhi">Delhi</option>
+                                    <option value="Goa">Goa</option>
+                                    <option value="Gujarat">Gujarat</option>
+                                    <option value="Haryana">Haryana</option>
+                                    <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                    <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                                    <option value="Jharkhand">Jharkhand</option>
+                                    <option value="Karnataka">Karnataka</option>
+                                    <option value="Kerala">Kerala</option>
+                                    <option value="Ladakh">Ladakh</option>
+                                    <option value="Lakshadweep">Lakshadweep</option>
+                                    <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                    <option value="Maharashtra">Maharashtra</option>
+                                    <option value="Manipur">Manipur</option>
+                                    <option value="Meghalaya">Meghalaya</option>
+                                    <option value="Mizoram">Mizoram</option>
+                                    <option value="Nagaland">Nagaland</option>
+                                    <option value="Odisha">Odisha</option>
+                                    <option value="Puducherry">Puducherry</option>
+                                    <option value="Punjab">Punjab</option>
+                                    <option value="Rajasthan">Rajasthan</option>
+                                    <option value="Sikkim">Sikkim</option>
+                                    <option value="Tamil Nadu">Tamil Nadu</option>
+                                    <option value="Telangana">Telangana</option>
+                                    <option value="Tripura">Tripura</option>
+                                    <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                    <option value="Uttarakhand">Uttarakhand</option>
+                                    <option value="West Bengal">West Bengal</option>
+                                </select>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" form="editCustomerForm">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="confirmDeleteModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content " style="border-radius:20px;">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary" id="deleteModalLabel">Delete</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted-foreground text-center mt-2">Are you sure you want to Delete this Customer?</p>
+                    <input type="hidden" id="customerId" value="" />
+                </div>
+                <div class="modal-footer justify-content-center">
+                    
+                    <button type="button" class="btn btn-danger" id="deleteConfirmButton">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<script>
+    $(document).ready(function() {
+    $('#searchInput').on('input', function() {
+        let searchValue = $(this).val();
+        if (searchValue.length >= 2) { // Trigger search after 2 characters
+            $.ajax({
+                url: '/search',
+                type: 'GET',
+                data: { name: searchValue },
+                success: function(data) {
+                    // Handle the search results here
+                    console.log(data); // For example, log the results
+                    // Update the UI with the search results
+                },
+                error: function(error) {
+                    console.error('Error fetching search results:', error);
+                }
+            });
+        }
+    });
+});
+
+</script>
+
+</body>
