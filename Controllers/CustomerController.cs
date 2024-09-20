@@ -12,7 +12,10 @@ namespace Hoarding_managment.Controllers
             _context = customer;
         }
 
+
+
         [HttpGet]
+
         public async Task<IActionResult> Index(int pageSize = 5, int pageNumber = 1)
         {
             var customers = await _context.GetallCustomerAsync(pageNumber, pageSize);
