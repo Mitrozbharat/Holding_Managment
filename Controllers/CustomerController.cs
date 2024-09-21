@@ -12,21 +12,50 @@ namespace Hoarding_managment.Controllers
             _context = customer;
         }
 
+        //[HttpGet]
+        //public async Task<IActionResult> Index(int pageSize = 5, int pageNumber = 1)
+        //{
+        //    var customers = await _context.GetallCustomerAsync(pageNumber, pageSize);
+        //    var totalVendors = await _context.GetCustomerCountAsync();
+        //    var totalPages = (int)Math.Ceiling(totalVendors / (double)pageSize);
+
+        //    var viewModels = customers.Select(v => CustomerMapper.ToCustomerViewModel(v)).ToList();
+        //    ViewData["CurrentPage"] = pageNumber;
+        //    ViewData["PageSize"] = pageSize;
+        //    ViewData["TotalPages"] = totalPages; // Pass total pages to the view
+
+        //    return View(viewModels);
+
+        //}
+
         [HttpGet]
-        public async Task<IActionResult> Index(int pageSize = 5, int pageNumber = 1)
+        public async Task<IActionResult> Index(string searchQuery = "", int pageSize = 10, int pageNumber = 1)
         {
-            var customers = await _context.GetallCustomerAsync(pageNumber, pageSize);
-            var totalVendors = await _context.GetCustomerCountAsync();
+            // Get filtered customers based on the search query
+            var customers = await _context.GetallCustomerAsync(searchQuery, pageNumber, pageSize);
+
+            // Get the total number of customers (taking the search query into account)
+            var totalVendors = await _context.GetCustomerCountAsync(searchQuery);
+
+            // Calculate total pages based on filtered results
             var totalPages = (int)Math.Ceiling(totalVendors / (double)pageSize);
 
+            // Convert to view models
             var viewModels = customers.Select(v => CustomerMapper.ToCustomerViewModel(v)).ToList();
-            ViewData["CurrentPage"] = pageNumber;
-            ViewData["PageSize"] = pageSize;
-            ViewData["TotalPages"] = totalPages; // Pass total pages to the view
 
-            return View(viewModels);
+            // Pass search query, pagination info, and customers to the view
+            var model = new CustomerViewModelwithPagignation
+            {
+                Customers = viewModels,
+                CurrentPage = pageNumber,
+                TotalPages = totalPages,
+                PageSize = pageSize,
+                SearchQuery = searchQuery
+            };
 
+            return View(model);
         }
+
 
 
         [HttpGet]
@@ -37,7 +66,7 @@ namespace Hoarding_managment.Controllers
         [HttpPost]
         public async Task<IActionResult> AddNewCustomer(string businessName, string customerName, string email, string gstn, string contactNumber, string alternateNumber, string address, string state)
         {
-            if (ModelState.IsValid)
+            try
             {
                 var data = new TblCustomer
                 {
@@ -54,10 +83,22 @@ namespace Hoarding_managment.Controllers
                     CreatedBy = customerName,
                 };
 
-                await _context.AddNewCustomerasAsync(data);
-                return Ok(new { Success = true, Message = "Customer  Add Successfully. " });
+                var newresult = await _context.AddNewCustomerasAsync(data);
+                if(newresult.Id != 0)
+                {
+                    return Ok(new { success = true, message = "Customer Add Successfully. " });
+                }
+                else
+                {
+                    return Json(new { success = true, message = "Invalid data." });
+                }
+
+               
             }
-            return Json(new { Success = false, Message = "Invalid data." });
+            catch
+            {
+                return Json(new { success = true, message = "Invalid data." });
+            }
 
         }
 

@@ -101,66 +101,180 @@ $(document).ready(function ()
     });
 
 
-    $('#saveCustomerButton').click(function () {
+    //$('#saveCustomerButton').click(function () {
 
-        var formData = $('#addCustomerForm').serialize();
-        console.log("Serialized Form Data: ", formData); // For debugging
+    //    var formData = $('#addCustomerForm').serialize();
+    //    console.log("Serialized Form Data: ", formData); // For debugging
 
-        $.ajax({
-            type: "POST",
-            url: '/Customer/AddNewCustomer', // Update the URL to match your controller action
-            data: formData,
-            success: function (response) {
+    //    $.ajax({
+    //        type: "POST",
+    //        url: '/Customer/AddNewCustomer', // Update the URL to match your controller action
+    //        data: formData,
+    //        success: function (response) {
 
-                console.log("obj : " + response);
+    //            console.log("obj : " + response);
 
-                toastr.success('Customer added successfully.');
-                document.getElementById('addCustomerModal').style.display = 'none';
-                location.reload(); // Optionally reload the page
+    //            toastr.success('Customer added successfully.');
+    //            document.getElementById('addCustomerModal').style.display = 'none';
+    //            location.reload(); // Optionally reload the page
 
-            },
-            error: function (xhr, status, error) {
-                toastr.error('An error occurred while adding the customer.');
-            }
-        });
+    //        },
+    //        error: function (xhr, status, error) {
+    //            toastr.error('An error occurred while adding the customer.');
+    //        }
+    //    });
+    //});
+    $('#saveCustomerButton').click(function (e) {
+        e.preventDefault(); // Prevent the default form submission
+
+        // Clear previous error messages
+        $('.error-message').remove();
+
+        // Validate required fields
+        var isValid = true;
+
+        // Check Business Name
+        if ($('#businessName').val().trim() === '') {
+            $('#businessName').after('<span class="error-message text-danger">This field is required.</span>');
+            isValid = false;
+        }
+
+        // Check Contact Person Name
+        if ($('#customerName').val().trim() === '') {
+            $('#customerName').after('<span class="error-message text-danger">This field is required.</span>');
+            isValid = false;
+        }
+
+        // Check Email
+        if ($('#email').val().trim() === '') {
+            $('#email').after('<span class="error-message text-danger">This field is required.</span>');
+            isValid = false;
+        }
+
+        // Check Contact Number
+        if ($('#contactNumber').val().trim() === '') {
+            $('#contactNumber').after('<span class="error-message text-danger">This field is required.</span>');
+            isValid = false;
+        }
+
+        // Check if GST Number (if filled) is exactly 15 characters long
+        var gstNumber = $('#gstn').val().trim();
+        if (gstNumber !== '' && gstNumber.length !== 15) {
+            $('#gstn').after('<span class="error-message text-danger">GST Number must be exactly 15 characters.</span>');
+            isValid = false;
+        }
+
+        // If the form is valid, proceed with the AJAX submission
+        if (isValid) {
+            var formData = $('#addCustomerForm').serialize();
+            console.log("Serialized Form Data: ", formData); // For debugging
+
+            $.ajax({
+                type: "POST",
+                url: '/Customer/AddNewCustomer', // Update the URL to match your controller action
+                data: formData,
+                success: function (response) {
+                    console.log("Response: " + response);
+                    if (response.message == "Customer Add Successfully. ") {
+                        toastr.success('Customer added successfully.');
+                        $('#addCustomerModal').modal('hide'); // Hide the modal
+                        location.reload(); // Optionally reload the page
+                    }
+                    else {
+                        toastr.error('An error occurred while adding the customer.');
+                    }
+                   
+                },
+                error: function (xhr, status, error) {
+                    toastr.error('An error occurred while adding the customer.');
+                }
+            });
+        } else {
+            toastr.error('Please fill all the required fields.');
+        }
     });
+
 
     $('#editCustomerForm').on('submit', function (event) {
         event.preventDefault(); // Prevent the default form submission
+        // Clear previous error messages
+        $('.error-message').remove();
+
+        // Validate required fields
+        var isValid = true;
+
+        // Check Business Name
+        if ($('#editBusinessName').val().trim() === '') {
+            $('#editBusinessName').after('<span class="error-message text-danger">This field is required.</span>');
+            isValid = false;
+        }
+
+        // Check Contact Person Name
+        if ($('#editCustomerName').val().trim() === '') {
+            $('#editCustomerName').after('<span class="error-message text-danger">This field is required.</span>');
+            isValid = false;
+        }
+
+        // Check Email
+        if ($('#editEmail').val().trim() === '') {
+            $('#editEmail').after('<span class="error-message text-danger">This field is required.</span>');
+            isValid = false;
+        }
+
+        // Check Contact Number
+        if ($('#editContactNumber').val().trim() === '') {
+            $('#editContactNumber').after('<span class="error-message text-danger">This field is required.</span>');
+            isValid = false;
+        }
+
+        // Check if GST Number (if filled) is exactly 15 characters long
+        var gstNumber = $('#editGstn').val().trim();
+        if (gstNumber !== '' && gstNumber.length !== 15) {
+            $('#editGstn').after('<span class="error-message text-danger">GST Number must be exactly 15 characters.</span>');
+            isValid = false;
+        }
+
+        // If the form is valid, proceed with the AJAX submission
+        if (isValid) {
+
+            // Get the form data
+            var formData = {
+                Id: $('#editCustomerId').val(),
+                BusinessName: $('#editBusinessName').val(),
+                CustomerName: $('#editCustomerName').val(),
+                Email: $('#editEmail').val(),
+                GstNo: $('#editGstn').val(),
+                ContactNo: $('#editContactNumber').val(),
+                AlternateNumber: $('#editAlternateNumber').val(),
+                Address: $('#editAddress').val(),
+                State: $('#editState').val()
+            };
 
 
-        // Get the form data
-        var formData = {
-            Id: $('#editCustomerId').val(),
-            BusinessName: $('#editBusinessName').val(),
-            CustomerName: $('#editCustomerName').val(),
-            Email: $('#editEmail').val(),
-            GstNo: $('#editGstn').val(),
-            ContactNo: $('#editContactNumber').val(),
-            AlternateNumber: $('#editAlternateNumber').val(),
-            Address: $('#editAddress').val(),
-            State: $('#editState').val()
-        };
-
-
-        $.ajax({
-            url: '/Customer/UpdateCustomer',
-            type: 'PUT',
-            contentType: 'application/json',
-            data: JSON.stringify(formData),
-            success: function (response) {
-                if (response.success) {
-                    toastr.success('Customer added successfully.');
-                    location.reload(); // Reload the page on success
-                } else {
-                    toastr.error('Error adding Customer.');
+            $.ajax({
+                url: '/Customer/UpdateCustomer',
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function (response) {
+                    if (response.success) {
+                        toastr.success('Customer added successfully.');
+                        location.reload(); // Reload the page on success
+                    } else {
+                        toastr.error('Error adding Customer.');
+                    }
+                },
+                error: function (error) {
+                    // Handle error response
+                    alert('An error occurred while updating customer details.');
                 }
-            },
-            error: function (error) {
-                // Handle error response
-                alert('An error occurred while updating customer details.');
-            }
-        });
+            });
+
+        } else {
+            toastr.error('Please fill all the required fields.');
+        }
+
+       
     });
 });
 

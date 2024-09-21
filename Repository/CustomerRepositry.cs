@@ -12,16 +12,38 @@ namespace Hoarding_managment.Repository
         {
             _context = db_hoarding_managementContext;
         }
-        public async Task<IEnumerable<TblCustomer>> GetallCustomerAsync(int pageNumber, int pageSize)
+        //public async Task<IEnumerable<TblCustomer>> GetallCustomerAsync(int pageNumber, int pageSize)
+        //{
+
+        //    return await _context.TblCustomers
+        //        .Where(v => v.IsDelete == 0)
+        //        .Skip((pageNumber - 1) * pageSize)
+        //        .Take(pageSize)
+        //        .ToListAsync();
+
+        //}
+        public async Task<IEnumerable<TblCustomer>> GetallCustomerAsync(string searchQuery, int pageNumber, int pageSize)
         {
+            var query = _context.TblCustomers.Where(v => v.IsDelete == 0);
 
-            return await _context.TblCustomers
-                .Where(v => v.IsDelete == 0)
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
+            // If search query is not empty, filter by BusinessName, CustomerName, or Email
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                query = query.Where(v => v.BusinessName.Contains(searchQuery) ||
+                                         v.CustomerName.Contains(searchQuery) ||
+                                         v.GstNo.Contains(searchQuery) ||
+                                         v.ContactNo.Contains(searchQuery) ||
+                                         v.Address.Contains(searchQuery) ||
+                                         v.Email.Contains(searchQuery));
+            }
 
+            // Apply pagination
+            return await query
+                         .Skip((pageNumber - 1) * pageSize)
+                         .Take(pageSize)
+                         .ToListAsync();
         }
+
 
         public async Task<TblCustomer> AddNewCustomerasAsync(TblCustomer model)
         {
@@ -57,10 +79,25 @@ namespace Hoarding_managment.Repository
             }
             return existcustomer;
         }
-        public async Task<int> GetCustomerCountAsync()
+        //public async Task<int> GetCustomerCountAsync()
+        //{
+        //    return await _context.TblCustomers.CountAsync(v => v.IsDelete == 0);
+        //}
+        public async Task<int> GetCustomerCountAsync(string searchQuery = "")
         {
-            return await _context.TblCustomers.CountAsync(v => v.IsDelete == 0);
+            var query = _context.TblCustomers.Where(v => v.IsDelete == 0);
+
+            // Apply search filter if a search query is provided
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                query = query.Where(v => v.BusinessName.Contains(searchQuery) ||
+                                         v.CustomerName.Contains(searchQuery) ||
+                                         v.Email.Contains(searchQuery));
+            }
+
+            return await query.CountAsync();
         }
+
 
         public async Task<IEnumerable<TblCustomer>> GetCustomerinfo()
         {

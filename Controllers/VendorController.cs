@@ -10,20 +10,51 @@ namespace Hoarding_managment.Controllers
             _context = vendor;
         }
 
+        //[HttpGet]
+        //public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 5)
+        //{
+        //    var vendors = await _context.GetAllVendorsAsync(pageNumber, pageSize);
+        //    var totalVendors = await _context.GetVendorCountAsync();
+        //    var totalPages = (int)Math.Ceiling(totalVendors / (double)pageSize);
+
+        //    var viewModels = vendors.Select(v => VendorMapper.ToViewModel(v)).ToList();
+        //    ViewData["CurrentPage"] = pageNumber;
+        //    ViewData["PageSize"] = pageSize;
+        //    ViewData["TotalPages"] = totalPages; // Pass total pages to the view
+
+        //    return View(viewModels);
+        //}
+
         [HttpGet]
-        public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 5)
+        public async Task<IActionResult> Index(string searchQuery = "", int pageSize = 10, int pageNumber = 1)
         {
-            var vendors = await _context.GetAllVendorsAsync(pageNumber, pageSize);
-            var totalVendors = await _context.GetVendorCountAsync();
+            // Get filtered customers based on the search query
+            var vendors = await _context.GetAllVendorsAsync(searchQuery, pageNumber, pageSize);
+
+            // Get the total number of customers (taking the search query into account)
+            var totalVendors = await _context.GetVendorCountAsync(searchQuery);
+
+            // Calculate total pages based on filtered results
             var totalPages = (int)Math.Ceiling(totalVendors / (double)pageSize);
 
+            // Convert to view models
             var viewModels = vendors.Select(v => VendorMapper.ToViewModel(v)).ToList();
-            ViewData["CurrentPage"] = pageNumber;
-            ViewData["PageSize"] = pageSize;
-            ViewData["TotalPages"] = totalPages; // Pass total pages to the view
 
-            return View(viewModels);
+            // Pass search query, pagination info, and customers to the view
+            var model = new VendorViewModelWithpagingnation
+            {
+                Vendor = viewModels,
+                CurrentPage = pageNumber,
+                TotalPages = totalPages,
+                PageSize = pageSize,
+                SearchQuery = searchQuery
+            };
+
+            return View(model);
         }
+
+
+        //VendorViewModelWithpagingnation
 
         [HttpGet]   
         public async Task<IActionResult> Details(int id)
@@ -46,7 +77,7 @@ namespace Hoarding_managment.Controllers
         [HttpPost]
         public async Task<IActionResult> AddVendor(string businessName, string vendorName, string email, string gstNo, string contactNo, string alternateNumber, string address, string state)
         {
-            if (ModelState.IsValid)
+            try
             {
                 var data = new TblVendor
                 {
@@ -63,10 +94,24 @@ namespace Hoarding_managment.Controllers
                     CreatedAt = DateTime.Now
                 };
 
-                await _context.AddVendorAsync(data);
-                return Json(new { Success = true, Message = "Vendor added successfully." });
+              var newresult = await _context.AddVendorAsync(data);
+                if (newresult.Id != 0)
+                {
+                    return Ok(new { success = true, message = "Vendor Add Successfully. " });
+                }
+                else
+                {
+                    return Json(new { success = true, message = "Invalid data." });
+                }
+
+
             }
-            return Json(new { Success = false, Message = "Invalid data." });
+            catch
+            {
+                return Json(new { success = true, message = "Invalid data." });
+            }
+
+           
         }
 
         [HttpGet]
@@ -110,7 +155,35 @@ namespace Hoarding_managment.Controllers
             return Json(new { success = false, errors = ModelState.Values.SelectMany(v => v.Errors) }); // Return errors if any
         }
 
+
         [HttpDelete]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var customer = _context.DeleteVendor(id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+            try
+            {
+                 _context.DeleteVendor(id);
+                return Json(new
+                {
+                    success = true,
+                    Message = "Delete Successfully",
+                    id = id
+                });
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+
+        }
+
+        [HttpPost]
         public IActionResult DeleteVendor(int id)
         {
             var vendor = _context.DeleteVendor(id);
