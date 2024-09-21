@@ -50,8 +50,10 @@ $(document).ready(function ()
         var formData = new FormData(form); // Create FormData object from form
 
         var imageFile = $('#imageInput')[0].files[0]; // Get the selected image file
+        var vendorname = $('#vendorName').val();
+        var vendornameid = $('#vendorids').val();
 
-        if (imageFile) {
+        if (imageFile && vendorname != "") {
             var reader = new FileReader();
 
             reader.onloadend = function () {
@@ -63,12 +65,13 @@ $(document).ready(function ()
                     url: '/Dashboard/AddNewInventory', // Update the URL to match your controller action
                     data: {
                         city: $('#city').val(),
-                        area: $('#area').val(),
+                        area: $('#Area').val(),
                         location: $('#location').val(),
                         width: $('#width').val(),
                         height: $('#height').val(),
                         rate: $('#rate').val(),
                         vendoramt: $('#vendoramt').val(),
+                        vendorid: $('#vendorids').val(),
                         Image: base64String // Send the Base64 encoded image string
                     },
                     success: function (response)
@@ -86,7 +89,14 @@ $(document).ready(function ()
             };
             reader.readAsDataURL(imageFile); // Convert the image to Base64 string
         } else {
-            toastr.error('Please select an image file.');
+
+            if (imageFile) {
+                toastr.error('Please select vendor name.');
+            }
+            else {
+                toastr.error('Please select an image file.');
+            }
+           
         }
     });
 

@@ -11,8 +11,10 @@ namespace Hoarding_managment.Data
         public string? Area { get; set; }
         public string? Width { get; set; }
         public string? Height { get; set; }
+        public string? location { get; set; }
         public ulong? BookingStatus { get; set; }
         public string? Rate { get; set; }
+        public string? vendoramt { get; set; }
         public ulong? Isdelete { get; set; }
    
         public int? FkVendorId { get; set; }

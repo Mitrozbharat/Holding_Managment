@@ -30,7 +30,10 @@ namespace Hoarding_managment.Repository
                 model.Image = item.Image;
                 model.City = item.City;
                 model.Area = item.Area;
+                model.location = item.Location;
                 model.Rate = item.Rate;
+                model.vendoramt = item.VendorAmt;
+
                 model.Width = item.Width;
                 model.Height = item.Height;
                 model.BookingStatus = item.BookingStatus;

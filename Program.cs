@@ -30,6 +30,7 @@ namespace Hoarding_managment
             builder.Services.AddScoped<IVendor,VendorRepository>();
             builder.Services.AddScoped<IQuotation, QuotationRepository>();
             builder.Services.AddScoped<IOngoingCampain, OngoingCampainRepository>();  
+            builder.Services.AddScoped<AutocompleteService>();  
             
             var app = builder.Build();
 

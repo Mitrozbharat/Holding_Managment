@@ -28,7 +28,17 @@
     <!-- Include jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-
+    <style>
+        .sidebar .nav.sub-menu .nav-item::before {
+            content: '';
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #ffff !important;
+            margin-top: 15px;
+        }
+    </style>
 </head>
 
 <body>
@@ -93,13 +103,13 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Dashboard" asp-action="HoardingInventory">
-                            <i class="mdi mdi-circle-outline menu-icon"></i>
+                            <i class="mdi mdi-animation menu-icon"></i>
                             <span class="menu-title">Hoarding Inventory</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="OngoingCampain" asp-action="Index">
-                            <i class="mdi mdi-account-multiple menu-icon"></i>
+                            <i class="mdi mdi-bulletin-board menu-icon"></i>
                             <span class="menu-title">Ongoing Campaign</span>
                         </a>
                     </li>
@@ -111,17 +121,26 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
-                            <i class="mdi mdi-account menu-icon"></i>
+                            <i class="mdi mdi-settings menu-icon"></i>
                             <span class="menu-title">Master</span>
                             <i class="menu-arrow"></i>
                         </a>
                         <div class="collapse" id="auth">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" asp-controller="Customer" asp-action="Index">Customer</a></li>
-                                <li class="nav-item"> <a class="nav-link" asp-controller="Vendor" asp-action="Index">Vendor</a></li>
+                            <ul class="nav flex-column sub-menu" style="list-style-type: none;">
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Customer" asp-action="Index" style="color: black;font-weight: 400;">
+                                        <i class="mdi mdi-account-box-outline menu-icon"></i> Customer
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Vendor" asp-action="Index" style="color: black;font-weight: 400;">
+                                        <i class="mdi mdi-worker menu-icon"></i> Vendor
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </li>
+
                 </ul>
 
             </nav>
