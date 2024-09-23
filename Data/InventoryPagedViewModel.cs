@@ -2,7 +2,7 @@
 {
     public class InventoryPagedViewModel
     {
-        public List<InventoryViewModel>? Inventories { get; set; }
+        public List<InventoryViewModel>? InventoryViewModel { get; set; }
         public int CurrentPage { get; set; }
         public int TotalPages { get; set; }
         public int PageSize { get; set; } // Add this property

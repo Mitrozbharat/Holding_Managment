@@ -35,8 +35,7 @@
         background-color: #e9ecef;
         border-color: #80bdff;
     }
-</style>
-<style>
+
     .autocomplete-suggestions {
         position: absolute;
         border: 1px solid #ddd;
@@ -73,11 +72,10 @@
         background-image: url('');
         background-size: cover;
         background-position: center;
-      
         width: 300px;
         border: 1px solid #bbb;
         position: relative;
-      /*  border-radius: 250px;*/
+        /*  border-radius: 250px;*/
         overflow: hidden;
     }
 
@@ -150,6 +148,7 @@
         }
 </style>
 
+
 <body>
     <div class="container-fluid my-2">
         <div class="card p-2">
@@ -159,7 +158,7 @@
                         <div class="col-sm-12 col-md-6 col-lg-4 mb-2 mb-md-0">
                             <h3 class="text-primary pt-2 ">Inventory </h3>
                         </div>
-                        <div class="col-sm-12 col-md-6 col-lg-8 d-flex justify-content-md-end">
+                        <div class="col-sm-12 col-md-6 col-lg-8 d-flex justify-content-end">
                             <div class="input-group">
                                 <input type="search" id="searchQuery" autocomplete="off" placeholder="Search by City, Area, or Vendor.." class="ml-4 rounded-pill p-2 ml-2 btn-outline-red" style="border:1px solid " value="@Model.SearchQuery" oninput="searchInventory()" />
 
@@ -179,16 +178,73 @@
                     </div>
                 </div>
             </section>
+            @if (!string.IsNullOrEmpty(Model.SearchQuery))
+            {
+                <script>
+                    $(document).ready(function () {
+                        var searchInput = $('#searchQuery');
+                        searchInput.focus();
 
+                        // Set the cursor at the end of the input field
+                        var val = searchInput.val();
+                        searchInput.val('').val(val); // Clears and sets the value back to move the cursor to the end
+                    });
+                </script>
+            }
 
 
             <!-- Inventory Modal -->
 
             <section>
+                <!-- Search and Row Quantity Section -->
+                <div class="row mb-2 p-2">
+
+                    <div class="col-md-1">
+                        <select id="rowQuantity" class="form-control" onchange="updateRowQuantity()" style="outline: 1px solid #b4b4b4;color: #050000;">
+                            @if (Model.PageSize == 5)
+                            {
+                                <option value="5" selected>5</option>
+                            }
+                            else
+                            {
+                                <option value="5">5</option>
+                            }
+
+                            @if (Model.PageSize == 10)
+                            {
+                                <option value="10" selected>10</option>
+                            }
+                            else
+                            {
+                                <option value="10">10</option>
+                            }
+
+                            @if (Model.PageSize == 20)
+                            {
+                                <option value="20" selected>20</option>
+                            }
+                            else
+                            {
+                                <option value="20">20</option>
+                            }
+
+                            @if (Model.PageSize == 50)
+                            {
+                                <option value="50" selected>50</option>
+                            }
+                            else
+                            {
+                                <option value="50">50</option>
+                            }
+
+
+                        </select>
+                    </div>
+                </div>
                 <div class="row d-flex" style="padding:0px 10px 10px 10px">
-                    @if (Model.Inventories != null && Model.Inventories.Any())
+                    @if (Model.InventoryViewModel != null && Model.InventoryViewModel.Any())
                     {
-                        @foreach (var i in Model.Inventories)
+                        @foreach (var i in Model.InventoryViewModel)
                         {
                             <div class="col-md-4 mt-3">
                                 <div class="card-container">
@@ -511,27 +567,21 @@
             </section>
         </div>
 
-
         <script>
-
-
-
-
-
             function searchInventory() {
                 var searchQuery = document.getElementById('searchQuery').value;
                 var pageSize = document.getElementById('rowQuantity').value;
-                window.location.href = `/Dashboard/Index?searchQuery=${searchQuery}&pageNumber=1&pageSize=${pageSize}`;
+                window.location.href = `/Dashboard/HoardingInventory?searchQuery=${searchQuery}&pageNumber=1&pageSize=${pageSize}`;
             }
 
             function updateRowQuantity() {
                 var pageSize = document.getElementById('rowQuantity').value;
                 var searchQuery = document.getElementById('searchQuery').value;
-                window.location.href = `/Dashboard/Index?searchQuery=${searchQuery}&pageNumber=1&pageSize=${pageSize}`;
+                window.location.href = `/Dashboard/HoardingInventory?searchQuery=${searchQuery}&pageNumber=1&pageSize=${pageSize}`;
             }
 
-            $(document).ready(function () 
-            {
+            $(document).ready(function () {
+
                 $('#searchInput').on('input', function () {
                     let searchValue = $(this).val();
                     if (searchValue.length >= 2) { // Trigger search after 2 characters
@@ -552,7 +602,8 @@
                 });
             });
 
-
+        </script>
+        <script>
 
             document.addEventListener('DOMContentLoaded', function () {
                 document.getElementById('getval').addEventListener('change', readURL, true);
@@ -694,8 +745,7 @@
                 });
             });
         </script>
-
-          <script>
+         <script>
                 function uploadFile() {
                     var fileInput = document.getElementById('fileInput');
                     var file = fileInput.files[0];
@@ -741,43 +791,6 @@
                     uploadFile();
                 });
           </script>
-
-       @* <script>
-            function uploadFile() {
-                var fileInput = document.getElementById('fileInput');
-                var file = fileInput.files[0];
-
-                if (file) {
-                    var formData = new FormData();
-                    formData.append('file', file);
-
-                    fetch('https://localhost:7092/Dashboard/Upload', 
-                    {
-                        method: 'POST',
-                        body: formData,
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.text(); // Get response as text first
-                    })
-                    .then(text => {
-                        try {
-                            const data = JSON.parse(text); // Try to parse text as JSON
-                            console.log('Success:', data);
-                        } catch (e) {
-                            console.error('Failed to parse JSON:', text); // Handle parsing error
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
-                } else {
-                    alert('Please select a file to upload.');
-                }
-            }
-        </script>*@
         <script>
             // Set the values of the form fields in the modal
             function editCratModal(id, city, area, width, height, rate, VendorName,Image,vendorid,location,vendoramt)
@@ -995,20 +1008,6 @@
 
             }
         </script>
-       @* <script>
-            const imageInput = document.getElementById('imageInput');
-            const fileName = document.getElementById('fileName');
-
-            imageInput.addEventListener('change', function() {
-                const file = this.files[0];
-
-                if (file) {
-                    fileName.textContent = file.name;
-                } else {
-                    fileName.textContent = 'No file chosen';
-                }
-            });
-        </script>*@
         <script>
             
             const imageInput = document.getElementById('imageInput');

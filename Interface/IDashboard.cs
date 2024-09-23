@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using iTextSharp.text;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hoarding_managment.Interface
 {
     public interface IDashboard
     {
-        public Task<List<InventoryViewModel>> GetAllHoarldingInvenrotyAsync(int pageNumber, int pageSize);
+        //public Task<List<InventoryViewModel>> GetAllHoarldingInvenrotyAsync(int pageNumber, int pageSize);
         public Task<int> GetAllHoarldingInvenrotyCountAsync();
 
         public Task<TblInventory> GetInvetroyByIdAsync(int id);
@@ -23,7 +24,9 @@ namespace Hoarding_managment.Interface
         public  Task<QuotationItemListViewModel> addCampaign(QuotationItemListViewModel selectedItems);
         public  Task<TblInventory> UploadExcelAsync(TblInventory inventory);
 
+        public Task<List<InventoryViewModel>> GetAllHoarldingInvenrotyAsync(string searchQuery,int pageNumber, int pageSize);
 
+        public Task<int>  GetAllHoarldingInvenrotyCountAsync(string searchQuery);
         public Task<InventoryViewModel> SearchByInventoryNameAsync(string name);
     }
 }

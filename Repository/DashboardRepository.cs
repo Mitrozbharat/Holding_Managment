@@ -12,38 +12,97 @@ namespace Hoarding_managment.Repository
             _context = db_hoarding_managementContext;
         }
 
-        // get all InventryHoardings
-        public async Task<List<InventoryViewModel>> GetAllHoarldingInvenrotyAsync(int pageNumber, int pageSize)
+        //// get all InventryHoardings
+        //public async Task<List<InventoryViewModel>> GetAllHoarldingInvenrotyAsync(int pageNumber, int pageSize)
+        //{
+        //    List<InventoryViewModel> inventory = new List<InventoryViewModel>();
+
+        //    var lst = _context.TblInventories
+        //             .Where(x => x.IsDelete == 0)
+        //            .Skip((pageNumber - 1) * pageSize)
+        //            .Take(pageSize)
+        //            .ToList();
+        //    foreach (var item in lst)
+        //    {
+        //        InventoryViewModel model = new InventoryViewModel();
+
+        //        model.Id = item.Id;
+        //        model.Image = item.Image;
+        //        model.City = item.City;
+        //        model.Area = item.Area;
+        //        model.location = item.Location;
+        //        model.Rate = item.Rate;
+        //        model.vendoramt = item.VendorAmt;
+        //        model.Width = item.Width;
+        //        model.Height = item.Height;
+        //        model.BookingStatus = item.BookingStatus;
+        //        model.CreatedAt = item.CreatedAt;
+        //        model.UpdatedAt = item.UpdatedAt;
+        //        model.VendorName = _context.TblVendors.FirstOrDefault(x => x.Id == item.FkVendorId)?.VendorName;
+        //        model.FkVendorId = item.FkVendorId;
+        //        inventory.Add(model);
+        //    }
+        //    return inventory;
+
+        //}
+
+        public async Task<List<InventoryViewModel>> GetAllHoarldingInvenrotyAsync(string searchQuery, int pageNumber, int pageSize)
         {
             List<InventoryViewModel> inventory = new List<InventoryViewModel>();
 
+            // Ensure the search query is not null or empty
+            searchQuery = searchQuery?.ToLower().Trim();
+
             var lst = _context.TblInventories
-                     .Where(x => x.IsDelete == 0)
-                    .Skip((pageNumber - 1) * pageSize)
-                    .Take(pageSize)
-                    .ToList();
+                      .Where(x => x.IsDelete == 0 &&
+                                  (string.IsNullOrEmpty(searchQuery) ||
+                                  x.City.ToLower().Contains(searchQuery) ||
+                                  x.Area.ToLower().Contains(searchQuery) ||
+                                  x.Location.ToLower().Contains(searchQuery)))
+                      .OrderByDescending(x => x.CreatedAt) // Ordering by CreatedAt in descending order
+                      .Skip((pageNumber - 1) * pageSize)
+                      .Take(pageSize)
+                      .ToList();
+
             foreach (var item in lst)
             {
-                InventoryViewModel model = new InventoryViewModel();
-
-                model.Id = item.Id;
-                model.Image = item.Image;
-                model.City = item.City;
-                model.Area = item.Area;
-                model.location = item.Location;
-                model.Rate = item.Rate;
-                model.vendoramt = item.VendorAmt;
-                model.Width = item.Width;
-                model.Height = item.Height;
-                model.BookingStatus = item.BookingStatus;
-                model.CreatedAt = item.CreatedAt;
-                model.UpdatedAt = item.UpdatedAt;
-                model.VendorName = _context.TblVendors.FirstOrDefault(x => x.Id == item.FkVendorId)?.VendorName;
-                model.FkVendorId = item.FkVendorId;
+                InventoryViewModel model = new InventoryViewModel
+                {
+                    Id = item.Id,
+                    Image = item.Image,
+                    City = item.City,
+                    Area = item.Area,
+                    location = item.Location,
+                    Rate = item.Rate,
+                    vendoramt = item.VendorAmt,
+                    Width = item.Width,
+                    Height = item.Height,
+                    BookingStatus = item.BookingStatus,
+                    CreatedAt = item.CreatedAt,
+                    UpdatedAt = item.UpdatedAt,
+                    VendorName = _context.TblVendors.FirstOrDefault(x => x.Id == item.FkVendorId)?.VendorName,
+                    FkVendorId = item.FkVendorId
+                };
                 inventory.Add(model);
             }
-            return inventory;
 
+            return inventory;
+        }
+        public async Task<int> GetAllHoarldingInvenrotyCountAsync(string searchQuery)
+        {
+            // Ensure the search query is not null or empty
+            searchQuery = searchQuery?.ToLower().Trim();
+
+            // Count the total number of matching hoardings
+            var count = await _context.TblInventories
+                         .Where(x => x.IsDelete == 0 &&
+                                     (string.IsNullOrEmpty(searchQuery) ||
+                                     x.City.ToLower().Contains(searchQuery) ||
+                                     x.Area.ToLower().Contains(searchQuery) ||
+                                     x.Location.ToLower().Contains(searchQuery)))
+                         .CountAsync();
+
+            return count;
         }
 
         public async Task<InventoryViewModel> SearchByInventoryNameAsync(string name)
@@ -141,16 +200,12 @@ namespace Hoarding_managment.Repository
 
 
         }
-
-
         public async Task<int> InventryItemscountAsync()
         {
             return await _context.TblInventoryitems
                                  .Where(x => x.IsDelete == 0)
                                  .CountAsync();
         }
-
-
         public async Task<int> InventoryCountAsync()
         {
             return await _context.TblInventories
@@ -394,6 +449,7 @@ namespace Hoarding_managment.Repository
             return model;
 
         }
+
         //    public async Task<TblInventory> UploadExcelAsync(TblInventory inventory)
         //    {
         //        // Set EPPlus license context

@@ -196,11 +196,8 @@
         var searchQuery = document.getElementById('searchQuery').value;
             window.location.href = `/Quatation/Index?searchQuery=${searchQuery}&pageNumber=1&pageSize=${pageSize}`;
     }
-</script>
-<script>
-    $(document).ready(function() {
 
-     
+    $(document).ready(function() {
 
     $('#searchInput').on('input', function() {
         let searchValue = $(this).val();

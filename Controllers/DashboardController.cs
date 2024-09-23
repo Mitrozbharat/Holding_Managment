@@ -6,6 +6,7 @@ using HoardingManagement.Repository;
 using HoardingManagement.Interface;
 using OfficeOpenXml;
 using System.Security.Cryptography.X509Certificates;
+using Hoarding_management.Data;
 
 namespace Hoarding_managment.Controllers
 {
@@ -32,25 +33,27 @@ namespace Hoarding_managment.Controllers
         {
             return View();
         }
-        [HttpGet("HoardingInventory")]
-        public async Task<IActionResult> HoardingInventory(int pageNumber = 1, int pageSize = 9)
+        
+    
+
+       [HttpGet]
+        public async Task<IActionResult> HoardingInventory(string searchQuery = "", int pageSize = 10, int pageNumber = 1)
         {
-            var inventories = await _context.GetAllHoarldingInvenrotyAsync(pageNumber, pageSize);
-            var totalItems = await _context.GetAllHoarldingInvenrotyCountAsync();
+            var inventory = await _context.GetAllHoarldingInvenrotyAsync(searchQuery, pageNumber, pageSize);
+            var totalItems = await _context.GetAllHoarldingInvenrotyCountAsync(searchQuery);
             var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
 
-            var viewModel = new InventoryPagedViewModel
+            InventoryPagedViewModel? viewModel = new InventoryPagedViewModel
             {
-                Inventories = inventories,
+                InventoryViewModel = inventory,
                 CurrentPage = pageNumber,
                 TotalPages = totalPages,
-
+                PageSize = pageSize,
+                SearchQuery = searchQuery
             };
 
             return View(viewModel);
         }
-
-
 
         [HttpGet("search")]
         public async Task<IActionResult> SearchByInventoryName(string name)
