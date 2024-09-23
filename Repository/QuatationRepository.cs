@@ -4,7 +4,9 @@ using HoardingManagement.Interface;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using static iTextSharp.text.pdf.AcroFields;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace HoardingManagement.Repository
 {
@@ -62,13 +64,136 @@ namespace HoardingManagement.Repository
         }
 
 
+        public async Task<List<QuatationViewModel>> GetAllQuotationsListAsync(string searchQuery, int pageNumber, int pageSize)
+        {
+            // Start with the base query for quotations
+            var query = _context.TblQuotations
+                .Where(q => q.IsDelete == 0)
+                .AsQueryable();
+
+            // If search query is provided, filter by QuotationNumber, CreatedBy, or CustomerName
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                var customerIds = await _context.TblCustomers
+                    .Where(c => c.IsDelete == 0 && c.CustomerName.Contains(searchQuery))
+                    .Select(c => c.Id)
+                    .ToListAsync();
+
+                query = query.Where(q => q.QuotationNumber.Contains(searchQuery) ||
+                                         q.CreatedBy.Contains(searchQuery) ||
+                                         customerIds.Contains((int)q.FkCustomerId));
+            }
+
+            // Apply pagination
+            var quotations = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            // Map the quotations to the view model
+            var lstquotation = new List<QuatationViewModel>();
+            foreach (var item in quotations)
+            {
+                var vendorid = await _context.TblQuotationitems
+                    .Where(x => x.FkQuotationId == item.Id)
+                    .Select(x => x.FkVendorId)
+                    .FirstOrDefaultAsync();
+
+                var vendorName = await _context.TblVendors
+                    .Where(v => v.Id == vendorid)
+                    .Select(v => v.VendorName)
+                    .FirstOrDefaultAsync();
+
+                var customerName = await _context.TblCustomers
+                    .Where(x => x.Id == item.FkCustomerId && x.IsDelete == 0)
+                    .Select(x => x.CustomerName)
+                    .FirstOrDefaultAsync();
+
+                lstquotation.Add(new QuatationViewModel
+                {
+                    Id = item.Id,
+                    QuotationNumber = item.QuotationNumber,
+                    CreatedAt = item.CreatedAt,
+                    CreatedBy = item.CreatedBy,
+                    UpdatedBy = item.UpdatedBy,
+                    FkCustomerId = item.FkCustomerId,
+                    VendorName = vendorName,
+                    CustomerName = customerName,
+                    Totalhoarding = await _context.TblQuotationitems
+                        .CountAsync(qi => qi.FkQuotationId == item.Id)
+                });
+            }
+
+            return lstquotation;
+        }
+
+        public async Task<int> GetQuotationCountAsync(string searchQuery = "")
+        {
+            // Initialize the query for quotations
+            var query = _context.TblQuotations
+                .Where(x => x.IsDelete == 0);
+
+            // If search query is provided, filter by QuotationNumber, CreatedBy, or CustomerName
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                query = query.Where(x => x.QuotationNumber.Contains(searchQuery) ||
+                                         x.CreatedBy.Contains(searchQuery) ||
+                                         _context.TblCustomers
+                                             .Where(c => c.IsDelete == 0)
+                                             .Any(c => c.Id == x.FkCustomerId && c.CustomerName.Contains(searchQuery)));
+            }
+
+            // Return the count of matching quotations
+            return await query.CountAsync();
+        }
+
+
+
+        public async Task<List<TblQuotation>> SearchByCustomerNameAsync(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return new List<TblQuotation>(); // Return an empty list if name is null or empty
+            }
+
+            var lowerCaseName = name.ToLower();
+
+            // Join Quotations with QuotationItems and Customers
+            var query = from q in _context.TblQuotations
+                        join qi in _context.TblQuotationitems on q.Id equals qi.FkQuotationId
+                        join c in _context.TblCustomers on q.FkCustomerId equals c.Id
+                        where q.IsDelete == 0 && c.CustomerName.ToLower().Contains(lowerCaseName)
+                        select q;
+
+            return await query.ToListAsync();
+        }
+
+
+
+
+        public async Task<List<TblCustomer>> SearchCustomersByNameAsync(string name)
+        {
+            var lowerCaseName = name.ToLower();
+            return await _context.TblCustomers
+                                 .Where(c => c.IsDelete == 0 && c.CustomerName.ToLower().Contains(lowerCaseName))
+                                 .ToListAsync();
+        }
+
+
+
+
+
+
         public async Task<IEnumerable<QuatationViewModel>> GetCustomerDetailsAsync()
         {
             return (IEnumerable<QuatationViewModel>)_context.TblQuotations.Where(x => x.IsDelete == 0).ToList();
         }
 
-        public async Task<TblQuotation> GetQuotationByIdAsync(int id) => await _context.TblQuotations
+        public async Task<TblQuotation> GetQuotationByIdAsync(int id)
+        {
+            return await _context.TblQuotations
                 .FirstOrDefaultAsync(x => x.Id == id && x.IsDelete == 0);
+        }
 
         public async Task<TblQuotation> GetQuotationByNumberAsync(string quotationNumber)
         {
@@ -233,5 +358,82 @@ namespace HoardingManagement.Repository
             return viewModel;
         }
 
+        public async Task<QuatationDetaileViewModel> GetLatestQuotationById(int id)
+        {
+            // Retrieve the quotation by ID
+            var quotation = await _context.TblQuotations
+                .Where(q => q.Id == id && q.IsDelete == 0)
+                .Select(q => new
+                {
+                    q.Id,
+                    q.FkCustomerId,
+                    q.QuotationNumber,
+                    q.CreatedAt,
+                })
+                .FirstOrDefaultAsync();
+
+            // If no quotation is found, return null
+            if (quotation == null)
+            {
+                return null;
+            }
+
+            // Retrieve the related quotation items
+            var quotationItems = await _context.TblQuotationitems
+                .Where(x => x.FkQuotationId == quotation.Id && x.IsDelete == 0)
+                .Select(x => new QuotationItemViewModel
+                {
+                    City = x.City,
+                    Area = x.Area,
+                    Location = x.Location,
+                    IsLight = (ulong)x.IsLight,
+                    Width = x.Width,
+                    Height = x.Height,
+                    BookingStatus = (ulong)x.BookingStatus,
+                    Rate = x.Rate,
+                    VendorAmt = x.VendorAmt,
+                    MarginAmt = x.MarginAmt,
+                    Image = x.Image,
+                    LocationDescription = x.LocationDescription,
+                    FkVendorId = x.FkVendorId,
+                })
+                .ToListAsync();
+
+            // Retrieve the customer details
+            var customer = await _context.TblCustomers
+                .Where(c => c.Id == quotation.FkCustomerId)
+                .Select(c => new { c.CustomerName, c.City, c.BusinessName })
+                .FirstOrDefaultAsync();
+
+            // Get the first vendor ID from the quotation items, if available
+            var vendorId = quotationItems.FirstOrDefault()?.FkVendorId;
+
+            // Retrieve the vendor details if a vendor ID exists
+            var vendor = await _context.TblVendors
+                .Where(v => v.Id == vendorId)
+                .Select(v => new { v.VendorName })
+                .FirstOrDefaultAsync();
+
+            // Fetch the last added item from the quotation items
+            var lastItem = quotationItems.LastOrDefault();
+
+            // Create the ViewModel
+            var viewModel = new QuatationDetaileViewModel
+            {
+                Items = quotationItems,
+                Id = quotation.Id,
+                CreatedAt = quotation.CreatedAt,
+                QuotationNumber = quotation.QuotationNumber,
+                CustomerName = customer?.CustomerName,
+                VendorName = vendor?.VendorName,
+                Width = lastItem?.Width ?? "0",  // Use the last added item's width if available
+                Height = lastItem?.Height ?? "0", // Use the last added item's height if available
+                LastAddedItem = lastItem // Assign the last added item
+            };
+
+            return viewModel;
+        }
+
+        
     }
 }

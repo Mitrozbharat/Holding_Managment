@@ -12,22 +12,46 @@ namespace Hoarding_managment.Controllers
             _context = quotationRepository;
             _Dashcontext= dashboard;
         }
-        [HttpGet]
-        public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 9)
+        //[HttpGet]
+        //public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 9)
+        //{
+        //    var quotations = await _context.GetAllQuotationsListAsync(pageNumber, pageSize);
+        //    var totalItems = await _context.GetQuotationCountAsync();
+        //    var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+        //    var viewModel = new QuatationPagedViewModel
+        //    {
+        //        QuatationViewModel = quotations,
+        //        CurrentPage = pageNumber,
+        //        TotalPages = totalPages,
+        //    };
+
+        //    return View(viewModel);
+        //}
+       
+         [HttpGet]
+        public async Task<IActionResult> Index(string searchQuery = "", int pageSize = 10, int pageNumber = 1)
         {
-            var quotations = await _context.GetAllQuotationsListAsync(pageNumber, pageSize);
-            var totalItems = await _context.GetQuotationCountAsync();
+            var quotations = await _context.GetAllQuotationsListAsync(searchQuery,pageNumber, pageSize);
+            var totalItems = await _context.GetQuotationCountAsync(searchQuery);
             var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
 
-            var viewModel = new QuatationPagedViewModel
+            QuatationPagedViewModel? viewModel = new QuatationPagedViewModel
             {
                 QuatationViewModel = quotations,
                 CurrentPage = pageNumber,
                 TotalPages = totalPages,
+                PageSize = pageSize,
+                SearchQuery = searchQuery
             };
 
             return View(viewModel);
         }
+
+
+
+
+
 
         [HttpGet]
         public async Task<IActionResult> GetQuataionsJ(int pageNumber = 1, int pageSize = 10)
@@ -86,13 +110,32 @@ namespace Hoarding_managment.Controllers
         }
 
 
+        [HttpGet]
+        public async Task<IActionResult> LastQuotation(int id)
+        {
+
+            var viewmodel = _context.GetLatestQuotationById(id);
+
+            return View(viewmodel);
+        }
 
 
 
-       
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchByCustomerName(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return BadRequest("Name cannot be empty.");
+            }
+
+            var customers = await _context.SearchByCustomerNameAsync(name);
+            return Ok(customers);
+        }
 
 
-       
+
+
 
     }
 }

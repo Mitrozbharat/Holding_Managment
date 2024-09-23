@@ -33,7 +33,6 @@ namespace Hoarding_managment.Repository
                 model.location = item.Location;
                 model.Rate = item.Rate;
                 model.vendoramt = item.VendorAmt;
-
                 model.Width = item.Width;
                 model.Height = item.Height;
                 model.BookingStatus = item.BookingStatus;
@@ -46,6 +45,51 @@ namespace Hoarding_managment.Repository
             return inventory;
 
         }
+
+        public async Task<InventoryViewModel> SearchByInventoryNameAsync(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return null; // Return null if the name is empty or null
+            }
+
+            // Convert the search name to lower case for case-insensitive comparison
+            var lowerCaseName = name.ToLower();
+
+            // Search the inventory by matching the name with vendor name, city, or area
+            var inventory = await _context.TblInventories
+                .Where(x => x.IsDelete == 0 &&
+                            (_context.TblVendors
+                                .Where(v => v.Id == x.FkVendorId && v.VendorName.ToLower().Contains(lowerCaseName))
+                                .Any() ||
+                             x.City.ToLower().Contains(lowerCaseName) ||
+                             x.Area.ToLower().Contains(lowerCaseName)))
+                .Select(item => new InventoryViewModel
+                {
+                    Id = item.Id,
+                  
+                    Image = item.Image,
+                    City = item.City,
+                    Area = item.Area,
+                    location = item.Location,
+                    Rate = item.Rate,
+                    vendoramt = item.VendorAmt,
+                    Width = item.Width,
+                    Height = item.Height,
+                    BookingStatus = item.BookingStatus,
+                    CreatedAt = item.CreatedAt,
+                    UpdatedAt = item.UpdatedAt,
+                    FkVendorId = item.FkVendorId,
+                    VendorName = _context.TblVendors
+                        .Where(v => v.Id == item.FkVendorId)
+                        .Select(v => v.VendorName)
+                        .FirstOrDefault()
+                })
+                .FirstOrDefaultAsync();
+
+            return inventory;
+        }
+
         public async Task<TblInventory> GetInvetroyByIdAsync(int id)
         {
             return await _context.TblInventories.FirstOrDefaultAsync(x => x.Id == id && x.IsDelete == 0);
@@ -231,7 +275,7 @@ namespace Hoarding_managment.Repository
 
             return selectedInvert;
         }
-        public async Task<QuotationItemListViewModel> AddQuatationsAsync(QuotationItemListViewModel selectedItems)
+        public async Task<int> AddQuatationsAsync(QuotationItemListViewModel selectedItems)
         {
             var lastQuotation = await _context.TblQuotations
                 .Where(x => x.IsDelete == 0)
@@ -287,13 +331,13 @@ namespace Hoarding_managment.Repository
                         FkInventory = item.FkInventoryId
                     };
 
-                    _context.TblQuotationitems.Add(newdata);
+                      await   _context.TblQuotationitems.AddAsync(newdata);
                     var recor = await _context.SaveChangesAsync();
 
                     if (recor > 0)
                     {
                         inventoryitems.IsDelete = 1;
-                        _context.Update(inventoryitems);
+                       _context.Update(inventoryitems);
                         _context.SaveChanges();
                     }
 
@@ -302,7 +346,7 @@ namespace Hoarding_managment.Repository
                 }
             }
 
-            return null;
+            return qid;
         }
 
         public async Task<QuotationItemListViewModel> addCampaign(QuotationItemListViewModel selectedItems)

@@ -1,5 +1,24 @@
-﻿
+﻿<!-- CSS for Autocomplete Suggestions -->
+<style>
+    .autocomplete-suggestions {
+        border: 1px solid #ddd;
+        background-color: white;
+        max-height: 200px;
+        overflow-y: auto;
+        position: absolute;
+        z-index: 1000;
+    }
 
+    .autocomplete-suggestion {
+        padding: 10px;
+        cursor: pointer;
+    }
+
+        .autocomplete-suggestion.active {
+            background-color: #007bff;
+            color: white;
+        }
+</style>
 
 ﻿<section>
     <div class="container-fluid mt-4">
@@ -27,11 +46,12 @@
                             <div class="row">
                                 <div class="col-9">
                                     <label for="customer">Customer Details</label>
-                                    <select class="form-control custom-border" id="customerName" name="customerName" style="border:1px solid black;" required>
-                                        <option value="">Select Customer</option>
-                                    </select>
-                              @* <input type="text" id="customerInput" class="form-control" placeholder="Customer Names"  /> *@
-
+                                    @*  <select class="form-control custom-border" id="businessName" name="businessName" style="border:1px solid black;" required>
+                                    <option value="">Select Customer</option>
+                                    </select> *@
+                                    <!-- Autocomplete Input Element -->
+                                    <input type="text" class="autocomplete form-control custom-border" id="businessName" name="businessName" placeholder="Enter Business Name" data-id="businessName" data-width="nowidth" autocomplete="off" required>
+                                    <input type="text" id="businessNameid" name="businessNameid" style="display:none">
 
                                 </div>
                                 <div class="col-3 d-flex justify-content-center align-items-center mt-3">
@@ -41,7 +61,9 @@
                         </div>
 
                         <div class="show-lg">
-                            <p><span class="label">Business Name</span>: <span id="businessName"></span></p>
+
+                            @* <p><span class="label">Business Name</span>: <span id="businessName"></span></p> *@
+                            <p><span class="label"> contact person name </span>: <span id="customerName"></span></p>
                             <p><span class="label">City</span>: <span id="city"></span></p>
                             <p><span class="label">Address</span>: <span id="address"></span></p>
                             <p><span class="label">GST Number</span>: <span id="gstNo"></span></p>
@@ -98,10 +120,10 @@
                 <div class="modal-body">
                     <form id="addCustomerForm">
                         <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="businessName">Business Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control custom-border" id="businessName" name="businessName" placeholder="Business Name" required>
-                            </div>
+                            @*   <div class="form-group col-md-6">
+                            <label for="businessName">Business Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control custom-border" id="businessName" name="businessName" placeholder="Business Name" required>
+                            </div> *@
                             <div class="form-group col-md-6">
                                 <label for="customerName">Customer Person Name <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control custom-border" id="customerName" name="customerName" placeholder="Customer Person Name" required>
@@ -186,224 +208,8 @@
         </div>
     </div>
 
-    <script>
 
 
-
-                       //      $(document).ready(function () {
-                       //  $('#customerInput').autocomplete({
-                       //      source: function (request, response) {
-                       //          // AJAX call to fetch customer data based on input
-                       //          $.ajax({
-                       //              url: '/Dashboard/SearchCustomersByName',  // Replace with your API endpoint
-                       //              type: 'GET',
-                       //              dataType: 'json',
-                       //              data: {
-                       //                  searchTerm: request.term // Send the input as a parameter
-                       //              },
-                       //              success: function (data) {
-                       //                  if (data.success) {
-                       //                      // Format the data for the autocomplete list
-                       //                      var customerNames = $.map(data.model, function (customer) {
-                       //                          return {
-                       //                              label: customer.customerName, // Display name
-                       //                              value: customer.customerName, // Value that will be set in the input
-                       //                              id: customer.id // You can store customer ID for later use
-                       //                          };
-                       //                      });
-                       //                      response(customerNames); // Send formatted data to the autocomplete widget
-                       //                  } else {
-                       //                      console.error('Failed to load customer details:', data.Message);
-                       //                  }
-                       //              }
-                       //          });
-                       //      },
-                       //      minLength: 2, // Minimum characters to start searching
-                       //      select: function (event, ui) {
-                       //          // Action to perform when a customer is selected
-                       //          $('#customerInput').val(ui.item.label); // Set the selected value in the input field
-                       //          $('#customerId').val(ui.item.id); // Store the customer ID in a hidden field if needed
-                       //          return false; // Prevent the default behavior
-                       //      }
-                       //  });
-                       // });
-
-       
- 
-
-        function updateDisplay()
-        {
-            const actionButtons = document.querySelector('.action-buttons');
-            const campaignFields = document.getElementById('campaign-fields');
-            const saveQuotationButton = document.getElementById('saveQuotation');
-            const saveCampaignButton = document.getElementById('saveCampaign');
-            const openCustomerModalButton = document.getElementById('openCustomerModal');
-
-
-            if (document.getElementById('create-quotation').checked) 
-            {
-                actionButtons.style.display = 'block';
-                saveQuotationButton.style.display = 'inline-block';
-                saveCampaignButton.style.display = 'none';
-                openCustomerModalButton.style.display = 'inline-block';
-
-            }
-            else if (document.getElementById('add-campaign').checked) 
-            {
-                actionButtons.style.display = 'block';
-                $('#campDate').show();
-                saveQuotationButton.style.display = 'none';
-                saveCampaignButton.style.display = 'inline-block';
-                openCustomerModalButton.style.display = 'block';
-            } 
-            else 
-            {
-                actionButtons.style.display = 'none';
-            }
-        }
-
-        document.querySelectorAll('input[name="quotation"]').forEach((radio) => {
-            radio.addEventListener('change', updateDisplay);
-        });
-
-        // Set default selection and update display accordingly
-        document.getElementById('create-quotation').checked = true;
-        updateDisplay();
-
-        $(document).ready(function () 
-        {
-           // Initially hide the date fields
-           $('#campDate').hide();
-
-           // Event listener for the radio buttons
-           $('input[name="quotation"]').change(function ()
-           {
-               if ($(this).val() === 'campaign') {
-                   $('#campDate').show();
-               } else {
-                   $('#campDate').hide();
-               }
-           });
-
-       
-        });
-
-
-
-        $(document).ready(function () 
-        {
-            // Load customer details when the document is ready
-            $.ajax({
-                url: '/Customer/GetCustomerinfo', // Corrected endpoint for getting all customer info
-                type: 'GET',
-                success: function (response) {
-                    if (response.success) {
-                        var customerDropdown = $('#customerName');
-                        customerDropdown.empty(); // Clear existing options
-                        customerDropdown.append('<option value="">Select Customer</option>'); // Default option
-
-                        $.each(response.model, function (index, data) {
-                            customerDropdown.append('<option value="' + data.id + '">' + data.customerName + '</option>');
-                        });
-
-                        // Open the Add Quotation modal after loading customer details
-                        $('#addQuotationModal').modal('show');
-
-                    } else {
-                        console.error('Failed to load customer details:', response.Message);
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error fetching customer details:', error);
-                }
-            });
-
-            // Fetch and display customer details when a customer is selected
-            $('#customerName').change(function () {
-
-                var selectedCustomerId = $(this).val();
-
-
-                if (selectedCustomerId) {
-                    $.ajax({
-                        url: '/Customer/GetCustomerinfoById', // Correct endpoint for getting customer by ID
-                        type: 'GET',
-                        data: { id: selectedCustomerId },
-                        success: function (response) {
-                            console.log("Selected Customer :", response.model.result.id
-                            );
-                            if (response.success) {
-                                // Accessing properties from response.model.result
-                                $('#businessName').text(response.model.result.businessName);
-                                $('#address').text(response.model.result.address);
-                                $('#city').text(response.model.result.city);
-                                $('#gstNo').text(response.model.result.gstNo);
-                                $('#contactNo').text(response.model.result.contactNo);
-                                $('#alternateNumber').text(response.model.result.alternateNumber);
-                                $('#state').text(response.model.result.state);
-
-                                setTimeout(function () {
-                                    toastr.success('Customer info loaded successfully.');
-                                }, );
-
-                            } else {
-                                console.error('Failed to load customer info:', response.message);
-                            }
-
-                        },
-                        error: function (xhr, status, error) {
-                            console.error('Error fetching customer info:', error);
-                        }
-                    });
-                }
-                else {
-                    // Clear customer info if no customer is selected
-                    $('#businessName').text('huiii');
-                    $('#city').text('');
-                    $('#area').text('');
-                    $('#gstNo').text('');
-                    $('#contactNo').text('');
-                    $('#alternateNumber').text('');
-                    $('#address').text('');
-                    $('#state').text('');
-                }
-            });
-
-        });
-
-        function cnfDeleteselecedInvetry(Id) {
-
-            $('#selectedId').val(Id);
-
-            $('#deleteCustomer').on('click', function () {
-                var selectedCustomerId = $('#selectedId').val();
-                console.log("id" + selectedCustomerId);
-                $.ajax({
-                    url: '/Dashboard/DeletedSelectInventoryHoarding', // Correct endpoint for getting customer by ID
-                    type: 'Post',
-                    data: { id: selectedCustomerId },
-                    success: function (response) {
-
-                        if (response.success) {
-                            toastr.success(response.message);
-
-                            location.reload();
-                        }
-                        else {
-                            toastr.error(response.message);
-                        }
-
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('Error fetching customer info:', error);
-                    }
-
-                });
-            });
-        }
-
-
-    </script>
 
     <script>
         $(document).ready(function () {
@@ -442,44 +248,44 @@
                                 var isLight = item.isLight == 1 ? "Yes" : "No";
 
                                 var cardHtml = `
-                                    <div class="hoarding-item my-1">
-                                        <img src='/img/favicon.png' alt="Hoarding Image">
-                                        <div class="hoarding-info">
-                                            <h5 class="ml-4">${item.vendorName}</h5>
-                                            <p>
-                                               <span style="display:none;" > ${item.fkInventoryId}</span>
-                                                ${item.area}<br>
-                                                ${item.width}x${item.height}<br>
-                                                ${isLight}<br>
-                                                ${item.city}
-                                            </p>
-                                        </div>
-                                        <div class="hoarding-actions">
-                                            <button type="button" class="btn btn-danger rounded-circle p-2" data-toggle="modal" data-target="#deleteModal" onclick="cnfDeleteselecedInvetry(${item.id})">
-                                                <i class="mdi mdi-delete"></i>
-                                            </button>
-                                            <div class="rate-section my-2">
-                                                <h4 class="my-2">
-                                                    <span style='font-size:20px;'>&#8377; </span>
-                                                    <span id="rateDisplay_${item.id}">${item.rate}</span>
-                                                    <button type="button" class="btn btn-primary btn-sm ml-2" onclick="editRate(${item.id}, ${item.rate})">
-                                                        <i class="mdi mdi-pencil"></i>
-                                                    </button>
-                                                </h4>
-                                                <div class="rate-edit" id="rateEdit_${item.id}" style="display: none;">
-                                                    <input type="number" class="form-control mb-2" id="rateInput_${item.id}" value="${item.rate}">
-                                                    <button type="button" class="btn btn-success btn-sm" onclick="saveRate(${item.id})">Save</button>
-                                                    <button type="button" class="btn btn-secondary btn-sm" onclick="cancelEdit(${item.id})">Cancel</button>
-                                                </div>
-                                            </div>
-                                            <div class="camp-date" style="display:none;">
-                                                <input type="date" class="form-control" id="StartDate_${item.id}" name="StartDate">
-                                                <input type="date" class="form-control" id="EndDate_${item.id}" name="EndDate">
-                                            </div>
-                                            <br>
-                                        </div>
-                                    </div>
-                                    `;
+                                                    <div class="hoarding-item my-1">
+                                                        <img src='/img/favicon.png' alt="Hoarding Image">
+                                                        <div class="hoarding-info">
+                                                            <h5 class="ml-4">${item.vendorName}</h5>
+                                                            <p>
+                                                               <span style="display:none;" > ${item.fkInventoryId}</span>
+                                                                ${item.area}<br>
+                                                                ${item.width}x${item.height}<br>
+                                                                ${isLight}<br>
+                                                                ${item.city}
+                                                            </p>
+                                                        </div>
+                                                        <div class="hoarding-actions">
+                                                            <button type="button" class="btn btn-danger rounded-circle p-2" data-toggle="modal" data-target="#deleteModal" onclick="cnfDeleteselecedInvetry(${item.id})">
+                                                                <i class="mdi mdi-delete"></i>
+                                                            </button>
+                                                            <div class="rate-section my-2">
+                                                                <h4 class="my-2">
+                                                                    <span style='font-size:20px;'>&#8377; </span>
+                                                                    <span id="rateDisplay_${item.id}">${item.rate}</span>
+                                                                    <button type="button" class="btn btn-primary btn-sm ml-2" onclick="editRate(${item.id}, ${item.rate})">
+                                                                        <i class="mdi mdi-pencil"></i>
+                                                                    </button>
+                                                                </h4>
+                                                                <div class="rate-edit" id="rateEdit_${item.id}" style="display: none;">
+                                                                    <input type="number" class="form-control mb-2" id="rateInput_${item.id}" value="${item.rate}">
+                                                                    <button type="button" class="btn btn-success btn-sm" onclick="saveRate(${item.id})">Save</button>
+                                                                    <button type="button" class="btn btn-secondary btn-sm" onclick="cancelEdit(${item.id})">Cancel</button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="camp-date" style="display:none;">
+                                                                <input type="date" class="form-control" id="StartDate_${item.id}" name="StartDate">
+                                                                <input type="date" class="form-control" id="EndDate_${item.id}" name="EndDate">
+                                                            </div>
+                                                            <br>
+                                                        </div>
+                                                    </div>
+                                                    `;
                                 $('#selectedCard').append(cardHtml);
                             });
 
@@ -567,16 +373,21 @@
             }
             updateradio();
 
-            $('#customerName').on("change", function () {
-                customerId = $(this).val();
-                console.log("Selected Customer ID:", customerId);
-            });
+            // $('#businessNameid').on("change", function () {
+            //     customerId = $(this).val();
+            //     console.log("Selected Customer ID:", customerId);
+            // });
 
             $('#saveQuotation').on('click', function () {
-                // if (customerId != null) {
-                //     toastr.error('Please select a customer.');
-                //     return;
-                // }
+
+
+                var customerId = document.getElementById('businessNameid').value;
+                alert(customerId)
+                if (!customerId) {
+                    toastr.error('Please select Bussness Name.');
+                    return;
+                }
+
 
                 $.ajax({
                     url: '/Dashboard/SaveSelectedHoardings',
@@ -584,10 +395,12 @@
                     contentType: 'application/json',
                     data: JSON.stringify({ selectedItems: updatedRates, customerId: customerId }),
                     success: function (response) {
-
-                        // toastr.success('Quotation saved successfully!');
-                        window.location.href = '/Quatation/LastQuotation';
-                       
+                        if (response.success) {
+                            alert("Data Added Successfully!");
+                            window.location.href = '/Quatation/LastQuotation?id=' + response.id; // Corrected line
+                        } else {
+                            toastr.error(response.message);
+                        }
                     },
                     error: function (xhr, status, error) {
                         toastr.error('Error saving the quotation.');
@@ -596,12 +409,16 @@
                 });
             });
 
+
             $('#saveCampaign').on('click', function () {
+               
+                var customerId = document.getElementById('businessNameid').value;
+                alert(customerId)
                 if (!customerId) {
-                    toastr.error('Please select a customer.');
+                    toastr.error('Please select Bussness Name.');
                     return;
                 }
-                console.log("done");
+              
                 let updatedArray1 = [];
                 addCamign.forEach(item => {
                     let startDate = document.getElementById(`StartDate_${item.id}`).value;
@@ -639,5 +456,355 @@
         });
     </script>
 
-    
+    <script>
+        document.querySelectorAll('.autocomplete').forEach(function (input) {
+            let suggestionsContainer;
+            let activeSuggestionIndex = -1;
+            let debounceTimeout;
+
+            // Debounce function to limit API calls
+            function debounce(func, delay) {
+                return function () {
+                    clearTimeout(debounceTimeout);
+                    debounceTimeout = setTimeout(func, delay);
+                };
+            }
+
+            // Handle the input event with debounce
+            input.addEventListener('input', debounce(function () {
+                const query = input.value;
+                const id = input.getAttribute('data-id');
+                let urls = "";
+
+                if (id === "businessName") {
+                    urls = `/Dashboard/GetBusinessName?query=${query}`;
+                }
+
+                // If the query is too short, hide suggestions
+                if (query.length < 1) {
+                    if (suggestionsContainer) {
+                        suggestionsContainer.innerHTML = '';
+                        suggestionsContainer.style.display = 'none';
+                    }
+                    return;
+                }
+
+                // Fetch the suggestions from the server
+                fetch(urls)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (!suggestionsContainer) {
+                            suggestionsContainer = document.createElement('div');
+                            suggestionsContainer.className = 'autocomplete-suggestions';
+                            input.parentNode.appendChild(suggestionsContainer);
+                        }
+
+                        if (input.getAttribute('data-width') === "nowidth") {
+                            suggestionsContainer.style.width = `${input.parentNode.offsetWidth}px`;
+                        }
+
+                        suggestionsContainer.innerHTML = '';
+                        suggestionsContainer.style.display = 'block';
+                        activeSuggestionIndex = -1;
+
+                        // Populate suggestions
+                        data.forEach((item) => {
+                            const suggestionItem = document.createElement('div');
+                            suggestionItem.className = 'autocomplete-suggestion';
+                            suggestionItem.textContent = item.name;
+                            suggestionItem.dataset.key = item.id;
+                            suggestionItem.dataset.value = item.name;
+
+                            // Handle suggestion click
+                            suggestionItem.addEventListener('click', function () {
+                                input.value = item.name;
+                                suggestionsContainer.style.display = 'none';
+
+                                if (id === "businessName") {
+                                    $("#businessNameid").val(item.id); // Store the selected business name ID
+                                  
+                                    $.ajax({
+                                        url: '/Customer/GetCustomerinfoById',
+                                        type: 'GET',
+                                        data: { id: item.id },
+                                        success: function (response) {
+
+                                            if (response.success) {
+                                                const customer = response.model.result;
+                                                $('#customerName').text(customer.customerName);
+                                                $('#address').text(customer.address);
+                                                $('#city').text(customer.city);
+                                                $('#gstNo').text(customer.gstNo);
+                                                $('#contactNo').text(customer.contactNo);
+                                                $('#alternateNumber').text(customer.alternateNumber);
+                                                $('#state').text(customer.state);
+
+                                                toastr.success('Customer info loaded successfully.');
+                                            } else {
+                                                console.error('Failed to load customer info:', response.message);
+                                            }
+                                        },
+                                        error: function (xhr, status, error) {
+                                            console.error('Error fetching customer info:', error);
+                                        }
+                                    });
+                                }
+                            });
+                            suggestionsContainer.appendChild(suggestionItem);
+                        });
+                    });
+            }, 300)); // Set debounce delay to 300ms
+
+            // Handle keyboard navigation
+            input.addEventListener('keydown', function (e) {
+                const suggestions = suggestionsContainer?.querySelectorAll('.autocomplete-suggestion');
+                if (!suggestions) return;
+
+                if (e.key === 'ArrowDown') {
+                    activeSuggestionIndex = (activeSuggestionIndex + 1) % suggestions.length;
+                    updateActiveSuggestion(suggestions);
+                } else if (e.key === 'ArrowUp') {
+                    activeSuggestionIndex = (activeSuggestionIndex - 1 + suggestions.length) % suggestions.length;
+                    updateActiveSuggestion(suggestions);
+                } else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (activeSuggestionIndex > -1) {
+                        const activeSuggestion = suggestions[ activeSuggestionIndex ];
+                        input.value = activeSuggestion.dataset.value;
+                        suggestionsContainer.style.display = 'none';
+                    }
+                }
+            });
+
+            // Function to update the active suggestion visually
+            function updateActiveSuggestion(suggestions) {
+                suggestions.forEach((suggestion, index) => {
+                    suggestion.classList.toggle('active', index === activeSuggestionIndex);
+                });
+            }
+        });
+
+        // Function to load customer info based on selected business name ID
+        // function loadCustomerInfo(selectedCustomerId) {
+        //     if (selectedCustomerId) {
+        //         $.ajax({
+        //             url: '/Customer/GetCustomerinfoById',
+        //             type: 'GET',
+        //             data: { id: selectedCustomerId },
+        //             success: function (response) {
+
+        //                 if (response.success) {
+        //                     const customer = response.model.result;
+        //                     $('#customerName').text(customer.customerName);
+        //                     $('#address').text(customer.address);
+        //                     $('#city').text(customer.city);
+        //                     $('#gstNo').text(customer.gstNo);
+        //                     $('#contactNo').text(customer.contactNo);
+        //                     $('#alternateNumber').text(customer.alternateNumber);
+        //                     $('#state').text(customer.state);
+
+        //                     toastr.success('Customer info loaded successfully.');
+        //                 } else {
+        //                     console.error('Failed to load customer info:', response.message);
+        //                 }
+        //             },
+        //             error: function (xhr, status, error) {
+        //                 console.error('Error fetching customer info:', error);
+        //             }
+        //         });
+        //     } else {
+        //         clearCustomerInfo();
+        //     }
+        // }
+
+        // Function to clear customer info
+        function clearCustomerInfo() {
+            $('#customerName').text('');
+            $('#address').text('');
+            $('#city').text('');
+            $('#gstNo').text('');
+            $('#contactNo').text('');
+            $('#alternateNumber').text('');
+            $('#state').text('');
+        }
+    </script>
+
+
+
+
+    <script>
+
+
+        function updateDisplay() {
+            const actionButtons = document.querySelector('.action-buttons');
+            const campaignFields = document.getElementById('campaign-fields');
+            const saveQuotationButton = document.getElementById('saveQuotation');
+            const saveCampaignButton = document.getElementById('saveCampaign');
+            const openCustomerModalButton = document.getElementById('openCustomerModal');
+
+
+            if (document.getElementById('create-quotation').checked) {
+                actionButtons.style.display = 'block';
+                saveQuotationButton.style.display = 'inline-block';
+                saveCampaignButton.style.display = 'none';
+                openCustomerModalButton.style.display = 'inline-block';
+
+            }
+            else if (document.getElementById('add-campaign').checked) {
+                actionButtons.style.display = 'block';
+                $('#campDate').show();
+                saveQuotationButton.style.display = 'none';
+                saveCampaignButton.style.display = 'inline-block';
+                openCustomerModalButton.style.display = 'block';
+            }
+            else {
+                actionButtons.style.display = 'none';
+            }
+        }
+
+        document.querySelectorAll('input[name="quotation"]').forEach((radio) => {
+            radio.addEventListener('change', updateDisplay);
+        });
+
+        // Set default selection and update display accordingly
+        document.getElementById('create-quotation').checked = true;
+        updateDisplay();
+
+        $(document).ready(function () {
+            // Initially hide the date fields
+            $('#campDate').hide();
+
+            // Event listener for the radio buttons
+            $('input[name="quotation"]').change(function () {
+                if ($(this).val() === 'campaign') {
+                    $('#campDate').show();
+                } else {
+                    $('#campDate').hide();
+                }
+            });
+
+
+        });
+
+
+
+        $(document).ready(function () {
+            // Load customer details when the document is ready
+            $.ajax({
+                url: '/Customer/GetCustomerinfo', // Corrected endpoint for getting all customer info
+                type: 'GET',
+                success: function (response) {
+                    if (response.success) {
+                        var customerDropdown = $('#businessName');
+                        customerDropdown.empty(); // Clear existing options
+                        customerDropdown.append('<option value="">Select Customer</option>'); // Default option
+
+                        $.each(response.model, function (index, data) {
+                            customerDropdown.append('<option value="' + data.id + '">' + data.businessName + '</option>');
+                        });
+
+                        // Open the Add Quotation modal after loading customer details
+                        $('#addQuotationModal').modal('show');
+
+                    } else {
+                        console.error('Failed to load customer details:', response.Message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching customer details:', error);
+                }
+            });
+
+            // Fetch and display customer details when a customer is selected
+            $('#businessName').change(function () {
+
+                var selectedCustomerId = document.getElementById('businessNameid').value;
+
+
+                if (selectedCustomerId) {
+                    $.ajax({
+                        url: '/Customer/GetCustomerinfoById', // Correct endpoint for getting customer by ID
+                        type: 'GET',
+                        data: { id: selectedCustomerId },
+                        success: function (response) {
+                            console.log("Selected Customer :", response.model.result.id);
+                            if (response.success) {
+                                // Accessing properties from response.model.result
+                                //  $('#businessName').text(response.model.result.businessName);
+                                $('#customerName').text(response.model.result.customerName);
+                                $('#address').text(response.model.result.address);
+                                $('#city').text(response.model.result.city);
+                                $('#gstNo').text(response.model.result.gstNo);
+                                $('#contactNo').text(response.model.result.contactNo);
+                                $('#alternateNumber').text(response.model.result.alternateNumber);
+                                $('#state').text(response.model.result.state);
+
+                                setTimeout(function () {
+                                    toastr.success('Customer info loaded successfully.');
+                                },);
+
+                            } else {
+                                console.error('Failed to load customer info:', response.message);
+                            }
+
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error fetching customer info:', error);
+                        }
+                    });
+                }
+                else {
+                    // Clear customer info if no customer is selected
+                    // $('#businessName').text('');
+                    $('#customerName').text('');
+                    $('#city').text('');
+                    $('#area').text('');
+                    $('#gstNo').text('');
+                    $('#contactNo').text('');
+                    $('#alternateNumber').text('');
+                    $('#address').text('');
+                    $('#state').text('');
+                }
+            });
+
+        });
+
+        function cnfDeleteselecedInvetry(Id) {
+
+            $('#selectedId').val(Id);
+
+            $('#deleteCustomer').on('click', function () {
+                var selectedCustomerId = $('#selectedId').val();
+                console.log("id" + selectedCustomerId);
+                $.ajax({
+                    url: '/Dashboard/DeletedSelectInventoryHoarding', // Correct endpoint for getting customer by ID
+                    type: 'Post',
+                    data: { id: selectedCustomerId },
+                    success: function (response) {
+
+                        if (response.success) {
+                            toastr.success(response.message);
+
+                            location.reload();
+                        }
+                        else {
+                            toastr.error(response.message);
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error fetching customer info:', error);
+                    }
+
+                });
+            });
+        }
+
+
+    </script>
+
+
+
+
+
 </section>

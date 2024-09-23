@@ -13,11 +13,10 @@
         public string? CreatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public string? UpdatedBy { get; set; }
-        public string CustomerName { get; set; }
-
+        public string? CustomerName { get; set; }
         public string? VendorName { get; set; }
         public string? BusinessName { get; set; }
         public string? City { get; set; }
-        public int? totalhording { get; set; }
+        public int? TotalHoldings { get; set; }  // Corrected field name to be more clear
     }
 }

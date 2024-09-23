@@ -19,5 +19,10 @@
         {
             return _context.TblVendors.Where(s => s.VendorName.Contains(vendorname) && s.IsDelete == 0).ToList();
         }
+
+        public IEnumerable<TblCustomer> Getbusinessname(string businessname)
+        {
+            return _context.TblCustomers.Where(s => s.BusinessName.Contains(businessname) && s.IsDelete == 0).ToList();
+        }
     }
 }

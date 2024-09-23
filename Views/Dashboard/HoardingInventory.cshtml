@@ -161,7 +161,8 @@
                         </div>
                         <div class="col-sm-12 col-md-6 col-lg-8 d-flex justify-content-md-end">
                             <div class="input-group">
-                                <input type="text" id="filterInput" class="form-control border border-dark rounded-pill mr-4" placeholder="Search by City, Area, or Vendor">
+                                <input type="search" id="searchQuery" autocomplete="off" placeholder="Search by City, Area, or Vendor.." class="ml-4 rounded-pill p-2 ml-2 btn-outline-red" style="border:1px solid " value="@Model.SearchQuery" oninput="searchInventory()" />
+
                                 <input class="form-control btn" type="file" id="formFile" style="display: none;">
 
                                 <button class="btn btn-primary ml-4" id="importExcelbutton" onclick="uploadFile()">Import Excel</button>
@@ -509,7 +510,50 @@
 
             </section>
         </div>
+
+
         <script>
+
+
+
+
+
+            function searchInventory() {
+                var searchQuery = document.getElementById('searchQuery').value;
+                var pageSize = document.getElementById('rowQuantity').value;
+                window.location.href = `/Dashboard/Index?searchQuery=${searchQuery}&pageNumber=1&pageSize=${pageSize}`;
+            }
+
+            function updateRowQuantity() {
+                var pageSize = document.getElementById('rowQuantity').value;
+                var searchQuery = document.getElementById('searchQuery').value;
+                window.location.href = `/Dashboard/Index?searchQuery=${searchQuery}&pageNumber=1&pageSize=${pageSize}`;
+            }
+
+            $(document).ready(function () 
+            {
+                $('#searchInput').on('input', function () {
+                    let searchValue = $(this).val();
+                    if (searchValue.length >= 2) { // Trigger search after 2 characters
+                        $.ajax({
+                            url: '/search',
+                            type: 'GET',
+                            data: { name: searchValue },
+                            success: function (data) {
+                                // Handle the search results here
+                                console.log(data); // For example, log the results
+                                // Update the UI with the search results
+                            },
+                            error: function (error) {
+                                console.error('Error fetching search results:', error);
+                            }
+                        });
+                    }
+                });
+            });
+
+
+
             document.addEventListener('DOMContentLoaded', function () {
                 document.getElementById('getval').addEventListener('change', readURL, true);
                 function readURL() {

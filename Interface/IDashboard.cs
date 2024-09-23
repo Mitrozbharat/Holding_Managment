@@ -19,8 +19,11 @@ namespace Hoarding_managment.Interface
         public Task<int> DeleteInventryItemsAsync(int id);
         public Task<List<InventoryitemViewmodel>> GetInventryItemsAsync();
         public Task<List<InventoryitemViewmodel>> get();
-        public Task<QuotationItemListViewModel> AddQuatationsAsync(QuotationItemListViewModel selectedItems);
+        public Task<int> AddQuatationsAsync(QuotationItemListViewModel selectedItems);
         public  Task<QuotationItemListViewModel> addCampaign(QuotationItemListViewModel selectedItems);
         public  Task<TblInventory> UploadExcelAsync(TblInventory inventory);
+
+
+        public Task<InventoryViewModel> SearchByInventoryNameAsync(string name);
     }
 }

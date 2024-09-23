@@ -31,19 +31,13 @@ namespace Hoarding_managment.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(string searchQuery = "", int pageSize = 10, int pageNumber = 1)
         {
-            // Get filtered customers based on the search query
             var customers = await _context.GetallCustomerAsync(searchQuery, pageNumber, pageSize);
 
-            // Get the total number of customers (taking the search query into account)
             var totalVendors = await _context.GetCustomerCountAsync(searchQuery);
 
-            // Calculate total pages based on filtered results
             var totalPages = (int)Math.Ceiling(totalVendors / (double)pageSize);
 
-            // Convert to view models
             var viewModels = customers.Select(v => CustomerMapper.ToCustomerViewModel(v)).ToList();
-
-            // Pass search query, pagination info, and customers to the view
             var model = new CustomerViewModelwithPagignation
             {
                 Customers = viewModels,

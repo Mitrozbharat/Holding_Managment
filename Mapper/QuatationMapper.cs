@@ -2,7 +2,7 @@
 //{
 //    class QuatationMapper
 //    {
-//     public   static QuatationViewModel ToQuatationViewModel(TblQuotation quotation) => new QuatationViewModel
+//        public static QuatationViewModel ToQuatationViewModel(TblQuotation quotation) => new QuatationViewModel
 //        {
 //            Id = quotation.Id,
 //            QuotationNumber = quotation.QuotationNumber,
@@ -24,12 +24,12 @@
 //            IsDelete = quotation.IsDelete,
 //            CreatedAt = quotation.CreatedAt,
 //            CreatedBy
-//            = quotation.CreatedBy,
+//               = quotation.CreatedBy,
 //            UpdatedAt = quotation.UpdatedAt,
 //            UpdatedBy = quotation.UpdatedBy,
 //        };
 
-       
+
 //        public static TblQuotation ToQuatationModel(QuatationViewModel viewModel)
 //        {
 //            return new TblQuotation

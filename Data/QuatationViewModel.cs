@@ -27,5 +27,7 @@ namespace Hoarding_managment.Data
         public int? FkInventoryitemsId { get; set; }
         public int? FkCustomerId { get; set; }
         public int? Totalhoarding { get; set; }
+
+        public string SearchQuery { get; set; }
     }
 }
