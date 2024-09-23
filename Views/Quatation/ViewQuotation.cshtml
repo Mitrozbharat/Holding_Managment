@@ -36,7 +36,7 @@
                             <p><strong>Quotation Id:</strong> @Model.QuotationNumber</p>
                             <p style="display:none"><strong>Quotation Id    :</strong> @Model.QuotationNumber</p>
                             <p><strong>Date:</strong> @Model.CreatedAt?.ToString("yyyy-MM-dd")</p>
-                            <p style="display:none"><strong>Date                   :</strong> @Model.CreatedAt?.ToString("yyyy-MM-dd")</p>
+                            <p style="display:none"><strong>Date                  :</strong> @Model.CreatedAt?.ToString("yyyy-MM-dd")</p>
                         </div>
                         <div class="col-md-6 totalamountclass text-center">
                             <p><strong>Quotation For:</strong> @Model.CustomerName</p>
@@ -47,8 +47,8 @@
                                 totalprice += Convert.ToDouble(item.Rate);
 
                             }
-                            <p><strong>Total Quote: </strong> @totalprice -/</p>
-                            <p style="display:none"><strong>Total Quote        : </strong> @totalprice -/</p>
+                            <p><strong>Total Quote: </strong> @totalprice /-</p>
+                            <p style="display:none"><strong>Total Quote        : </strong> @totalprice /-</p>
                         </div>
                     </div>
                     <hr>
@@ -80,131 +80,187 @@
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+   @* <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 
 
     <script>
         $(document).ready(function () {
-            //$("#exportToPDF").on("click", function () {
-            //    const element = document.getElementById('exportContent');
-            //    const opt = {
-            //        margin: [0.5, 0.5, 0.5, 0.5],
-            //        filename: 'Quotation.pdf',
-            //        image: { type: 'jpeg', quality: 0.98 },
-            //        html2canvas: { scale: 2 },
-            //        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-            //    };
-
-            //    // Convert the HTML content to PDF
-            //    html2pdf().from(element).set(opt).save();
-            //});
-
             $("#exportToPDF").on("click", function () {
                 const { jsPDF } = window.jspdf;
-                const pdf = new jsPDF('p', 'mm', 'a4');
-
-                // Set general font size and font type
-                pdf.setFontSize(16);
-                pdf.setFont('helvetica', 'bold');
-
-                pdf.addImage(document.getElementById('imagedatatwo').innerHTML, 'PNG', 10, 11, 190, 100);
-
-
-
-                // Add Hoarding Document title
-                pdf.text("Hoarding Document", 105, 120, { align: 'center' });
-
-                // Add company information
-                pdf.setFontSize(14);
-                pdf.text("SAHU OUTDOOR ADVERTISING", 105, 122, { align: 'center' });
-                pdf.setFont('helvetica', 'normal');
-                pdf.text("Office No. 307, Supreme Classic Building,", 105, 130, { align: 'center' });
-                pdf.text("Salunke Vihar Road, Pune 411048", 105, 135, { align: 'center' });
-                pdf.text("Email: marketing@sahuads.com GSTIN: 27ABJCS1061L1Z3", 105, 140, { align: 'center' });
-
-                // Add a static image
-                const staticImgSrc = document.getElementById('imagedata').src; // Check this ID and ensure it's correct
-                if (staticImgSrc) {
-                    // Ensure that the image source is a valid Base64 string or URL
-                    pdf.addImage(staticImgSrc, 'PNG', 10, 145, 180, 100); // Adjust position and size as needed
-                } else {
-                    console.error("Static image source not found!");
-                }
-
-                // Add Quotation Details section
-                pdf.setFontSize(14);
-                pdf.setFont('helvetica', 'bold');
-                pdf.text("Quotation Details", 20, 150);
-
-                pdf.setFontSize(12);
-                pdf.setFont('helvetica', 'normal');
-
-                const exportContent = $('#exportContent');
-                let quotationId = exportContent.find("input[quotationId]").val() || "Q-Q-00010";
-                let date = '10 July, 2024';  // Replace this with dynamic value if available
-                let customer = $('.totalamountclass p').eq(1).text() || "Sandeep Mishra";
-                let totalPrice = $('.totalamountclass p').eq(0).text() || "2,40,000/-";
-
-                // Displaying quotation details
-                pdf.text(`Quotation Id  : ${quotationId}`, 20, 155);
-                pdf.text(`Date                : ${date}`, 20, 160);
-                pdf.text(`Quotation For: ${customer}`, 20, 165);
-                pdf.text(`Total Quote   : ${totalPrice}`, 20, 170);
-
-                // Add each hoarding item details dynamically
-                let yPosition = 200; // Initial y position for item details
-
-                $('.card.mt-4').each(function (index) {
-                    const itemLocation = $(this).find('.media-body h5').text();
-                    const itemCity = $(this).find('p').eq(0).text().replace('City:', '').trim();
-                    const itemSize = $(this).find('p').eq(1).text().replace('Size:', '').trim();
-                    const itemVendor = $(this).find('p').eq(2).text().replace('Vendor Name:', '').trim();
-                    const itemRate = $(this).find('.text-primary').text().replace('Price:', '').trim();
-                    const itemImageSrc = $(this).find('img').attr('src');
-
-                    // Item box
-                    pdf.setFillColor(255, 238, 240);
-                    pdf.rect(15, yPosition, 180, 30, 'F');  // Draw a filled rectangle for item background
-
-                    // Adding item details
-                    pdf.setFont('helvetica', 'bold');
-                    pdf.text(`Location: ${itemLocation}`, 20, yPosition + 5);
-                    pdf.setFont('helvetica', 'normal');
-                    pdf.text(`City         : ${itemCity}`, 20, yPosition + 12);
-                    pdf.text(`Size         : ${itemSize}`, 20, yPosition + 19);
-                    pdf.text(`Vendor   : ${itemVendor}`, 20, yPosition + 26);
-                    pdf.setFont('helvetica', 'bold');
-                    pdf.text(`Price: ${itemRate}`, 160, yPosition + 26);
-
-                    if (itemImageSrc) {
-                        // Check if the image source is a base64 string or URL
-                        if (itemImageSrc.startsWith('data:image')) {
-                            pdf.addImage(itemImageSrc, 'PNG', 150, yPosition, 30, 30); // Adjust position and size as needed
-                        } else {
-                            console.error("Item image source is not a valid base64 image!");
-                        }
-                    } else {
-                        console.error("Item image source not found!");
-                    }
-
-                    // Move yPosition for the next item
-                    yPosition += 50;
-
-                    // Add a new page if we exceed the page height
-                    if (yPosition > 270) {
-                        pdf.addPage();
-                        yPosition = 20;  // Reset y position for new page
-                    }
+                let doc = new jsPDF({
+                    orientation: 'landscape',
+                    unit: 'in',
+                    format: 'A4',
                 });
 
-                // Add final thank you message at the bottom
-                pdf.setFontSize(18);
-                pdf.setFont('helvetica', 'bold');
-                pdf.text("Thank you", 105, yPosition + 20, { align: 'center' });
+                // Define the font styles
+                const titleFont = { fontSize: 18, fontStyle: 'bold' };
+                const textFont = { fontSize: 12 };
 
-                // Save the generated PDF
-                pdf.save('Quotation.pdf');
+                // First page (Welcome slide equivalent)
+                let pageWidth = doc.internal.pageSize.getWidth();
+                let pageHeight = doc.internal.pageSize.getHeight();
+                // Add the first image (background)
+                let imgData = document.getElementById('imagedatatwo').innerHTML;
+                console.log("Background Image Data:", imgData);
+                doc.addImage(imgData, 'PNG', 0, 0, pageWidth, pageHeight); // Adjust as needed
+
+                // Add the logo image (second image) on top of the first image
+                let logoImgData = document.getElementById('imagedata').innerHTML;
+                console.log("Logo Image Data:", logoImgData);
+
+                // Adjust these coordinates to position the logo
+                let logoX = 9.2; // X position
+                let logoY = 0.3; // Y position
+                let logoWidth = 1.5; // Width of the logo
+                let logoHeight = 0.5; // Height of the logo
+
+                // Add the logo image
+                doc.addImage(logoImgData, 'PNG', logoX, logoY, logoWidth, logoHeight);
+                doc.setFontSize(25);
+                doc.setFont("helvetica", "bold");
+
+                // Set the color for the main text (default black)
+                doc.setTextColor(0, 0, 0); // RGB for black
+                doc.text('Hoarding Document', pageWidth - 0.3, pageHeight / 1.1, { align: 'right' });
+              
+                  doc.setFontSize(35);
+                // Set the color for the "|" character (red)
+                doc.setTextColor(255, 0, 0); // RGB for red
+                doc.text('|', pageWidth - 0.15, pageHeight / 1.1, { align: 'right' }); // Adjust position slightly
+
+                // Reset text color back to default if needed
+                doc.setTextColor(0, 0, 0); // Reset to black for any further text
+
+
+                // Add a new page for Quotation Details
+                doc.addPage();
+                doc.setFillColor(255, 238, 240); // Light red background
+                doc.rect(0, 0, pageWidth, pageHeight, 'F');
+
+                doc.addImage(logoImgData, 'PNG', 1.7, 2.1, 2, 1);
+
+                doc.setFontSize(16);
+                doc.setTextColor(255, 0, 0); // Red
+                doc.text('SAHU OUTDOOR ADVERTISING', pageWidth/1.2, 2.2, { align: 'right' });
+                doc.setTextColor(128, 128, 128); // Gray
+                doc.setFontSize(12);
+                doc.text('Office No. 307, Supreme Classic Building,',pageWidth/ 1.2, 2.5, { align: 'right' });
+                doc.text('Salunke Vihar Road, Pune 411048',pageWidth/ 1.2, 2.7, { align: 'right' });
+                doc.text('Email: marketing@sahuads.com GSTIN: 27ABJCS1061L1Z3',pageWidth/ 1.2, 2.9, { align: 'right' });
+                doc.setTextColor(0, 0, 0);
+                doc.setFontSize(16);
+                doc.setFont("helvetica", "bold");
+                doc.text('Quotation Details', pageWidth / 2, 4.0, { align: 'center' });
+
+                // Add quotation details
+                let quotationId = $('#exportContent').find("input[quotationId]").val();
+                let date = $('.col-md-6 p').eq(1).text();
+                let dateone = $('.col-md-6 p').eq(3).text();
+                let customer = $('.totalamountclass p').eq(1).text();
+                let totalPrice = $('.totalamountclass p').eq(3).text();
+                // Set up padding and background dimensions
+                const backgroundX = 1.8; // X position of the background
+                const backgroundY = 4.9; // Y position of the background
+                const backgroundWidth = 8; // Width of the background
+                const backgroundHeight = 2; // Height of the background
+                const cornerRadius = 0.2;
+
+                // Set the background color
+                doc.setFillColor(255, 255, 255); // White background for the text area
+              //  doc.rect(backgroundX, backgroundY, backgroundWidth, backgroundHeight, cornerRadius, 'F'); // Fill the rectangle
+                doc.roundedRect(backgroundX, backgroundY, backgroundWidth, backgroundHeight, cornerRadius, cornerRadius, 'F'); // Fill the rounded rectangle
+
+                // Add text with padding
+                doc.setFontSize(14);
+                doc.text(`${date}`, 2.5, 5.6);
+                doc.text(`${dateone}`, 2.5, 6.1);
+                doc.text(`${customer}`, 6.5, 5.6);
+                doc.text(`${totalPrice}`, 6.5, 6.1);
+
+
+
+                // Loop through items and add them to the PDF
+                let totalQuote = 0;
+                let countforslide = 0;
+                let totalitemofthequation = 0;
+
+                $('.card.mt-4').each(function (index, element) {
+                    totalitemofthequation += 1;
+                });
+
+                $('.card.mt-4').each(function (index, element) {
+                    if (countforslide % 2 === 0) {
+                        doc.addPage();
+                        doc.setFillColor(255, 238, 240);
+                        doc.rect(0, 0, pageWidth, pageHeight, 'F');
+                    }
+
+                    let itemLocation = $(this).find('.media-body h5').eq(0).text();
+                    let itemCity = $(this).find('p').eq(0).text().replace('City:', '').trim();
+                    let itemSize = $(this).find('p').eq(1).text().replace('Size:', '').trim();
+                    let itemVendor = $(this).find('p').eq(2).text().replace('Vendor Name:', '').trim();
+                    let itemRate = $(this).find('.text-primary').text().replace('Price:', '').trim();
+                    let itemImage = $(this).find('img').attr('src').split(',')[1];
+
+                    totalQuote += parseFloat(itemRate.replace(/,/g, '')) || 0;
+
+                    let yPosition = (countforslide % 2 === 0) ? 0.5 : 3;
+                    const backgroundX = 1.7; // X position of the background
+                    const backgroundY = (countforslide % 2 === 0) ? 1.4 : 4.1; // Y position of the background
+                    const backgroundWidth = 8; // Width of the background
+                    const backgroundHeight = 2.4; // Height of the background
+                    const cornerRadius = 0.2;
+                    // Set the background color
+                    doc.setFillColor(255, 255, 255);
+                    doc.roundedRect(backgroundX, backgroundY, backgroundWidth, backgroundHeight, cornerRadius, cornerRadius, 'F'); // Fill the rounded rectangle
+
+                    // Add the image
+                    doc.addImage(itemImage, 'PNG', 1.9, backgroundY + 0.4, 2.3, 1.6);
+                    doc.text(`Location: ${itemLocation}`, 4.5, backgroundY + 0.5);
+                    doc.text(`City: ${itemCity}`, 4.5, backgroundY + 1);
+                    doc.text(`Size: ${itemSize}`, 4.5, backgroundY + 1.5);
+                    doc.text(`Vendor: ${itemVendor}`, 4.5, backgroundY + 1.9);
+                    doc.text(`Price: ${itemRate}`, 7.9, backgroundY + 1.9);
+
+                    countforslide += 1;
+                });
+                const thankYouText = 'Thank you';
+                const textWidth = doc.getTextWidth(thankYouText) + 2; // Get the text width and add 1 for extra space
+                const minFontSize = 7;    // Adjust this value as needed
+                doc.setFontSize(minFontSize); // Set the font size
+                if (totalitemofthequation % 2 === 0) {
+                    doc.addPage();
+                    doc.setFillColor(255, 238, 240);
+                    doc.rect(0, 0, pageWidth, pageHeight, 'F'); // Optional: Fill the background
+
+                    // Draw a red line above the "Thank you" text
+                    doc.setDrawColor(255, 0, 0); // Set the line color to red
+                    const lineY = pageHeight / 1.3; // Adjust this value for line position
+                    const lineXStart = (pageWidth - textWidth) / 2; // Center the line
+                    doc.setLineWidth(0.1); // Set the line thickness
+                    doc.line(lineXStart, lineY, lineXStart + textWidth, lineY); // Draw the line
+
+                    doc.setFontSize(25);
+                    doc.setTextColor(0, 0, 0);
+                    doc.text(thankYouText, pageWidth / 2, pageHeight / 1.2, { align: 'center' });
+                } else {
+                    // Draw a red line above the "Thank you" text
+                    doc.setDrawColor(255, 0, 0); // Set the line color to red
+                    const lineY = pageHeight / 1.3; // Adjust this value for line position
+                    const lineXStart = (pageWidth - textWidth) / 2; // Center the line
+                    doc.setLineWidth(0.1); // Set the line thickness
+                    doc.line(lineXStart, lineY, lineXStart + textWidth, lineY); // Draw the line
+                    doc.setFontSize(25);
+                    doc.setTextColor(0, 0, 0);
+                    doc.text(thankYouText, pageWidth / 2, pageHeight / 1.2, { align: 'center' });
+                }
+                doc.save('Quotation.pdf');
             });
+       
+           
 
             function getBase64ImageFromUrl(url, callback) {
                 fetch(url)
