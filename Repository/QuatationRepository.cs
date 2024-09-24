@@ -84,47 +84,40 @@ namespace HoardingManagement.Repository
                                          customerIds.Contains((int)q.FkCustomerId));
             }
 
-            // Apply pagination
+            // Apply ordering by CreatedAt in descending order and pagination
             var quotations = await query
+                .OrderByDescending(q => q.CreatedAt)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
+                .Select(q => new QuatationViewModel
+                {
+                    Id = q.Id,
+                    QuotationNumber = q.QuotationNumber,
+                    CreatedAt = q.CreatedAt,
+                    CreatedBy = q.CreatedBy,
+                    UpdatedBy = q.UpdatedBy,
+                    FkCustomerId = q.FkCustomerId,
+                    VendorName = _context.TblVendors
+                        .Where(v => v.Id == _context.TblQuotationitems
+                                    .Where(qi => qi.FkQuotationId == q.Id)
+                                    .Select(qi => qi.FkVendorId)
+                                    .FirstOrDefault())
+                        .Select(v => v.VendorName)
+                        .FirstOrDefault(),
+                    CustomerName = _context.TblCustomers
+                        .Where(c => c.Id == q.FkCustomerId && c.IsDelete == 0)
+                        .Select(c => c.CustomerName)
+                        .FirstOrDefault(),
+                    BusinessName = _context.TblCustomers
+                        .Where(c => c.Id == q.FkCustomerId && c.IsDelete == 0)
+                        .Select(c => c.BusinessName)
+                        .FirstOrDefault(),
+                    Totalhoarding = _context.TblQuotationitems
+                        .Count(qi => qi.FkQuotationId == q.Id)
+                })
                 .ToListAsync();
 
-            // Map the quotations to the view model
-            var lstquotation = new List<QuatationViewModel>();
-            foreach (var item in quotations)
-            {
-                var vendorid = await _context.TblQuotationitems
-                    .Where(x => x.FkQuotationId == item.Id)
-                    .Select(x => x.FkVendorId)
-                    .FirstOrDefaultAsync();
-
-                var vendorName = await _context.TblVendors
-                    .Where(v => v.Id == vendorid)
-                    .Select(v => v.VendorName)
-                    .FirstOrDefaultAsync();
-
-                var customerName = await _context.TblCustomers
-                    .Where(x => x.Id == item.FkCustomerId && x.IsDelete == 0)
-                    .Select(x => x.CustomerName)
-                    .FirstOrDefaultAsync();
-
-                lstquotation.Add(new QuatationViewModel
-                {
-                    Id = item.Id,
-                    QuotationNumber = item.QuotationNumber,
-                    CreatedAt = item.CreatedAt,
-                    CreatedBy = item.CreatedBy,
-                    UpdatedBy = item.UpdatedBy,
-                    FkCustomerId = item.FkCustomerId,
-                    VendorName = vendorName,
-                    CustomerName = customerName,
-                    Totalhoarding = await _context.TblQuotationitems
-                        .CountAsync(qi => qi.FkQuotationId == item.Id)
-                });
-            }
-
-            return lstquotation;
+            return quotations;
         }
 
         public async Task<int> GetQuotationCountAsync(string searchQuery = "")

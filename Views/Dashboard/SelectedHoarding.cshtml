@@ -250,14 +250,14 @@
                                                     <div class="hoarding-item my-1">
                                                              <img src="data:image/png;base64,${item.image}" alt="Image" class="rounded">
                                                              <div class="hoarding-info">
-                                                            <h5 class="ml-3">${item.vendorName}</h5>
-                                                            <p>
-                                                               <span style="display:none;" > ${item.fkInventoryId}</span>
-                                                                ${item.area}<br>
-                                                                ${item.width}FT x${item.height}FT <br>
-                                                                ${isLight}<br>
-                                                                ${item.city}
-                                                            </p>
+                                                                     <p class="font-size-4"><b>Vendor Name: ${item.vendorName}</b></p>
+                                                                    <p>
+                                                                     <span style="display:none;" > ${item.fkInventoryId}</span>
+                                                                      Area : ${item.area}<br>
+                                                                      Size: ${item.width}FT x ${item.height}FT <br>
+                                                                      LED  : ${isLight}<br>
+                                                                      City : ${item.city}
+                                                                    </p>
                                                         </div>
                                                         <div class="hoarding-actions">
                                                             <button type="button" class="btn btn-danger rounded-circle p-2" data-toggle="modal" data-target="#deleteModal" onclick="cnfDeleteselecedInvetry(${item.id})">
@@ -372,10 +372,6 @@
             }
             updateradio();
 
-            // $('#businessNameid').on("change", function () {
-            //     customerId = $(this).val();
-            //     console.log("Selected Customer ID:", customerId);
-            // });
 
             $('#saveQuotation').on('click', function () {
 

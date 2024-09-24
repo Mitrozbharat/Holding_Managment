@@ -24,9 +24,12 @@ namespace Hoarding_managment.Repository
         //}
         public async Task<IEnumerable<TblCustomer>> GetallCustomerAsync(string searchQuery, int pageNumber, int pageSize)
         {
-            var query = _context.TblCustomers.Where(v => v.IsDelete == 0);
+            // Start with the base query for customers
+            var query = _context.TblCustomers
+                .Where(v => v.IsDelete == 0)
+                .AsQueryable();
 
-            // If search query is not empty, filter by BusinessName, CustomerName, or Email
+            // If search query is provided, filter by multiple fields
             if (!string.IsNullOrEmpty(searchQuery))
             {
                 query = query.Where(v => v.BusinessName.Contains(searchQuery) ||
@@ -37,12 +40,20 @@ namespace Hoarding_managment.Repository
                                          v.Email.Contains(searchQuery));
             }
 
+            // Apply descending order by CustomerName
+            query = query.OrderByDescending(q => q.CreatedAt);
+
+
             // Apply pagination
             return await query
-                         .Skip((pageNumber - 1) * pageSize)
-                         .Take(pageSize)
-                         .ToListAsync();
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
         }
+
+
+
+
         public async Task<int> GetCustomerCountAsync(string searchQuery = "")
         {
             var query = _context.TblCustomers.Where(v => v.IsDelete == 0);

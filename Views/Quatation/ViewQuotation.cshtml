@@ -33,21 +33,21 @@
                     <div class="row">
                         <div class="col-md-6 text-center mb-3 mb-md-0">
                             <input type="hidden" class="hidden" quotationId="@Model.Id" value="@Model.Id" />
-                            <p><strong>Quotation Id:</strong> @Model.QuotationNumber</p>
-                            <p style="display:none"><strong>Quotation Id    :</strong> @Model.QuotationNumber</p>
-                            <p><strong>Date:</strong> @Model.CreatedAt?.ToString("yyyy-MM-dd")</p>
+                            <p><strong>Quotation No :</strong> @Model.QuotationNumber</p>
+                            <p style="display:none"><strong>Quotation No   :</strong> @Model.QuotationNumber</p>
+                            <p><strong>Date :</strong> @Model.CreatedAt?.ToString("yyyy-MM-dd")</p>
                             <p style="display:none"><strong>Date                  :</strong> @Model.CreatedAt?.ToString("yyyy-MM-dd")</p>
                         </div>
                         <div class="col-md-6 totalamountclass text-center">
-                            <p><strong>Quotation For:</strong> @Model.CustomerName</p>
-                            <p style="display:none"><strong>Quotation For    :</strong> @Model.CustomerName</p>
+                            <p><strong>Quotation For :</strong> @Model.BussnessName</p>
+                            <p style="display:none"><strong>Quotation For    :</strong> @Model.BussnessName</p>
                             @foreach (var item in Model.Items)
                             {
 
                                 totalprice += Convert.ToDouble(item.Rate);
 
                             }
-                            <p><strong>Total Quote: </strong> @totalprice /-</p>
+                            <p><strong>Total Quote : </strong> @totalprice /-</p>
                             <p style="display:none"><strong>Total Quote        : </strong> @totalprice /-</p>
                         </div>
                     </div>
@@ -62,7 +62,7 @@
                                     <h5 class="mt-0">@item.Location</h5>
                                     <p><strong>City:</strong> @item.City</p>
                                     <p><strong>Size:</strong> @item.Width x @item.Height</p>
-                                    <p><strong>Vendor Name:</strong> @Model.VendorName</p>
+                                    <p><strong>Vendor :</strong> @Model.VendorName</p>
                                     <h5 class="text-primary">Price: @item.Rate/-</h5>
                                 </div>
                             </div>
