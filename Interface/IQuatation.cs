@@ -1,4 +1,6 @@
 ﻿using Hoarding_managment.Models;
+using iTextSharp.text;
+using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
 
 namespace HoardingManagement.Interface
@@ -14,7 +16,12 @@ namespace HoardingManagement.Interface
         public Task<TblQuotation> UpdateQuotationAsync(TblQuotation model); // Renamed for clarity
         public Task<int> DeleteQuotationAsync(int id); // Renamed for clarity
         public Task<QuatationDetaileViewModel> GetQuotationByIdDetailAsync(int id);
-     
+        public Task<QuatationDetaileViewModel> GetLatestQuotationById(int id);
 
+
+        public Task<List<QuatationViewModel>> GetAllQuotationsListAsync(string searchQuery,int pageNumber,int pageSize);
+        public Task<int>  GetQuotationCountAsync(string searchQuery);
+
+        public Task<List<TblQuotation>> SearchByCustomerNameAsync(string name);
     }
 }

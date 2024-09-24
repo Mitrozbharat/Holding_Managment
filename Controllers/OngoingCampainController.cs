@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Hoarding_management.Data;
 
 namespace Hoarding_managment.Controllers
 {
@@ -10,23 +10,55 @@ namespace Hoarding_managment.Controllers
             _context = ongoingCampain;
         }
 
-        public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 9)
+        //public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 9)
+        //{
+        //    var campaign = await _context.GetallOngoingCampaignAsync(pageNumber, pageSize);
+        //    var totalItems = await _context.GetOngoingCampaignCountAsync();
+        //    var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+        //    CampaignPagedViewModel? viewModel = new CampaignPagedViewModel
+        //    {
+        //        Campaigns = campaign,
+        //        CurrentPage = pageNumber,
+        //        TotalPages = totalPages,
+
+        //    };
+
+
+        //    return View(viewModel);
+        //}
+
+        [HttpGet]
+        public async Task<IActionResult> Index(string searchQuery = "", int pageSize = 10, int pageNumber = 1)
         {
-            var campaign = await _context.GetallOngoingCampaignAsync(pageNumber, pageSize);
-            var totalItems = await _context.GetOngoingCampaignCountAsync();
+            var campaign = await _context.GetallOngoingCampaignAsync(searchQuery, pageNumber, pageSize);
+            var totalItems = await _context.GetOngoingCampaignCountAsync(searchQuery);
             var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
 
-            var viewModel = new CampaignPagedViewModel
+            CampaignPagedViewModel? viewModel = new CampaignPagedViewModel
             {
-                Campaigns = campaign,
+                CampaignsViewModel = campaign,
                 CurrentPage = pageNumber,
                 TotalPages = totalPages,
-
+                PageSize = pageSize,
+                SearchQuery = searchQuery
             };
-
 
             return View(viewModel);
         }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchByCampaignName(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return BadRequest("Name cannot be empty.");
+            }
+
+            var customers = await _context.SearchByCampaignNameAsync(name);
+            return Ok(customers);
+        }
+
 
 
         public async Task<IActionResult> DeleteOngoingCampaign(int id)

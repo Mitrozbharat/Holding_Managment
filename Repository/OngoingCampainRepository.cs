@@ -1,4 +1,6 @@
 ﻿
+using Hoarding_management.Data;
+
 namespace Hoarding_managment.Repository
 {
     public class OngoingCampainRepository : IOngoingCampain
@@ -89,9 +91,6 @@ namespace Hoarding_managment.Repository
             return await _context.TblCampaigns
                                  .CountAsync(c => c.FromDate >= DateTime.Today && c.IsDelete == 0);
         }
-
-
-
         public async Task<QuotationItemListViewModel> addCampaign(QuotationItemListViewModel selectedItems)
         {
             if (selectedItems.CustomerId != null && selectedItems.SelectedItems != null)
@@ -102,6 +101,7 @@ namespace Hoarding_managment.Repository
                     {
                         FkCustomerId = selectedItems.CustomerId,
                         FkInventoryId = item.FkInventoryId,
+                        
                         FromDate = item.FromDate,
                         ToDate = item.ToDate,
                         BookingAmt = item.Rate,
@@ -128,7 +128,113 @@ namespace Hoarding_managment.Repository
 
             return null;
         }
+        public async Task<List<CampaignViewModel>> GetallOngoingCampaignAsync(string searchQuery, int pageNumber, int pageSize)
+        {
+            // Retrieve all campaigns that are not deleted
+            var campaigns = await _context.TblCampaigns
+                .Where(x => x.IsDelete == 0)
+                .ToListAsync();
 
-       
+            // Filter by CustomerName, City, or BusinessName if a search query is provided
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                campaigns = campaigns.Where(x =>
+                    _context.TblCustomers.Any(c => c.Id == x.FkCustomerId && c.CustomerName.Contains(searchQuery)) ||
+                    _context.TblInventories.Any(v => v.Id == x.FkInventoryId && v.City.Contains(searchQuery)) ||
+                    _context.TblVendors.Any(v => v.Id == x.FkInventoryId && v.BusinessName.Contains(searchQuery))
+                ).ToList();
+            }
+
+            // Apply pagination (Skip and Take)
+            var pagedCampaigns = campaigns
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            // Map the paged campaigns to the CampaignViewModel
+            var result = pagedCampaigns.Select(item => new CampaignViewModel
+            {
+                Id = item.Id,
+                ToDate = item.ToDate,
+                FromDate = item.FromDate,
+                BookingAmt = item.BookingAmt,
+                UpdatedBy = item.UpdatedBy,
+                CreatedAt = item.CreatedAt,
+                IsDelete = item.IsDelete,
+                CustomerName = _context.TblCustomers
+                    .Where(c => c.Id == item.FkCustomerId)
+                    .Select(c => c.CustomerName)
+                    .FirstOrDefault(),
+                City = _context.TblInventories
+                    .Where(v => v.Id == item.FkInventoryId)
+                    .Select(v => v.City)
+                    .FirstOrDefault(),
+                BusinessName = _context.TblVendors
+                    .Where(v => v.Id == item.FkInventoryId)
+                    .Select(v => v.BusinessName)
+                    .FirstOrDefault()
+            }).ToList();
+
+            return result;
+        }
+
+        public async Task<int> GetOngoingCampaignCountAsync(string searchQuery)
+        {
+            // Initialize the query for campaigns
+            var query = _context.TblCampaigns.Where(x => x.IsDelete == 0).AsQueryable();
+
+            // If a search query is provided, filter by CustomerName, City, or BusinessName
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                query = query.Where(x =>
+                    _context.TblCustomers.Any(c => c.Id == x.FkCustomerId && c.CustomerName.Contains(searchQuery)) ||
+                    _context.TblInventories.Any(v => v.Id == x.FkInventoryId && v.City.Contains(searchQuery)) ||
+                    _context.TblVendors.Any(v => v.Id == x.FkInventoryId && v.BusinessName.Contains(searchQuery)));
+            }
+
+            // Return the count of campaigns that match the query
+            return await query.CountAsync();
+        }
+
+
+        public async Task<CampaignViewModel> SearchByCampaignNameAsync(string name)
+        {
+            var lowerCaseName = name.ToLower();
+
+            // Find the first campaign that matches the name based on the customer, inventory, or vendor name
+            var campaign = await _context.TblCampaigns
+                .Where(x => x.IsDelete == 0 &&
+                       (_context.TblCustomers.Any(c => c.Id == x.FkCustomerId && c.CustomerName.ToLower().Contains(lowerCaseName)) ||
+                        _context.TblInventories.Any(v => v.Id == x.FkInventoryId && v.City.ToLower().Contains(lowerCaseName)) ||
+                        _context.TblVendors.Any(v => v.Id == x.FkInventoryId && v.BusinessName.ToLower().Contains(lowerCaseName))))
+                .Select(item => new CampaignViewModel
+                {
+                    Id = item.Id,
+                    ToDate = item.ToDate,
+                    FromDate = item.FromDate,
+                    BookingAmt = item.BookingAmt,
+                    UpdatedBy = item.UpdatedBy,
+                    CreatedAt = item.CreatedAt,
+                    IsDelete = item.IsDelete,
+                    CustomerName = _context.TblCustomers
+                        .Where(c => c.Id == item.FkCustomerId)
+                        .Select(c => c.CustomerName)
+                        .FirstOrDefault(),
+                    City = _context.TblInventories
+                        .Where(v => v.Id == item.FkInventoryId)
+                        .Select(v => v.City)
+                        .FirstOrDefault(),
+                    BusinessName = _context.TblVendors
+                        .Where(v => v.Id == item.FkInventoryId)
+                        .Select(v => v.BusinessName)
+                        .FirstOrDefault()
+                })
+                .FirstOrDefaultAsync();
+
+            return campaign;
+        }
+
+
+
     }
 }

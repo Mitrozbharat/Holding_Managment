@@ -6,6 +6,7 @@ using HoardingManagement.Repository;
 using HoardingManagement.Interface;
 using OfficeOpenXml;
 using System.Security.Cryptography.X509Certificates;
+using Hoarding_management.Data;
 
 namespace Hoarding_managment.Controllers
 {
@@ -32,23 +33,41 @@ namespace Hoarding_managment.Controllers
         {
             return View();
         }
-        [HttpGet("HoardingInventory")]
-        public async Task<IActionResult> HoardingInventory(int pageNumber = 1, int pageSize = 9)
+        
+    
+
+       [HttpGet]
+        public async Task<IActionResult> HoardingInventory(string searchQuery = "", int pageSize = 10, int pageNumber = 1)
         {
-            var inventories = await _context.GetAllHoarldingInvenrotyAsync(pageNumber, pageSize);
-            var totalItems = await _context.GetAllHoarldingInvenrotyCountAsync();
+            var inventory = await _context.GetAllHoarldingInvenrotyAsync(searchQuery, pageNumber, pageSize);
+            var totalItems = await _context.GetAllHoarldingInvenrotyCountAsync(searchQuery);
             var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
 
-            var viewModel = new InventoryPagedViewModel
+            InventoryPagedViewModel? viewModel = new InventoryPagedViewModel
             {
-                Inventories = inventories,
+                InventoryViewModel = inventory,
                 CurrentPage = pageNumber,
                 TotalPages = totalPages,
-
+                PageSize = pageSize,
+                SearchQuery = searchQuery
             };
 
             return View(viewModel);
         }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchByInventoryName(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return BadRequest("Name cannot be empty.");
+            }
+
+            var customers = await _context.SearchByInventoryNameAsync(name);
+            return Ok(customers);
+        }
+
+
 
         [HttpDelete]
         public async Task<IActionResult> DeleteInventory(int id)
@@ -120,6 +139,28 @@ namespace Hoarding_managment.Controllers
             var result = subproduct
               .Where(f => f.VendorName.ToLower().Contains(query.ToLower())).Select(s => new { Name = s.VendorName, Id = s.Id })
               .ToList();
+            return Json(result);
+        }
+        public JsonResult GetBusinessName(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                return Json(new List<object>()); // Return an empty list if the query is null or empty
+            }
+
+            // Fetch business names from the service
+            var subproduct = _autocompleteService.Getbusinessname(query);
+            if (subproduct == null)
+            {
+                return Json(new List<object>()); // Return an empty list if the service returned null
+            }
+
+            // Filter and project the result into a list of anonymous objects
+            var result = subproduct
+              .Where(f => f.BusinessName.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0)
+              .Select(s => new { Name = s.BusinessName, Id = s.Id })
+              .ToList();
+
             return Json(result);
         }
 
@@ -313,7 +354,7 @@ namespace Hoarding_managment.Controllers
         [HttpPost]
         public async Task<IActionResult> SaveSelectedHoardings([FromBody] QuotationItemListViewModel model)
         {
-            if (model == null || model.SelectedItems == null || !model.SelectedItems.Any())
+            if (model == null || model.SelectedItems == null )
             {
                 return BadRequest(new { success = false, message = "No items selected." });
             }
@@ -321,10 +362,9 @@ namespace Hoarding_managment.Controllers
             try
             {
 
-                await _context.AddQuatationsAsync(model);
+             var id =  await  _context.AddQuatationsAsync(model);
 
-
-                return Ok(new { success = true, message = "Selected hoardings saved successfully." });
+                return Ok(new { success = true, message = "Selected hoardings saved successfully." ,id =id});
             }
             catch (Exception ex)
             {

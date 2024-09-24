@@ -43,6 +43,20 @@ namespace Hoarding_managment.Repository
                          .Take(pageSize)
                          .ToListAsync();
         }
+        public async Task<int> GetCustomerCountAsync(string searchQuery = "")
+        {
+            var query = _context.TblCustomers.Where(v => v.IsDelete == 0);
+
+            // Apply search filter if a search query is provided
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                query = query.Where(v => v.BusinessName.Contains(searchQuery) ||
+                                         v.CustomerName.Contains(searchQuery) ||
+                                         v.Email.Contains(searchQuery));
+            }
+
+            return await query.CountAsync();
+        }
 
 
         public async Task<TblCustomer> AddNewCustomerasAsync(TblCustomer model)
@@ -79,25 +93,7 @@ namespace Hoarding_managment.Repository
             }
             return existcustomer;
         }
-        //public async Task<int> GetCustomerCountAsync()
-        //{
-        //    return await _context.TblCustomers.CountAsync(v => v.IsDelete == 0);
-        //}
-        public async Task<int> GetCustomerCountAsync(string searchQuery = "")
-        {
-            var query = _context.TblCustomers.Where(v => v.IsDelete == 0);
-
-            // Apply search filter if a search query is provided
-            if (!string.IsNullOrEmpty(searchQuery))
-            {
-                query = query.Where(v => v.BusinessName.Contains(searchQuery) ||
-                                         v.CustomerName.Contains(searchQuery) ||
-                                         v.Email.Contains(searchQuery));
-            }
-
-            return await query.CountAsync();
-        }
-
+     
 
         public async Task<IEnumerable<TblCustomer>> GetCustomerinfo()
         {
@@ -128,6 +124,7 @@ namespace Hoarding_managment.Repository
         public async Task<List<TblCustomer>> SearchCustomersByNameAsync(string name)
         {
             var lowerCaseName = name.ToLower();
+
             return await _context.TblCustomers
                                  .Where(c => c.IsDelete == 0 && c.CustomerName.ToLower().Contains(lowerCaseName))
                                  .ToListAsync();
