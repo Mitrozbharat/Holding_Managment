@@ -152,32 +152,27 @@
 <body>
     <div class="container-fluid my-2">
         <div class="card p-2">
-            <section>
-                <div class="container">
-                    <div class="row justify-content-between align-items-center">
-                        <div class="col-sm-12 col-md-6 col-lg-4 mb-2 mb-md-0">
-                            <h3 class="text-primary pt-2 ">Inventory </h3>
-                        </div>
-                        <div class="col-sm-12 col-md-6 col-lg-8 d-flex justify-content-end">
-                            <div class="input-group">
-                                <input type="search" id="searchQuery" autocomplete="off" placeholder="Search by City, Area, or Vendor.." class="ml-4 rounded-pill p-2 ml-2 btn-outline-red" style="border:1px solid " value="@Model.SearchQuery" oninput="searchInventory()" />
-
-                                <input class="form-control btn" type="file" id="formFile" style="display: none;">
-
-                                <button class="btn btn-primary ml-4" id="importExcelbutton" onclick="uploadFile()">Import Excel</button>
-
-                                   @* <input type="file" id="fileInput" accept=".xlsx, .xls" class="form-control" />
-                                    <button type="button" class="btn btn-primary" onclick="uploadFile()">Upload</button>*@
-                                    <!-- File Input (Hidden or Visible as Needed) -->
-                                    <input type="file" id="fileInput" style="display: none;" />
-                                <button type="button" class="btn btn-primary ml-4" id="addInventoryButton" data-toggle="modal" data-target="#addCustomerModal">
-                                    Add Inventory  
-                                </button>
-                            </div>
+            <div class="my-2">
+                <div class="row align-items-center">
+                    <div class="col-sm-12 col-md-6 col-lg-8">
+                        <h3 class="text-primary pt-2">Inventory</h3>
+                    </div>
+                    <div class="col-sm-12  col-lg-4 d-flex justify-content-end">
+                        <div class="input-group">
+                            <input type="search" id="searchQuery" autocomplete="off" placeholder="Search by City, Area, or Vendor.." class="rounded-pill p-2 btn-outline-red" style="border: 1px solid;" value="@Model.SearchQuery" oninput="searchInventory()" />
+                            <input class="form-control btn" type="file" id="formFile" style="display: none;">
+                            <button class="btn btn-primary ml-4" id="importExcelbutton" onclick="uploadFile()">
+                                <i class="mdi-folder"></i> Import Excel
+                            </button>
+                            <input type="file" id="fileInput" style="display: none;" />
+                            <button type="button" class="btn btn-primary ml-4" id="addInventoryButton" data-toggle="modal" data-target="#addCustomerModal">
+                                <span class="mdi mdi-plus"></span> Add Inventory
+                            </button>
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
+
             @if (!string.IsNullOrEmpty(Model.SearchQuery))
             {
                 <script>
@@ -272,19 +267,19 @@
                                                 <div class="my-2">
                                                     <p><span class="bold-text">City:</span> <span>@i.City</span></p>
                                                     <p><span class="bold-text">Area:</span> <span>@i.Area</span></p>
-                                                    <p><span class="bold-text">Size:</span> <span>@i.Width m X @i.Height m</span></p>
+                                                    <p><span class="bold-text">Size:</span> <span>@i.Width FT X @i.Height FT</span></p>
                                                     <p><span class="bold-text">Rate:</span> <span>@i.Rate</span></p>
                                                     <p><span class="bold-text">Vendor:</span> <span>@i.VendorName</span></p>
 
                                                     <div class="action-icons mt-3 d-flex justify-content-center">
-                                                    <img src="/img/cart.svg" alt="Add to Cart" class="start-icon" id="AddQuotationbtn"
+                                                    <img src="/images/cart.svg" alt="Add to Cart" class="start-icon" id="AddQuotationbtn"
                                                              onclick="createItem('@i.Id', '@i.Image', '@i.Area', '@i.City', '@i.Width', '@i.Height', '@i.Rate', '@i.FkVendorId', '@i.BookingStatus')" />
 
                                                         <div class="end-icons">
                                                            
-                                                          @*   <img src="/img/detail.svg" alt="Details" onclick="showDetail(@i.Id)" /> *@
-                                                            <img src="~/img/—pngtree—black edit icon_4422168.png" data-toggle="modal" style="height: 41px;width: 41px;padding: 0 !important;" data-target="#editModal" onclick="editCratModal('@i.Id', '@i.City', '@i.Area', '@i.Width','@i.Height', '@i.Rate', '@i.VendorName','@i.Image','@i.FkVendorId','@i.location','@i.vendoramt')" />
-                                                            <img src="/img/delete.svg" class="mr-2" data-toggle="modal" data-target="#deleteModal" onclick="setDeleteItem(@i.Id)" />
+                                                          @*   <img src="/images/detail.svg" alt="Details" onclick="showDetail(@i.Id)" /> *@
+                                                            <img src="~/images/edit.png" data-toggle="modal" style="height: 41px;width: 41px;padding: 0 !important;" data-target="#editModal" onclick="editCratModal('@i.Id', '@i.City', '@i.Area', '@i.Width','@i.Height', '@i.Rate', '@i.VendorName','@i.Image','@i.FkVendorId','@i.location','@i.vendoramt')" />
+                                                            <img src="/images/delete.svg" class="mr-2" data-toggle="modal" data-target="#deleteModal" onclick="setDeleteItem(@i.Id)" />
                                                         </div>
 @*                                                         <i class="bi bi-pencil"></i>
  *@                                                    </div>
@@ -332,13 +327,13 @@
                                             <input type="text" class="form-control custom-border" id="location" name="location" placeholder="Enter Location" required>
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="width">Width (metre) <span class="text-danger">*</span></label>
+                                            <label for="width">Width (Feet) <span class="text-danger">*</span></label>
                                             <input type="text" class="form-control custom-border" id="width" name="width" placeholder="Enter Width" required>
                                         </div>
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <label for="height">Height (metre)<span class="text-danger">*</span></label>
+                                            <label for="height">Height (Feet)<span class="text-danger">*</span></label>
                                             <input type="text" class="form-control custom-border" id="height" name="height" placeholder="Enter Height" required>
                                         </div>
                                         <div class="form-group col-md-6">
@@ -387,7 +382,7 @@
                     </div>
                 </div>
 
-               <!-- eddit start-->
+           
                 <!--Add Inventory-->
                 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-xl">
@@ -411,16 +406,13 @@
                                              <input type="hidden" id="id" />
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
-                                                    <label for="height">Height (metre)<span class="text-danger">*</span></label>
+                                                    <label for="width">Width (Feet) <span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control custom-border" id="edit-width" name="edit-width" placeholder="Enter Width" required>
+                                                </div>  <div class="form-group col-md-6">
+                                                    <label for="height">Height (Feet)<span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control custom-border" id="edit-height" name="edit-height" placeholder="Enter Height" required>
                                                 </div>
 
-
-
-                                                <div class="form-group col-md-6">
-                                                    <label for="width">Width (metre) <span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control custom-border" id="edit-width" name="edit-width" placeholder="Enter Width" required>
-                                                </div>
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
@@ -541,7 +533,7 @@
                             <div class="modal-body p-4">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <img src="~/images/login-mock.svg" class="img-fluid" alt="Image" width="100%" height="100%" />
+                                        <img src="~/images/HoardingImg.svg" class="img-fluid" alt="Image" width="100%" height="100%" />
                                     </div>
                                     <div class="col-md-6">
                                         <div class="list-group">

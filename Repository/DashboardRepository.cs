@@ -273,7 +273,7 @@ namespace Hoarding_managment.Repository
          .Select(item => new InventoryitemViewmodel
          {
              Id = item.Id,
-             Image = item.Image,
+             Image = item.Image ,
              City = item.City,
              Area = item.Area,
              Width = item.Width,

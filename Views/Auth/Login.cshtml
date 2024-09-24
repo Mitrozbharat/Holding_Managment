@@ -25,7 +25,7 @@
             <div class="row h-100">
                 <!-- First 6 columns with image -->
                 <div class="col-12 col-md-6 d-flex justify-content-center align-items-center">
-                    <img src="~/images/login-mock.svg" alt="Description of Image" class="img-fluid" style="max-width: 100%;" />
+                    <img src="~/images/HoardingImg.png" alt="Description of Image" class="img-fluid" style="max-width: 100%;" />
                 </div>
 
                 <!-- Second 6 columns with form -->
@@ -35,8 +35,7 @@
                             <div class="card-body p-5 text-center">
                                 <h2 class="mb-5">Login</h2>
 
-                                <p class="text-center">Hello! Let’s get started</p>
-
+                                
                                 <form asp-action="Login" method="post">
                                     <div data-mdb-input-init class="form-outline mb-4">
                                         <input type="text" placeholder="Username" name="Username" required class="form-control border form-control-lg" />
@@ -48,11 +47,11 @@
                                         <label class="form-label" for="typePasswordX-2">Password</label>
                                     </div>
 
-                                    <!-- Checkbox -->
+                                   @*  <!-- Checkbox -->
                                     <div class="form-check d-flex justify-content-start mb-4">
                                         <input class="form-check-input" type="checkbox" value="" id="form1Example3" />
                                         <label class="form-check-label" for="form1Example3"> Remember password </label>
-                                    </div>
+                                    </div *@>
 
                                     <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
                                 </form>

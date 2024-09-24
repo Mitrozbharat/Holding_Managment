@@ -246,16 +246,15 @@
                                 addCamign.push({ id: item.id, rate: item.rate, FkInventoryId: item.fkInventoryId });
 
                                 var isLight = item.isLight == 1 ? "Yes" : "No";
-
                                 var cardHtml = `
                                                     <div class="hoarding-item my-1">
-                                                        <img src='/img/favicon.png' alt="Hoarding Image">
-                                                        <div class="hoarding-info">
-                                                            <h5 class="ml-4">${item.vendorName}</h5>
+                                                             <img src="data:image/png;base64,${item.image}" alt="Image" class="rounded">
+                                                             <div class="hoarding-info">
+                                                            <h5 class="ml-3">${item.vendorName}</h5>
                                                             <p>
                                                                <span style="display:none;" > ${item.fkInventoryId}</span>
                                                                 ${item.area}<br>
-                                                                ${item.width}x${item.height}<br>
+                                                                ${item.width}FT x${item.height}FT <br>
                                                                 ${isLight}<br>
                                                                 ${item.city}
                                                             </p>

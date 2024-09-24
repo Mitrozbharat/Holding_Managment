@@ -276,7 +276,7 @@
                     .catch(error => console.error('Error converting image:', error));
             }
 
-            var imageUrl = window.location.origin + "/img/logo.png";
+            var imageUrl = window.location.origin + "/images/logo.png";
             getBase64ImageFromUrl(imageUrl, function (base64String) {
                 console.log('Base64 String:', base64String);
                 document.getElementById('myImage').src = "data:image/png;base64," + base64String + "";
@@ -284,7 +284,7 @@
 
             });
 
-            var imageUrl = window.location.origin + "/img/SlideImage.png";
+            var imageUrl = window.location.origin + "/images/HoardingImg.png";
             getBase64ImageFromUrl(imageUrl, function (base64String) {
                 console.log('Base64 String:', base64String);
                 document.getElementById('myImagetwo').src = "data:image/png;base64," + base64String + "";
