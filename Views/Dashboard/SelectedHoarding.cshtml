@@ -25,6 +25,7 @@
         <div class="row">
             <div class="col-md-8">
                 <h3 class="mb-4">Selected Hoarding</h3>
+               
                 <div class=" mb-2" id="selectedCard">
                 </div>
             </div>
@@ -247,7 +248,7 @@
 
                                 var isLight = item.isLight == 1 ? "Yes" : "No";
                                 var cardHtml = `
-                                                    <div class="hoarding-item my-1">
+                                                    <div class="hoarding-item my-2">
                                                              <img src="data:image/png;base64,${item.image}" alt="Image" class="rounded">
                                                              <div class="hoarding-info">
                                                                      <p class="font-size-4"><b>Vendor Name: ${item.vendorName}</b></p>
