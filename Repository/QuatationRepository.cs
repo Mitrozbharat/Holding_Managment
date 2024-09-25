@@ -260,12 +260,12 @@ namespace HoardingManagement.Repository
                 .ToListAsync();
         }
 
-      
-        public async  Task<QuatationDetaileViewModel> GetQuotationByIdDetailAsync(int id)
+
+        public async Task<QuatationDetaileViewModel> GetQuotationByIdDetailAsync(int id)
         {
             // Retrieve the quotation details
             var quotation = await _context.TblQuotations
-                .Where(q => q.Id == id && q.IsDelete == 0) // Using `false` for `bit(1)`
+                .Where(q => q.Id == id && q.IsDelete == 0) // Using `0` for `IsDelete`
                 .Select(q => new
                 {
                     q.Id,
@@ -277,7 +277,7 @@ namespace HoardingManagement.Repository
 
             if (quotation == null)
             {
-                return null; // Or handle the case when the quotation is not found
+                return null; // Handle case when the quotation is not found
             }
 
             // Retrieve the quotation items
@@ -297,7 +297,7 @@ namespace HoardingManagement.Repository
                     x.MarginAmt,
                     x.Image,
                     x.LocationDescription,
-                    x.FkQuotationId
+                   
                 })
                 .ToListAsync();
 
@@ -307,23 +307,33 @@ namespace HoardingManagement.Repository
                 .Select(c => new { c.CustomerName, c.City, c.BusinessName })
                 .FirstOrDefaultAsync();
 
-            var vendorid = _context.TblQuotationitems.Where(x => x.FkQuotationId == x.FkQuotationId).Select(x => x.FkVendorId ).FirstOrDefault();
-            var name = _context.TblVendors.FirstOrDefault(x => x.Id == vendorid)?.VendorName;
-            // Retrieve vendor details
+            // Retrieve vendor ID
+            var vendorId = await _context.TblQuotationitems
+                .Where(x => x.FkQuotationId == id)
+                .Select(x => x.FkVendorId)
+                .FirstOrDefaultAsync();
 
-            var inveryid = _context.TblQuotationitems.Where(x => x.FkQuotationId == x.FkQuotationId).Select(x => x.FkInventory).FirstOrDefault();
+            var vendorName = await _context.TblVendors
+                .Where(v => v.Id == vendorId)
+                .Select(v => v.VendorName)
+                .FirstOrDefaultAsync();
+
+            // Retrieve inventory ID
+            var inventoryId = await _context.TblQuotationitems
+                .Where(x => x.FkQuotationId == id)
+                .Select(x => x.FkInventory)
+                .FirstOrDefaultAsync();
 
             // Retrieve inventory details
             var inventory = await _context.TblInventories
-                .Where(i => i.Id == inveryid)
+                .Where(i => i.Id == inventoryId)
                 .Select(i => new { i.Location, i.Width, i.Height })
                 .FirstOrDefaultAsync();
 
             // Map to ViewModel
-            var viewModel = new     QuatationDetaileViewModel
-
-        {
-            Items = quotationItems.Select(item => new QuotationItemViewModel
+            var viewModel = new QuatationDetaileViewModel
+            {
+                Items = quotationItems.Select(item => new QuotationItemViewModel
                 {
                     City = item.City,
                     Area = item.Area,
@@ -336,12 +346,13 @@ namespace HoardingManagement.Repository
                     Image = item.Image,
                     LocationDescription = item.LocationDescription
                 }).ToList(),
-                
-                Id=quotation.Id,
-                 CreatedAt=quotation.CreatedAt,
-                 QuotationNumber=quotation.QuotationNumber,
+
+                Id = quotation.Id,
+                CreatedAt = quotation.CreatedAt,
+                QuotationNumber = quotation.QuotationNumber,
                 CustomerName = customer?.CustomerName,
-                VendorName =name,
+                BusinessName = customer?.BusinessName,
+                VendorName = vendorName,
                 Width = inventory?.Width,
                 Height = inventory?.Height
             };

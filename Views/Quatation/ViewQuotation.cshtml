@@ -28,27 +28,27 @@
                 </div>
                 @if (Model != null)
                 {
-                    var totalprice = 0.0;
-                    <h4 class="text-center my-4">Quotation Details</h4>
+                    var totalprice = 0.0; 
+                    <h4 class="text-center my-4">Quotation</h4>
                     <div class="row">
-                        <div class="col-md-6 text-center mb-3 mb-md-0">
+                        <div class="col-md-6 text-start mb-3 mb-md-0">
                             <input type="hidden" class="hidden" quotationId="@Model.Id" value="@Model.Id" />
-                            <p><strong>Quotation No :</strong> @Model.QuotationNumber</p>
+                            <p><strong>Quotation Number :</strong> @Model.QuotationNumber</p>
                             <p style="display:none"><strong>Quotation No   :</strong> @Model.QuotationNumber</p>
                             <p><strong>Date :</strong> @Model.CreatedAt?.ToString("yyyy-MM-dd")</p>
                             <p style="display:none"><strong>Date                  :</strong> @Model.CreatedAt?.ToString("yyyy-MM-dd")</p>
                         </div>
-                        <div class="col-md-6 totalamountclass text-center">
-                            <p><strong>Quotation For :</strong> @Model.BussnessName</p>
-                            <p style="display:none"><strong>Quotation For    :</strong> @Model.BussnessName</p>
+                        <div class="col-md-6 totalamountclass text-end" style="text-align:end">
+                            <p><strong>Quotation For :</strong> @Model.BusinessName</p>
+                            <p style="display:none"><strong>Quotation For    :</strong> @Model.BusinessName</p>
                             @foreach (var item in Model.Items)
                             {
 
                                 totalprice += Convert.ToDouble(item.Rate);
 
                             }
-                            <p><strong>Total  : </strong> @totalprice /-</p>
-                            <p style="display:none"><strong>Total         : </strong> @totalprice /-</p>
+                            <p class="mr-5" ><strong>Total Amount  : </strong> @totalprice /-</p>
+                            <p style="display:none"><strong>Total Amount         : </strong> @totalprice /-</p>
                         </div>
                     </div>
                     <hr>

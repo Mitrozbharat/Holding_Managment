@@ -5,6 +5,7 @@
         public int Id { get; set; }
         public string QuotationNumber { get; set; }
         public DateTime? CreatedAt { get; set; }
+        public string? BusinessName { get; set; }
         public string? CustomerName { get; set; }
         public string? VendorName { get; set; }
         public string? InventoryLocation { get; set; }
@@ -30,7 +31,7 @@
         public string MarginAmt { get; set; }
         public string Image { get; set; }
         public string LocationDescription { get; set; }
-      
+    
         public int? FkVendorId { get; set; }
         public int? FkInventory { get; set; }
     }
