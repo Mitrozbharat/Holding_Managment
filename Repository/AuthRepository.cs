@@ -1,4 +1,5 @@
 ﻿
+
 namespace Hoarding_managment.Repository
 {
     public class AuthRepository : IAuth

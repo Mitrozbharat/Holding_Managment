@@ -1,5 +1,4 @@
 ﻿using AngleSharp.Dom;
-using Hoarding_managment.Models;
 using HoardingManagement.Interface;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
@@ -253,8 +252,7 @@ namespace HoardingManagement.Repository
                     Width = item.Width,
                     Height = item.Height,
                     Rate = item.Rate,
-                    BookingStatus = item.BookingStatus,
-                    IsLight = item.IsLight,
+                    BookingStatus = (ulong?)item.Type,
                     CreatedAt = item.CreatedAt,
                     UpdatedAt = item.UpdatedAt,
                     FkInventoryId = item.FkInventoryId
@@ -290,7 +288,7 @@ namespace HoardingManagement.Repository
                     x.City,
                     x.Area,
                     x.Location,
-                    x.IsLight,
+                    x.Type,
                     x.Width,
                     x.Height,
                     x.BookingStatus,
@@ -379,7 +377,7 @@ namespace HoardingManagement.Repository
                     City = x.City,
                     Area = x.Area,
                     Location = x.Location,
-                    IsLight = (ulong)x.IsLight,
+                    type = (ulong)x.Type,
                     Width = x.Width,
                     Height = x.Height,
                     BookingStatus = (ulong)x.BookingStatus,

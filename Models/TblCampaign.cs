@@ -18,6 +18,5 @@ namespace Hoarding_managment.Models
         public string? UpdatedBy { get; set; }
 
         public virtual TblCustomer? FkCustomer { get; set; }
-        public virtual TblInventory? FkInventory { get; set; }
     }
 }

@@ -1,6 +1,4 @@
 ﻿
-using Hoarding_managment.Models;
-
 namespace Hoarding_managment.Repository
 {
     public class VendorRepository:IVendor

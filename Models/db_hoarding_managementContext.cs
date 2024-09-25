@@ -7,8 +7,6 @@ namespace Hoarding_managment.Models
 {
     public partial class db_hoarding_managementContext : DbContext
     {
-       
-
         public db_hoarding_managementContext(DbContextOptions<db_hoarding_managementContext> options)
             : base(options)
         {
@@ -28,7 +26,6 @@ namespace Hoarding_managment.Models
         {
             
         }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.UseCollation("utf8mb4_0900_ai_ci")
@@ -68,11 +65,6 @@ namespace Hoarding_managment.Models
                     .WithMany(p => p.TblCampaigns)
                     .HasForeignKey(d => d.FkCustomerId)
                     .HasConstraintName("tbl_campaign_ibfk_2");
-
-                entity.HasOne(d => d.FkInventory)
-                    .WithMany(p => p.TblCampaigns)
-                    .HasForeignKey(d => d.FkInventoryId)
-                    .HasConstraintName("tbl_campaign_ibfk_1");
             });
 
             modelBuilder.Entity<TblCard>(entity =>
@@ -163,11 +155,13 @@ namespace Hoarding_managment.Models
 
                 entity.Property(e => e.IsDelete).HasColumnType("bit(1)");
 
-                entity.Property(e => e.IsLight).HasColumnType("bit(1)");
-
                 entity.Property(e => e.Location).HasMaxLength(255);
 
                 entity.Property(e => e.Rate).HasMaxLength(255);
+
+                entity.Property(e => e.Type)
+                    .HasColumnName("type")
+                    .HasDefaultValueSql("'0'");
 
                 entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
 
@@ -201,9 +195,9 @@ namespace Hoarding_managment.Models
 
                 entity.Property(e => e.IsDelete).HasColumnType("bit(1)");
 
-                entity.Property(e => e.IsLight).HasColumnType("bit(1)");
-
                 entity.Property(e => e.Rate).HasMaxLength(45);
+
+                entity.Property(e => e.Type).HasColumnName("type");
 
                 entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
 
@@ -259,8 +253,6 @@ namespace Hoarding_managment.Models
 
                 entity.Property(e => e.IsDelete).HasColumnType("bit(1)");
 
-                entity.Property(e => e.IsLight).HasColumnType("bit(1)");
-
                 entity.Property(e => e.Location).HasMaxLength(255);
 
                 entity.Property(e => e.LocationDescription).HasMaxLength(255);
@@ -268,6 +260,8 @@ namespace Hoarding_managment.Models
                 entity.Property(e => e.MarginAmt).HasMaxLength(255);
 
                 entity.Property(e => e.Rate).HasMaxLength(255);
+
+                entity.Property(e => e.Type).HasColumnName("type");
 
                 entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
 

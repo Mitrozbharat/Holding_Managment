@@ -1,5 +1,4 @@
-﻿using Hoarding_managment.Models;
-
+﻿
 namespace Hoarding_managment.Data
 {
     public class VendorListViewModel

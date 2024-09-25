@@ -96,11 +96,11 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p class="text-muted-foreground text-center mt-2">Are you sure you want to delete this ongoing campaign?</p>
-                    <input type="hidden" id="selectedId" />
+                    <p class="text-muted-foreground text-center mt-2">Are you sure you want to Delete this Hoarding ?</p>
+                    <input type="text" id="selectedId" />
                 </div>
                 <div class="modal-footer justify-content-center">
-                    <button type="button" class="btn btn-danger" id="deleteCustomer">Delete</button>
+                    <button type="button" class="btn btn-danger" id="deleteHoarding">Delete</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
@@ -390,9 +390,14 @@
                     contentType: 'application/json',
                     data: JSON.stringify({ selectedItems: updatedRates, customerId: customerId }),
                     success: function (response) {
+
+                        setTimeout(function () {
+                            window.location.href = '/Quatation/LastQuotation?id=' + response.id; // Corrected line
+
+                        }, 1000);
+
                         if (response.success) {
                             alert("Data Added Successfully!");
-                            window.location.href = '/Quatation/LastQuotation?id=' + response.id; // Corrected line
                         } else {
                             toastr.error(response.message);
                         }
@@ -512,38 +517,7 @@
 
                             // Handle suggestion click
                             suggestionItem.addEventListener('click', function () {
-                                input.value = item.name;
-                                suggestionsContainer.style.display = 'none';
-
-                                if (id === "businessName") {
-                                    $("#businessNameid").val(item.id); // Store the selected business name ID
-                                  
-                                    $.ajax({
-                                        url: '/Customer/GetCustomerinfoById',
-                                        type: 'GET',
-                                        data: { id: item.id },
-                                        success: function (response) {
-
-                                            if (response.success) {
-                                                const customer = response.model.result;
-                                                $('#customerName').text(customer.customerName);
-                                                $('#address').text(customer.address);
-                                                $('#city').text(customer.city);
-                                                $('#gstNo').text(customer.gstNo);
-                                                $('#contactNo').text(customer.contactNo);
-                                                $('#alternateNumber').text(customer.alternateNumber);
-                                                $('#state').text(customer.state);
-
-                                                toastr.success('Customer info loaded successfully.');
-                                            } else {
-                                                console.error('Failed to load customer info:', response.message);
-                                            }
-                                        },
-                                        error: function (xhr, status, error) {
-                                            console.error('Error fetching customer info:', error);
-                                        }
-                                    });
-                                }
+                                selectSuggestion(item, input, suggestionsContainer);
                             });
                             suggestionsContainer.appendChild(suggestionItem);
                         });
@@ -565,11 +539,51 @@
                     e.preventDefault();
                     if (activeSuggestionIndex > -1) {
                         const activeSuggestion = suggestions[ activeSuggestionIndex ];
-                        input.value = activeSuggestion.dataset.value;
-                        suggestionsContainer.style.display = 'none';
+                        const item = {
+                            id: activeSuggestion.dataset.key,
+                            name: activeSuggestion.dataset.value
+                        };
+                        selectSuggestion(item, input, suggestionsContainer);
                     }
                 }
             });
+
+            // Function to select a suggestion and fetch customer info
+            function selectSuggestion(item, input, suggestionsContainer) {
+                input.value = item.name;
+                suggestionsContainer.style.display = 'none';
+
+                const id = input.getAttribute('data-id');
+                if (id === "businessName") {
+                    $("#businessNameid").val(item.id); // Store the selected business name ID
+
+                    // Fetch customer info by business name ID
+                    $.ajax({
+                        url: '/Customer/GetCustomerinfoById',
+                        type: 'GET',
+                        data: { id: item.id },
+                        success: function (response) {
+                            if (response.success) {
+                                const customer = response.model.result;
+                                $('#customerName').text(customer.customerName);
+                                $('#address').text(customer.address);
+                                $('#city').text(customer.city);
+                                $('#gstNo').text(customer.gstNo);
+                                $('#contactNo').text(customer.contactNo);
+                                $('#alternateNumber').text(customer.alternateNumber);
+                                $('#state').text(customer.state);
+
+                                toastr.success('Customer loaded successfully.');
+                            } else {
+                                console.error('Failed to load customer info:', response.message);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error fetching customer info:', error);
+                        }
+                    });
+                }
+            }
 
             // Function to update the active suggestion visually
             function updateActiveSuggestion(suggestions) {
@@ -578,39 +592,6 @@
                 });
             }
         });
-
-        // Function to load customer info based on selected business name ID
-        // function loadCustomerInfo(selectedCustomerId) {
-        //     if (selectedCustomerId) {
-        //         $.ajax({
-        //             url: '/Customer/GetCustomerinfoById',
-        //             type: 'GET',
-        //             data: { id: selectedCustomerId },
-        //             success: function (response) {
-
-        //                 if (response.success) {
-        //                     const customer = response.model.result;
-        //                     $('#customerName').text(customer.customerName);
-        //                     $('#address').text(customer.address);
-        //                     $('#city').text(customer.city);
-        //                     $('#gstNo').text(customer.gstNo);
-        //                     $('#contactNo').text(customer.contactNo);
-        //                     $('#alternateNumber').text(customer.alternateNumber);
-        //                     $('#state').text(customer.state);
-
-        //                     toastr.success('Customer info loaded successfully.');
-        //                 } else {
-        //                     console.error('Failed to load customer info:', response.message);
-        //                 }
-        //             },
-        //             error: function (xhr, status, error) {
-        //                 console.error('Error fetching customer info:', error);
-        //             }
-        //         });
-        //     } else {
-        //         clearCustomerInfo();
-        //     }
-        // }
 
         // Function to clear customer info
         function clearCustomerInfo() {
@@ -622,10 +603,8 @@
             $('#alternateNumber').text('');
             $('#state').text('');
         }
+
     </script>
-
-
-
 
     <script>
 
@@ -680,8 +659,6 @@
 
 
         });
-
-
 
         $(document).ready(function () {
             // Load customer details when the document is ready
@@ -761,14 +738,15 @@
                     $('#state').text('');
                 }
             });
-
+            
         });
 
-        function cnfDeleteselecedInvetry(Id) {
+        function cnfDeleteselecedInvetry(id) {
+            $('#selectedId').val(id);
 
-            $('#selectedId').val(Id);
+           // var selectedId = document.getElementById("selectedId").value();
 
-            $('#deleteCustomer').on('click', function () {
+            $('#deleteHoarding').on('click', function () {
                 var selectedCustomerId = $('#selectedId').val();
                 console.log("id" + selectedCustomerId);
                 $.ajax({

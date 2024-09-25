@@ -1,5 +1,4 @@
 ﻿using Hoarding_managment.Data;
-using Hoarding_managment.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hoarding_managment.Repository
@@ -190,20 +189,22 @@ namespace Hoarding_managment.Repository
                 throw new Exception("An error occurred while updating the inventory item.", ex);
             }
         }
-        public async Task<TblInventory> GetInventryItemsByIdAsync(int id)
+
+        // Method to get TblInventory by Id
+        public async Task<TblInventory> GetInventryByIdAsync(int id)
         {
-            var inventory = await _context.TblInventories.FirstOrDefaultAsync(x => x.Id == id && x.IsDelete == 0);
-            if (inventory != null)
-            {
-
-                return inventory;
-
-            }
-            return inventory;
-
-
-
+            return await _context.TblInventories
+              .FirstOrDefaultAsync(x => x.Id == id && x.IsDelete == 0);
         }
+
+        // Method to get TblInventoryitem by Id
+        public async Task<TblInventoryitem> GetInventryItemsByIdAsync(int id)
+        {
+            return await _context.TblInventoryitems
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsDelete == 0);
+        }
+
+
         public async Task<int> InventryItemscountAsync()
         {
             return await _context.TblInventoryitems
@@ -284,7 +285,7 @@ namespace Hoarding_managment.Repository
              Height = item.Height,
              Rate = item.Rate,
              BookingStatus = item.BookingStatus,
-             IsLight = item.IsLight,
+            type = (int?)item.Type,
              CreatedAt = item.CreatedAt,
              UpdatedAt = item.UpdatedAt,
              FkInventoryId = item.FkInventoryId,
@@ -322,7 +323,7 @@ namespace Hoarding_managment.Repository
                     Height = x.Height,
                     Rate = x.Rate,
                     BookingStatus = x.BookingStatus,
-                    IsLight = x.IsLight,
+                    type = (int?)x.Type,
                     CreatedAt = x.CreatedAt,
                     UpdatedAt = x.UpdatedAt,
                     IsDelete = x.IsDelete,
@@ -396,7 +397,7 @@ namespace Hoarding_managment.Repository
                         Height = inventoryitems.Height,
                         Width = inventoryitems.Width,
                         BookingStatus = inventoryitems.BookingStatus,
-                        IsLight = inventory.IsLight,
+                        Type = inventory.Type,
                         VendorAmt = inventory.VendorAmt,
                         Image = inventoryitems.Image,
                         LocationDescription = inventory.Location,
@@ -468,7 +469,7 @@ namespace Hoarding_managment.Repository
         //                Height = inventoryitems.Height,
         //                Width = inventoryitems.Width,
         //                BookingStatus = inventoryitems.BookingStatus,
-        //                IsLight = inventory.IsLight,
+        //                type = inventory.type,
         //                VendorAmt = inventory.VendorAmt,
         //                Image = inventoryitems.Image,
         //                LocationDescription = inventory.Location,

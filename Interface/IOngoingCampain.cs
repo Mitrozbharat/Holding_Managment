@@ -1,8 +1,4 @@
-﻿using Hoarding_management.Data;
-using iTextSharp.text;
-using Microsoft.EntityFrameworkCore;
-
-namespace Hoarding_managment.Interface
+﻿namespace Hoarding_managment.Interface
 {
     public interface IOngoingCampain
     {

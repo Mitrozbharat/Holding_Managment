@@ -1,5 +1,4 @@
 ﻿using Hoarding_managment.Interface;
-using Hoarding_managment.Models;
 using System.Runtime.InteropServices;
 
 namespace Hoarding_managment.Repository

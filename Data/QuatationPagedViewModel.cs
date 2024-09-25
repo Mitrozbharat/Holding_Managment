@@ -1,4 +1,5 @@
-﻿namespace Hoarding_managment.Data
+﻿
+namespace Hoarding_managment.Data
 {
     public class QuatationPagedViewModel
     {

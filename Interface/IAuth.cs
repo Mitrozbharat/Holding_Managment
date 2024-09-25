@@ -1,6 +1,8 @@
 ﻿
 
 
+using Hoarding_managment;
+
 namespace Hoarding_managment.Interface
 {
     public interface IAuth

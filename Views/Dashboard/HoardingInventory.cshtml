@@ -146,24 +146,31 @@
         #profile-upload:hover .fa:after {
             height: 100%;
         }
+
+    .input-group-inv{
+        display:flex;
+        justify-content:end;
+    }
+
+     /* #searchQuery{
+        margin-right:20px;
+        width:40%;
+        } */
 </style>
 
 
 <body>
-    <div class="container-fluid my-2">
-        <div class="card p-2">
-            <div class="my-2">
-                <div class="row align-items-center">
-                    <div class="col-sm-12 col-md-6 col-lg-8">
+   <div class="container-fluid my-2">
+       
+                <div class="row align-items-center my-2 px-2">
+                    <div class="col-sm-12 col-md-6 col-lg-3">
                         <h3 class="text-primary pt-2">Inventory</h3>
                     </div>
-                    <div class="col-sm-12  col-lg-4 d-flex justify-content-end">
-                        <div class="input-group">
-                            <input type="search" id="searchQuery" autocomplete="off" placeholder="Search by City, Area, or Vendor.." class="rounded-pill p-2 btn-outline-red" style="border: 1px solid;" value="@Model.SearchQuery" oninput="searchInventory()" />
+                    <div class="col-sm-12  col-lg-9 d-flex justify-content-end">
+                        <div class="input-group-inv">
+                    <input type="search" id="searchQuery" autocomplete="off"  placeholder="Search by City,Area,Vendor.." class="rounded-pill mr-3 btn-outline-red" style="border: 1px solid;" value="@Model.SearchQuery" oninput="searchInventory()" />
                             <input class="form-control btn" type="file" id="formFile" style="display: none;">
-                            <button class="btn btn-primary ml-4" id="importExcelbutton" onclick="uploadFile()">
-                                <i class="mdi-folder"></i> Import Excel
-                            </button>
+                            <button class="btn btn-primary " id="importExcelbutton" onclick="uploadFile()"><i class="mdi-folder"></i> Import Excel</button>
                             <input type="file" id="fileInput" style="display: none;" />
                             <button type="button" class="btn btn-primary ml-4" id="addInventoryButton" data-toggle="modal" data-target="#addCustomerModal">
                                 <span class="mdi mdi-plus"></span> Add Inventory
@@ -171,8 +178,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
+        <div class="card p-2">
             @if (!string.IsNullOrEmpty(Model.SearchQuery))
             {
                 <script>
@@ -243,13 +249,13 @@
                         {
                             <div class="col-md-4 mt-3">
                                 <div class="card-container">
-                                    @if (i.BookingStatus == 5)
+                                    @if (i.BookingStatus == 1)
                                     {
                                         <div class="ribbon-wrapper">
                                             <div class="ribbon">Booked</div>
                                         </div>
                                     }
-                                    <div class="card px-2">
+                                    <div class="card ">
                                         <div class="row g-0">
                                            
                                             
@@ -281,8 +287,7 @@
                                                             <img src="~/images/edit.png" data-toggle="modal" style="height: 41px;width: 41px;padding: 0 !important;" data-target="#editModal" onclick="editCratModal('@i.Id', '@i.City', '@i.Area', '@i.Width','@i.Height', '@i.Rate', '@i.VendorName','@i.Image','@i.FkVendorId','@i.location','@i.vendoramt')" />
                                                             <img src="/images/delete.svg" class="mr-2" data-toggle="modal" data-target="#deleteModal" onclick="setDeleteItem(@i.Id)" />
                                                         </div>
-@*                                                         <i class="bi bi-pencil"></i>
- *@                                                    </div>
+                                                   </div>
                                                 </div>
                                             </div>
                                         </div>

@@ -1,4 +1,5 @@
-﻿using iTextSharp.text;
+﻿
+using iTextSharp.text;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hoarding_managment.Interface
@@ -14,7 +15,8 @@ namespace Hoarding_managment.Interface
 
         public Task<TblInventory> AddNewInventoryAsync(TblInventory model);
         public  Task<TblInventory> UpdateInventoryItemAsync(TblInventory model);
-        public Task<TblInventory> GetInventryItemsByIdAsync(int id);
+        public Task<TblInventory> GetInventryByIdAsync(int id);
+        public  Task<TblInventoryitem> GetInventryItemsByIdAsync(int id);
         public Task<int> InventryItemscountAsync();
         public  Task<int> InventoryCountAsync();
         public Task<int> DeleteInventryItemsAsync(int id);

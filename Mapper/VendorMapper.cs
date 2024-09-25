@@ -1,4 +1,5 @@
-﻿namespace Hoarding_managment.Mapper
+﻿
+namespace Hoarding_managment.Mapper
 {
     public class VendorMapper
     {

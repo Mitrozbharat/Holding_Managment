@@ -1,5 +1,4 @@
 ﻿
-
 namespace Hoarding_managment.Interface
 {
     public interface ICustomer

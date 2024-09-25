@@ -12,7 +12,7 @@ namespace Hoarding_managment.Data
         public string? City { get; set; }
         public string? Area { get; set; }
         public string? Location { get; set; }
-        public ulong? IsLight { get; set; }
+        public ulong? type { get; set; }
         public string? Width { get; set; }
         public string? Height { get; set; }
         public ulong? BookingStatus { get; set; }

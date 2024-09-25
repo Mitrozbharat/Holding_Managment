@@ -11,7 +11,7 @@
         public string? Height { get; set; }
         public string? Rate { get; set; }
         public ulong? BookingStatus { get; set; }
-        public ulong? IsLight { get; set; }
+        public int? type { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public ulong? IsDelete { get; set; }

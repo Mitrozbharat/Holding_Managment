@@ -1,12 +1,5 @@
-﻿using static System.Net.Mime.MediaTypeNames;
-using System.Drawing;
-using Hoarding_managment.Interface;
-using System.Collections.Generic;
-using HoardingManagement.Repository;
-using HoardingManagement.Interface;
+﻿using HoardingManagement.Interface;
 using OfficeOpenXml;
-using System.Security.Cryptography.X509Certificates;
-using Hoarding_management.Data;
 
 namespace Hoarding_managment.Controllers
 {
@@ -115,7 +108,7 @@ namespace Hoarding_managment.Controllers
                         BookingStatus = 0,
                         FkVendorId = FkVendorId,
                         IsDelete = 0,
-                        IsLight = 0,
+                        Type = 0,
                         Fkcustomer = 1
                     };
 
@@ -173,7 +166,7 @@ namespace Hoarding_managment.Controllers
                 return Json(new { success = false, message = "Model state is invalid." });
             }
 
-            var existingItem = await _context.GetInventryItemsByIdAsync(id);
+            var existingItem = await _context.GetInventryByIdAsync(id);
             if (existingItem == null)
             {
                 return Json(new { success = false, message = "Item not found." });
@@ -295,7 +288,7 @@ namespace Hoarding_managment.Controllers
                     Height = item.Height,
                     Rate = item.Rate,
                     BookingStatus = item.BookingStatus,
-                    IsLight = item.IsLight,
+                    type = (int?)item.Type,
                     CreatedAt = item.CreatedAt,
                     UpdatedAt = item.UpdatedAt,
                     FkInventoryId = 1,
@@ -333,13 +326,13 @@ namespace Hoarding_managment.Controllers
             var existingItem = await _context.GetInventryItemsByIdAsync(id);
             if (existingItem == null)
             {
-                return Json(new { success = false, message = "Error deleting selected hoarding", model = 0 });
+                return Json(new { success = false, message = "Error Deleting Hoarding", model = 0 });
             }
 
             var deleteCnf = await _context.DeleteInventryItemsAsync(id);
             Console.WriteLine("Deleted ID: " + existingItem.Id);
 
-            return Json(new { success = true, message = "Selected hoarding deleted successfully", model = deleteCnf });
+            return Json(new { success = true, message = "Hoarding Deleted successfully", model = deleteCnf });
         }
 
         [HttpGet]

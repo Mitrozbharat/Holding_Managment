@@ -5,11 +5,6 @@ namespace Hoarding_managment.Models
 {
     public partial class TblInventory
     {
-        public TblInventory()
-        {
-            TblCampaigns = new HashSet<TblCampaign>();
-        }
-
         public int Id { get; set; }
         public string? Image { get; set; }
         public string? City { get; set; }
@@ -17,7 +12,7 @@ namespace Hoarding_managment.Models
         public string? Location { get; set; }
         public string? Width { get; set; }
         public string? Height { get; set; }
-        public ulong? IsLight { get; set; }
+        public int? Type { get; set; }
         public ulong? BookingStatus { get; set; }
         public string? Rate { get; set; }
         public string? VendorAmt { get; set; }
@@ -29,6 +24,5 @@ namespace Hoarding_managment.Models
         public string? UpdatedBy { get; set; }
 
         public virtual TblVendor? FkVendor { get; set; }
-        public virtual ICollection<TblCampaign> TblCampaigns { get; set; }
     }
 }
