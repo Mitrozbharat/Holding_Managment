@@ -84,7 +84,7 @@ namespace HoardingManagement.Repository
             }
 
             // Apply ordering by CreatedAt in descending order and pagination
-            var quotations = await query
+            List<QuatationViewModel>? quotations = await query
                 .OrderByDescending(q => q.CreatedAt)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
@@ -304,7 +304,7 @@ namespace HoardingManagement.Repository
             // Retrieve customer details
             var customer = await _context.TblCustomers
                 .Where(c => c.Id == quotation.FkCustomerId)
-                .Select(c => new { c.CustomerName, c.City, c.BusinessName })
+                .Select(c => new { c.CustomerName, c.City, c.BusinessName, c.Address })
                 .FirstOrDefaultAsync();
 
             // Retrieve vendor ID
@@ -352,6 +352,7 @@ namespace HoardingManagement.Repository
                 QuotationNumber = quotation.QuotationNumber,
                 CustomerName = customer?.CustomerName,
                 BusinessName = customer?.BusinessName,
+                Address =customer.Address,
                 VendorName = vendorName,
                 Width = inventory?.Width,
                 Height = inventory?.Height

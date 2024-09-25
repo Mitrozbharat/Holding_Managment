@@ -7,6 +7,8 @@
         public DateTime? CreatedAt { get; set; }
         public string? BusinessName { get; set; }
         public string? CustomerName { get; set; }
+        public string? Address { get; set; }
+        
         public string? VendorName { get; set; }
         public string? InventoryLocation { get; set; }
         public string? Width { get; set; }
