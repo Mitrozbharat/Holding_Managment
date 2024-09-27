@@ -43,14 +43,14 @@ $(document).ready(function ()
     //    });
     //});
 
-    $('#saveInventoryButton').click(function ()
-    {
-        debugger
+    $('#saveInventoryButton').click(function () {
+        debugger;
         var form = $('#addCustomerForm')[0]; // Get the form element
         var formData = new FormData(form); // Create FormData object from form
 
         var imageFile = $('#imageInput')[0].files[0]; // Get the selected image file
         var vendorname = $('#vendorName').val();
+        var sty = $('#styp').val(); // Get the selected dropdown value
         var vendornameid = $('#vendorids').val();
 
         if (imageFile && vendorname != "") {
@@ -72,31 +72,27 @@ $(document).ready(function ()
                         rate: $('#rate').val(),
                         vendoramt: $('#vendoramt').val(),
                         vendorid: $('#vendorids').val(),
+                        stype: sty, // Send the selected dropdown value here
                         Image: base64String // Send the Base64 encoded image string
                     },
-                    success: function (response)
-                    {
+                    success: function (response) {
                         console.log("Response: " + response);
                         toastr.success('Customer added successfully.');
                         document.getElementById('addCustomerModal').style.display = 'none';
                         location.reload(); // Optionally reload the page
                     },
-                    error: function (xhr, status, error)
-                    {
+                    error: function (xhr, status, error) {
                         toastr.error('An error occurred while adding the customer.');
                     }
                 });
             };
             reader.readAsDataURL(imageFile); // Convert the image to Base64 string
         } else {
-
             if (imageFile) {
                 toastr.error('Please select vendor name.');
-            }
-            else {
+            } else {
                 toastr.error('Please select an image file.');
             }
-           
         }
     });
 

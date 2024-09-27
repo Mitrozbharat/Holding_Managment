@@ -18,6 +18,7 @@ namespace Hoarding_managment.Data
         public ulong? Isdelete { get; set; }
    
         public int? FkVendorId { get; set; }
+        public int? Type { get; set; }
        
         public string? VendorName { get; set; } // Added vendor name
         public double Size {  get; set; }
