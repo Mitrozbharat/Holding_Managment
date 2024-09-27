@@ -28,19 +28,20 @@
                 </div>
                 @if (Model != null)
                 {
-                    var totalprice = 0.0; 
+                    var totalprice = 0.0;
                     <h4 class="text-center my-4">Quotation</h4>
                     <div class="row">
                         <div class="col-md-9 text-start mb-3 mb-md-0">
                             <input type="hidden" class="hidden" quotationId="@Model.Id" value="@Model.Id" />
-                            <p class="ml-2" QuotationNumber='@Model.QuotationNumber'><strong>Quotation Number :</strong> @Model.QuotationNumber</p>
-                            <p class="ml-2" ><strong>Date :</strong> @Model.CreatedAt?.ToString("yyyy-MM-dd")</p>
+                            <p class="ml-2"><strong>Quotation Number :</strong> @Model.QuotationNumber</p>
+                            <input type="hidden" qnumber="@Model.QuotationNumber" name="name" value="@Model.QuotationNumber" />
+                            <p class="ml-2"><strong>Date :</strong> @Model.CreatedAt?.ToString("yyyy-MM-dd")</p>
                         </div>
                         <div class="col-md-3 totalamountclass text-center" style="text-align:end">
-                            <p class="mr-4" ><strong>Quotation For :</strong> @Model.BusinessName</p>
+                            <p class="mr-4"><strong>Quotation For :</strong> @Model.BusinessName</p>
                             <p><strong>Address       :</strong> @Model.Address</p>
                             @foreach (var item in Model.Items)
-                            {totalprice += Convert.ToDouble(item.Rate);}
+                            { totalprice += Convert.ToDouble(item.Rate); }
                             <p style="padding-right:80px"><strong>Total Amount  : </strong> @totalprice /-</p>
                         </div>
                     </div>
@@ -73,7 +74,7 @@
         </div>
     </div>
 
-   @* <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>*@
+    @* <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>*@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 
@@ -107,7 +108,7 @@
                 // Adjust these coordinates to position the logo
                 let logoX = 9.2; // X position
                 let logoY = 0.3; // Y position
-                let logoWidth = 1.5; // Width of the logo
+                let logoWidth = 10; // Width of the logo
                 let logoHeight = 0.5; // Height of the logo
 
                 // Add the logo image
@@ -115,14 +116,14 @@
                 doc.setFontSize(25);
                 doc.setFont("helvetica", "bold");
 
-                // Set the color for the main text (default black)
-                doc.setTextColor(0, 0, 0); // RGB for black
-                doc.text('Hoarding Document', pageWidth - 0.3, pageHeight / 1.1, { align: 'right' });
-              
-                  doc.setFontSize(35);
-                // Set the color for the "|" character (red)
-                doc.setTextColor(255, 0, 0); // RGB for red
-                doc.text('|', pageWidth - 0.15, pageHeight / 1.1, { align: 'right' }); // Adjust position slightly
+                // // Set the color for the main text (default black)
+                // doc.setTextColor(0, 0, 0); // RGB for black
+                // doc.text('_', pageWidth - 0.3, pageHeight / 1.1, { align: 'center' });
+
+                //   doc.setFontSize(35);
+                // // Set the color for the "|" character (red)
+                // doc.setTextColor(255, 0, 0); // RGB for red
+                // doc.text('|', pageWidth - 0.15, pageHeight / 1.1, { align: 'right' }); // Adjust position slightly
 
                 // Reset text color back to default if needed
                 doc.setTextColor(0, 0, 0); // Reset to black for any further text
@@ -137,26 +138,28 @@
 
                 doc.setFontSize(16);
                 doc.setTextColor(255, 0, 0); // Red
-                doc.text('SAHU OUTDOOR ADVERTISING', pageWidth/1.2, 2.2, { align: 'right' });
+                doc.text('SAHU OUTDOOR ADVERTISING', pageWidth / 1.2, 2.2, { align: 'right' });
                 doc.setTextColor(128, 128, 128); // Gray
                 doc.setFontSize(12);
-                doc.text('Office No. 307, Supreme Classic Building,',pageWidth/ 1.2, 2.5, { align: 'right' });
-                doc.text('Salunke Vihar Road, Pune 411048',pageWidth/ 1.2, 2.7, { align: 'right' });
-                doc.text('Email: marketing@sahuads.com GSTIN: 27ABJCS1061L1Z3',pageWidth/ 1.2, 2.9, { align: 'right' });
+                doc.text('Office No. 307, Supreme Classic Building,', pageWidth / 1.2, 2.5, { align: 'right' });
+                doc.text('Salunke Vihar Road, Pune 411048', pageWidth / 1.2, 2.7, { align: 'right' });
+                doc.text('Email: marketing@sahuads.com GSTIN: 27ABJCS1061L1Z3', pageWidth / 1.2, 2.9, { align: 'right' });
                 doc.setTextColor(0, 0, 0);
                 doc.setFontSize(16);
                 doc.setFont("helvetica", "bold");
-                doc.text('Quotation Details', pageWidth / 2, 4.0, { align: 'center' });
+                doc.text('Quotation ', pageWidth / 2, 4.0, { align: 'center' });
 
                 // Add quotation details
                 let quotationId = $('#exportContent').find("input[quotationId]").val();
-                let QuotationNumber = $('#exportContent').find("p").val();
-                let date = $('.col-md-6 p').eq(1).text();
-                let dateone = $('.col-md-6 p').eq(3).text();
-                let customer = $('.totalamountclass p').eq(1).text();
-                let totalPrice = $('.totalamountclass p').eq(3).text();
+                let qnum = $('#exportContent').find("input[qnumber]").val();
+                let date = $('.col-md-9 p').eq(0).text();
+                let dateone = $('.col-md-9 p').eq(1).text();
+
+                let customer = $('.totalamountclass p').eq(0).text();
+                let address = $('.totalamountclass p').eq(1).text();
+                let totalPrice = $('.totalamountclass p').eq(2).text();
                 // Set up padding and background dimensions
-                const backgroundX = 1.8; // X position of the background
+                const backgroundX = 2.2; // X position of the background
                 const backgroundY = 4.9; // Y position of the background
                 const backgroundWidth = 8; // Width of the background
                 const backgroundHeight = 2; // Height of the background
@@ -164,15 +167,16 @@
 
                 // Set the background color
                 doc.setFillColor(255, 255, 255); // White background for the text area
-              //  doc.rect(backgroundX, backgroundY, backgroundWidth, backgroundHeight, cornerRadius, 'F'); // Fill the rectangle
+                //  doc.rect(backgroundX, backgroundY, backgroundWidth, backgroundHeight, cornerRadius, 'F'); // Fill the rectangle
                 doc.roundedRect(backgroundX, backgroundY, backgroundWidth, backgroundHeight, cornerRadius, cornerRadius, 'F'); // Fill the rounded rectangle
 
                 // Add text with padding
                 doc.setFontSize(14);
                 doc.text(`${date}`, 2.5, 5.6);
-                doc.text(`${dateone}`, 2.5, 6.1);
+                doc.text(`${dateone}`, 2.5, 5.9);
                 doc.text(`${customer}`, 6.5, 5.6);
-                doc.text(`${totalPrice}`, 6.5, 6.1);
+                doc.text(`${address}`, 6.5, 5.9);
+                doc.text(`${totalPrice}`, 6.5, 6.2);
 
 
 
@@ -197,7 +201,7 @@
                     let itemSize = $(this).find('p').eq(1).text().replace('Size:', '').trim();
                     let itemVendor = $(this).find('p').eq(2).text().replace('Vendor Name:', '').trim();
                     let itemRate = $(this).find('.text-primary').text().replace('Price:', '').trim();
-                    let itemImage = $(this).find('img').attr('src').split(',')[1];
+                    let itemImage = $(this).find('img').attr('src').split(',')[ 1 ];
 
                     totalQuote += parseFloat(itemRate.replace(/,/g, '')) || 0;
 
@@ -221,41 +225,52 @@
 
                     countforslide += 1;
                 });
-                const thankYouText = 'Thank you';
-                const textWidth = doc.getTextWidth(thankYouText) + 2; // Get the text width and add 1 for extra space
-                const minFontSize = 7;    // Adjust this value as needed
-                doc.setFontSize(minFontSize); // Set the font size
-                if (totalitemofthequation % 2 === 0) {
-                    doc.addPage();
-                    doc.setFillColor(255, 238, 240);
-                    doc.rect(0, 0, pageWidth, pageHeight, 'F'); // Optional: Fill the background
+                doc.addPage();
+                doc.setFillColor(255, 238, 240);
+                doc.rect(0, 0, pageWidth, pageHeight, 'F');
 
-                    // Draw a red line above the "Thank you" text
-                    doc.setDrawColor(255, 0, 0); // Set the line color to red
-                    const lineY = pageHeight / 1.3; // Adjust this value for line position
-                    const lineXStart = (pageWidth - textWidth) / 2; // Center the line
-                    doc.setLineWidth(0.1); // Set the line thickness
-                    doc.line(lineXStart, lineY, lineXStart + textWidth, lineY); // Draw the line
+                doc.setFontSize(25);
+                doc.setTextColor(0, 0, 0);
 
-                    doc.setFontSize(25);
-                    doc.setTextColor(0, 0, 0);
-                    doc.text(thankYouText, pageWidth / 2, pageHeight / 1.2, { align: 'center' });
-                } else {
-                    // Draw a red line above the "Thank you" text
-                    doc.setDrawColor(255, 0, 0); // Set the line color to red
-                    const lineY = pageHeight / 1.3; // Adjust this value for line position
-                    const lineXStart = (pageWidth - textWidth) / 2; // Center the line
-                    doc.setLineWidth(0.1); // Set the line thickness
-                    doc.line(lineXStart, lineY, lineXStart + textWidth, lineY); // Draw the line
-                    doc.setFontSize(25);
-                    doc.setTextColor(0, 0, 0);
-                    doc.text(thankYouText, pageWidth / 2, pageHeight / 1.2, { align: 'center' });
-                }
-                let fileName = `Quotation_${QuotationNumber || 'default'}.pdf`; // Use 'default' if quotationNumber is not available
-                doc.save(fileName); // Save the PDF with the file name
+                const thankYouText = 'Thank You';
+                const textWidth = doc.getTextWidth(thankYouText);
+                const textX = (pageWidth - textWidth) / 2;
+                const textY = 1;
+
+                doc.text(thankYouText, textX, textY);
+
+
+
+                doc.addImage(logoImgData, 'PNG', 4.9, 2, 2, 1);
+
+
+                let startY = 3.6;
+                // doc.text('SAHU OUTDOOR ADVERTISING', pageWidth / 2, startY, { align: 'center' });
+
+                doc.setTextColor(128, 128, 128);
+                doc.setFontSize(12);
+
+                startY += 0.2;
+                doc.text('Office No. 307, Supreme Classic Building,', pageWidth / 2, startY, { align: 'center' });
+
+                startY += 0.2;
+                doc.text('Salunke Vihar Road, Pune 411048', pageWidth / 2, startY, { align: 'center' });
+
+                startY += 0.2;
+                doc.text('Email: marketing@sahuads.com GSTIN: 27ABJCS1061L1Z3', pageWidth / 2, startY, { align: 'center' });
+
+                doc.setTextColor(0, 0, 0);
+                doc.setFontSize(16);
+                doc.setFont("helvetica", "bold");
+                doc.text('SAHU OUTDOOR ADVERTISING', pageWidth / 2, 3.5, { align: 'center' });
+
+
+                // Save the PDF
+                doc.save(`quotation_${qnum}.pdf`);
+
             });
-       
-           
+
+
 
             function getBase64ImageFromUrl(url, callback) {
                 fetch(url)
@@ -290,6 +305,7 @@
 
         });
     </script>
+
     <script>
 
         $(document).ready(function () {
@@ -305,7 +321,7 @@
                 firstSlide.addImage({ path: document.getElementById('imagedatatwo').innerHTML, x: 0, y: 0, w: '100%', h: '100%' });
                 firstSlide.addImage({ path: document.getElementById('imagedata').innerHTML, x: 8.2, y: 0.3, w: 1.5, h: 0.5 });
                 const headerTextFont = { fontSize: 23, bold: true, color: '000000' };
-                firstSlide.addText('Hoarding Document', { x: 5.9, y: 4.7, w: '40%', h: 1, ...headerTextFont, align: 'right' });
+                // firstSlide.addText('Hoarding Document', { x: 5.9, y: 4.7, w: '40%', h: 1, ...headerTextFont, align: 'right' });
 
                 let secondSlide = pptx.addSlide();
                 secondSlide.addShape(pptx.ShapeType.rect, {
@@ -314,6 +330,7 @@
                     w: '100%',
                     h: '100%',
                     fill: { color: 'FFEEF0' }
+
                 });
                 secondSlide.addImage({ path: document.getElementById('imagedata').innerHTML, x: 1.7, y: 1.1, w: 2, h: 1 });
 
@@ -327,7 +344,7 @@
                 secondSlide.addText('Salunke Vihar Road, Pune 411048', { x: 1, y: 1.7, ...textFontone, align: 'right' });
                 secondSlide.addText('Email: marketing@sahuads.com GSTIN: 27ABJCS1061L1Z3', { x: 1, y: 1.9, ...textFontone, align: 'right' });
 
-                secondSlide.addText('Quotation Details', { x: 1, y: 2.6, ...textHeadingFont, align: 'center' });
+                secondSlide.addText('Quotation ', { x: 1, y: 2.6, ...textHeadingFont, align: 'center' });
 
                 secondSlide.addShape(pptx.ShapeType.rect, {
                     x: 1.4,
@@ -339,16 +356,19 @@
                 });
 
                 let quotationId = $('#exportContent').find("input[quotationId]").val();
-                let date = $('.col-md-6 p').eq(1).text();
-                let dateone = $('.col-md-6 p').eq(3).text();
-                let customer = $('.totalamountclass p').eq(1).text();
-                let totalPrice = $('.totalamountclass p').eq(3).text();
+                let qnum = $('#exportContent').find("input[qnumber]").val();
+                let date = $('.col-md-9 p').eq(0).text();
+                let dateone = $('.col-md-9 p').eq(1).text();
+
+                let customer = $('.totalamountclass p').eq(0).text();
+                let address = $('.totalamountclass p').eq(1).text();
+                let totalPrice = $('.totalamountclass p').eq(2).text();
 
                 secondSlide.addText(`${date}`, { x: 2, y: 3.5, ...tabletext, align: 'left' });
                 secondSlide.addText(`${dateone}`, { x: 2, y: 3.8, ...tabletext, align: 'left' });
                 secondSlide.addText(`${customer}`, { x: 5.5, y: 3.5, ...tabletext, align: 'left' });
-                secondSlide.addText(`${totalPrice}`, { x: 5.5, y: 3.8, ...tabletext, align: 'left' });
-
+                secondSlide.addText(`${address}`, { x: 5.5, y: 3.7, ...tabletext, align: 'left' });
+                secondSlide.addText(`${totalPrice}`, { x: 5.5, y: 3.9, ...tabletext, align: 'left' });
 
                 let totalQuote = 0;
 
@@ -364,9 +384,9 @@
                         let end = Math.min(begin + sliceSize, bytesLength);
                         let bytes = new Array(end - begin);
                         for (let offset = begin, i = 0; offset < end; ++i, ++offset) {
-                            bytes[i] = byteCharacters[offset].charCodeAt(0);
+                            bytes[ i ] = byteCharacters[ offset ].charCodeAt(0);
                         }
-                        byteArrays[sliceIndex] = new Uint8Array(bytes);
+                        byteArrays[ sliceIndex ] = new Uint8Array(bytes);
                     }
                     let blob = new Blob(byteArrays, { type: contentType });
                     return URL.createObjectURL(blob);
@@ -406,7 +426,7 @@
                     let itemSize = $(this).find('p').eq(1).text().replace('Size:', '').trim();
                     let itemVendor = $(this).find('p').eq(2).text().replace('Vendor Name:', '').trim();
                     let itemRate = $(this).find('.text-primary').text().replace('Price:', '').trim();
-                    let itemImage = $(this).find('img').attr('src').split(',')[1];
+                    let itemImage = $(this).find('img').attr('src').split(',')[ 1 ];
 
                     totalQuote += parseFloat(itemRate.replace(/,/g, '')) || 0;
 
@@ -432,43 +452,38 @@
                     countforslide += 1;
                 });
 
+                // After processing all item slides
                 const titleT = { fontSize: 25, bold: true, color: '000000', fontFace: 'Arial' };
 
-                if (totalitemofthequation % 2 === 0) {
+                // Add the Thank You slide
+                let thankYouSlide = pptx.addSlide();
 
-                    // Add thank you slide
-                    let lastSlide = pptx.addSlide();
-                    lastSlide.addShape(pptx.ShapeType.rect, {
-                        x: 0,
-                        y: 0,
-                        w: '100%',
-                        h: '100%',
-                        fill: { color: 'FFEEF0' }
-                    });
+                // Add the "Thank you" text
+                thankYouSlide.addText('Thank you', {
+                    x: 1,
+                    y: 0.4,
+                    ...titleT,
+                    align: 'center'
+                });
 
-                    lastSlide.addShape(pptx.ShapeType.line, {
-                        x: 3.7,
-                        y: 4.7,
-                        w: 2.5,
-                        h: 0,
-                        line: { color: 'FF0000', width: 4 }
-                    });
+                // Add a red line under the "Thank you" text
+                thankYouSlide.addShape(pptx.ShapeType.line, {
+                    x: 3.5,
+                    y: 0.8, // Adjust the y position as needed (0.8 is just an example)
+                    w: 2.5,
+                    h: 0,
+                    line: { color: 'FF0000', width: 4, align: 'center' } // Set color to red
+                });
 
-                    lastSlide.addText('Thank you', { x: 1.2, y: 5, ...titleT, align: 'center' });
+                thankYouSlide.addImage({ path: document.getElementById('imagedata').innerHTML, x: 3.8, y: 1.1, w: 2, h: 1 });
 
-                } else {
+                thankYouSlide.addText('SAHU OUTDOOR ADVERTISING', { x: 1, y: 2.5, ...headingFont, align: 'center' });
+                thankYouSlide.addText('Office No. 307, Supreme Classic Building,', { x: 1, y: 2.8, ...textFontone, align: 'center' });
+                thankYouSlide.addText('Salunke Vihar Road, Pune 411048', { x: 1, y: 3, ...textFontone, align: 'center' });
+                thankYouSlide.addText(' GSTIN: 27ABJCS1061L1Z3', { x: 1, y: 3.2, ...textFontone, align: 'center' });
+                thankYouSlide.addText('Email: marketing@sahuads.com', { x: 1, y: 3.4, ...textFontone, align: 'center' });
 
 
-                    itemSlide.addShape(pptx.ShapeType.line, {
-                        x: 3.7,
-                        y: 4.7,
-                        w: 2.5,
-                        h: 0,
-                        line: { color: 'FF0000', width: 4 }
-                    });
-
-                    itemSlide.addText('Thank you', { x: 1.2, y: 5, ...titleT, align: 'center' });
-                }
 
                 // Save the presentation
                 pptx.writeFile('Sahu_Advertising.pptx').then(function (fileName) {
