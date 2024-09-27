@@ -156,8 +156,18 @@
         margin-right:20px;
         width:40%;
         } */
-</style>
 
+        			.conteneur5 { display:flex;margin-left: 38%;margin-top: 14px; }
+			.points5 { margin:8px; width:16px; height:16px; border-radius:50%; background:#555555; }
+			.points5:nth-child(1) { animation:animPoints5 2.5s linear infinite; }
+			.points5:nth-child(2) { animation:animPoints5 2.5s linear .5s infinite; }
+			.points5:nth-child(3) { animation:animPoints5 2.5s linear 1s infinite; }
+			.points5:nth-child(4) { animation:animPoints5 2.5s linear 1.5s infinite; }
+			.points5:nth-child(5) { animation:animPoints5 2.5s linear 2s infinite; }
+			@@keyframes animPoints5 { 0% { transform:scale(1); background:#cccccc; } 50% { transform:scale(2); background:#555555; } 100% { transform:scale(1); background:#cccccc; } }
+
+</style>
+<link href="~/css/circle.css" rel="stylesheet" />
 
 <body>
    <div class="container-fluid my-2">
@@ -170,7 +180,7 @@
                         <div class="input-group-inv">
                     <input type="search" id="searchQuery" autocomplete="off"  placeholder="Search by City,Area,Vendor.." class="rounded-pill mr-3 btn-outline-red" style="border: 1px solid;" value="@Model.SearchQuery" oninput="searchInventory()" />
                             <input class="form-control btn" type="file" id="formFile" style="display: none;">
-                            <button class="btn btn-primary " id="importExcelbutton" onclick="uploadFile()"><i class="mdi-folder"></i> Import Excel</button>
+                    <button class="btn btn-primary " data-toggle="modal" data-target="#ImportinventoryModal"><i class="mdi mdi-download"></i> Import Excel</button>
                             <input type="file" id="fileInput" style="display: none;" />
                             <button type="button" class="btn btn-primary ml-4" id="addInventoryButton" data-toggle="modal" data-target="#addCustomerModal">
                                 <span class="mdi mdi-plus"></span> Add Inventory
@@ -249,7 +259,7 @@
                         {
                             <div class="col-md-4 mt-3">
                                 <div class="card-container">
-                                    @if (i.BookingStatus == 1)
+                                    @if (i.BookingStatus == 0)
                                     {
                                         <div class="ribbon-wrapper">
                                             <div class="ribbon">Booked</div>
@@ -382,6 +392,47 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary" id="saveInventoryButton">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="ImportinventoryModal" tabindex="-1" aria-labelledby="ImportinventoryModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="ImportinventoryModalLabel">Import Inventory</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label for="fileInput" class="form-label">Upload file</label>
+                                        <div class="custom-file">
+                                            <input type="file" id="inventoryimportInput" accept=".xls,.xlsx" class="custom-file-input" onchange="updateFileName()" />
+                                            <label class="custom-file-label" id="inventoryimportname" for="inventoryimportInput">Choose file</label>
+                                        </div>
+                                    </div>
+                                  @*  <div class="form-group col-md-12">
+                                        <center><span>Please wait import inprogress..</span></center>  
+                                      	<div class="conteneur5">
+			                                <div class="points5"></div>
+			                                <div class="points5"></div>
+			                                <div class="points5"></div>
+			                                <div class="points5"></div>
+			                                <div class="points5"></div>
+		                                </div>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <center><span>Uploded file successfully import !</span></center>
+                                      <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/></svg>
+                                    </div>*@
+                                </div>                                
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary"  onclick="uploadFile()">Upload</button>                              
                             </div>
                         </div>
                     </div>
@@ -563,6 +614,17 @@
 
             </section>
         </div>
+        <script>
+    function updateFileName() {
+        var input = document.getElementById('inventoryimportInput');
+        var label = document.getElementById('inventoryimportname');
+        
+        // Update the label to show the file name after selecting a file
+        if (input.files.length > 0) {
+            label.innerHTML = input.files[0].name;
+        }
+    }
+</script>
 
         <script>
             function searchInventory() {
@@ -744,14 +806,15 @@
         </script>
          <script>
                 function uploadFile() {
-                    var fileInput = document.getElementById('fileInput');
+                    var fileInput = document.getElementById('inventoryimportInput');
                     var file = fileInput.files[0];
 
                     if (file) {
+                  
                         var formData = new FormData();
                         formData.append('file', file);
 
-                        fetch('https://localhost:7092/Dashboard/Upload',  
+                        fetch('/Dashboard/Upload',  
                         {
                             method: 'POST',
                             body: formData,
@@ -766,6 +829,7 @@
                             try {
                                 const data = JSON.parse(text); // Try to parse text as JSON
                                 console.log('Success:', data);
+                                location.reload();
                             } catch (e) {
                                 console.error('Failed to parse JSON:', text); // Handle parsing error
                             }
@@ -774,19 +838,19 @@
                             console.error('Error:', error);
                         });
                     } else {
-                        alert('Please select a file to upload.');
+                        alert('Please select a file to upload.'); 
                     }
                 }
 
-                // Automatically trigger file input click when the button is clicked
-                document.getElementById('importExcelbutton').addEventListener('click', function() {
-                    document.getElementById('fileInput').click();
-                });
+                //// Automatically trigger file input click when the button is clicked
+                //document.getElementById('importExcelbutton').addEventListener('click', function() {
+                //    document.getElementById('fileInput').click();
+                //});
 
                 // Automatically upload the file when a file is selected
-                document.getElementById('fileInput').addEventListener('change', function() {
-                    uploadFile();
-                });
+                //document.getElementById('fileInput').addEventListener('change', function() {
+                //    uploadFile();
+                //});
           </script>
         <script>
             // Set the values of the form fields in the modal

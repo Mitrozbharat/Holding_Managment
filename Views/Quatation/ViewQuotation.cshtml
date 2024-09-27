@@ -11,7 +11,7 @@
                 <div class="row">
 
                     <div class="col-lg-6 text-center">
-                        <img id="myImage" class="m-3" alt="Location Image" style="width:100%; max-width: 350px" />
+                        <img id="myImage" class="ml-3 mr-3 mb-3" alt="Location Image" style="width:100%; max-width: 300px" />
                         <span id="imagedata" style="display:none"></span>
                         <img id="myImagetwo" class="m-3" alt="Location Image" style="display:none" />
                         <span id="imagedatatwo" style="display:none"></span>
@@ -31,24 +31,17 @@
                     var totalprice = 0.0; 
                     <h4 class="text-center my-4">Quotation</h4>
                     <div class="row">
-                        <div class="col-md-6 text-start mb-3 mb-md-0">
+                        <div class="col-md-9 text-start mb-3 mb-md-0">
                             <input type="hidden" class="hidden" quotationId="@Model.Id" value="@Model.Id" />
-                            <p><strong>Quotation Number :</strong> @Model.QuotationNumber</p>
-                            <p style="display:none"><strong>Quotation No   :</strong> @Model.QuotationNumber</p>
-                            <p><strong>Date :</strong> @Model.CreatedAt?.ToString("yyyy-MM-dd")</p>
-                            <p style="display:none"><strong>Date                  :</strong> @Model.CreatedAt?.ToString("yyyy-MM-dd")</p>
+                            <p class="ml-2" QuotationNumber='@Model.QuotationNumber'><strong>Quotation Number :</strong> @Model.QuotationNumber</p>
+                            <p class="ml-2" ><strong>Date :</strong> @Model.CreatedAt?.ToString("yyyy-MM-dd")</p>
                         </div>
-                        <div class="col-md-6 totalamountclass text-end" style="text-align:end">
-                            <p><strong>Quotation For :</strong> @Model.BusinessName</p>
-                            <p style="display:none"><strong>Quotation For    :</strong> @Model.BusinessName</p>
+                        <div class="col-md-3 totalamountclass text-center" style="text-align:end">
+                            <p class="mr-4" ><strong>Quotation For :</strong> @Model.BusinessName</p>
+                            <p><strong>Address       :</strong> @Model.Address</p>
                             @foreach (var item in Model.Items)
-                            {
-
-                                totalprice += Convert.ToDouble(item.Rate);
-
-                            }
-                            <p class="mr-5" ><strong>Total Amount  : </strong> @totalprice /-</p>
-                            <p style="display:none"><strong>Total Amount         : </strong> @totalprice /-</p>
+                            {totalprice += Convert.ToDouble(item.Rate);}
+                            <p style="padding-right:80px"><strong>Total Amount  : </strong> @totalprice /-</p>
                         </div>
                     </div>
                     <hr>
@@ -157,6 +150,7 @@
 
                 // Add quotation details
                 let quotationId = $('#exportContent').find("input[quotationId]").val();
+                let QuotationNumber = $('#exportContent').find("p").val();
                 let date = $('.col-md-6 p').eq(1).text();
                 let dateone = $('.col-md-6 p').eq(3).text();
                 let customer = $('.totalamountclass p').eq(1).text();
@@ -257,7 +251,8 @@
                     doc.setTextColor(0, 0, 0);
                     doc.text(thankYouText, pageWidth / 2, pageHeight / 1.2, { align: 'center' });
                 }
-                doc.save('Quotation.pdf');
+                let fileName = `Quotation_${QuotationNumber || 'default'}.pdf`; // Use 'default' if quotationNumber is not available
+                doc.save(fileName); // Save the PDF with the file name
             });
        
            
@@ -476,7 +471,7 @@
                 }
 
                 // Save the presentation
-                pptx.writeFile('Quotation.pptx').then(function (fileName) {
+                pptx.writeFile('Sahu_Advertising.pptx').then(function (fileName) {
                     console.log('Presentation saved as:', fileName);
                 }).catch(function (err) {
                     console.error('Error saving presentation:', err);

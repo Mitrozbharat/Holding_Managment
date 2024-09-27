@@ -32,7 +32,7 @@ namespace Hoarding_managment.Controllers
          [HttpGet]
         public async Task<IActionResult> Index(string searchQuery = "", int pageSize = 10, int pageNumber = 1)
         {
-            var quotations = await _context.GetAllQuotationsListAsync(searchQuery,pageNumber, pageSize);
+            List<QuatationViewModel>? quotations = await _context.GetAllQuotationsListAsync(searchQuery,pageNumber, pageSize);
             var totalItems = await _context.GetQuotationCountAsync(searchQuery);
             var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
 
