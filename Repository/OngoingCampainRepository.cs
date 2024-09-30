@@ -44,24 +44,34 @@ namespace Hoarding_managment.Repository
             return campaigns;
         }
 
-        public async Task<CampaigneditViewModel> UpdateCampaignAsync(CampaigneditViewModel model)        {
-
-            var campaign = new TblCampaign
+        public async Task<CampaigneditViewModel> UpdateCampaignAsync(CampaigneditViewModel model)  
+        {
+            try
             {
-                Id=model.Id,
-                //FkCustomer=model.FkCustomerId,
-                //FkInventory=model.FkInventoryId,
-                FromDate=model.FromDate,
-                ToDate=model.ToDate,
-                BookingAmt=model.BookingAmt,
+                var campaigndetails =await _context.TblCampaigns.FirstOrDefaultAsync(x => x.Id == model.Id);
+                if(campaigndetails != null)
+                {
+                    campaigndetails.FromDate = model.FromDate;
+                    campaigndetails.ToDate = model.ToDate;
+                    campaigndetails.BookingAmt = model.BookingAmt;
 
-            };
+                    _context.SaveChangesAsync();
 
-            _context.TblCampaigns.Update(campaign);
-            await _context.SaveChangesAsync();
+                }
+
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        
 
             return model;
         }
+
+   
+
         public async Task<TblCampaign> GetCampaingnByIdAsync(int id)
         {
             return await _context.TblCampaigns.FirstOrDefaultAsync(x => x.Id == id && x.IsDelete == 0);
@@ -149,6 +159,7 @@ namespace Hoarding_managment.Repository
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToList();
+            
 
             // Map the paged campaigns to the CampaignViewModel
             var result = pagedCampaigns.Select(item => new CampaignViewModel
@@ -160,22 +171,27 @@ namespace Hoarding_managment.Repository
                 UpdatedBy = item.UpdatedBy,
                 CreatedAt = item.CreatedAt,
                 IsDelete = item.IsDelete,
+             
                 CustomerName = _context.TblCustomers
                     .Where(c => c.Id == item.FkCustomerId)
                     .Select(c => c.CustomerName)
                     .FirstOrDefault(),
+                BusinessName = _context.TblVendors
+                    .Where(v => v.Id == item.FkInventoryId)
+                    .Select(v => v.BusinessName)
+                    .FirstOrDefault(),
+                VendorName = _context.TblVendors
+                    .Where(v => v.Id == item.FkInventoryId)
+                    .Select(v => v.VendorName)
+                    .FirstOrDefault(),
                 City = _context.TblInventories
                     .Where(v => v.Id == item.FkInventoryId)
-                    .Select(v => v.City )
+                    .Select(v => v.City)
                     .FirstOrDefault(),
                 Image = _context.TblInventories
                     .Where(v => v.Id == item.FkInventoryId)
                     .Select(v => v.Image)
                     .FirstOrDefault(),
-                BusinessName = _context.TblVendors
-                    .Where(v => v.Id == item.FkInventoryId)
-                    .Select(v => v.BusinessName)
-                    .FirstOrDefault()
             }).ToList();
 
             return result;

@@ -500,11 +500,10 @@ namespace Hoarding_managment.Controllers
                 };
 
                 await _context.AddNewInventoryAsync(data);
-                return Ok(new { Success = true, Message = "Customer  Add Successfully. " });
-            
-            return Json(new { Success = false, Message = "Invalid data." });
-
+                return Ok(new { Success = true, Message = "Customer  Add Successfully." });
+           
         }
+
 
         [HttpGet]
         public IActionResult SearchCustomersByName(string name)

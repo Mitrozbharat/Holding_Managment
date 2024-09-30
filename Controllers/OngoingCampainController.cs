@@ -88,7 +88,7 @@ namespace Hoarding_managment.Controllers
         }
 
 
-        [HttpPut]
+        [ HttpPost]
         public async Task<IActionResult> UpdateCampaign(CampaigneditViewModel model)
         {
             if (model == null)

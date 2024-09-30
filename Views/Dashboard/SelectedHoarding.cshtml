@@ -278,9 +278,11 @@
                                                                     <button type="button" class="btn btn-secondary btn-sm" onclick="cancelEdit(${item.id})">Cancel</button>
                                                                 </div>
                                                             </div>
-                                                                                        <div class="camp-date" style="display:none;">
-          <input type="date" class="form-control" id="StartDate_${item.id}" name="StartDate" onchange="validateDates(${item.id})">
-          <input type="date" class="form-control" id="EndDate_${item.id}" name="EndDate" onchange="validateDates(${item.id})">
+                                                           <div class="camp-date" style="display:none;">
+        <input type="date" class="form-control" id="StartDate_${item.id}" name="StartDate"
+               onchange="validateDates(${item.id})"
+               value="${new Date().toISOString().split('T')[ 0 ]}">
+                  <input type="date" class="form-control" id="EndDate_${item.id}" name="EndDate" onchange="validateDates(${item.id})">
         </div>
 
                                                             <br>
@@ -448,7 +450,7 @@
                         // Delay for 2 seconds before redirecting
                         setTimeout(function () {
                             window.location.href = '/OngoingCampain/Index';
-                        }, 1000); // 2000 milliseconds = 2 seconds
+                        }, 2000); // 2000 milliseconds = 2 seconds
                     },
                     error: function (xhr, status, error) {
                         console.error('Error saving selected hoardings:', status, error);
