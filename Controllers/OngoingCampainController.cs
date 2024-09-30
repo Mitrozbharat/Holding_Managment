@@ -60,8 +60,8 @@ namespace Hoarding_managment.Controllers
         }
 
 
-
-        public async Task<IActionResult> DeleteOngoingCampaign(int id)
+        [HttpDelete]
+        public async Task<IActionResult> DeleteCampaign(int id)
         {
             var Campaign = await _context.GetCampaingnByIdAsync(id);
             if (Campaign != null)
@@ -89,7 +89,7 @@ namespace Hoarding_managment.Controllers
 
 
         [HttpPut]
-        public async Task<IActionResult> UpdateOngoingCampaign(CampaignViewModel? model)
+        public async Task<IActionResult> UpdateCampaign(CampaigneditViewModel model)
         {
             if (model == null)
             {

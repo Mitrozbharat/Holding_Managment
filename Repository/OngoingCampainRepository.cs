@@ -43,9 +43,8 @@ namespace Hoarding_managment.Repository
 
             return campaigns;
         }
-     
-        public async Task<CampaignViewModel> UpdateCampaignAsync(CampaignViewModel model)
-        {
+
+        public async Task<CampaigneditViewModel> UpdateCampaignAsync(CampaigneditViewModel model)        {
 
             var campaign = new TblCampaign
             {
@@ -167,7 +166,11 @@ namespace Hoarding_managment.Repository
                     .FirstOrDefault(),
                 City = _context.TblInventories
                     .Where(v => v.Id == item.FkInventoryId)
-                    .Select(v => v.City)
+                    .Select(v => v.City )
+                    .FirstOrDefault(),
+                Image = _context.TblInventories
+                    .Where(v => v.Id == item.FkInventoryId)
+                    .Select(v => v.Image)
                     .FirstOrDefault(),
                 BusinessName = _context.TblVendors
                     .Where(v => v.Id == item.FkInventoryId)
@@ -195,7 +198,6 @@ namespace Hoarding_managment.Repository
             // Return the count of campaigns that match the query
             return await query.CountAsync();
         }
-
 
         public async Task<CampaignViewModel> SearchByCampaignNameAsync(string name)
         {
