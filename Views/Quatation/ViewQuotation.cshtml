@@ -100,36 +100,21 @@
                 let imgData = document.getElementById('imagedatatwo').innerHTML;
                 console.log("Background Image Data:", imgData);
                 doc.addImage(imgData, 'PNG', 0, 0, pageWidth, pageHeight); // Adjust as needed
-
                 // Add the logo image (second image) on top of the first image
                 let logoImgData = document.getElementById('imagedata').innerHTML;
-                console.log("Logo Image Data:", logoImgData);
 
                 // Adjust these coordinates to position the logo
-                let logoX = 9.2; // X position
+                let logoX = 8.5; // X position
                 let logoY = 0.3; // Y position
-                let logoWidth = 10; // Width of the logo
-                let logoHeight = 0.5; // Height of the logo
+                let logoWidth = 3; // Width of the logo
+                let logoHeight =1; // Height of the logo
 
-                // Add the logo image
+               // Add the logo image
                 doc.addImage(logoImgData, 'PNG', logoX, logoY, logoWidth, logoHeight);
-                doc.setFontSize(25);
+                doc.setFontSize(15);
                 doc.setFont("helvetica", "bold");
 
-                // // Set the color for the main text (default black)
-                // doc.setTextColor(0, 0, 0); // RGB for black
-                // doc.text('_', pageWidth - 0.3, pageHeight / 1.1, { align: 'center' });
-
-                //   doc.setFontSize(35);
-                // // Set the color for the "|" character (red)
-                // doc.setTextColor(255, 0, 0); // RGB for red
-                // doc.text('|', pageWidth - 0.15, pageHeight / 1.1, { align: 'right' }); // Adjust position slightly
-
-                // Reset text color back to default if needed
-                doc.setTextColor(0, 0, 0); // Reset to black for any further text
-
-
-                // Add a new page for Quotation Details
+               
                 doc.addPage();
                 doc.setFillColor(255, 238, 240); // Light red background
                 doc.rect(0, 0, pageWidth, pageHeight, 'F');
@@ -229,8 +214,8 @@
                 doc.setFillColor(255, 238, 240);
                 doc.rect(0, 0, pageWidth, pageHeight, 'F');
 
-                doc.setFontSize(25);
-                doc.setTextColor(0, 0, 0);
+                doc.setFontSize(28);
+                doc.setTextColor(255, 0, 0);
 
                 const thankYouText = 'Thank You';
                 const textWidth = doc.getTextWidth(thankYouText);
@@ -239,9 +224,14 @@
 
                 doc.text(thankYouText, textX, textY);
 
+                // doc.setDrawColor(255, 0, 0);
+                // doc.setLineWidth(0.1); // Thickness of the underline
+                // const underlineY = textY + 0.1; // Adjust position slightly below the text
+                // doc.line(textX, underlineY, textX + textWidth, underlineY);
 
 
-                doc.addImage(logoImgData, 'PNG', 4.9, 2, 2, 1);
+
+                doc.addImage(logoImgData, 'PNG', 4.5, 2, 2.9, 1);
 
 
                 let startY = 3.6;
@@ -467,13 +457,13 @@
                 });
 
                 // Add a red line under the "Thank you" text
-                thankYouSlide.addShape(pptx.ShapeType.line, {
-                    x: 3.5,
-                    y: 0.8, // Adjust the y position as needed (0.8 is just an example)
-                    w: 2.5,
-                    h: 0,
-                    line: { color: 'FF0000', width: 4, align: 'center' } // Set color to red
-                });
+                // thankYouSlide.addShape(pptx.ShapeType.line, {
+                //     x: 3.5,
+                //     y: 0.8, // Adjust the y position as needed (0.8 is just an example)
+                //     w: 2.5,
+                //     h: 0,
+                //     line: { color: 'FF0000', width: 4, align: 'center' } // Set color to red
+                // });
 
                 thankYouSlide.addImage({ path: document.getElementById('imagedata').innerHTML, x: 3.8, y: 1.1, w: 2, h: 1 });
 
