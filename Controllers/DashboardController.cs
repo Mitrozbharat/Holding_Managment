@@ -87,14 +87,15 @@ namespace Hoarding_managment.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateInventoryItems(int Id, string Image, string Area, string City, string width, string height, string Rate,int FkVendorId)
+        public async Task<IActionResult> CreateInventoryItems(int Id, string Image, string Area, string City, string width, string height, string Rate,int FkVendorId  )
         {
-            if (ModelState.IsValid)
-            {
-                //var existingItem =  _dbContext.GetInventryItemsByIdAsync(Id); // Use await to get the result
-                //if (existingItem == null)
-                //{
+            var existingItem = _dbContext.TblInventoryitems.FirstOrDefault(x => x.FkInventoryId == Id && x.IsDelete==0); // Use await to get the result
 
+            if (existingItem == null)
+            {
+                if (ModelState.IsValid)
+            {
+               
                     var inventoryItem = new TblInventoryitem
                     {
                         FkInventoryId = Id,
@@ -112,9 +113,16 @@ namespace Hoarding_managment.Controllers
                     };
 
                     _dbContext.TblInventoryitems.Add(inventoryItem);
-                _dbContext.SaveChanges();
+                    _dbContext.SaveChanges();
 
                     return Json(new { success = true, Message = "Create Quotation successfully." });
+                }
+                else
+                {
+                    return Json(new { success = false, Message = "Allready Added" });
+
+                }
+
                 //}
                 //else
                 //{
@@ -158,7 +166,7 @@ namespace Hoarding_managment.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> UpdateInventoryItems(int id, string city, string area, string width, string height, string rate, string VendorName,int vendorid,string Image,string location,string vendoramt)
+        public async Task<IActionResult> UpdateInventoryItems(int id, string city, string area, string width, string height, string rate, string VendorName,int vendorid,string Image,string location,string vendoramt,int st)
         {
             if (!ModelState.IsValid)
             {
@@ -182,6 +190,7 @@ namespace Hoarding_managment.Controllers
             existingItem.Image = Image;
             existingItem.Location = location;
             existingItem.VendorAmt = vendoramt;
+            existingItem.Type = st;
 
             // Save changes to the database
             this._dbContext.SaveChanges();
@@ -469,7 +478,8 @@ namespace Hoarding_managment.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> AddNewInventory(string city, string area, string location, string width, string height, string rate, string vendoramt, string Image,int vendorid)
+                       
+        public async Task<IActionResult> AddNewInventory(string city, string area, string location, string width, string height, string rate, string vendoramt, string Image,int vendorid,int stype)
         {
             
                 var data = new TblInventory
@@ -483,6 +493,7 @@ namespace Hoarding_managment.Controllers
                     VendorAmt = vendoramt,
                     Image = Image,
                     FkVendorId= vendorid,
+                   Type=stype,
                     IsDelete = 0,
                     CreatedAt = DateTime.Now,
                     CreatedBy = "Admin",

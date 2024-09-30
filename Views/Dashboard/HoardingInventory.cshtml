@@ -294,7 +294,7 @@
                                                         <div class="end-icons">
                                                            
                                                           @*   <img src="/images/detail.svg" alt="Details" onclick="showDetail(@i.Id)" /> *@
-                                                            <img src="~/images/edit.png" data-toggle="modal" style="height: 41px;width: 41px;padding: 0 !important;" data-target="#editModal" onclick="editCratModal('@i.Id', '@i.City', '@i.Area', '@i.Width','@i.Height', '@i.Rate', '@i.VendorName','@i.Image','@i.FkVendorId','@i.location','@i.vendoramt')" />
+                                                            <img src="~/images/edit.png" data-toggle="modal" style="height: 41px;width: 41px;padding: 0 !important;" data-target="#editModal" onclick="editCratModal('@i.Id', '@i.City', '@i.Area', '@i.Width','@i.Height', '@i.Rate', '@i.VendorName','@i.Image','@i.FkVendorId','@i.location','@i.vendoramt','@i.Type')" />
                                                             <img src="/images/delete.svg" class="mr-2" data-toggle="modal" data-target="#deleteModal" onclick="setDeleteItem(@i.Id)" />
                                                         </div>
                                                    </div>
@@ -372,7 +372,14 @@
                                             <label for="vendoramt">Vendor Amount</label>
                                             <input type="text" class="form-control custom-border" id="vendoramt" name="vendoramt" placeholder="Enter Vandor Amount">
                                         </div>
-                                     
+                                        <div class="form-group col-md-6">
+                                            <label for="styp">Select Type</label>
+                                            <select class="form-control custom-border" id="styp" name="styp" style="border:1px solid black;">
+                                                <option value="1">NL</option>
+                                                <option value="2">FL</option>
+                                                <option value="3">Lit</option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="form-row">
                                       
@@ -513,6 +520,14 @@
                                             <label for="City">City Name <span class="text-danger">*</span></label>
                                             <input type="text" class="form-control custom-border" id="edit-city" name="edit-city" placeholder="Enter City Name" required>
                                           
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="styped">Select Type</label>
+                                            <select class="form-control custom-border" id="styped" name="styped" style="border:1px solid black">
+                                                <option value="1">NL</option>
+                                                <option value="2">FL</option>
+                                                <option value="3">Lit</option>
+                                            </select>
                                         </div>
                                      
                                     </div>
@@ -854,8 +869,7 @@
           </script>
         <script>
             // Set the values of the form fields in the modal
-            function editCratModal(id, city, area, width, height, rate, VendorName,Image,vendorid,location,vendoramt)
-            {
+            function editCratModal(id, city, area, width, height, rate, VendorName, Image, vendorid, location, vendoramt, Type) {
 
                 //city: $('#city').val(),
                 //    area: $('#Area').val(),
@@ -877,6 +891,7 @@
                 $('#edit-vendoramt').val(vendoramt);
                 $('#edit-vendorName').val(VendorName);
                 $('#edit-vendorids').val(vendorid);
+                $('#styped').val(Type);
               
 
                 if (Image) 
@@ -907,6 +922,7 @@
                 var imageFile = $('#edit-image').val(); // Get the selected image file
                 var locations = $('#edit-location').val(); // Get the selected image file
                 var vendoramt = $('#edit-vendoramt').val(); // Get the selected image file
+                var st = $('#styped').val(); // Get the selected image file
 
                 if (imageFile !="" && vendorName != "") 
                 {
@@ -926,7 +942,8 @@
                             vendorid:vendorid,
                             Image: imageFile,
                             location: locations,
-                            vendoramt:vendoramt
+                            vendoramt:vendoramt,
+                            st:st,
                         },
                         success: function (response) 
                         {
@@ -1059,7 +1076,8 @@
                             toastr.success(response.Message); // Display the success message from the response
                             location.reload(); // Optionally reload the page
                         } else {
-                            toastr.error(response.Message); // Display the error message from the response
+                            toastr.error(response.Message);
+                            alert("Already Added!");// Display the error message from the response
                         }
                     },
                     error: function (xhr, status, error) {
@@ -1104,6 +1122,69 @@
                     fileName1.textContent = 'No file chosen';
                 }
             });
+
+
+
+
+            // $('#saveInventoryButton').click(function () {
+            //     debugger
+            //     var form = $('#addCustomerForm')[0]; // Get the form element
+            //     var formData = new FormData(form); // Create FormData object from form
+
+            //     var imageFile = $('#imageInput')[0].files[0]; // Get the selected image file
+            //     var vendorname = $('#vendorName').val();
+            //     var vendornameid = $('#vendorids').val();
+            //     var stype= $('#styp').val();
+                   
+
+            //     if (imageFile && vendorname != "") {
+            //         var reader = new FileReader();
+
+            //         reader.onloadend = function () {
+            //             var base64String = reader.result.replace("data:", "").replace(/^.+,/, ''); // Convert image to Base64 string
+
+            //             // Send the form data along with the Base64 string via AJAX
+            //             $.ajax({
+            //                 type: "POST",
+            //                 url: '/Dashboard/AddNewInventory', // Update the URL to match your controller action
+            //                 data: {
+            //                     city: $('#city').val(),
+            //                     area: $('#Area').val(),
+            //                     location: $('#location').val(),
+            //                     width: $('#width').val(),
+            //                     height: $('#height').val(),
+            //                     rate: $('#rate').val(),
+            //                     vendoramt: $('#vendoramt').val(),
+            //                     vendorid: $('#vendorids').val(),
+
+            //                     Image: base64String // Send the Base64 encoded image string
+            //                 },
+            //                 success: function (response) {
+            //                     console.log("Response: " + response);
+            //                     toastr.success('Customer added successfully.');
+            //                     document.getElementById('addCustomerModal').style.display = 'none';
+            //                     location.reload(); // Optionally reload the page
+            //                 },
+            //                 error: function (xhr, status, error) {
+            //                     toastr.error('An error occurred while adding the customer.');
+            //                 }
+            //             });
+            //         };
+            //         reader.readAsDataURL(imageFile); // Convert the image to Base64 string
+            //     } else {
+
+            //         if (imageFile) {
+            //             toastr.error('Please select vendor name.');
+            //         }
+            //         else {
+            //             toastr.error('Please select an image file.');
+            //         }
+
+            //     }
+            // });
+
+
+
         </script>
 
 

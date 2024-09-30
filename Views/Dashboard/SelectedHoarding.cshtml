@@ -209,7 +209,7 @@
         </div>
     </div>
 
-
+  
 
 
     <script>
@@ -278,10 +278,11 @@
                                                                     <button type="button" class="btn btn-secondary btn-sm" onclick="cancelEdit(${item.id})">Cancel</button>
                                                                 </div>
                                                             </div>
-                                                            <div class="camp-date" style="display:none;">
-                                                                <input type="date" class="form-control" id="StartDate_${item.id}" name="StartDate">
-                                                                <input type="date" class="form-control" id="EndDate_${item.id}" name="EndDate">
-                                                            </div>
+                                                                                        <div class="camp-date" style="display:none;">
+          <input type="date" class="form-control" id="StartDate_${item.id}" name="StartDate" onchange="validateDates(${item.id})">
+          <input type="date" class="form-control" id="EndDate_${item.id}" name="EndDate" onchange="validateDates(${item.id})">
+        </div>
+
                                                             <br>
                                                         </div>
                                                     </div>
@@ -456,7 +457,36 @@
             });
         });
     </script>
+    <script>
+        // Set today's date as default for start date
+        document.addEventListener('DOMContentLoaded', function () {
+            const today = new Date().toISOString().split('T')[0]; // Get today's date in yyyy-mm-dd format
+            document.getElementById(`StartDate_${item.id}`).value = today;
+        });
 
+        // Function to validate date inputs
+        function validateDates(id) {
+            const startDateInput = document.getElementById(`StartDate_${id}`);
+            const endDateInput = document.getElementById(`EndDate_${id}`);
+
+            const startDate = new Date(startDateInput.value);
+            const endDate = new Date(endDateInput.value);
+            const today = new Date();
+
+            // Check if start date is before today
+            if (startDate < today.setHours(0, 0, 0, 0)) {  // Compare with today's date at 00:00
+                alert("Start date cannot be in the past.");
+                startDateInput.value = today.toISOString().split('T')[0]; // Reset to today's date
+            }
+
+            // Check if end date is less than start date
+            if (endDate < startDate) {
+                alert("End date cannot be less than the start date.");
+                endDateInput.value = startDateInput.value; // Reset to start date
+            }
+        }
+
+    </script>
     <script>
         document.querySelectorAll('.autocomplete').forEach(function (input) {
             let suggestionsContainer;

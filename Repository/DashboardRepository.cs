@@ -83,6 +83,8 @@ namespace Hoarding_managment.Repository
                     BookingStatus = item.BookingStatus,
                     CreatedAt = item.CreatedAt,
                     UpdatedAt = item.UpdatedAt,
+                    Type= item.Type,
+
                     VendorName = _context.TblVendors.FirstOrDefault(x => x.Id == item.FkVendorId)?.VendorName,
                     FkVendorId = item.FkVendorId
                 };
