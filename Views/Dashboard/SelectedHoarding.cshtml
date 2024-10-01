@@ -75,7 +75,7 @@
                         <ul id="resultsContainer"></ul>
 
                         <div class="action-buttons m-4">
-                            <button type="submit" class="btn btn-primary" id="saveQuotation">Save Quotation</button>
+                            <button type="button" class="btn btn-primary" id="saveQuotation">Save Quotation</button>
                             <!---->
                             <button type="button" class="btn btn-primary" id="saveCampaign">Save Campaign</button>
 
@@ -395,16 +395,21 @@
                     data: JSON.stringify({ selectedItems: updatedRates, customerId: customerId }),
                     success: function (response) {
 
-                        setTimeout(function () {
-                            window.location.href = '/Quatation/LastQuotation?id=' + response.id; // Corrected line
-
-                        }, 1000);
-
                         if (response.success) {
+
                             alert("Data Added Successfully!");
+                            window.location.href = '/Quatation/ViewQuotation?id=' + response.id;
+
                         } else {
                             toastr.error(response.message);
                         }
+
+                        // setTimeout(function () {
+                          
+
+                        // }, 2000);
+
+                       
                     },
                     error: function (xhr, status, error) {
                         toastr.error('Error saving the quotation.');

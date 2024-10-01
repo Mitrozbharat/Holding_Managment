@@ -363,9 +363,9 @@ namespace Hoarding_managment.Controllers
             try
             {
 
-             var id =  await  _context.AddQuatationsAsync(model);
+                var id =  await  _context.AddQuatationsAsync(model);
 
-                return Ok(new { success = true, message = "Selected hoardings saved successfully." ,id =id});
+               return Json(new { success = true, message = "Selected hoardings saved successfully." ,id =id});
             }
             catch (Exception ex)
             {
