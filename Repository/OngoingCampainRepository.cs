@@ -141,7 +141,66 @@ namespace Hoarding_managment.Repository
         {
             // Retrieve all campaigns that are not deleted
             var campaigns = await _context.TblCampaigns
-                .Where(x => x.IsDelete == 0)
+                .Where(x => x.IsDelete == 0 && x.ToDate >= DateTime.Today)
+                .ToListAsync();
+
+            // Filter by CustomerName, City, or BusinessName if a search query is provided
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                campaigns = campaigns.Where(x =>
+                    _context.TblCustomers.Any(c => c.Id == x.FkCustomerId && c.CustomerName.Contains(searchQuery)) ||
+                    _context.TblInventories.Any(v => v.Id == x.FkInventoryId && v.City.Contains(searchQuery)) ||
+                    _context.TblVendors.Any(v => v.Id == x.FkInventoryId && v.BusinessName.Contains(searchQuery))
+                ).ToList();
+            }
+
+            // Apply pagination (Skip and Take)
+            var pagedCampaigns = campaigns
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+            
+
+            // Map the paged campaigns to the CampaignViewModel
+            var result = pagedCampaigns.Select(item => new CampaignViewModel
+            {
+                Id = item.Id,
+                ToDate = item.ToDate,
+                FromDate = item.FromDate,
+                BookingAmt = item.BookingAmt,
+                UpdatedBy = item.UpdatedBy,
+                CreatedAt = item.CreatedAt,
+                IsDelete = item.IsDelete,
+             
+                CustomerName = _context.TblCustomers
+                    .Where(c => c.Id == item.FkCustomerId)
+                    .Select(c => c.CustomerName)
+                    .FirstOrDefault(),
+                BusinessName = _context.TblVendors
+                    .Where(v => v.Id == item.FkInventoryId)
+                    .Select(v => v.BusinessName)
+                    .FirstOrDefault(),
+                VendorName = _context.TblVendors
+                    .Where(v => v.Id == item.FkInventoryId)
+                    .Select(v => v.VendorName)
+                    .FirstOrDefault(),
+                City = _context.TblInventories
+                    .Where(v => v.Id == item.FkInventoryId)
+                    .Select(v => v.City)
+                    .FirstOrDefault(),
+                Image = _context.TblInventories
+                    .Where(v => v.Id == item.FkInventoryId)
+                    .Select(v => v.Image)
+                    .FirstOrDefault(),
+            }).ToList();
+
+            return result;
+        } 
+        public async Task<List<CampaignViewModel>> GetallCompletedCampaignAsync(string searchQuery, int pageNumber, int pageSize)
+        {
+            // Retrieve all campaigns that are not deleted
+            var campaigns = await _context.TblCampaigns
+                .Where(x => x.IsDelete == 0 && x.ToDate < DateTime.Today)
                 .ToListAsync();
 
             // Filter by CustomerName, City, or BusinessName if a search query is provided
@@ -200,7 +259,25 @@ namespace Hoarding_managment.Repository
         public async Task<int> GetOngoingCampaignCountAsync(string searchQuery)
         {
             // Initialize the query for campaigns
-            var query = _context.TblCampaigns.Where(x => x.IsDelete == 0).AsQueryable();
+            var query = _context.TblCampaigns.Where(x => x.IsDelete == 0 && x.ToDate >= DateTime.Today).AsQueryable();
+
+            // If a search query is provided, filter by CustomerName, City, or BusinessName
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                query = query.Where(x =>
+                    _context.TblCustomers.Any(c => c.Id == x.FkCustomerId && c.CustomerName.Contains(searchQuery)) ||
+                    _context.TblInventories.Any(v => v.Id == x.FkInventoryId && v.City.Contains(searchQuery)) ||
+                    _context.TblVendors.Any(v => v.Id == x.FkInventoryId && v.BusinessName.Contains(searchQuery)));
+            }
+
+            // Return the count of campaigns that match the query
+            return await query.CountAsync();
+        } 
+        
+        public async Task<int> GetCompletedCampaignCountAsync(string searchQuery)
+        {
+            // Initialize the query for campaigns
+            var query = _context.TblCampaigns.Where(x => x.IsDelete == 0 && x.ToDate < DateTime.Today).AsQueryable();
 
             // If a search query is provided, filter by CustomerName, City, or BusinessName
             if (!string.IsNullOrEmpty(searchQuery))

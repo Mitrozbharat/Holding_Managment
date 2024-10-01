@@ -6,7 +6,7 @@
         <div class="p-2">
             <div class="row align-items-center">
                 <div class="col-12 col-md-5">
-                    <h3 class="text-primary pt-2 pl-4">Ongoing Campaigns</h3>
+                    <h3 class="text-primary pt-2 pl-4">Completed Campaigns</h3>
                 </div>
                 <div class="col-12 col-md-7">
                     <div class="d-flex flex-column flex-md-row justify-content-md-end">
@@ -89,11 +89,9 @@
                                 <th>Amount</th>
                                 <th>City</th>
                                 <th>Location</th>
-
-                                <th class="text-center">Actions</th>
                             </tr>
                         </thead>
-                       <tbody>
+                        <tbody>
                             @foreach (var item in Model.CampaignsViewModel)
                             {
                                 <tr>
@@ -106,59 +104,50 @@
                                     <td>@item.BookingAmt</td>
                                     <td>@item.City</td>
                                     <td>location</td>
-                                    <td class="text-center">
-                                        <button type="button" class="btn btn-primary p-2"
-                                                onclick="openEditcampModal('@item.Id', '@item.FromDate?.ToString("yyyy-MM-dd")', '@item.ToDate?.ToString("yyyy-MM-dd")', '@item.BookingAmt')">
-                                            <i class="mdi mdi-table-edit"></i>
-                                        </button>
-                                        |
-                                        <button type="button" class="btn btn-danger p-2" data-toggle="modal" data-target="#deleteModal" onclick="deleteModel('@item.Id')">
-                                            <i class="mdi mdi-delete"></i>
-                                        </button>
-                                    </td>
+                                   
                                 </tr>
                             }
                         </tbody>
 
                     </table>
-                    
+
                     <!-- Pagination -->
-                  @*  <nav aria-label="Page navigation">
-                        <ul class="pagination justify-content-end m-2">
-                            <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
-                                <a class="page-link" href="@Url.Action("Index", new { pageNumber = Model.CurrentPage - 1, pageSize = 7 })" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-                            @for (int i = 1; i <= Model.TotalPages; i++)
-                            {
-                                <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-                                    <a class="page-link" href="@Url.Action("Index", new { pageNumber = i, pageSize = 7 })">@i</a>
-                                </li>
-                            }
-                            <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
-                                <a class="page-link" href="@Url.Action("Index", new { pageNumber = Model.CurrentPage + 1, pageSize = 7 })" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        </ul>
+                    @*  <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-end m-2">
+                    <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { pageNumber = Model.CurrentPage - 1, pageSize = 7 })" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    </a>
+                    </li>
+                    @for (int i = 1; i <= Model.TotalPages; i++)
+                    {
+                    <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { pageNumber = i, pageSize = 7 })">@i</a>
+                    </li>
+                    }
+                    <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { pageNumber = Model.CurrentPage + 1, pageSize = 7 })" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    </a>
+                    </li>
+                    </ul>
                     </nav>*@
                     <div class="pagination justify-content-end m-2">
                         @if (Model.TotalPages > 0)
                         {
                             if (Model.CurrentPage > 1)
                             {
-                                <a href="@Url.Action("Index", new { searchQuery = Model.SearchQuery, pageNumber = Model.CurrentPage - 1, pageSize = Model.PageSize })" class="btn btn-primary">Previous</a>
+                                <a href="@Url.Action("CompletedCampain", new { searchQuery = Model.SearchQuery, pageNumber = Model.CurrentPage - 1, pageSize = Model.PageSize })" class="btn btn-primary">Previous</a>
                             }
 
                             for (int i = 1; i <= Model.TotalPages; i++)
                             {
-                                <a href="@Url.Action("Index", new { searchQuery = Model.SearchQuery, pageNumber = i, pageSize = Model.PageSize })" class="btn @(i == Model.CurrentPage ? "btn-secondary" : "btn-light")">@i</a>
+                                <a href="@Url.Action("CompletedCampain", new { searchQuery = Model.SearchQuery, pageNumber = i, pageSize = Model.PageSize })" class="btn @(i == Model.CurrentPage ? "btn-secondary" : "btn-light")">@i</a>
                             }
 
                             if (Model.CurrentPage < Model.TotalPages)
                             {
-                                <a href="@Url.Action("Index", new { searchQuery = Model.SearchQuery, pageNumber = Model.CurrentPage + 1, pageSize = Model.PageSize })" class="btn btn-primary">Next</a>
+                                <a href="@Url.Action("CompletedCampain", new { searchQuery = Model.SearchQuery, pageNumber = Model.CurrentPage + 1, pageSize = Model.PageSize })" class="btn btn-primary">Next</a>
                             }
                         }
                     </div>
@@ -211,40 +200,40 @@
 
     <!-- Delete Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteCampaignModal" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content" style="border-radius:20px;">
-            <div class="modal-header">
-                <h5 class="modal-title text-primary">Delete Campaign</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <input type="hidden" id="editId" />
-                <p class="text-center">Are you sure you want to delete this campaign?</p>
-            </div>
+        <div class="modal-dialog">
+            <div class="modal-content" style="border-radius:20px;">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary">Delete Campaign</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="editId" />
+                    <p class="text-center">Are you sure you want to delete this campaign?</p>
+                </div>
                 <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-danger" id="DeleteBtn">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" id="DeleteBtn">Delete</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
     <script>
         function searchCustomers() {
             var searchQuery = document.getElementById('searchQuery').value;
             var pageSize = document.getElementById('rowQuantity').value;
-            window.location.href = `/OngoingCampain/Index?searchQuery=${searchQuery}&pageNumber=1&pageSize=${pageSize}`;
+            window.location.href = `/OngoingCampain/CompletedCampain?searchQuery=${searchQuery}&pageNumber=1&pageSize=${pageSize}`;
         }
 
         function updateRowQuantity() {
             var pageSize = document.getElementById('rowQuantity').value;
             var searchQuery = document.getElementById('searchQuery').value;
-            window.location.href = `/OngoingCampain/Index?searchQuery=${searchQuery}&pageNumber=1&pageSize=${pageSize}`;
+            window.location.href = `/OngoingCampain/CompletedCampain?searchQuery=${searchQuery}&pageNumber=1&pageSize=${pageSize}`;
         }
     </script>
 
-<script>
+    <script>
 
         function openEditcampModal(id, fromDate, toDate, budget) {
             // Check if valid dates and budget
@@ -259,9 +248,9 @@
             }
         }
 
-       
 
-        $('#saveEditcampain').on('click', function(e) {
+
+        $('#saveEditcampain').on('click', function (e) {
             e.preventDefault(); // Prevent form submission
 
             var id = $('#editId').val();
@@ -277,10 +266,10 @@
                     setTimeout(function () {
                         $('#editCampaignModal').modal('hide');
                         toastr.success('Campaign updated successfully.');
-                       
+
                     }, 1000);
                     location.reload();
-                   // Reload to update the table
+                    // Reload to update the table
                 },
                 error: function (xhr, status, error) {
                     toastr.error('Error updating campaign.');
@@ -288,9 +277,9 @@
             });
         });
 
-    function deleteModel(id) {
-           $('#editId').val(id);
-    }
+        function deleteModel(id) {
+            $('#editId').val(id);
+        }
 
         $('#DeleteBtn').on('click', function () {
             var id = $('#editId').val();
@@ -309,5 +298,5 @@
             });
         });
 
-</script>
+    </script>
 </body>

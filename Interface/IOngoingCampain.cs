@@ -11,7 +11,9 @@
 
 
         public Task<List<CampaignViewModel>> GetallOngoingCampaignAsync(string searchQuery,int pageNumber,int pageSize);
+        public Task<List<CampaignViewModel>> GetallCompletedCampaignAsync(string searchQuery,int pageNumber,int pageSize);
         public Task<int>  GetOngoingCampaignCountAsync(string searchQuery);
+        public Task<int> GetCompletedCampaignCountAsync(string searchQuery);
 
         public Task<CampaignViewModel> SearchByCampaignNameAsync(string name); 
     }
