@@ -37,15 +37,15 @@
                             <input type="hidden" qnumber="@Model.QuotationNumber" name="name" value="@Model.QuotationNumber" />
                             <p class="ml-2"><strong>Date :</strong> @Model.CreatedAt?.ToString("yyyy-MM-dd")</p>
                         </div>
-                        <div class="col-md-3 totalamountclass text-center" style="text-align:end">
-                            <p class="mr-4"><strong>Quotation For :</strong> @Model.BusinessName</p>
+                        <div class="col-md-3 totalamountclass" style="text-align:start">
+                            <p ><strong>Quotation For :</strong> @Model.BusinessName</p>
                             @{
                                 string truncatedAddress = @Model.Address.Length > 30 ? @Model.Address.Substring(0, 30) + "..." : @Model.Address;
                             }
-
-                            <p><strong>Address :</strong> @truncatedAddress</p>                            @foreach (var item in Model.Items)
+                            <p><strong>Address :</strong> @truncatedAddress</p>                           
+                            @foreach (var item in Model.Items)
                             { totalprice += Convert.ToDouble(item.Rate); }
-                            <p style="padding-right:60px"><strong>Total Amount  : </strong> @totalprice /-</p>
+                            <p ><strong>Total Amount  : </strong> @totalprice /-</p>
                         </div>
                     </div>
                     <hr>
@@ -147,12 +147,13 @@
                 let address = $('.totalamountclass p').eq(1).text();
                 let totalPrice = $('.totalamountclass p').eq(2).text();
                 // Set up padding and background dimensions
-                const backgroundX = 2.2; // X position of the background
+                const backgroundX = 1; // X position of the background
                 const backgroundY = 4.9; // Y position of the background
-                const backgroundWidth = 8; // Width of the background
+                const backgroundWidth = 10; // Width of the background
                 const backgroundHeight = 2; // Height of the background
                 const cornerRadius = 0.2;
 
+                
                 // Set the background color
                 doc.setFillColor(255, 255, 255); // White background for the text area
                 //  doc.rect(backgroundX, backgroundY, backgroundWidth, backgroundHeight, cornerRadius, 'F'); // Fill the rectangle
@@ -160,11 +161,11 @@
 
                 // Add text with padding
                 doc.setFontSize(14);
-                doc.text(`${date}`, 2.5, 5.6);
-                doc.text(`${dateone}`, 2.5, 5.9);
-                doc.text(`${customer}`, 6.5, 5.6);
-                doc.text(`${address}`, 6.5, 5.9);
-                doc.text(`${totalPrice}`, 6.5, 6.2);
+                doc.text(`${date}`, 2, 5.6);
+                doc.text(`${dateone}`, 2, 5.9);
+                doc.text(`${customer}`, 6, 5.6);
+                doc.text(`${address}`, 6, 5.9);
+                doc.text(`${totalPrice}`, 6, 6.2);
 
 
 
@@ -194,9 +195,9 @@
                     totalQuote += parseFloat(itemRate.replace(/,/g, '')) || 0;
 
                     let yPosition = (countforslide % 2 === 0) ? 0.5 : 3;
-                    const backgroundX = 1.7; // X position of the background
+                    const backgroundX = 0.8; // X position of the background
                     const backgroundY = (countforslide % 2 === 0) ? 1.4 : 4.1; // Y position of the background
-                    const backgroundWidth = 8; // Width of the background
+                    const backgroundWidth = 10; // Width of the background
                     const backgroundHeight = 2.4; // Height of the background
                     const cornerRadius = 0.2;
                     // Set the background color
@@ -204,11 +205,11 @@
                     doc.roundedRect(backgroundX, backgroundY, backgroundWidth, backgroundHeight, cornerRadius, cornerRadius, 'F'); // Fill the rounded rectangle
 
                     // Add the image
-                    doc.addImage(itemImage, 'PNG', 1.9, backgroundY + 0.4, 2.3, 1.6);
-                    doc.text(`Location: ${itemLocation}`, 4.5, backgroundY + 0.5);
-                    doc.text(`City: ${itemCity}`, 4.5, backgroundY + 1);
-                    doc.text(`Size: ${itemSize}`, 4.5, backgroundY + 1.5);
-                    doc.text(`Vendor: ${itemVendor}`, 4.5, backgroundY + 1.9);
+                    doc.addImage(itemImage, 'PNG', 1, backgroundY + 0.4, 2.3, 1.6);
+                    doc.text(`Location: ${itemLocation}`, 4, backgroundY + 0.5);
+                    doc.text(`City: ${itemCity}`, 4, backgroundY + 1);
+                    doc.text(`Size: ${itemSize}`, 4, backgroundY + 1.5);
+                    doc.text(`Vendor: ${itemVendor}`, 4, backgroundY + 1.9);
                     doc.text(`Price: ${itemRate}`, 7.9, backgroundY + 1.9);
 
                     countforslide += 1;

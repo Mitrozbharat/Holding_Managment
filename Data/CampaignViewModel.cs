@@ -18,6 +18,7 @@
         public string? VendorName { get; set; }
         public string? BusinessName { get; set; }
         public string? City { get; set; }
+        public string? Location { get; set; }
         public int? TotalHoldings { get; set; }  // Corrected field name to be more clear
     }
 
