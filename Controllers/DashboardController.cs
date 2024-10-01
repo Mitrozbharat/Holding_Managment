@@ -29,7 +29,7 @@ namespace Hoarding_managment.Controllers
     
 
        [HttpGet]
-        public async Task<IActionResult> HoardingInventory(string searchQuery = "", int pageSize = 10, int pageNumber = 1)
+        public async Task<IActionResult> HoardingInventory(string searchQuery = "", int pageSize = 9, int pageNumber = 1)
         {
             var inventory = await _context.GetAllHoarldingInvenrotyAsync(searchQuery, pageNumber, pageSize);
             var totalItems = await _context.GetAllHoarldingInvenrotyCountAsync(searchQuery);
