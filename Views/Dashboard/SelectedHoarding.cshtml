@@ -279,24 +279,20 @@
                                                                       City : ${item.city}
                                                                     </p>
                                                         </div>
-                                                        <div class="hoarding-actions">
+                                                                <div class="hoarding-actions" style="margin-right: 15px;">
                                                             <button type="button" class="btn btn-danger rounded-circle p-2" data-toggle="modal" data-target="#deleteModal" onclick="cnfDeleteselecedInvetry(${item.id})">
                                                                 <i class="mdi mdi-delete"></i>
                                                             </button>
-                                                            <div class="rate-section my-2">
+                                                             <div class="rate-section my-2">
                                                                 <h4 class="my-2">
                                                                     <span style='font-size:20px;'>&#8377; </span>
-                                                                    <span id="rateDisplay_${item.id}">${item.rate}</span>
-                                                                    <button type="button" class="btn btn-primary btn-sm ml-2" onclick="editRate(${item.id}, ${item.rate})">
-                                                                        <i class="mdi mdi-pencil"></i>
-                                                                    </button>
+                                                                    <span id="rateDisplay_${item.id}" class="rate-display" ondblclick="editRate(${item.id}, ${item.rate})">${item.rate}</span>
                                                                 </h4>
                                                                 <div class="rate-edit" id="rateEdit_${item.id}" style="display: none;">
-                                                                    <input type="number" class="form-control mb-2" id="rateInput_${item.id}" value="${item.rate}">
-                                                                    <button type="button" class="btn btn-success btn-sm" onclick="saveRate(${item.id})">Save</button>
-                                                                    <button type="button" class="btn btn-secondary btn-sm" onclick="cancelEdit(${item.id})">Cancel</button>
+                                                                    <input type="number" class="form-control mb-2 rate-input" id="rateInput_${item.id}" value="${item.rate}">
                                                                 </div>
                                                             </div>
+                                                          
                                                            <div class="camp-date" style="display:none;">
         <input type="date" class="form-control" id="StartDate_${item.id}" name="StartDate"
                onchange="validateDates(${item.id})"
@@ -316,6 +312,23 @@
                                     $("#businessNameid").val(item.fkcustomer);
                                 }
                             });
+
+                              //<div class="rate-section my-2">
+                              //                                  <h4 class="my-2">
+                              //                                      <span style='font-size:20px;'>&#8377; </span>
+                              //                                      <span id="rateDisplay_${item.id}">${item.rate}</span>
+                              //                                      <button type="button" class="btn btn-primary btn-sm ml-2" onclick="editRate(${item.id}, ${item.rate})">
+                              //                                          <i class="mdi mdi-pencil"></i>
+                              //                                      </button>
+                              //                                  </h4>
+                              //                                  <div class="rate-edit" id="rateEdit_${item.id}" style="display: none;">
+                              //                                      <input type="number" class="form-control mb-2" id="rateInput_${item.id}" value="${item.rate}">
+                              //                                      <button type="button" class="btn btn-success btn-sm" onclick="saveRate(${item.id})">Save</button>
+                              //                                      <button type="button" class="btn btn-secondary btn-sm" onclick="cancelEdit(${item.id})">Cancel</button>
+                              //                                  </div>
+                              //                              </div>
+
+                          
 
                             if (idString.length > 0) {
                                 idString = idString.slice(0, -1);  // Remove trailing comma
@@ -353,10 +366,10 @@
 
                            
 
-                            window.editRate = function (id, currentRate) {
-                                $('#rateDisplay_' + id).hide();
-                                $('#rateEdit_' + id).show();
-                            };
+                            //window.editRate = function (id, currentRate) {
+                            //    $('#rateDisplay_' + id).hide();
+                            //    $('#rateEdit_' + id).show();
+                            //};
 
                             // Function to save the updated rate
                             window.saveRate = function (id) {
@@ -385,6 +398,65 @@
                                     console.log(`Rate for item ${id} was changed.`);
                                 }
                             };
+
+                            // Function to handle the double-click event and enable editing
+                            window.editRate = function (id, currentRate) {
+                                // Hide the rate display and show the input field
+                                $('#rateDisplay_' + id).hide();
+                                $('#rateEdit_' + id).show();
+
+                                // Get the input field
+                                var inputField = $('#rateInput_' + id);
+
+                                // Set focus to the input field
+                                inputField.focus();
+
+                                // Move the caret to the end of the input value
+                                var value = inputField.val();
+                                inputField.val('').val(value); // This resets the value to move the caret to the end
+
+                                // Clear previous keydown event handlers to avoid multiple bindings
+                                inputField.off('keydown').on('keydown', function (e) {
+                                    if (e.key === 'Enter') {
+                                        e.preventDefault(); // Prevent the default action (form submission, etc.)
+                                        saveRate(id); // Call the save function to update the rate
+                                    }
+                                });
+                            };
+
+                            // The rest of your code remains the same...
+
+
+
+                                    // Function to save the rate when the user clicks outside the input field (blur event)
+                                    $(document).on('blur', '.rate-input', function () {
+                                        var id = $(this).attr('id').split('_')[1]; // Extract the item ID from the input field ID
+                                        saveRate(id); // Call the save function
+                                    });
+                                 
+
+                                    //window.saveRate = function (id) {
+                                    //    var newRate = $('#rateInput_' + id).val();
+                                    //    $('#rateDisplay_' + id).text(newRate);
+                                    //    $('#rateEdit_' + id).hide();
+                                    //    $('#rateDisplay_' + id).show();
+
+                                    //    // Check if the rate was actually changed
+                                    //    let isRateChanged = newRate != originalRates[id].rate;
+
+                                    //    // Remove the existing entry, if any, to avoid duplicates
+                                    //    updatedRates = updatedRates.filter(item => item.id !== id);
+                                    //    addCamign = addCamign.filter(item => item.id !== id);
+
+                                    //    // Add the rate regardless of whether it has changed
+                                    //    updatedRates.push({ id: id, rate: newRate, FkInventoryId: originalRates[id].FkInventoryId });
+                                    //    addCamign.push({ id: id, rate: newRate, FkInventoryId: originalRates[id].FkInventoryId });
+
+                                    //    // Optionally, show a message if a change was detected
+                                    //    if (isRateChanged) {
+                                    //        console.log(`Rate for item ${id} was changed.`);
+                                    //    }
+                                    //};
 
                             window.cancelEdit = function (id) {
                                 $('#rateEdit_' + id).hide();

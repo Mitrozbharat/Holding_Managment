@@ -47,6 +47,27 @@ namespace Hoarding_managment.Controllers
             return View(viewModel);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> CompletedCampain(string searchQuery = "", int pageSize = 10, int pageNumber = 1)
+        {
+            var campaign = await _context.GetallCompletedCampaignAsync(searchQuery, pageNumber, pageSize);
+            var totalItems = await _context.GetCompletedCampaignCountAsync(searchQuery);
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            CampaignPagedViewModel? viewModel = new CampaignPagedViewModel
+            {
+                CampaignsViewModel = campaign,
+                CurrentPage = pageNumber,
+                TotalPages = totalPages,
+                PageSize = pageSize,
+                SearchQuery = searchQuery
+            };
+
+            return View(viewModel);
+        }
+
+
+
         [HttpGet("search")]
         public async Task<IActionResult> SearchByCampaignName(string name)
         {

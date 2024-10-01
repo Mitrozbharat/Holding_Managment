@@ -107,17 +107,38 @@
                             <span class="menu-title">Hoarding Inventory</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                   @* <li class="nav-item">
                         <a class="nav-link" asp-controller="OngoingCampain" asp-action="Index">
                             <i class="mdi mdi-bulletin-board menu-icon"></i>
                             <span class="menu-title">Ongoing Campaigns</span>
                         </a>
-                    </li>
+                    </li>*@
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Quatation" asp-action="Index">
                             <i class="mdi mdi-book-open-page-variant menu-icon"></i>
                             <span class="menu-title"> Quotations</span>
                         </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+                            <i class="mdi mdi-settings menu-icon"></i>
+                            <span class="menu-title">Campaigns</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="auth">
+                            <ul class="nav flex-column sub-menu" style="list-style-type: none;">
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="OngoingCampain" asp-action="Index" style="color: black;font-weight: 400;">
+                                        <i class="mdi mdi-bulletin-board menu-icon"></i>Ongoing
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="OngoingCampain" asp-action="CompletedCampain" style="color: black;font-weight: 400;">
+                                        <i class="mdi mdi-worker menu-icon"></i>Completed
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
