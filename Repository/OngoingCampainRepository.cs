@@ -109,7 +109,7 @@ namespace Hoarding_managment.Repository
                     var newdata = new TblCampaign
                     {
                         FkCustomerId = selectedItems.CustomerId,
-                        FkInventoryId = item.FkInventoryId,
+                        FkInventoryId = item.Id,
                         
                         FromDate = item.FromDate,
                         ToDate = item.ToDate,

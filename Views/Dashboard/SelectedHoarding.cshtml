@@ -37,6 +37,8 @@
                             <input type="radio" id="create-quotation" name="quotation" value="quotation">
                             <label for="create-quotation">Create Quotation</label>
                         </div>
+                        <input type="text" id="idforalldatechange" name="idforalldatechange" style="display:none">
+                        <input type="text" id="idforalldatechangestring" name="idforalldatechangestring" style="display:none">
                         <div class="col-6">
                             <input type="radio" id="add-campaign" name="quotation" value="campaign">
                             <label for="add-campaign">Add to Campaign</label>
@@ -216,9 +218,11 @@
         $(document).ready(function () {
             var updatedRates = [];
             var addCamign = [];
+            var changedateids = [];
             var newRate;
             var originalRates = {};
             var id = sessionStorage.getItem('selectedHoardingId');
+            let idString = "";  // Step 1: Initialize an empty string
 
             function fetchData() {
                 var id = sessionStorage.getItem('selectedHoardingId');
@@ -235,8 +239,12 @@
                                 // Set the checkbox to checked
                                 document.getElementById('add-campaign').checked = true;
                             }
+                            
 
                             $('#selectedCard').empty();
+
+                            var custidnew=0;
+
 
                             // Loop through the data and create HTML for each item
                             $.each(data.model, function (index, item) {
@@ -245,6 +253,17 @@
 
                                 updatedRates.push({ id: item.id, rate: item.rate, FkInventoryId: item.fkInventoryId });
                                 addCamign.push({ id: item.id, rate: item.rate, FkInventoryId: item.fkInventoryId });
+
+                                
+
+                                if (index === 0) {
+                                    $("#idforalldatechange").val("" + item.id + "");
+                                }
+                                else{
+                                    changedateids.push({ id: item.id });
+                                     // Step 2: Append item.id to the idString, separating with a comma
+                                    idString += item.id + ",";
+                                }
 
                                 var isLight = item.isLight == 1 ? "Yes" : "No";
                                 var cardHtml = `
@@ -290,7 +309,49 @@
                                                     </div>
                                                     `;
                                 $('#selectedCard').append(cardHtml);
+
+                                if (custidnew == 0 && id !== null) {
+                                    $("#businessName").val("" + item.businessName + "");
+                                    custidnew=item.fkcustomer;
+                                    $("#businessNameid").val(item.fkcustomer);
+                                }
                             });
+
+                            if (idString.length > 0) {
+                                idString = idString.slice(0, -1);  // Remove trailing comma
+                            }
+
+
+                            $("#idforalldatechangestring").val("");
+                            $("#idforalldatechangestring").val("" + idString + "");
+                            if(id !== null){
+                                $.ajax({
+                                    url: '/Customer/GetCustomerinfoById',
+                                    type: 'GET',
+                                    data: { id: custidnew },
+                                    success: function (response) {
+                                        if (response.success) {
+                                            const customer = response.model.result;
+                                            $('#customerName').text(customer.customerName);
+                                            $('#address').text(customer.address);
+                                            $('#city').text(customer.city);
+                                            $('#gstNo').text(customer.gstNo);
+                                            $('#contactNo').text(customer.contactNo);
+                                            $('#alternateNumber').text(customer.alternateNumber);
+                                            $('#state').text(customer.state);
+
+                                            toastr.success('Customer loaded successfully.');
+                                        } else {
+                                            console.error('Failed to load customer info:', response.message);
+                                        }
+                                    },
+                                    error: function (xhr, status, error) {
+                                        console.error('Error fetching customer info:', error);
+                                    }
+                                });
+                            }
+
+                           
 
                             window.editRate = function (id, currentRate) {
                                 $('#rateDisplay_' + id).hide();
@@ -381,7 +442,7 @@
 
 
                 var customerId = document.getElementById('businessNameid').value;
-                alert(customerId)
+              //  alert(customerId)
                 if (!customerId) {
                     toastr.error('Please select Bussness Name.');
                     return;
@@ -395,11 +456,13 @@
                     data: JSON.stringify({ selectedItems: updatedRates, customerId: customerId }),
                     success: function (response) {
 
+                        //setTimeout(function () {
+                        //    window.location.href = '/Quatation/LastQuotation?id=' + response.id; // Corrected line
+
+                        //}, 1000);
+
                         if (response.success) {
-
-                            alert("Data Added Successfully!");
-                            window.location.href = '/Quatation/ViewQuotation?id=' + response.id;
-
+                            window.location.href = '/Quatation/ViewQuotation?id=' + response.id; // Corrected line
                         } else {
                             toastr.error(response.message);
                         }
@@ -422,7 +485,7 @@
             $('#saveCampaign').on('click', function () {
                
                 var customerId = document.getElementById('businessNameid').value;
-                alert(customerId)
+               // alert(customerId)
                 if (!customerId) {
                     toastr.error('Please select Bussness Name.');
                     return;
@@ -462,6 +525,8 @@
                     }
                 });
             });
+
+            
         });
     </script>
     <script>
@@ -471,7 +536,8 @@
             document.getElementById(`StartDate_${item.id}`).value = today;
         });
 
-        // Function to validate date inputs
+        // Function to validate date inputs  $("#idforalldatechangestring").val("" + idString + "");
+
         function validateDates(id) {
             const startDateInput = document.getElementById(`StartDate_${id}`);
             const endDateInput = document.getElementById(`EndDate_${id}`);
@@ -479,6 +545,23 @@
             const startDate = new Date(startDateInput.value);
             const endDate = new Date(endDateInput.value);
             const today = new Date();
+
+            var newid = $("#idforalldatechange").val();
+
+            var newidsaary = [];
+            var idString=$("#idforalldatechangestring").val();
+
+            newidsaary = idString.split(',');
+
+            if (newid == id) {
+                $.each(newidsaary, function (index, item) {
+                    // console.log("ID at index " + index + ": " + item.id);
+                    // Perform any other actions with item.id
+                    document.getElementById(`StartDate_${item}`).value = startDateInput.value;
+                    document.getElementById(`EndDate_${item}`).value = endDateInput.value;
+                });
+
+            }
 
             // Check if start date is before today
             if (startDate < today.setHours(0, 0, 0, 0)) {  // Compare with today's date at 00:00
@@ -492,6 +575,7 @@
                 endDateInput.value = startDateInput.value; // Reset to start date
             }
         }
+       
 
     </script>
     <script>

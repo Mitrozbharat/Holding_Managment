@@ -69,24 +69,55 @@ namespace Hoarding_managment.Repository
 
             foreach (var item in lst)
             {
+                var campaignscheck = _context.TblCampaigns
+                    .Where(x => x.FkInventoryId == item.Id
+                                && x.IsDelete == 0
+                                && x.ToDate >= DateTime.Today)
+                    .ToList();
+                int bookstatus = 1;
+                if(campaignscheck.Count > 0)
+                {
+                    bookstatus = 0;
+                }
+
                 InventoryViewModel model = new InventoryViewModel
                 {
+                    //Id = item.Id,
+                    //Image = item.Image,
+                    //City = !string.IsNullOrEmpty(item.City)? item.City : "N/A",
+                    //Area = item.Area ,
+                    //location = item.Location,
+                    //Rate = item.Rate,
+                    //vendoramt = item.VendorAmt,
+                    //Width = item.Width,
+                    //Height = item.Height,
+                    //BookingStatus = item.BookingStatus,
+                    //CreatedAt = item.CreatedAt,
+                    //UpdatedAt = item.UpdatedAt,
+                    //Type= item.Type,
+
+                    //VendorName = _context.TblVendors.FirstOrDefault(x => x.Id == item.FkVendorId)?.VendorName,
+                    //FkVendorId = item.FkVendorId
                     Id = item.Id,
-                    Image = item.Image,
-                    City = item.City,
-                    Area = item.Area,
-                    location = item.Location,
-                    Rate = item.Rate,
-                    vendoramt = item.VendorAmt,
-                    Width = item.Width,
-                    Height = item.Height,
-                    BookingStatus = item.BookingStatus,
+                    Image = !string.IsNullOrEmpty(item.Image) ? item.Image : "N/A",
+                    City = !string.IsNullOrEmpty(item.City) ? item.City : "N/A",
+                    Area = !string.IsNullOrEmpty(item.Area) ? item.Area : "N/A",
+                    location = !string.IsNullOrEmpty(item.Location) ? item.Location : "N/A",
+                    Rate = item.Rate != null ? item.Rate : "N/A", // Assuming Rate is a nullable type, otherwise you can skip this check
+                    vendoramt = item.VendorAmt != null ? item.VendorAmt : "N/A", // Same for VendorAmt
+                    Width = item.Width != null ? item.Width : "N/A", // Same for Width
+                    Height = item.Height != null ? item.Height : "N/A", // Same for Height
+                    BookingStatus = (ulong?)bookstatus,
                     CreatedAt = item.CreatedAt,
                     UpdatedAt = item.UpdatedAt,
-                    Type= item.Type,
+                    Type = item.Type,
 
-                    VendorName = _context.TblVendors.FirstOrDefault(x => x.Id == item.FkVendorId)?.VendorName,
-                    FkVendorId = item.FkVendorId
+                    VendorName = _context.TblVendors.FirstOrDefault(x => x.Id == item.FkVendorId) != null ?
+                                     _context.TblVendors.FirstOrDefault(x => x.Id == item.FkVendorId).VendorName :
+                                     "N/A",
+
+                    FkVendorId = item.FkVendorId != null ? item.FkVendorId : 0 // Assuming FkVendorId is nullable, adjust accordingly
+
                 };
                 inventory.Add(model);
             }
