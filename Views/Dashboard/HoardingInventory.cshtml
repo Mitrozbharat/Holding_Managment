@@ -281,11 +281,11 @@
                                          </div>
                                             <div class="col-lg-5">
                                                 <div class="my-2">
-                                                    <p><span class="bold-text">City:</span> <span>@i.City</span></p>
-                                                    <p><span class="bold-text">Area:</span> <span>@i.Area</span></p>
+                                                    <p><span class="bold-text">City:</span> <span>@(!string.IsNullOrEmpty(i.City) ? i.City : "N/A")</span></p>
+                                                    <p><span class="bold-text">Area:</span> <span>@(!string.IsNullOrEmpty(i.Area) ? i.Area : "N/A")</span></p>
                                                     <p><span class="bold-text">Size:</span> <span>@i.Width FT X @i.Height FT</span></p>
-                                                    <p><span class="bold-text">Rate:</span> <span>@i.Rate</span></p>
-                                                    <p><span class="bold-text">Vendor:</span> <span>@i.VendorName</span></p>
+                                                    <p><span class="bold-text">Rate:</span> <span>@(!string.IsNullOrEmpty(i.Rate) ? i.Rate : "N/A")</span></p>
+                                                    <p><span class="bold-text">Vendor:</span> <span>@(!string.IsNullOrEmpty(i.VendorName) ? i.VendorName : "N/A")</span></p>
 
                                                     <div class="action-icons mt-3 d-flex justify-content-center">
                                                     <img src="/images/cart.svg" alt="Add to Cart" class="start-icon" id="AddQuotationbtn"
@@ -1046,45 +1046,48 @@
 
             function createItem(id, image, area, city, width,height, rate, fkVendorId) 
             {
+                if(fkVendorId != 0 && fkVendorId != null){
+                     // Assign values to the form fields
+                    $('#id').val(id);
+                    $('#image').val(image);
+                    $('#area').val(area);
+                    $('#city').val(city);
+                    $('#width').val(width);
+                    $('#height').val(height);
+                    $('#rate').val(rate);
+                    $('#fk_VendorId').val(fkVendorId);
+                    // $('#bookingStatus').val(bookingStatus);
 
-                // Assign values to the form fields
-                $('#id').val(id);
-                $('#image').val(image);
-                $('#area').val(area);
-                $('#city').val(city);
-                $('#width').val(width);
-                $('#height').val(height);
-                $('#rate').val(rate);
-                $('#fk_VendorId').val(fkVendorId);
-                // $('#bookingStatus').val(bookingStatus);
-
-                $.ajax({
-                    type: "POST",
-                    url: '/Dashboard/CreateInventoryItems', // Ensure the URL matches the action method
-                    data: {
-                        Id: id,
-                        Image: image,
-                        Area: area,
-                        City: city,
-                        Width: width,
-                        Height: height,
-                        Rate: rate,
-                        FkVendorId: fkVendorId,
-                    },
-                    success: function (response) {
-                        if (response.success) {
-                            toastr.success(response.Message); // Display the success message from the response
-                            location.reload(); // Optionally reload the page
-                        } else {
-                            toastr.error(response.Message);
-                            alert("Already Added!");// Display the error message from the response
+                    $.ajax({
+                        type: "POST",
+                        url: '/Dashboard/CreateInventoryItems', // Ensure the URL matches the action method
+                        data: {
+                            Id: id,
+                            Image: image,
+                            Area: area,
+                            City: city,
+                            Width: width,
+                            Height: height,
+                            Rate: rate,
+                            FkVendorId: fkVendorId,
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                toastr.success(response.Message); // Display the success message from the response
+                                location.reload(); // Optionally reload the page
+                            } else {
+                                toastr.error(response.Message);
+                                alert("Already Added!");// Display the error message from the response
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            toastr.error('An error occurred while adding the quotation.');
                         }
-                    },
-                    error: function (xhr, status, error) {
-                        toastr.error('An error occurred while adding the quotation.');
-                    }
-                });
-
+                    });
+                }
+                else{
+                     toastr.error("This inventory does not have a vendor please add vendor");
+                }
             }
         </script>
         <script>
