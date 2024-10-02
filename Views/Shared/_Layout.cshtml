@@ -16,7 +16,7 @@
     <link href="~/data/vendors/mdi/css/materialdesignicons.min.css" rel="stylesheet" />
     <!-- endinject -->
     <link rel="shortcut icon" href="~/images/favicon.png" />
-
+    <link href="~/css/stylesheet1.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 
@@ -61,11 +61,15 @@
               
                 <ul class="navbar-nav navbar-nav-right">
                  
-                    <li class="nav-item dropdown mr-5 ">
+                    <li class="nav-item dropdown ">
                         <div class="cart">
                             <a asp-action="SelectedHoarding" asp-controller="Dashboard">
-                                <i style="" class="fa fa-shopping-cart fa-stack-2x red-cartt "></i>
-                                <span id="empCount" class="cart-count" style=" background-color:white;"></span>
+                               @* <i style="" class="fa fa-shopping-cart fa-stack-2x red-cartt "></i>
+                                <span id="empCount" class="cart-count" style=" background-color:white;"></span>*@
+                                <span class="fa-stack fa-2x has-badge" id="empCount" data-count="0">
+                                  <i class="fa fa-circle fa-stack-2x fa-inverse"></i>
+                                  <i style="" class="fa fa-shopping-cart fa-stack-2x red-cart"></i>
+                                </span>
                             </a>
                         </div>
                     </li>
@@ -120,21 +124,21 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
-                            <i class="mdi mdi-settings menu-icon"></i>
+                        <a class="nav-link" data-toggle="collapse" href="#auth1" aria-expanded="false" aria-controls="auth1">
+                            <i class="mdi mdi-calendar-blank menu-icon"></i>
                             <span class="menu-title">Campaigns</span>
                             <i class="menu-arrow"></i>
                         </a>
-                        <div class="collapse" id="auth">
+                        <div class="collapse" id="auth1">
                             <ul class="nav flex-column sub-menu" style="list-style-type: none;">
                                 <li class="nav-item">
                                     <a class="nav-link" asp-controller="OngoingCampain" asp-action="Index" style="color: black;font-weight: 400;">
-                                        <i class="mdi mdi-bulletin-board menu-icon"></i>Ongoing
+                                        <i class="mdi mdi-calendar-clock menu-icon"></i>Ongoing
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" asp-controller="OngoingCampain" asp-action="CompletedCampain" style="color: black;font-weight: 400;">
-                                        <i class="mdi mdi-worker menu-icon"></i>Completed
+                                        <i class="mdi mdi-calendar-multiple-check menu-icon"></i>Completed
                                     </a>
                                 </li>
                             </ul>
@@ -199,7 +203,9 @@
                 type: 'GET',
                 success: function (data) {
                     if (data.success) {
-                        $('#empCount').text(data.count);
+                      
+                        const empCountElement = document.getElementById('empCount');
+                        empCountElement.setAttribute('data-count', data.count);
                     } else {
                         $('#empCount').text('Error: ' + data.message);
                     }
