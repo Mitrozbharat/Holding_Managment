@@ -29,41 +29,41 @@
                 @if (Model != null)
                 {
                     var totalprice = 0.0;
-                    <h4 class="text-center my-4">Quotation</h4>
-                    <div class="row">
-                        <div class="col-md-9 text-start mb-3 mb-md-0">
-                            <input type="hidden" class="hidden" quotationId="@Model.Id" value="@Model.Id" />
-                            <p class="ml-2"><strong>Quotation Number :</strong> @Model.QuotationNumber</p>
-                            <input type="hidden" qnumber="@Model.QuotationNumber" name="name" value="@Model.QuotationNumber" />
-                            <p class="ml-2"><strong>Date :</strong> @Model.CreatedAt?.ToString("yyyy-MM-dd")</p>
-                        </div>
-                        <div class="col-md-3 totalamountclass text-center" style="text-align:end">
-                            <p class="mr-4"><strong>Quotation For :</strong> @Model.BusinessName</p>
+                        <h4 class="text-center my-4">Quotation</h4>
+                        <div class="row">
+                            <div class="col-md-9 text-start mb-3 mb-md-0">
+                                <input type="hidden" class="hidden" quotationId="@Model.Id" value="@Model.Id" />
+                                <p class="ml-2"><strong>Quotation Number :</strong> @Model.QuotationNumber</p>
+                                <input type="hidden" qnumber="@Model.QuotationNumber" name="name" value="@Model.QuotationNumber" />
+                                <p class="ml-2"><strong>Date :</strong> @Model.CreatedAt?.ToString("yyyy-MM-dd")</p>
+                            </div>
+                            <div class="col-md-3 totalamountclass" style="text-align:start">
+                                <p ><strong>Quotation For :</strong> @Model.BusinessName</p>
                             @{
                                 string truncatedAddress = @Model.Address.Length > 30 ? @Model.Address.Substring(0, 30) + "..." : @Model.Address;
                             }
-
-                            <p><strong>Address :</strong> @truncatedAddress</p>                            @foreach (var item in Model.Items)
+                                <p><strong>Address :</strong> @truncatedAddress</p>                           
+                            @foreach (var item in Model.Items)
                             { totalprice += Convert.ToDouble(item.Rate); }
-                            <p style="padding-right:60px"><strong>Total Amount  : </strong> @totalprice /-</p>
-                        </div>
-                    </div>
-                    <hr>
-                    @foreach (var item in Model.Items)
-                    {
-                        <div class="card mt-4">
-                            <div class="media my-2 flex-column flex-md-row align-items-center">
-                                <img src="data:image/png;base64,@item.Image" class="img-size m-3" style="max-width:150px; max-height:150px;" alt="Location Image">
-
-                                <div class="media-body mt-4 text-center text-md-left">
-                                    <h5 class="mt-0">@item.Location</h5>
-                                    <p><strong>City:</strong> @item.City</p>
-                                    <p><strong>Size:</strong> @item.Width FT x @item.Height FT</p>
-                                    <p><strong>Vendor :</strong> @Model.VendorName</p>
-                                    <h5 class="text-primary">Price: @item.Rate/-</h5>
-                                </div>
+                                <p ><strong>Total Amount  : </strong> @totalprice /-</p>
                             </div>
                         </div>
+                        <hr>
+                    @foreach (var item in Model.Items)
+                    {
+                                <div class="card mt-4">
+                                    <div class="media my-2 flex-column flex-md-row align-items-center">
+                                        <img src="data:image/png;base64,@item.Image" class="img-size m-3" style="max-width:150px; max-height:150px;" alt="Location Image">
+
+                                        <div class="media-body mt-4 text-center text-md-left">
+                                            <h5 class="mt-0">@item.Location</h5>
+                                            <p><strong>City:</strong> @item.City</p>
+                                            <p><strong>Size:</strong> @item.Width FT x @item.Height FT</p>
+                                            <p><strong>Vendor :</strong> @Model.VendorName</p>
+                                            <h5 class="text-primary">Price: @item.Rate/-</h5>
+                                        </div>
+                                    </div>
+                                </div>
 
                     }
                 }
@@ -71,7 +71,7 @@
                 else
 
                 {
-                    <p>No data available.</p>
+                        <p>No data available.</p>
                 }
             </div>
         </div>
@@ -117,7 +117,7 @@
                 doc.setFontSize(15);
                 doc.setFont("helvetica", "bold");
 
-               
+
                 doc.addPage();
                 doc.setFillColor(255, 238, 240); // Light red background
                 doc.rect(0, 0, pageWidth, pageHeight, 'F');
@@ -147,11 +147,12 @@
                 let address = $('.totalamountclass p').eq(1).text();
                 let totalPrice = $('.totalamountclass p').eq(2).text();
                 // Set up padding and background dimensions
-                const backgroundX = 2.2; // X position of the background
+                const backgroundX = 1; // X position of the background
                 const backgroundY = 4.9; // Y position of the background
-                const backgroundWidth = 8; // Width of the background
+                const backgroundWidth = 10; // Width of the background
                 const backgroundHeight = 2; // Height of the background
                 const cornerRadius = 0.2;
+
 
                 // Set the background color
                 doc.setFillColor(255, 255, 255); // White background for the text area
@@ -160,11 +161,11 @@
 
                 // Add text with padding
                 doc.setFontSize(14);
-                doc.text(`${date}`, 2.5, 5.6);
-                doc.text(`${dateone}`, 2.5, 5.9);
-                doc.text(`${customer}`, 6.5, 5.6);
-                doc.text(`${address}`, 6.5, 5.9);
-                doc.text(`${totalPrice}`, 6.5, 6.2);
+                doc.text(`${date}`, 2, 5.6);
+                doc.text(`${dateone}`, 2, 5.9);
+                doc.text(`${customer}`, 6, 5.6);
+                doc.text(`${address}`, 6, 5.9);
+                doc.text(`${totalPrice}`, 6, 6.2);
 
 
 
@@ -194,9 +195,9 @@
                     totalQuote += parseFloat(itemRate.replace(/,/g, '')) || 0;
 
                     let yPosition = (countforslide % 2 === 0) ? 0.5 : 3;
-                    const backgroundX = 1.7; // X position of the background
+                    const backgroundX = 0.8; // X position of the background
                     const backgroundY = (countforslide % 2 === 0) ? 1.4 : 4.1; // Y position of the background
-                    const backgroundWidth = 8; // Width of the background
+                    const backgroundWidth = 10; // Width of the background
                     const backgroundHeight = 2.4; // Height of the background
                     const cornerRadius = 0.2;
                     // Set the background color
@@ -204,11 +205,11 @@
                     doc.roundedRect(backgroundX, backgroundY, backgroundWidth, backgroundHeight, cornerRadius, cornerRadius, 'F'); // Fill the rounded rectangle
 
                     // Add the image
-                    doc.addImage(itemImage, 'PNG', 1.9, backgroundY + 0.4, 2.3, 1.6);
-                    doc.text(`Location: ${itemLocation}`, 4.5, backgroundY + 0.5);
-                    doc.text(`City: ${itemCity}`, 4.5, backgroundY + 1);
-                    doc.text(`Size: ${itemSize}`, 4.5, backgroundY + 1.5);
-                    doc.text(`Vendor: ${itemVendor}`, 4.5, backgroundY + 1.9);
+                    doc.addImage(itemImage, 'PNG', 1, backgroundY + 0.4, 2.3, 1.6);
+                    doc.text(`Location: ${itemLocation}`, 4, backgroundY + 0.5);
+                    doc.text(`City: ${itemCity}`, 4, backgroundY + 1);
+                    doc.text(`Size: ${itemSize}`, 4, backgroundY + 1.5);
+                    doc.text(`Vendor: ${itemVendor}`, 4, backgroundY + 1.9);
                     doc.text(`Price: ${itemRate}`, 7.9, backgroundY + 1.9);
 
                     countforslide += 1;
@@ -340,10 +341,10 @@
                 secondSlide.addText('Quotation ', { x: 1, y: 2.6, ...textHeadingFont, align: 'center' });
 
                 secondSlide.addShape(pptx.ShapeType.rect, {
-                    x: 1.4,
+                    x: 1,
                     y: 3,
-                    w: 7.5,
-                    h: 1.3,
+                    w: 8,
+                    h: 1.5,
                     fill: { color: 'FFFFFF' },
                     line: { color: 'FFFFFF', width: 15 }
                 });
@@ -357,11 +358,11 @@
                 let address = $('.totalamountclass p').eq(1).text();
                 let totalPrice = $('.totalamountclass p').eq(2).text();
 
-                secondSlide.addText(`${date}`, { x: 2, y: 3.5, ...tabletext, align: 'left' });
-                secondSlide.addText(`${dateone}`, { x: 2, y: 3.8, ...tabletext, align: 'left' });
-                secondSlide.addText(`${customer}`, { x: 5.5, y: 3.5, ...tabletext, align: 'left' });
-                secondSlide.addText(`${address}`, { x: 5.5, y: 3.7, ...tabletext, align: 'left' });
-                secondSlide.addText(`${totalPrice}`, { x: 5.5, y: 3.9, ...tabletext, align: 'left' });
+                secondSlide.addText(`${date}`, { x: 1.3, y: 3.5, ...tabletext, align: 'left' });
+                secondSlide.addText(`${dateone}`, { x: 1.3, y: 3.8, ...tabletext, align: 'left' });
+                secondSlide.addText(`${customer}`, { x: 4.5, y: 3.5, ...tabletext, align: 'left' });
+                secondSlide.addText(`${address}`, { x: 4.5, y: 3.7, ...tabletext, align: 'left' });
+                secondSlide.addText(`${totalPrice}`, { x: 4.5, y: 3.9, ...tabletext, align: 'left' });
 
                 let totalQuote = 0;
 
@@ -429,16 +430,16 @@
                     itemSlide.addShape(pptx.ShapeType.rect, {
                         x: 1.2,
                         y: yPosition,
-                        w: 7.8,
-                        h: 1.8,
+                        w: 8,
+                        h: 2,
                         fill: { color: 'FFFFFF' },
                         line: { color: 'FFFFFF', width: 15 }
                     });
-                    itemSlide.addImage({ path: base64ToBlobUrl(itemImage, 'image/png'), x: 1.3, y: yPosition + 0.1, w: 2.3, h: 1.6 });
-                    itemSlide.addText(`Location: ${itemLocation}`, { x: 3.7, y: yPosition + 0.1, ...itemslideloca });
-                    itemSlide.addText(`City         : ${itemCity}`, { x: 3.7, y: yPosition + 0.7, ...itemslideData });
-                    itemSlide.addText(`Size         : ${itemSize}`, { x: 3.7, y: yPosition + 1.1, ...itemslideData });
-                    itemSlide.addText(`Vendor   : ${itemVendor}`, { x: 3.7, y: yPosition + 1.5, ...itemslideData });
+                    itemSlide.addImage({ path: base64ToBlobUrl(itemImage, 'image/png'), x: 1.1, y: yPosition + 0.1, w: 2.3, h: 1.6 });
+                    itemSlide.addText(`Location: ${itemLocation}`, { x: 3.5, y: yPosition + 0.1, ...itemslideloca });
+                    itemSlide.addText(`City         : ${itemCity}`, { x: 3.5, y: yPosition + 0.7, ...itemslideData });
+                    itemSlide.addText(`Size         : ${itemSize}`, { x: 3.5, y: yPosition + 1.1, ...itemslideData });
+                    itemSlide.addText(`Vendor   : ${itemVendor}`, { x: 3.5, y: yPosition + 1.5, ...itemslideData });
                     itemSlide.addText(`Price: ${itemRate}`, { x: 6.9, y: yPosition + 1.5, ...itemslidePrice });
 
                     // Increment the counter

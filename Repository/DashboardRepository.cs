@@ -256,7 +256,7 @@ namespace Hoarding_managment.Repository
             if (existcustomer != null)
             {
 
-                existcustomer.IsDelete = 1;
+                _context.TblInventoryitems.Remove(existcustomer);
                 await _context.SaveChangesAsync();
                 return 0;
             }
