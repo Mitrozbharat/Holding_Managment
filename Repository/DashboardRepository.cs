@@ -307,41 +307,42 @@ namespace Hoarding_managment.Repository
         public async Task<List<InventoryitemViewmodel>> GetInventryItemsAsync()
         {
             var inventoryItems = await _context.TblInventoryitems
-         .Where(x => x.IsDelete == 0)
-         .Select(item => new InventoryitemViewmodel
-         {
-             Id = item.Id,
-             Image = item.Image ,
-             City = item.City,
-             Area = item.Area,
-             Width = item.Width,
-             Height = item.Height,
-             Rate = item.Rate,
-             BookingStatus = item.BookingStatus,
-            type = (int?)item.Type,
-             CreatedAt = item.CreatedAt,
-             UpdatedAt = item.UpdatedAt,
-             FkInventoryId = item.FkInventoryId,
-             Fkcustomer = item.Fkcustomer,
-             FkVendorId = (int)item.FkVendorId,
-             VendorName = _context.TblVendors
-                 .Where(v => v.Id == item.FkVendorId && v.IsDelete == 0)
-                 .Select(v => v.VendorName)
-                 .FirstOrDefault(),
-             CustomerName = _context.TblCustomers
-                 .Where(c => c.Id == item.Fkcustomer && c.IsDelete == 0)
-                 .Select(c => c.CustomerName)
-                 .FirstOrDefault(),
-             BusinessName = _context.TblCustomers
-                 .Where(c => c.Id == item.Fkcustomer && c.IsDelete == 0)
-                 .Select(c => c.BusinessName)
-                 .FirstOrDefault(),
-         })
-         .ToListAsync();
-
+                .Where(x => x.IsDelete == 0)
+                .OrderByDescending(item => item.CreatedAt)  // Order by CreatedAt in descending order
+                .Select(item => new InventoryitemViewmodel
+                {
+                    Id = item.Id,
+                    Image = item.Image,
+                    City = item.City,
+                    Area = item.Area,
+                    Width = item.Width,
+                    Height = item.Height,
+                    Rate = item.Rate,
+                    BookingStatus = item.BookingStatus,
+                    type = (int?)item.Type,
+                    CreatedAt = item.CreatedAt,
+                    UpdatedAt = item.UpdatedAt,
+                    FkInventoryId = item.FkInventoryId,
+                    Fkcustomer = item.Fkcustomer,
+                    FkVendorId = (int)item.FkVendorId,
+                    VendorName = _context.TblVendors
+                        .Where(v => v.Id == item.FkVendorId && v.IsDelete == 0)
+                        .Select(v => v.VendorName)
+                        .FirstOrDefault(),
+                    CustomerName = _context.TblCustomers
+                        .Where(c => c.Id == item.Fkcustomer && c.IsDelete == 0)
+                        .Select(c => c.CustomerName)
+                        .FirstOrDefault(),
+                    BusinessName = _context.TblCustomers
+                        .Where(c => c.Id == item.Fkcustomer && c.IsDelete == 0)
+                        .Select(c => c.BusinessName)
+                        .FirstOrDefault(),
+                })
+                .ToListAsync();
 
             return inventoryItems;
         }
+
         public Task<List<InventoryitemViewmodel>> get()
         {
             var selectedInvert = _context.TblInventoryitems

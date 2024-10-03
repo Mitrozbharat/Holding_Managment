@@ -106,7 +106,7 @@
                                         <td>@item.Totalhoarding</td> <!-- Replace with actual total hoardings -->
                                         <td>
 
-                                        <a class="btn btn-info p-2" onclick="fetchData3('@item.Id')">
+                                        <a class="btn btn-info p-2" onclick="fetchData3('@item.Id','c')">
                                             <i class="mdi mdi-plus">  </i>
                                         </a>
                                        
@@ -228,7 +228,7 @@
             // Perform any additional logic if needed
             window.location.href = '/Quotation/ViewQuotation/' + id;
         }
-       function fetchData3(id) 
+       function fetchData3(id,camp) 
        {
             // Store the ID in sessionStorage
             sessionStorage.setItem('selectedHoardingId', id);
@@ -315,19 +315,7 @@
                     success: function (response) {
                         if (response.success) {
                             var customer = response.customer;
-
-                            // Set the form fields with the customer's data
-                            $('#city').val(customer.City || '');
-                            $('#area').val(customer.Area || '');
-                            $('#location').val(customer.Location || '');
-                            $('#width').val(customer.Width || '');
-                            $('#height').val(customer.Height || '');
-                            $('#rate').val(customer.Rate || '');
-                            $('#vendorAmt').val(customer.VendorAmt || '');
-                            $('#marginAmt').val(customer.MarginAmt || '');
-
-                            // Optionally, handle other fields if needed
-                            // ...
+                            emptycustomer();
 
                         } else {
                             console.error('Failed to load customer details:', response.Message);
@@ -340,6 +328,22 @@
             }
         });
 
+
+        function emptycustomer() {
+
+            // Set the form fields with the customer's data
+            $('#city').val(customer.City || '');
+            $('#area').val(customer.Area || '');
+            $('#location').val(customer.Location || '');
+            $('#width').val(customer.Width || '');
+            $('#height').val(customer.Height || '');
+            $('#rate').val(customer.Rate || '');
+            $('#vendorAmt').val(customer.VendorAmt || '');
+            $('#marginAmt').val(customer.MarginAmt || '');
+
+            // Optionally, handle other fields if needed
+            // ...
+        }
 
         $('#customerName').on('select', function () {
             $.ajax({

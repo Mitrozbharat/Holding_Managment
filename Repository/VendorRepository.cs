@@ -34,6 +34,7 @@ namespace Hoarding_managment.Repository
 
             // Apply pagination
             return await query
+                        .OrderByDescending(q => q.CreatedAt)
                          .Skip((pageNumber - 1) * pageSize)
                          .Take(pageSize)
                          .ToListAsync();

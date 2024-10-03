@@ -95,7 +95,7 @@ namespace Hoarding_managment.Controllers
             {
                 if (ModelState.IsValid)
             {
-               
+
                     var inventoryItem = new TblInventoryitem
                     {
                         FkInventoryId = Id,
@@ -109,7 +109,8 @@ namespace Hoarding_managment.Controllers
                         FkVendorId = FkVendorId,
                         IsDelete = 0,
                         Type = 0,
-                        Fkcustomer = 1
+                        Fkcustomer = 1,
+                        CreatedAt = DateTime.Now
                     };
 
                     _dbContext.TblInventoryitems.Add(inventoryItem);
@@ -145,24 +146,23 @@ namespace Hoarding_managment.Controllers
         {
             if (string.IsNullOrWhiteSpace(query))
             {
-                return Json(new List<object>()); // Return an empty list if the query is null or empty
+                return Json(new List<object>());
             }
 
-            // Fetch business names from the service
             var subproduct = _autocompleteService.Getbusinessname(query);
             if (subproduct == null)
             {
-                return Json(new List<object>()); // Return an empty list if the service returned null
+                return Json(new List<object>());
             }
 
-            // Filter and project the result into a list of anonymous objects
             var result = subproduct
-              .Where(f => f.BusinessName.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0)
-              .Select(s => new { Name = s.BusinessName, Id = s.Id })
-              .ToList();
+                .Where(f => f.BusinessName.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0)
+                .Select(s => new { Name = s.BusinessName, Id = s.Id })
+                .ToList();
 
             return Json(result);
         }
+
 
 
         [HttpPost]
