@@ -135,6 +135,28 @@
         </div>
     </div>
 
+    <!-- Delete Modal -->
+    <div class="modal fade" id="deleteModalquate" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="border-radius:20px;">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary" id="deleteModalLabel">Delete</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted-foreground text-center mt-2">Are you sure you want to Delete this Hoarding ?</p>
+                    <input type="hidden" id="selectedId" />
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-danger" id="deleteQuteHoarding">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- add model -->
     <div class="modal fade" id="addCustomerModal" tabindex="-1" aria-labelledby="addCustomerModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -308,6 +330,11 @@
                                                         <button type="button" class="btn btn-danger rounded-circle p-2" data-toggle="modal" data-target="#deleteModal" onclick="cnfDeleteselecedInvetry(${item.id})">
                                                             <i class="mdi mdi-delete"></i>
                                                         </button>
+
+                                                                <button type="button" style="display: none;" id="deleteQuteHoarding" class="btn btn-danger rounded-circle p-2" data-toggle="modal" data-target="#deleteModalquate" onclick="cnfDeleteselecedInvetry(${item.id})">
+                                                                    <i class="mdi mdi-delete"></i>
+                                                         </button>
+                                                                 
                                                         <div id="rate-section" class="rate-section my-2">
                                                             <h4 class="my-2" id='id_h4' >
                                                                 <span style='font-size:20px;'>&#8377; </span>
@@ -495,6 +522,7 @@
                                     $('.camp-date').css('display', 'flex');
                                     $('#saveCampaign').show();
                                     $('#saveQuotation').hide();
+                                    $('#deleteQuteHoarding').hide();
                                 } else {
                                     $('.camp-date').hide();
                                 }
@@ -1020,6 +1048,8 @@
         });
 
         function cnfDeleteselecedInvetry(id) {
+
+
             $('#selectedId').val(id);
 
             // var selectedId = document.getElementById("selectedId").value();
@@ -1029,6 +1059,31 @@
                 console.log("id" + selectedCustomerId);
                 $.ajax({
                     url: '/Dashboard/DeletedSelectInventoryHoarding', // Correct endpoint for getting customer by ID
+                    type: 'Post',
+                    data: { id: selectedCustomerId },
+                    success: function (response) {
+
+                        if (response.success) {
+                            toastr.success(response.message);
+                            location.reload();
+                        }
+                        else {
+                            toastr.error(response.message);
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error fetching customer info:', error);
+                    }
+
+                });
+            });
+
+            $('#deleteQuteHoarding').on('click', function () {
+                var selectedCustomerId = $('#selectedId').val();
+                console.log("id" + selectedCustomerId);
+                $.ajax({
+                    url: '/Dashboard/DeletedSelectInventoryHoarding', 
                     type: 'Post',
                     data: { id: selectedCustomerId },
                     success: function (response) {
