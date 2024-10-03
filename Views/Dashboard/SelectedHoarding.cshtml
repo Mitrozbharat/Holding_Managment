@@ -323,12 +323,18 @@
                                                             </div>
                                                         </div>
 
-                                                         <div class="camp-date" style="display:none;">
-                                                                    <input type="date" class="form-control StartDate" id="StartDate_${item.id}" name="StartDate"
-                                                            onchange="validateDates(${item.id})"
-                                                            value="${new Date().toISOString().split('T')[ 0 ]}">
-                                                             <input type="date" class="form-control EndDate" id="EndDate_${item.id}" name="EndDate" onchange="validateDates(${item.id})">
-                                                          </div>
+                                                        <div class="camp-date" style="display:none;">
+                                                                <input type="date" class="form-control" id="StartDate_${item.id}" name="StartDate"
+                                                                       min="${new Date().toISOString().split('T')[0]}"
+                                                                       onchange="updateEndDateMin(${item.id}); validateDates(${item.id});"
+                                                                       value="${new Date().toISOString().split('T')[0]}">
+                                                                <div id="error-message-${item.id}" style="color: red; display: none;"></div>
+
+                                                                <input type="date" class="form-control" id="EndDate_${item.id}" name="EndDate"
+                                                                       onchange="validateDates(${item.id})">
+                                                                <div id="error-message-end-${item.id}" style="color: red; display: none;"></div>
+
+                                                      </div>
 
                                                     </div>
                                                 </div>
