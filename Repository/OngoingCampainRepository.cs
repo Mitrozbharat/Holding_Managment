@@ -154,12 +154,17 @@ namespace Hoarding_managment.Repository
                 ).ToList();
             }
 
+            // Group campaigns by CustomerId and VendorId, selecting the last entry for each group
+            var groupedCampaigns = campaigns
+                .GroupBy(c => new { c.FkCustomerId, c.FkInventoryId })
+                .Select(g => g.OrderBy(c => c.CreatedAt).FirstOrDefault())
+                .ToList();
+
             // Apply pagination (Skip and Take)
-            var pagedCampaigns = campaigns
+            var pagedCampaigns = groupedCampaigns
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToList();
-            
 
             // Map the paged campaigns to the CampaignViewModel
             var result = pagedCampaigns.Select(item => new CampaignViewModel
@@ -171,7 +176,7 @@ namespace Hoarding_managment.Repository
                 UpdatedBy = item.UpdatedBy,
                 CreatedAt = item.CreatedAt,
                 IsDelete = item.IsDelete,
-             
+
                 CustomerName = _context.TblCustomers
                     .Where(c => c.Id == item.FkCustomerId)
                     .Select(c => c.CustomerName)
@@ -187,6 +192,10 @@ namespace Hoarding_managment.Repository
                 City = _context.TblInventories
                     .Where(v => v.Id == item.FkInventoryId)
                     .Select(v => v.City)
+                    .FirstOrDefault(),
+                Location = _context.TblInventories
+                    .Where(v => v.Id == item.FkInventoryId)
+                    .Select(v => v.Location)
                     .FirstOrDefault(),
                 Image = _context.TblInventories
                     .Where(v => v.Id == item.FkInventoryId)
