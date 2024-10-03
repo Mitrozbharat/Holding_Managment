@@ -539,6 +539,12 @@
 
 
                 var customerId = document.getElementById('businessNameid').value;
+
+                if (updatedRates.length === 0) {  // Check if updatedRates is empty or undefined
+                    toastr.error('Please select first Hoarding.');
+                    return;
+                }
+
                 //  alert(customerId)
                 if (!customerId) {
                     toastr.error('Please select Bussness Name.');
@@ -580,19 +586,35 @@
 
 
             $('#saveCampaign').on('click', function () {
-
                 var customerId = document.getElementById('businessNameid').value;
-                // alert(customerId)
-                if (!customerId) {
-                    toastr.error('Please select Bussness Name.');
+
+                // Check if customerId is valid (not null or zero)
+                if (!customerId || customerId === '0') {
+                    toastr.error('Please select a valid Business Name.');
                     return;
                 }
 
                 let updatedArray1 = [];
+                let isDataValid = true;
+
+                // Check if there are items to save and validate their dates
+                if (!addCamign || addCamign.length === 0) {
+                    toastr.error('No campaigns to save. Please add items.');
+                    return;
+                }
+
                 addCamign.forEach(item => {
                     let startDate = document.getElementById(`StartDate_${item.id}`).value;
                     let endDate = document.getElementById(`EndDate_${item.id}`).value;
 
+                    // Validate startDate and endDate
+                    if (!startDate || !endDate) {
+                        toastr.error('Please provide valid start and end dates for all items.');
+                        isDataValid = false; // Set flag to false if any date is missing
+                        return; // Stop processing further for this item
+                    }
+
+                    // Create the new item object
                     let newItem = {
                         id: item.id,
                         rate: item.rate,
@@ -603,22 +625,26 @@
                     updatedArray1.push(newItem);
                 });
 
+                // If validation failed, stop further execution
+                if (!isDataValid) {
+                    return;
+                }
+
+                // AJAX call to save campaign data
                 $.ajax({
                     url: '/OngoingCampain/Addcampaingn',
                     type: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify({ selectedItems: updatedArray1, customerId: customerId }),
                     success: function (response) {
-                        // Show a success toast notification
                         toastr.success('Campaign saved successfully!');
-
-                        // Delay for 2 seconds before redirecting
                         setTimeout(function () {
                             window.location.href = '/OngoingCampain/Index';
                         }, 2000); // 2000 milliseconds = 2 seconds
                     },
                     error: function (xhr, status, error) {
-                        console.error('Error saving selected hoardings:', status, error);
+                        toastr.error('Error saving the campaign.');
+                        console.error('Error saving campaign:', status, error);
                     }
                 });
             });
