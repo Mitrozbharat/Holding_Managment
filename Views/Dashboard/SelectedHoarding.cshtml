@@ -661,6 +661,13 @@
 
         // Function to validate date inputs  $("#idforalldatechangestring").val("" + idString + "");
 
+        //Use Date Validation for not select the preview data for "End date"
+        function updateEndDateMin(itemId) {
+            const startDate = document.getElementById(`StartDate_${itemId}`).value;
+
+            document.getElementById(`EndDate_${itemId}`).setAttribute('min', startDate);
+        }
+
         function validateDates(id) {
             const startDateInput = document.getElementById(`StartDate_${id}`);
             const endDateInput = document.getElementById(`EndDate_${id}`);

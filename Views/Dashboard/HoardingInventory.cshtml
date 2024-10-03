@@ -166,6 +166,44 @@
 			.points5:nth-child(5) { animation:animPoints5 2.5s linear 2s infinite; }
 			@@keyframes animPoints5 { 0% { transform:scale(1); background:#cccccc; } 50% { transform:scale(2); background:#555555; } 100% { transform:scale(1); background:#cccccc; } }
 
+
+
+    ::placeholder {
+        color: black !important; 
+        opacity: 1; 
+    }
+
+    #city::placeholder,
+    #Area::placeholder,
+    #location::placeholder,
+    #width::placeholder,
+    #height::placeholder,
+    #rate::placeholder,
+    #vendorName::placeholder,
+    #vendorids::placeholder,
+    #vendoramt::placeholder {
+        color: black !important;
+    }
+
+    select {
+        color: black !important; 
+    }
+
+    select option {
+        color: black !important;
+    }
+
+    .custom-file-label {
+        color: black !important; 
+    }
+
+    .custom-border {
+        border: 1px solid black;
+        border-radius: 10px;
+        color: black;
+    }
+
+
 </style>
 <link href="~/css/circle.css" rel="stylesheet" />
 
@@ -328,12 +366,12 @@
                                 <form id="addCustomerForm">
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <label for="City">City Name <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control custom-border" id="city" name="city" placeholder="Enter City Name" required>
+                                            <label for="City">City <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control custom-border" id="city" name="city" placeholder="Enter City" required>
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="Area">Area Name <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control custom-border" id="Area" name="Area" placeholder="Enter Area Name" required>
+                                            <label for="Area">Area <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control custom-border" id="Area" name="Area" placeholder="Enter Area" required>
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -359,9 +397,9 @@
                                     
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <label for="height">vendor name</label>
+                                            <label for="height">Vendor</label>
                                           
-                                            <input type="text" class="autocomplete form-control custom-border" id="vendorName" name="vendorName" placeholder="Enter Height" data-id="vendorName"  data-width="nowidth" autocomplete="off" required>
+                                            <input type="text" class="autocomplete form-control custom-border" id="vendorName" name="vendorName" placeholder="Enter Vendor" data-id="vendorName" data-width="nowidth" autocomplete="off" required>
                                             
                                         </div>
                                          <div class="form-group col-md-6" style="display:none">
@@ -497,7 +535,7 @@
                                           
                                         </div>
                                         <div class="form-group col-md-6">
-                                             <label for="Area">Area Name <span class="text-danger">*</span></label>
+                                             <label for="Area">Area <span class="text-danger">*</span></label>
                                              <input type="text" class="form-control custom-border" id="edit-Area" name="edit-Area" placeholder="Enter Area Name" required>
                                            
                                         </div>
@@ -505,7 +543,7 @@
                                     
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <label for="height">vendor name</label>                                         
+                                            <label for="height">Vendor</label>                                         
                                             <input type="text" class="autocomplete form-control custom-border" id="edit-vendorName" name="edit-vendorName" placeholder="Enter Height" data-id="edit-vendorName"  data-width="nowidth" autocomplete="off" required>                                            
                                         </div>
                                          <div class="form-group col-md-6" style="display:none">
@@ -517,7 +555,7 @@
                                             <input type="text" class="form-control custom-border" id="edit-image" name="edit-image" placeholder="Enter Vandor Amount">
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="City">City Name <span class="text-danger">*</span></label>
+                                            <label for="City">City <span class="text-danger">*</span></label>
                                             <input type="text" class="form-control custom-border" id="edit-city" name="edit-city" placeholder="Enter City Name" required>
                                           
                                         </div>
