@@ -295,9 +295,15 @@
                                                           
                                                            <div class="camp-date" style="display:none;">
         <input type="date" class="form-control" id="StartDate_${item.id}" name="StartDate"
-               onchange="validateDates(${item.id})"
-               value="${new Date().toISOString().split('T')[ 0 ]}">
-                  <input type="date" class="form-control" id="EndDate_${item.id}" name="EndDate" onchange="validateDates(${item.id})">
+               min="${new Date().toISOString().split('T')[0]}"
+               onchange="updateEndDateMin(${item.id}); validateDates(${item.id});"
+               value="${new Date().toISOString().split('T')[0]}">
+        <div id="error-message-${item.id}" style="color: red; display: none;"></div>
+
+        <input type="date" class="form-control" id="EndDate_${item.id}" name="EndDate"
+               onchange="validateDates(${item.id})">
+        <div id="error-message-end-${item.id}" style="color: red; display: none;"></div>
+
         </div>
 
                                                             <br>
@@ -610,6 +616,13 @@
 
         // Function to validate date inputs  $("#idforalldatechangestring").val("" + idString + "");
 
+        //Use Date Validation for not select the preview data for "End date"
+        function updateEndDateMin(itemId) {
+            const startDate = document.getElementById(`StartDate_${itemId}`).value;
+
+            document.getElementById(`EndDate_${itemId}`).setAttribute('min', startDate);
+        }
+
         function validateDates(id) {
             const startDateInput = document.getElementById(`StartDate_${id}`);
             const endDateInput = document.getElementById(`EndDate_${id}`);
@@ -647,7 +660,10 @@
                 endDateInput.value = startDateInput.value; // Reset to start date
             }
         }
-       
+
+        
+
+
 
     </script>
     <script>

@@ -219,7 +219,7 @@
                 doc.rect(0, 0, pageWidth, pageHeight, 'F');
 
                 doc.setFontSize(28);
-                doc.setTextColor(255, 0, 0);
+                doc.setTextColor(0, 0, 0);
 
                 const thankYouText = 'Thank You';
                 const textWidth = doc.getTextWidth(thankYouText);
@@ -228,23 +228,25 @@
 
                 doc.text(thankYouText, textX, textY);
 
-                // doc.setDrawColor(255, 0, 0);
-                // doc.setLineWidth(0.1); // Thickness of the underline
-                // const underlineY = textY + 0.1; // Adjust position slightly below the text
-                // doc.line(textX, underlineY, textX + textWidth, underlineY);
+                 doc.setDrawColor(255, 0, 0);
+                 doc.setLineWidth(0.1); 
+                 const underlineY = textY + 0.3; 
+                 doc.line(textX, underlineY, textX + textWidth + 0.2, underlineY);
 
 
 
-                doc.addImage(logoImgData, 'PNG', 4.5, 2, 2.9, 1);
+                doc.addImage(logoImgData, 'PNG', 4.5, 3, 2.9, 1);
 
 
                 let startY = 3.6;
                 // doc.text('SAHU OUTDOOR ADVERTISING', pageWidth / 2, startY, { align: 'center' });
 
-                doc.setTextColor(128, 128, 128);
-                doc.setFontSize(12);
+                //doc.setTextColor(128, 128, 128);
+                doc.setTextColor(0, 0, 0);
+                doc.setFontSize(14);
+                doc.setFont("bold");
 
-                startY += 0.2;
+                startY += 2.2;
                 doc.text('Office No. 307, Supreme Classic Building,', pageWidth / 2, startY, { align: 'center' });
 
                 startY += 0.2;
@@ -253,10 +255,10 @@
                 startY += 0.2;
                 doc.text('Email: marketing@sahuads.com GSTIN: 27ABJCS1061L1Z3', pageWidth / 2, startY, { align: 'center' });
 
-                doc.setTextColor(0, 0, 0);
+                doc.setTextColor(255, 0, 0);
                 doc.setFontSize(16);
                 doc.setFont("helvetica", "bold");
-                doc.text('SAHU OUTDOOR ADVERTISING', pageWidth / 2, 3.5, { align: 'center' });
+                doc.text('SAHU OUTDOOR ADVERTISING', pageWidth / 2, 4.7, { align: 'center' });
 
 
                 // Save the PDF
@@ -452,30 +454,41 @@
                 // Add the Thank You slide
                 let thankYouSlide = pptx.addSlide();
 
+                thankYouSlide.addShape(pptx.ShapeType.rect, {
+                    x: 0,
+                    y: 0,
+                    w: '100%',
+                    h: '100%',
+                    fill: { color: 'FFEEF0' }
+
+                });
+
                 // Add the "Thank you" text
                 thankYouSlide.addText('Thank you', {
                     x: 1,
-                    y: 0.4,
+                    y: 0.6,
                     ...titleT,
                     align: 'center'
                 });
 
                 // Add a red line under the "Thank you" text
-                // thankYouSlide.addShape(pptx.ShapeType.line, {
-                //     x: 3.5,
-                //     y: 0.8, // Adjust the y position as needed (0.8 is just an example)
-                //     w: 2.5,
-                //     h: 0,
-                //     line: { color: 'FF0000', width: 4, align: 'center' } // Set color to red
-                // });
+                 thankYouSlide.addShape(pptx.ShapeType.line, {
+                     x: 3.5,
+                     y: 1, 
+                     w: 2.5,
+                     h: 0,
+                     line: { color: 'FF0000', width: 4, align: 'center' } // Set color to red
+                 });
 
-                thankYouSlide.addImage({ path: document.getElementById('imagedata').innerHTML, x: 3.8, y: 1.1, w: 2, h: 1 });
+                const textforaddress = { fontSize: 14, bold: true, color: '000000' };
 
-                thankYouSlide.addText('SAHU OUTDOOR ADVERTISING', { x: 1, y: 2.5, ...headingFont, align: 'center' });
-                thankYouSlide.addText('Office No. 307, Supreme Classic Building,', { x: 1, y: 2.8, ...textFontone, align: 'center' });
-                thankYouSlide.addText('Salunke Vihar Road, Pune 411048', { x: 1, y: 3, ...textFontone, align: 'center' });
-                thankYouSlide.addText(' GSTIN: 27ABJCS1061L1Z3', { x: 1, y: 3.2, ...textFontone, align: 'center' });
-                thankYouSlide.addText('Email: marketing@sahuads.com', { x: 1, y: 3.4, ...textFontone, align: 'center' });
+                thankYouSlide.addImage({ path: document.getElementById('imagedata').innerHTML, x: 3.8, y: 2.3, w: 2, h: 1 });
+
+                thankYouSlide.addText('SAHU OUTDOOR ADVERTISING', { x: 1, y: 3.7, ...headingFont, align: 'center' });
+                thankYouSlide.addText('Office No. 307, Supreme Classic Building,', { x: 1, y: 4.4, ...textforaddress, align: 'center' });
+                thankYouSlide.addText('Salunke Vihar Road, Pune 411048', { x: 1, y: 4.6, ...textforaddress, align: 'center' });
+                thankYouSlide.addText('Email: marketing@sahuads.com  GSTIN: 27ABJCS1061L1Z3', { x: 1, y: 4.8, ...textforaddress, align: 'center' });
+                //thankYouSlide.addText('Email: marketing@sahuads.com', { x: 1, y: 4.6, ...textFontone, align: 'center' });
 
 
 
