@@ -24,6 +24,7 @@
         font-size: 18px;
         font-weight: bold; /* Makes the text bold */
         border: 1px solid #000;
+        color: black;
         border-radius: 15px;
         padding: 5px;
         justify-content: end;
@@ -32,6 +33,16 @@
         margin-left: 60%;
     }
 
+    .StartDate, .EndDate{
+        border: 0.2px solid #000;
+        color: black;
+        border-radius: 15px;
+     
+    }
+
+    .StartDate{
+        margin-right:10px;
+    }
 </style>
 
 ﻿<section>
@@ -313,10 +324,10 @@
                                                         </div>
 
                                                          <div class="camp-date" style="display:none;">
-                                                            <input type="date" class="form-control" id="StartDate_${item.id}" name="StartDate"
+                                                                    <input type="date" class="form-control StartDate" id="StartDate_${item.id}" name="StartDate"
                                                             onchange="validateDates(${item.id})"
                                                             value="${new Date().toISOString().split('T')[ 0 ]}">
-                                                            <input type="date" class="form-control" id="EndDate_${item.id}" name="EndDate" onchange="validateDates(${item.id})">
+                                                             <input type="date" class="form-control EndDate" id="EndDate_${item.id}" name="EndDate" onchange="validateDates(${item.id})">
                                                           </div>
 
                                                     </div>
