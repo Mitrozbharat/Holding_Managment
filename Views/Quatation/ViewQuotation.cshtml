@@ -206,11 +206,35 @@
 
                     // Add the image
                     doc.addImage(itemImage, 'PNG', 1, backgroundY + 0.4, 2.3, 1.6);
-                    doc.text(`Location: ${itemLocation}`, 4, backgroundY + 0.5);
-                    doc.text(`City: ${itemCity}`, 4, backgroundY + 1);
-                    doc.text(`Size: ${itemSize}`, 4, backgroundY + 1.5);
-                    doc.text(`Vendor: ${itemVendor}`, 4, backgroundY + 1.9);
-                    doc.text(`Price: ${itemRate}`, 7.9, backgroundY + 1.9);
+                    //doc.text(`Location: ${itemLocation}`, 4, backgroundY + 0.5);
+
+                    const maxLineLength = 50;
+                    let lines = [];
+
+                    // Split itemLocation into multiple lines if it exceeds maxLineLength
+                    while (itemLocation.length > maxLineLength) {
+                        let line = itemLocation.slice(0, maxLineLength);
+                        let lastSpace = line.lastIndexOf(' ');
+                        if (lastSpace > -1) {
+                            line = line.slice(0, lastSpace); // Ensure no word is cut off
+                        }
+                        lines.push(line);
+                        itemLocation = itemLocation.slice(line.length).trim(); // Trim the remaining text
+                    }
+                    lines.push(itemLocation); // Add the remaining text
+
+                    // Add the first line with "Location:"
+                    doc.text(`Location: ${lines[0]}`, 4, backgroundY + 0.5);
+
+                    // Add the remaining lines without "Location:" and reduce the line gap
+                    lines.slice(1).forEach((line, index) => {
+                        doc.text(line, 4, backgroundY + 0.3 + ((index + 1) * 0.5)); // Adjust y position with reduced line gap
+                    });
+
+                    doc.text(`City: ${itemCity}`, 4, backgroundY + 1.2);
+                    doc.text(`Size: ${itemSize}`, 4, backgroundY + 1.6);
+                    doc.text(`${itemVendor}`, 4, backgroundY + 2);
+                    doc.text(`Price: ${itemRate}`, 7.9, backgroundY + 2);
 
                     countforslide += 1;
                 });
@@ -438,10 +462,34 @@
                         line: { color: 'FFFFFF', width: 15 }
                     });
                     itemSlide.addImage({ path: base64ToBlobUrl(itemImage, 'image/png'), x: 1.1, y: yPosition + 0.1, w: 2.3, h: 1.6 });
-                    itemSlide.addText(`Location: ${itemLocation}`, { x: 3.5, y: yPosition + 0.1, ...itemslideloca });
+
+                    const maxLineLength = 43;
+                    let lines = [];
+                    while (itemLocation.length > maxLineLength) {
+                        let line = itemLocation.slice(0, maxLineLength);
+                        let lastSpace = line.lastIndexOf(' ');
+                        if (lastSpace > -1) {
+                            line = line.slice(0, lastSpace);
+                        }
+                        lines.push(line);
+                        itemLocation = itemLocation.slice(line.length).trim();
+                    }
+                    lines.push(itemLocation); // Add the remaining text
+
+                    itemSlide.addText(`Location: ${lines[0]}`, { x: 3.5, y: yPosition + 0.1, ...itemslideloca });
+
+                    lines.slice(1).forEach((line, index) => {
+                        itemSlide.addText(line, { x: 3.5, y: yPosition + 0.4 + (index * 0.3), ...itemslideloca });
+                    });
+
+                    //lines.forEach((line, index) => {
+                    //    itemSlide.addText(`Location: ${line}`, { x: 3.5, y: yPosition + 0.1 + (index * 0.5), ...itemslideloca });
+                    //});
+
+                    //itemSlide.addText(`Location: ${itemLocation}`, { x: 3.5, y: yPosition + 0.1, ...itemslideloca });
                     itemSlide.addText(`City         : ${itemCity}`, { x: 3.5, y: yPosition + 0.7, ...itemslideData });
                     itemSlide.addText(`Size         : ${itemSize}`, { x: 3.5, y: yPosition + 1.1, ...itemslideData });
-                    itemSlide.addText(`Vendor   : ${itemVendor}`, { x: 3.5, y: yPosition + 1.5, ...itemslideData });
+                    itemSlide.addText(`${itemVendor}`, { x: 3.5, y: yPosition + 1.5, ...itemslideData });
                     itemSlide.addText(`Price: ${itemRate}`, { x: 6.9, y: yPosition + 1.5, ...itemslidePrice });
 
                     // Increment the counter

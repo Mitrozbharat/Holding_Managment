@@ -87,8 +87,7 @@
                                 <th>Customer </th>
                                 <th>Campain Book Date</th>
                                 <th>Amount</th>
-                                <th>City</th>
-                               @*  <th>Location</th> *@
+
 
                                 <th class="text-center">Actions</th>
                             </tr>
@@ -100,12 +99,16 @@
                                     <td>
                                         <img src="data:image/png;base64,@item.Image" class="img-fluid" alt="Image" width="100%" height="100%" />
                                     </td>
-                                    <td>@item.VendorName</td>
+                                    @*<td>@item.VendorName @item.Location @item.City</td>*@
+                                    <td>
+                                        <strong>@item.VendorName</strong><br />
+                                        @item.Location,
+                                        <strong>@item.City</strong>
+                                    </td>
                                     <td>@item.CustomerName</td>
                                     <td>@item.FromDate?.ToString("dd-MM-yyyy") TO @item.ToDate?.ToString("dd-MM-yyyy")</td>
                                     <td>@item.BookingAmt</td>
-                                    <td>@item.City</td>
-                                  @*   <td>@item.Location</td> *@
+
                                     <td class="text-center">
                                         <button type="button" class="btn btn-primary p-2"
                                                 onclick="openEditcampModal('@item.Id', '@item.FromDate?.ToString("yyyy-MM-dd")', '@item.ToDate?.ToString("yyyy-MM-dd")', '@item.BookingAmt')">
