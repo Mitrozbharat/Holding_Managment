@@ -1,5 +1,6 @@
 ﻿using HoardingManagement.Interface;
 using Newtonsoft.Json;
+using OfficeOpenXml;
 
 namespace Hoarding_managment.Controllers
 {
@@ -155,6 +156,124 @@ namespace Hoarding_managment.Controllers
                 });
             }
         }
+
+        //[HttpPost]
+        //public IActionResult GenerateExcel([FromBody] QuotationData model)
+        //{
+        //    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+        //    using (var package = new ExcelPackage())
+        //    {
+        //        var worksheet = package.Workbook.Worksheets.Add("Quotation Data");
+
+        //        // Add header row
+        //        worksheet.Cells[1, 1].Value = "Item";
+        //        worksheet.Cells[1, 2].Value = "Location";
+        //        worksheet.Cells[1, 3].Value = "City";
+        //        worksheet.Cells[1, 4].Value = "Size";
+        //        worksheet.Cells[1, 5].Value = "Price";
+
+        //        // Add data rows from the model
+        //        int row = 2;
+        //        foreach (var item in model.Items)
+        //        {
+        //            worksheet.Cells[row, 1].Value = item.Location;
+        //            worksheet.Cells[row, 2].Value = item.City;
+        //            worksheet.Cells[row, 3].Value = item.Size;
+        //            worksheet.Cells[row, 4].Value = item.Price;
+        //            row++;
+        //        }
+
+        //        // AutoFit columns
+        //        worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
+
+        //        var excelFile = package.GetAsByteArray();
+        //        var fileName = "Quotation_" + model.QuotationNumber + ".xlsx";
+
+        //        // Return the file as an Excel download
+        //        return File(excelFile, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+        //    }
+        //}
+
+
+        [HttpPost]
+        public IActionResult GenerateExcel([FromBody] QuotationData model)
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            using (var package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Quotation Data");
+
+                // Add header row for quotation details
+                worksheet.Cells[1, 1].Value = "Quotation Number";
+                worksheet.Cells[1, 2].Value = model.QuotationNumber;
+
+                worksheet.Cells[2, 1].Value = "Date";
+                worksheet.Cells[2, 2].Value = model.QuotationDate;
+
+                worksheet.Cells[3, 1].Value = "Business Name";
+                worksheet.Cells[3, 2].Value = model.BusinessName;
+
+                //worksheet.Cells[4, 1].Value = "Address";
+                //worksheet.Cells[4, 2].Value = model.Address;
+                string truncatedAddress = model.Address.Length > 30 ? model.Address.Substring(0, 30) + "..." : model.Address;
+                worksheet.Cells[4, 1].Value = "Address";
+                worksheet.Cells[4, 2].Value = truncatedAddress;
+
+                worksheet.Cells[5, 1].Value = "Total Amount";
+                worksheet.Cells[5, 2].Value = model.TotalAmount;
+
+                // Leave a gap, then start the table for items
+                int startRow = 7;
+
+                // Add header row for items
+                worksheet.Cells[startRow, 1].Value = "Location";
+                worksheet.Cells[startRow, 2].Value = "City";
+                worksheet.Cells[startRow, 3].Value = "Size";
+                worksheet.Cells[startRow, 4].Value = "Price";
+
+                // Add data rows for items
+                int row = startRow + 1;
+                foreach (var item in model.Items)
+                {
+                    worksheet.Cells[row, 1].Value = item.Location;
+                    worksheet.Cells[row, 2].Value = item.City;
+                    worksheet.Cells[row, 3].Value = item.Size;
+                    worksheet.Cells[row, 4].Value = item.Price;
+                    row++;
+                }
+
+                // AutoFit columns
+                worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
+
+                var excelFile = package.GetAsByteArray();
+                var fileName = "Quotation_" + model.QuotationNumber + ".xlsx";
+
+                // Return the file as an Excel download
+                return File(excelFile, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+            }
+        }
+
+
+        public class QuotationData
+        {
+            public string QuotationNumber { get; set; }
+            public string QuotationDate { get; set; }
+            public string BusinessName { get; set; }
+            public string Address { get; set; }
+            public string TotalAmount { get; set; }
+            public List<QuotationItem> Items { get; set; }
+        }
+
+        public class QuotationItem
+        {
+            public string Location { get; set; }
+            public string City { get; set; }
+            public string Size { get; set; }
+            public string Price { get; set; }
+        }
+
     }
-        
+
 }
