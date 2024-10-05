@@ -1,5 +1,6 @@
 ﻿@model InventoryPagedViewModel
 <style>
+
     .form-group {
         margin-bottom: 1.5rem;
     }
@@ -152,12 +153,30 @@
         justify-content:end;
     }
 
-     /* #searchQuery{
-        margin-right:20px;
-        width:40%;
-        } */
+    #filter{
+        color: blue;
+        align-items:center;
+       font-size:45px;
+    }
+    #heading{
+        height:45px;
+    }
 
-        			.conteneur5 { display:flex;margin-left: 38%;margin-top: 14px; }
+    p>strong{
+        width:100px;
+    }
+    p>input, select {
+        margin-left:25px;
+    }
+
+     #searchQuery{
+      /* //  margin-right:10px; */
+        width:35%;
+        padding-left:20px;
+
+        }
+
+            .conteneur5 { display:flex;margin-left: 38%;margin-top: 14px; }
 			.points5 { margin:8px; width:16px; height:16px; border-radius:50%; background:#555555; }
 			.points5:nth-child(1) { animation:animPoints5 2.5s linear infinite; }
 			.points5:nth-child(2) { animation:animPoints5 2.5s linear .5s infinite; }
@@ -168,40 +187,6 @@
 
 
 
-    ::placeholder {
-        color: black !important; 
-        opacity: 1; 
-    }
-
-    #city::placeholder,
-    #Area::placeholder,
-    #location::placeholder,
-    #width::placeholder,
-    #height::placeholder,
-    #rate::placeholder,
-    #vendorName::placeholder,
-    #vendorids::placeholder,
-    #vendoramt::placeholder {
-        color: black !important;
-    }
-
-    select {
-        color: black !important; 
-    }
-
-    select option {
-        color: black !important;
-    }
-
-    .custom-file-label {
-        color: black !important; 
-    }
-
-    .custom-border {
-        border: 1px solid black;
-        border-radius: 10px;
-        color: black;
-    }
 
 
 </style>
@@ -209,25 +194,117 @@
 
 <body>
    <div class="container-fluid my-2">
-       
-                <div class="row align-items-center my-2 px-2">
-                    <div class="col-sm-12 col-md-6 col-lg-3">
-                        <h3 class="text-primary pt-2">Inventory</h3>
+
+        <div class="row align-items-center my-2 px-2">
+            <div class="col-sm-12 col-md-6 col-lg-4">
+                <h3 class="text-primary pt-2">Inventory</h3>
+            </div>
+            <div class="col-sm-12 col-lg-8  "  >
+                <div class=" d-flex justify-content-around " id="heading">
+                        <input type="search" id="searchQuery" autocomplete="off" placeholder="Search by City, Area, Vendor..."
+                               class="rounded-pill btn-outline-red" style="border: 1px solid;"
+                               value="@Model.SearchQuery" oninput="searchInventory()" />
+                        <!-- Filter icon button -->
+
+                    <i id="filter" class="bi bi-funnel" style="color: blue; cursor: pointer;" data-toggle="modal" data-target="#filterModal"></i>
+
+                    <input class="form-control btn" type="file" id="formFile" style="display: none;">
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#ImportinventoryModal">
+                            <i class="mdi mdi-download"></i> Import Excel
+                        </button>
+                        <input type="file" id="fileInput" style="display: none;" />
+                        <button type="button" class="btn btn-primary " id="addInventoryButton" data-toggle="modal" data-target="#addCustomerModal">
+                            <span class="mdi mdi-plus"></span> Add Inventory
+                        </button>
+                  </div>
+            </div>
+        </div>
+
+        <!-- Modal Structure -->
+        <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="filterModalLabel">Filter Details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                    <div class="col-sm-12  col-lg-9 d-flex justify-content-end">
-                        <div class="input-group-inv">
-                    <input type="search" id="searchQuery" autocomplete="off"  placeholder="Search by City,Area,Vendor.." class="rounded-pill mr-3 btn-outline-red" style="border: 1px solid;" value="@Model.SearchQuery" oninput="searchInventory()" />
-                            <input class="form-control btn" type="file" id="formFile" style="display: none;">
-                    <button class="btn btn-primary " data-toggle="modal" data-target="#ImportinventoryModal"><i class="mdi mdi-download"></i> Import Excel</button>
-                            <input type="file" id="fileInput" style="display: none;" />
-                            <button type="button" class="btn btn-primary ml-4" id="addInventoryButton" data-toggle="modal" data-target="#addCustomerModal">
-                                <span class="mdi mdi-plus"></span> Add Inventory
-                            </button>
+                    <div class="modal-body">
+                        <!-- Grouping related inputs together and adding labels for accessibility -->
+                        <div class="form-row">
+                            <div class="form-group col-6">
+                                <label for="cityInput"><strong>City:</strong></label>
+                                <input type="text" id="cityInput" class="form-control text-black" placeholder="Enter City" />
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="areaInput"><strong>Area:</strong></label>
+                                <input type="text" id="areaInput" class="form-control text-black" placeholder="Enter Area" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label><strong>Size:</strong></label>
+                            <div class="row">
+                                <div class="col">
+                                    <input type="number" class="form-control text-black" placeholder="Width in FT" aria-label="Width" />
+                                </div>
+                                <div class="col-auto align-self-center">
+                                    <span>X</span>
+                                </div>
+                                <div class="col">
+                                    <input type="number" class="form-control text-black" placeholder="Height in FT" aria-label="Height" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="rateSelect1"><strong>Size:</strong></label>
+                            <div class="row align-items-center">
+                                <!-- First rate select -->
+                                <div class="col">
+                                    <select id="sizeSelect1" class="form-control text-black">
+                                        <option value="10">10/sq FT</option>
+                                        <option value="20">20/sq FT</option>
+                                        <option value="30">30/sq FT</option>
+                                        <option value="40">40/sq FT</option>
+                                        <option value="50">50/sq FT</option>
+                                    </select>
+                                </div>
+
+                                <!-- Multiplication symbol -->
+                                <div class="col-auto text-center">
+                                    <span>X</span>
+                                </div>
+
+                                <!-- Second rate select -->
+                                <div class="col">
+                                    <select id="sizeSelect2" class="form-control">
+                                        <option value="10">10/sq FT</option>
+                                        <option value="20">20/sq FT</option>
+                                        <option value="30">30/sq FT</option>
+                                        <option value="40">40/sq FT</option>
+                                        <option value="50">50/sq FT</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="vendorInput"><strong>Vendor:</strong></label>
+                            <input type="text" id="vendorInput" class="form-control" placeholder="Vendor Name" />
                         </div>
                     </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="applyFilter">Apply Filter</button>
+                    </div>
                 </div>
-        <div class="card p-2">
-            @if (!string.IsNullOrEmpty(Model.SearchQuery))
+            </div>
+        </div>
+
+       
+        @if (!string.IsNullOrEmpty(Model.SearchQuery))
             {
                 <script>
                     $(document).ready(function () {
@@ -668,6 +745,18 @@
             </section>
         </div>
         <script>
+
+
+
+
+            // When the filter icon is clicked
+            $('filter').on('click', function () {
+                // Show the modal
+                var filterModal = new bootstrap.Modal(document.getElementById('filterModal'));
+                filterModal.show();
+            });
+
+
     function updateFileName() {
         var input = document.getElementById('inventoryimportInput');
         var label = document.getElementById('inventoryimportname');
@@ -1133,8 +1222,7 @@
             const imageInput = document.getElementById('imageInput');
             const fileName = document.getElementById('fileName');
 
-            imageInput.addEventListener('change', function () 
-            {
+            $('imageInput').on('change', function () {
                 const file = this.files[0];
 
                 if (file)
@@ -1151,7 +1239,7 @@
             const imageInput1 = document.getElementById('imageInputt');
             const fileName1 = document.getElementById('fileNamee');
 
-            imageInput1.addEventListener('change', function () 
+           $('imageInput1').on('change', function () 
             {
                 const file = this.files[0];
 

@@ -10,7 +10,7 @@ namespace Hoarding_managment.Controllers
         public QuatationController(IQuotation quotationRepository, IDashboard dashboard)
         {
             _context = quotationRepository;
-            _Dashcontext= dashboard;
+            _Dashcontext = dashboard;
         }
         //[HttpGet]
         //public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 9)
@@ -28,11 +28,11 @@ namespace Hoarding_managment.Controllers
 
         //    return View(viewModel);
         //}
-       
-         [HttpGet]
+
+        [HttpGet]
         public async Task<IActionResult> Index(string searchQuery = "", int pageSize = 10, int pageNumber = 1)
         {
-            List<QuatationViewModel>? quotations = await _context.GetAllQuotationsListAsync(searchQuery,pageNumber, pageSize);
+            List<QuatationViewModel>? quotations = await _context.GetAllQuotationsListAsync(searchQuery, pageNumber, pageSize);
             var totalItems = await _context.GetQuotationCountAsync(searchQuery);
             var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
 
@@ -48,18 +48,13 @@ namespace Hoarding_managment.Controllers
             return View(viewModel);
         }
 
-
-
-
-
-
         [HttpGet]
         public async Task<IActionResult> GetQuataionsJ(int pageNumber = 1, int pageSize = 10)
         {
             var quotations = await _context.GetAllQuotationsListAsync(pageNumber, pageSize);
 
 
-            if (quotations.Count > 0) 
+            if (quotations.Count > 0)
             {
                 return Json(new { success = true, message = "Success", model = quotations });
 
@@ -135,7 +130,31 @@ namespace Hoarding_managment.Controllers
 
 
 
+        [HttpPost]
+        public async Task<IActionResult> DeleteQuatationitem(int id)
+        {
 
+            var qitemId = await _context.findQuotationitemByIdAsync(id);
+            if (qitemId != null)
+            {
+                var deleteCampaign = await _context.DeleteQuotationitemByIdAsync(qitemId);
+                return Json(new
+                {
+                    success = true,
+                    Message = "Delete Inventory Successfully",
+                    id = deleteCampaign
+                });
 
+            }
+            else
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = "Deleting Error..."
+                });
+            }
+        }
     }
+        
 }

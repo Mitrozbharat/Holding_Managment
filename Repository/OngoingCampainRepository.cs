@@ -162,6 +162,7 @@ namespace Hoarding_managment.Repository
 
             // Apply pagination (Skip and Take)
             var pagedCampaigns = groupedCampaigns
+                .OrderByDescending(x=>x.CreatedAt)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToList();

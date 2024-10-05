@@ -22,5 +22,9 @@ namespace HoardingManagement.Interface
         public Task<int>  GetQuotationCountAsync(string searchQuery);
 
         public Task<List<TblQuotation>> SearchByCustomerNameAsync(string name);
+
+
+        public Task<int> findQuotationitemByIdAsync(int id);
+        public Task<int> DeleteQuotationitemByIdAsync(int id);
     }
 }
