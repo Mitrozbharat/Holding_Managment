@@ -58,9 +58,9 @@
             <div class="col-md-4 mt-5">
                 <div class="customer-details">
                     <div class="row mb-3">
-                        <div class="col-6">
+                        <div class="col-6 " id="labelqute">
                             <input type="radio" id="create-quotation" name="quotation" value="quotation">
-                            <label for="create-quotation">Create Quotation</label>
+                            <label    for="create-quotation">Create Quotation</label>
                         </div>
                         <input type="text" id="idforalldatechange" name="idforalldatechange" style="display:none">
                         <input type="text" id="idforalldatechangestring" name="idforalldatechangestring" style="display:none">
@@ -135,7 +135,7 @@
         </div>
     </div>
 
-    <!-- Delete Modal -->
+    @* <!-- Delete Modal -->
     <div class="modal fade" id="deleteModalquate" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content" style="border-radius:20px;">
@@ -155,7 +155,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> *@
 
     <!-- add model -->
     <div class="modal fade" id="addCustomerModal" tabindex="-1" aria-labelledby="addCustomerModalLabel" aria-hidden="true">
@@ -272,6 +272,13 @@
             let idString = "";  // Step 1: Initialize an empty string
 
             function fetchData() {
+                 updatedRates = [];
+                 addCamign = [];
+                 changedateids = [];
+                 newRate;
+                 originalRates = {};
+                
+                 idString = "";
                 var id = sessionStorage.getItem('selectedHoardingId');
 
                 // Define ajaxOptions based on default GET request
@@ -281,10 +288,15 @@
                     dataType: 'json',
                     success: function (data) {
                         if (data.success) {
+
                             // document.getElementById('create-quotation').checked = true;
                             if (id !== null) {
                                 // Set the checkbox to checked
                                 document.getElementById('add-campaign').checked = true;
+                               // $('#create-quotation').closest('.col-6').find('input').prop('disabled', true);
+                                $('#labelqute').css('display', 'none');
+
+                                
                             }
 
 
@@ -369,20 +381,10 @@
                                 }
                             });
 
-                            // <div class="rate-section my-2">
-                            //     <h4 class="my-2">
-                            //         <span style='font-size:20px;'>&#8377; </span>
-                            //         <span id="rateDisplay_${item.id}" class="rate-display" ondblclick="editRate(${item.id}, ${item.rate})">${item.rate}</span>
-                            //     </h4>
-                            //     <div class="rate-edit" id="rateEdit_${item.id}" style="display: none;">
-                            //         <input type="number" class="form-control mb-2 rate-input" id="rateInput_${item.id}" value="${item.rate}">
-                            //     </div>
-                            // </div>
-
 
 
                             if (idString.length > 0) {
-                                idString = idString.slice(0, -1);  // Remove trailing comma
+                                idString = idString.slice(0, -1); 
                             }
 
 
@@ -451,65 +453,7 @@
                                 }
                             };
 
-                            // Function to handle the double-click event and enable editing
-                            // window.editRate = function (id, currentRate) {
-                            //     // Hide the rate display and show the input field
-                            //     $('#rateDisplay_' + id).hide();
-                            //     $('#rateEdit_' + id).show();
-
-                            //     // Get the input field
-                            //     var inputField = $('#rateInput_' + id);
-
-                            //     // Set focus to the input field
-                            //     inputField.focus();
-
-                            //     // Move the caret to the end of the input value
-                            //     var value = inputField.val();
-                            //     inputField.val('').val(value); // This resets the value to move the caret to the end
-
-                            //     // Clear previous keydown event handlers to avoid multiple bindings
-                            //     inputField.off('keydown').on('keydown', function (e) {
-                            //         if (e.key === 'Enter') {
-                            //             e.preventDefault(); // Prevent the default action (form submission, etc.)
-                            //             saveRate(id); // Call the save function to update the rate
-                            //         }
-                            //     });
-                            // };
-
-                            // The rest of your code remains the same...
-
-
-
-                            // Function to save the rate when the user clicks outside the input field (blur event)
-                            // $(document).on('blur', '.rate-input', function () {
-                            //     var id = $(this).attr('id').split('_')[1]; // Extract the item ID from the input field ID
-                            //     saveRate(id); // Call the save function
-                            // });
-
-
-                            //window.saveRate = function (id) {
-                            //    var newRate = $('#rateInput_' + id).val();
-                            //    $('#rateDisplay_' + id).text(newRate);
-                            //    $('#rateEdit_' + id).hide();
-                            //    $('#rateDisplay_' + id).show();
-
-                            //    // Check if the rate was actually changed
-                            //    let isRateChanged = newRate != originalRates[id].rate;
-
-                            //    // Remove the existing entry, if any, to avoid duplicates
-                            //    updatedRates = updatedRates.filter(item => item.id !== id);
-                            //    addCamign = addCamign.filter(item => item.id !== id);
-
-                            //    // Add the rate regardless of whether it has changed
-                            //    updatedRates.push({ id: id, rate: newRate, FkInventoryId: originalRates[id].FkInventoryId });
-                            //    addCamign.push({ id: id, rate: newRate, FkInventoryId: originalRates[id].FkInventoryId });
-
-                            //    // Optionally, show a message if a change was detected
-                            //    if (isRateChanged) {
-                            //        console.log(`Rate for item ${id} was changed.`);
-                            //    }
-                            //};
-
+                            
                             window.cancelEdit = function (id) {
                                 $('#rateEdit_' + id).hide();
                                 $('#rateDisplay_' + id).show();
@@ -555,6 +499,7 @@
                     if ($(this).val() === 'campaign') {
                         $('.camp-date').show();
                         $('.camp-date').css('display', 'flex');
+
                     } else {
                         $('.camp-date').hide();
                     }
@@ -564,7 +509,6 @@
 
 
             $('#saveQuotation').on('click', function () {
-
 
                 var customerId = document.getElementById('businessNameid').value;
 
@@ -587,22 +531,14 @@
                     data: JSON.stringify({ selectedItems: updatedRates, customerId: customerId }),
                     success: function (response) {
 
-                        //setTimeout(function () {
-                        //    window.location.href = '/Quatation/LastQuotation?id=' + response.id; // Corrected line
-
-                        //}, 1000);
-
+                       
                         if (response.success) {
                             window.location.href = '/Quatation/ViewQuotation?id=' + response.id; // Corrected line
                         } else {
                             toastr.error(response.message);
                         }
 
-                        // setTimeout(function () {
-
-
-                        // }, 2000);
-
+                      
 
                     },
                     error: function (xhr, status, error) {
@@ -610,6 +546,60 @@
                         console.error('Error saving selected hoardings:', status, error);
                     }
                 });
+            });
+
+        
+
+            $('#deleteHoarding').off('click').on('click', function () {
+                var selectedCustomerId = $('#selectedId').val();
+                var selectedAction = $('input[name="quotation"]:checked').val(); // Get the selected radio button value
+
+                console.log("id: " + selectedCustomerId);
+                console.log("Selected Action: " + selectedAction);
+
+                // If "Create Quotation" is selected, call DeletedSelectInventoryHoarding
+                if (selectedAction === 'quotation') {
+                    $.ajax({
+                        url: '/Dashboard/DeletedSelectInventoryHoarding',
+                        type: 'POST',
+                        data: { id: selectedCustomerId },
+                        success: function (response) {
+                            if (response.success) {
+                                toastr.success(response.message);
+                                location.reload();
+                            } else {
+                                toastr.error(response.message);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error deleting inventory hoarding:', error);
+                        }
+                    });
+                }
+                // If "Add to Campaign" is selected and .camp-date is visible, call DeletedHoardingQuation
+                else if (selectedAction === 'campaign' && $('.camp-date').is(':visible')) {
+                    $.ajax({
+                        url: '/Quatation/DeleteQuatationitem',
+                        type: 'POST',
+                        data: { id: selectedCustomerId },
+                        success: function (response) {
+                            if (response.success) {
+                                toastr.success(response.message);
+                                // location.reload();
+                               // var id = sessionStorage.getItem('selectedHoardingId');
+                              //  sessionStorage.setItem('selectedHoardingId', id);
+                              //  $('#deleteModal').css('display:None');
+                               // $('#deleteModal').hide();
+                                fetchData();
+                            } else {
+                                toastr.error(response.message);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error deleting hoarding quotation:', error);
+                        }
+                    });
+                }
             });
 
 
@@ -642,7 +632,6 @@
                         return; // Stop processing further for this item
                     }
 
-                    // Create the new item object
                     let newItem = {
                         id: item.id,
                         rate: item.rate,
@@ -679,15 +668,22 @@
 
 
         });
-    </script>
-    <script>
+
+
+
+
+  
         // Set today's date as default for start date
         document.addEventListener('DOMContentLoaded', function () {
-            const today = new Date().toISOString().split('T')[ 0 ]; // Get today's date in yyyy-mm-dd format
-            document.getElementById(`StartDate_${item.id}`).value = today;
+            const items = [ ...document.querySelectorAll('.StartDate') ]; // Assuming you have multiple items
+
+            items.forEach(function (inputElement) {
+                const id = inputElement.getAttribute('id').split('_')[ 1 ]; // Extract item ID from the input element's ID
+                const today = new Date().toISOString().split('T')[ 0 ]; // Get today's date in yyyy-mm-dd format
+                document.getElementById(`StartDate_${id}`).value = today;
+            });
         });
 
-        // Function to validate date inputs  $("#idforalldatechangestring").val("" + idString + "");
 
         function validateDates(id) {
             const startDateInput = document.getElementById(`StartDate_${id}`);
@@ -729,6 +725,10 @@
 
 
     </script>
+
+
+
+
     <script>
         document.querySelectorAll('.autocomplete').forEach(function (input) {
             let suggestionsContainer;
@@ -910,10 +910,7 @@
         });
 
 
-    </script>
-
-    <script>
-
+   
 
         function updateDisplay() {
             const actionButtons = document.querySelector('.action-buttons');
@@ -967,7 +964,7 @@
         });
 
         $(document).ready(function () {
-            // Load customer details when the document is ready
+
             $.ajax({
                 url: '/Customer/GetCustomerinfo', // Corrected endpoint for getting all customer info
                 type: 'GET',
@@ -1046,64 +1043,12 @@
             });
 
         });
-
         function cnfDeleteselecedInvetry(id) {
-
 
             $('#selectedId').val(id);
 
-            // var selectedId = document.getElementById("selectedId").value();
-
-            $('#deleteHoarding').on('click', function () {
-                var selectedCustomerId = $('#selectedId').val();
-                console.log("id" + selectedCustomerId);
-                $.ajax({
-                    url: '/Dashboard/DeletedSelectInventoryHoarding', // Correct endpoint for getting customer by ID
-                    type: 'Post',
-                    data: { id: selectedCustomerId },
-                    success: function (response) {
-
-                        if (response.success) {
-                            toastr.success(response.message);
-                            location.reload();
-                        }
-                        else {
-                            toastr.error(response.message);
-                        }
-
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('Error fetching customer info:', error);
-                    }
-
-                });
-            });
-
-            $('#deleteQuteHoarding').on('click', function () {
-                var selectedCustomerId = $('#selectedId').val();
-                console.log("id" + selectedCustomerId);
-                $.ajax({
-                    url: '/Dashboard/DeletedSelectInventoryHoarding', 
-                    type: 'Post',
-                    data: { id: selectedCustomerId },
-                    success: function (response) {
-
-                        if (response.success) {
-                            toastr.success(response.message);
-                            location.reload();
-                        }
-                        else {
-                            toastr.error(response.message);
-                        }
-
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('Error fetching customer info:', error);
-                    }
-
-                });
-            });
         }
+       
 
 
     </script>

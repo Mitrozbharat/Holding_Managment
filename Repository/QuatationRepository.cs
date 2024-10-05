@@ -112,7 +112,7 @@ namespace HoardingManagement.Repository
                         .Select(c => c.BusinessName)
                         .FirstOrDefault(),
                     Totalhoarding = _context.TblQuotationitems
-                        .Count(qi => qi.FkQuotationId == q.Id)
+                        .Count(qi => qi.FkQuotationId == q.Id && qi.IsDelete==0)
                 })
                 .ToListAsync();
 
@@ -361,8 +361,10 @@ namespace HoardingManagement.Repository
             return viewModel;
         }
 
-        public async Task<QuatationDetaileViewModel> GetLatestQuotationById(int id)
-        {
+
+       
+            public async Task<QuatationDetaileViewModel> GetLatestQuotationById(int id)
+            {
             // Retrieve the quotation by ID
             var quotation = await _context.TblQuotations
                 .Where(q => q.Id == id && q.IsDelete == 0)
@@ -437,6 +439,37 @@ namespace HoardingManagement.Repository
             return viewModel;
         }
 
-        
+
+
+
+
+        public async Task<int> DeleteQuotationitemByIdAsync(int id)
+        {
+            var existQuotationItem = await _context.TblQuotationitems.FirstOrDefaultAsync(x => x.Id == id);
+            if (existQuotationItem != null)
+            {
+                existQuotationItem.IsDelete = 1;
+                _context.TblQuotationitems.Update(existQuotationItem);
+                await _context.SaveChangesAsync(); // Save the changes to the database
+                return 0;
+            }
+            return 1; // Item not found
+        }
+
+        public async Task<int> findQuotationitemByIdAsync(int id)
+        {
+            var finditem = await _context.TblQuotationitems
+                                         .FirstOrDefaultAsync(x => x.Id == id && x.IsDelete == 0);
+
+            if (finditem == null)
+            {
+                return 0; 
+            }
+
+            return finditem.Id; 
+        }
+
+
+
     }
 }
