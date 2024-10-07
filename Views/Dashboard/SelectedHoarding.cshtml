@@ -260,7 +260,7 @@
     </div>
 
       <a id="hiddenRedirectLink" href="/SelectedHoarding" style="display:none;"></a>
-
+      <input type="text" id="selecteId"  style="display:none;" />
 
     <script>
         $(document).ready(function () {
@@ -271,13 +271,17 @@
             var originalRates = {};
             var id = sessionStorage.getItem('selectedHoardingId');
             let idString = "";  // Step 1: Initialize an empty string
-
-
+           
 
             function fetchData() {
-               
-                  var hoardingId = sessionStorage.getItem('selectedHoardingId');
-
+                //  updatedRates = [];
+                //  addCamign = [];
+                //  changedateids = [];
+                //  newRate;
+                //  originalRates = {};
+                
+                //  idString = "";
+                // var id = sessionStorage.getItem('selectedHoardingId');
 
                 // Define ajaxOptions based on default GET request
                 var ajaxOptions = {
@@ -489,19 +493,16 @@
                     ajaxOptions.url = '/Dashboard/GetHordingdata'; // Change URL
                     ajaxOptions.type = 'POST'; // Change request type
                     ajaxOptions.data = { id: id }; // Pass id as data
+                 
+                      document.getElementById('selecteId').value=id;
+
+                    console.log("id :",selecteId);
                     sessionStorage.removeItem('selectedHoardingId');
                 }
 
                 // Make the AJAX request
                 $.ajax(ajaxOptions);
             }
-
-
-
-
-
-
-
 
             fetchData();
 
@@ -516,8 +517,6 @@
                     }
                 });
             }
-
-
             updateradio();
 
 
@@ -699,6 +698,10 @@
 
             $('#selectedId').val(id);
 
+        }
+       
+
+      
              $('#deleteHoarding').off('click').on('click', function () {
                 var selectedCustomerId = $('#selectedId').val();
                 var selectedAction = $('input[name="quotation"]:checked').val(); // Get the selected radio button value
@@ -750,13 +753,18 @@
 
             });
 
-          }
+        
 
+
+          
          function fetchData3() 
           {
+              let selecteId =$('#selecteId').val();
+
+               console.log(selecteId);
 
             // Store the ID in sessionStorage
-            sessionStorage.setItem('selectedHoardingId', id);
+            sessionStorage.setItem('selectedHoardingId', selecteId);
 
             // Verify that the ID is set correctly
             console.log("ID set in sessionStorage: " + sessionStorage.getItem('selectedHoardingId'));
