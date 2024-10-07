@@ -9,14 +9,81 @@ namespace Hoarding_managment.Repository
         {
             _context = db_hoarding_managementContext;
         }
-        //public async Task<IEnumerable<TblVendor>> GetAllVendorsAsync(int pageNumber, int pageSize)
-        //{
-        //    return await _context.TblVendors
-        //.Where(v => v.IsDelete == 0)
-        //.Skip((pageNumber - 1) * pageSize)
-        //.Take(pageSize)
-        //.ToListAsync();
-        //}
+
+
+            public  List<TblVendor> getvendorlist()
+            {
+
+                return _context.TblVendors.ToList();
+
+            }
+
+            public InventoryFilterViewModel ApplyFilters(InventoryFilterViewModel filter)
+            {
+                // Start with the base query
+                IQueryable<TblInventory> query = _context.TblInventories;
+
+                // Apply filters based on the filter object
+                if (!string.IsNullOrWhiteSpace(filter.City))
+                {
+                    query = query.Where(i => i.City.ToLower() == filter.City.ToLower());
+                }
+
+                if (!string.IsNullOrWhiteSpace(filter.Area))
+                {
+                    query = query.Where(i => i.Area.ToLower() == filter.Area.ToLower());
+                }
+
+                if (!string.IsNullOrWhiteSpace(filter.MinRate))
+                {
+                    query = query.Where(i => string.Compare(i.Rate, filter.MinRate) >= 0);
+                }
+
+                if (!string.IsNullOrWhiteSpace(filter.MaxRate))
+                {
+                    query = query.Where(i => string.Compare(i.Rate, filter.MaxRate) <= 0);
+                }
+
+                // Assuming Width and Height are string properties in the model
+                if (!string.IsNullOrWhiteSpace(filter.Width))
+                {
+                    query = query.Where(i => i.Width == filter.Width);
+                }
+
+                if (!string.IsNullOrWhiteSpace(filter.Height))
+                {
+                    query = query.Where(i => i.Height == filter.Height);
+                }
+
+                if (filter.VendorId.HasValue)
+                {
+                    query = query.Where(i => i.FkVendorId == filter.VendorId);
+                }
+
+                // Filter based on BookingStatus (0 or null)
+                if (filter.BookingStatus.HasValue)
+                {
+                    if (filter.BookingStatus.Value == 0)
+                    {
+                        query = query.Where(i => i.BookingStatus == 0 || i.BookingStatus == null);
+                    }
+                    else
+                    {
+                        query = query.Where(i => i.BookingStatus == filter.BookingStatus.Value);
+                    }
+                }
+
+                // Execute the query and get the filtered results
+                List<TblInventory> filteredResults = query.ToList();
+
+                // Update the filter model with the filtered results or relevant data
+                filter.FilteredResults = filteredResults; // Assuming InventoryFilterViewModel has this property
+
+                // Return the updated filter view model
+                return filter;
+            }
+      
+
         public async Task<IEnumerable<TblVendor>> GetAllVendorsAsync(string searchQuery, int pageNumber, int pageSize)
         {
             var query = _context.TblVendors.Where(v => v.IsDelete == 0);
