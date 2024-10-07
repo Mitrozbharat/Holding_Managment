@@ -162,5 +162,12 @@ namespace Hoarding_managment.Controllers
             return Json(new { success = true, count = upcomingeventCount });
         }
 
+        [HttpPost]
+        public IActionResult CheckAvailability(int id, DateTime fromDate, DateTime toDate)
+        {
+            var isBooked = _context.IsCampaignBooked(id, fromDate, toDate);
+            return Json(new { isBooked = isBooked });
+        }
+
     }
 }

@@ -54,8 +54,8 @@ namespace Hoarding_managment.Repository
                     campaigndetails.FromDate = model.FromDate;
                     campaigndetails.ToDate = model.ToDate;
                     campaigndetails.BookingAmt = model.BookingAmt;
-
-                    _context.SaveChangesAsync();
+                    _context.TblCampaigns.UpdateRange();
+                  await  _context.SaveChangesAsync();
 
                 }
 
@@ -348,7 +348,13 @@ namespace Hoarding_managment.Repository
             return campaign;
         }
 
-
-
+        public bool IsCampaignBooked(int id, DateTime fromDate, DateTime toDate)
+        {
+            return _context.TblCampaigns
+                           .Any(c => c.Id == id &&
+                                     c.FromDate <= toDate &&
+                                     c.ToDate >= fromDate &&
+                                     c.IsDelete==0);
+        }
     }
 }

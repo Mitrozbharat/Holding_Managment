@@ -15,6 +15,8 @@
         public Task<int>  GetOngoingCampaignCountAsync(string searchQuery);
         public Task<int> GetCompletedCampaignCountAsync(string searchQuery);
 
-        public Task<CampaignViewModel> SearchByCampaignNameAsync(string name); 
+        public Task<CampaignViewModel> SearchByCampaignNameAsync(string name);
+
+        bool IsCampaignBooked(int id, DateTime fromDate, DateTime toDate);
     }
 }
