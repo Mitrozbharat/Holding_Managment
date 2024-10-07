@@ -10,22 +10,14 @@ namespace Hoarding_managment.Controllers
             _context = vendor;
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 5)
-        //{
-        //    var vendors = await _context.GetAllVendorsAsync(pageNumber, pageSize);
-        //    var totalVendors = await _context.GetVendorCountAsync();
-        //    var totalPages = (int)Math.Ceiling(totalVendors / (double)pageSize);
-
-        //    var viewModels = vendors.Select(v => VendorMapper.ToViewModel(v)).ToList();
-        //    ViewData["CurrentPage"] = pageNumber;
-        //    ViewData["PageSize"] = pageSize;
-        //    ViewData["TotalPages"] = totalPages; // Pass total pages to the view
-
-        //    return View(viewModels);
-        //}
-
         [HttpGet]
+        public async Task<IActionResult> GetVendorList()
+        {
+
+            var listofvendor = _context.getvendorlist();
+            return Json(new { success = true, Message = "success", data = listofvendor });
+        }
+            [HttpGet]
         public async Task<IActionResult> Index(string searchQuery = "", int pageSize = 10, int pageNumber = 1)
         {
             // Get filtered customers based on the search query

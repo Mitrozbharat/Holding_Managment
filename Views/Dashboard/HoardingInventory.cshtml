@@ -161,12 +161,20 @@
     #heading{
         height:45px;
     }
-
+   
     p>strong{
         width:100px;
     }
-    p>input, select {
+    p>input{
         margin-left:25px;
+    }
+    #selectvendorName{
+        margin:0px;
+        padding:0px;
+    }
+
+    select> option{
+        color:black;
     }
 
      #searchQuery{
@@ -208,6 +216,10 @@
 
                     <i id="filter" class="bi bi-funnel" style="color: blue; cursor: pointer;" data-toggle="modal" data-target="#filterModal"></i>
 
+                    <div id="inventoryContainer">
+                        <!-- Render inventory items here after filter/search -->
+                    </div>
+
                     <input class="form-control btn" type="file" id="formFile" style="display: none;">
                         <button class="btn btn-primary" data-toggle="modal" data-target="#ImportinventoryModal">
                             <i class="mdi mdi-download"></i> Import Excel
@@ -234,65 +246,78 @@
                         <!-- Grouping related inputs together and adding labels for accessibility -->
                         <div class="form-row">
                             <div class="form-group col-6">
-                                <label for="cityInput"><strong>City:</strong></label>
-                                <input type="text" id="cityInput" class="form-control text-black" placeholder="Enter City" />
+                                <label for="cityInput"><strong>City  :</strong></label>
+                                <input type="text" id="cityFilter" class="form-control text-black" placeholder="Enter City" />
                             </div>
                             <div class="form-group col-6">
                                 <label for="areaInput"><strong>Area:</strong></label>
-                                <input type="text" id="areaInput" class="form-control text-black" placeholder="Enter Area" />
+                                <input type="text" id="areaFilter" class="form-control text-black" placeholder="Enter Area" />
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label><strong>Size:</strong></label>
+                            <label><strong>Rate  :</strong></label>
                             <div class="row">
                                 <div class="col">
-                                    <input type="number" class="form-control text-black" placeholder="Width in FT" aria-label="Width" />
+                                    <input type="number" id="minRateFilter" class="form-control text-black" placeholder=" Enter Minimum rate" aria-label="Width" />
                                 </div>
                                 <div class="col-auto align-self-center">
                                     <span>X</span>
                                 </div>
                                 <div class="col">
-                                    <input type="number" class="form-control text-black" placeholder="Height in FT" aria-label="Height" />
+                                    <input type="number" id="maxRateFilter" class="form-control text-black" placeholder="Enter Maximum rate" aria-label="Height" />
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="rateSelect1"><strong>Size:</strong></label>
+                            <label for="rateSelect1"><strong>Size  :</strong></label>
                             <div class="row align-items-center">
                                 <!-- First rate select -->
-                                <div class="col">
-                                    <select id="sizeSelect1" class="form-control text-black">
-                                        <option value="10">10/sq FT</option>
-                                        <option value="20">20/sq FT</option>
-                                        <option value="30">30/sq FT</option>
-                                        <option value="40">40/sq FT</option>
-                                        <option value="50">50/sq FT</option>
+                                <div class="col-5">
+                                    <select id="widthFilter" class="form-control text-black" style="margin-left:0px; padding:0px">
+                                          <option value="">Select Width </option>
+                                         <option  value="10">10 FT</option>
+                                        <option value="20">20 FT</option>
+                                        <option value="30">30 FT</option>
+                                        <option value="40">40 FT</option>
+                                        <option value="50">50 FT</option>
+                                         <option value="60">60 FT</option>
+                                        <option value="70">70 FT</option>
+                                         <option value="80">80 FT</option>
+                                        <option value="90">90 FT</option>
+                                         <option value="100">100 FT</option>
                                     </select>
                                 </div>
 
                                 <!-- Multiplication symbol -->
-                                <div class="col-auto text-center">
-                                    <span>X</span>
-                                </div>
-
+                                
+                                    <span style="margin-left:60px">X</span>
+                             
                                 <!-- Second rate select -->
-                                <div class="col">
-                                    <select id="sizeSelect2" class="form-control">
-                                        <option value="10">10/sq FT</option>
-                                        <option value="20">20/sq FT</option>
-                                        <option value="30">30/sq FT</option>
-                                        <option value="40">40/sq FT</option>
-                                        <option value="50">50/sq FT</option>
+                                <div class="col-5">
+                                    <select id="heightFilter" class="form-control  text-black" style="margin-left:20px">
+                                         <option value="">Select Width </option>
+                                        <option  value="10">10 FT</option>
+                                        <option value="20">20 FT</option>
+                                        <option value="30">30 FT</option>
+                                        <option value="40">40 FT</option>
+                                        <option value="50">50 FT</option>
+                                         <option value="60">60 FT</option>
+                                        <option value="70">70 FT</option>
+                                         <option value="80">80 FT</option>
+                                        <option value="90">90 FT</option>
+                                           <option value="100">100 FT</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="vendorInput"><strong>Vendor:</strong></label>
-                            <input type="text" id="vendorInput" class="form-control" placeholder="Vendor Name" />
+                           <label for="vendorSelect"><strong>Vendor  :</strong></label>
+                          <select  name="vendorName" id="selectvendorName" class="dropdownVendor  form-control w-75">
+                              <option value="">Select vendor</option> <!-- Default option -->
+                          </select>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -302,6 +327,7 @@
                 </div>
             </div>
         </div>
+
 
        
         @if (!string.IsNullOrEmpty(Model.SearchQuery))
@@ -428,6 +454,31 @@
                         </div>
                     }
                 </div>
+
+
+
+            <!-- Pagination Controls -->
+            <nav aria-label="Page navigation float-right">
+                <ul class="pagination float-right">
+                    <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+                        <a class="page-link" href="@Url.Action("HoardingInventory", new { pageNumber = Model.CurrentPage - 1, pageSize  = 9 })" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    @for (int i = 1; i <= Model.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("HoardingInventory", new { pageNumber = i, pageSize =9  })">@i</a>
+                        </li>
+                    }
+                    <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                        <a class="page-link" href="@Url.Action("HoardingInventory", new { pageNumber = Model.CurrentPage + 1, pageSize = 9 })" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
 
                 <!--Add Inventory-->
                 <div class="modal fade" id="addCustomerModal" tabindex="-1" aria-labelledby="addCustomerModalLabel" aria-hidden="true">
@@ -661,28 +712,6 @@
 
                 <!--Closed Add Inventory-->
 
-                <!-- Pagination Controls -->
-                <nav aria-label="Page navigation float-right">
-                    <ul class="pagination float-right">
-                        <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
-                            <a class="page-link" href="@Url.Action("HoardingInventory", new { pageNumber = Model.CurrentPage - 1, pageSize  = 9 })" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                        @for (int i = 1; i <= Model.TotalPages; i++)
-                        {
-                            <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-                                <a class="page-link" href="@Url.Action("HoardingInventory", new { pageNumber = i, pageSize =9  })">@i</a>
-                            </li>
-                        }
-                        <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
-                            <a class="page-link" href="@Url.Action("HoardingInventory", new { pageNumber = Model.CurrentPage + 1, pageSize = 9 })" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-
 
                 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -745,9 +774,84 @@
             </section>
         </div>
         <script>
+            
+            
+            
+              $(document).ready(function () {
+                     $('#applyFilter').on('click', function () {
+                            // Get filter values from the modal inputs
+                            var city = $('#cityFilter').val();
+                            var area = $('#areaFilter').val();
+                            var minRate = $('#minRateFilter').val();
+                            var maxRate = $('#maxRateFilter').val();
+                            var width = $('#widthFilter').val();
+                            var height = $('#heightFilter').val();
+                            var vendorId = $('#selectvendorName').val();
+
+                            // Prepare data object to be sent in the AJAX request
+                            var data = {
+                                city: city,
+                                area: area,
+                                minRate: minRate,
+                                maxRate: maxRate,
+                                width: width,
+                                height: height,
+                                vendorId: vendorId
+                            };
+
+                            // Send AJAX request to filter the inventory
+                            $.ajax({
+                                url: '/Dashboard/HoardingInventory',
+                                type: 'GET',
+                                data: data,
+                                success: function (response) {
+
+                               
+                                    if (response.success) {
+                                        // Process and display the filtered data (e.g., update a table or grid with response.data)
+                            alert(response.message);
+                                        // You can replace this with code to display data in your frontend
+                                    } else {
+                                        // Handle failure scenario
+                                        alert(response.message);
+                                    }
+                                },
+                                error: function (xhr, status, error) {
+                                    // Handle error scenario
+                                    console.error(error);
+                                    alert('An error occurred while applying the filter.');
+                                }
+                            });
+                        }); 
+                    });
 
 
 
+
+
+
+
+            
+            $('#selectvendorName').on('click', function(){
+                        $.ajax({
+                     url: '/Vendor/GetVendorList', // URL to fetch vendor list
+                     type: 'GET', // HTTP method
+                     dataType: 'json', // Expected data type from server
+                     success: function(response) {
+
+                          $('.dropdownVendor').append('<option value="">Select vendor</option>'); // Add default option
+                         $.each(response.data, function(index, vendor) {
+                             $('.dropdownVendor').append('<option value="' + vendor.id + '">' + vendor.vendorName + '</option>');
+                         });
+
+                     },
+                     error: function(xhr, status, error) {
+                         console.error("Error fetching vendor names:", error);
+                         alert("An error occurred while fetching vendor data.");
+                     }
+                 });
+                });
+           
 
             // When the filter icon is clicked
             $('filter').on('click', function () {
@@ -756,19 +860,28 @@
                 filterModal.show();
             });
 
+             $('#applyFilter').on('click', function () {
+                // Show the modal
+                var filterModal = new bootstrap.Modal(document.getElementById('filterModal'));
+                filterModal.hide();
+            });
 
-    function updateFileName() {
-        var input = document.getElementById('inventoryimportInput');
-        var label = document.getElementById('inventoryimportname');
+            
+
+
+            function updateFileName() {
+                var input = document.getElementById('inventoryimportInput');
+                var label = document.getElementById('inventoryimportname');
         
-        // Update the label to show the file name after selecting a file
-        if (input.files.length > 0) {
-            label.innerHTML = input.files[0].name;
-        }
-    }
-</script>
+                // Update the label to show the file name after selecting a file
+                if (input.files.length > 0) {
+                    label.innerHTML = input.files[0].name;
+                }
+            }
 
-        <script>
+
+
+
             function searchInventory() {
                 var searchQuery = document.getElementById('searchQuery').value;
                 var pageSize = document.getElementById('rowQuantity').value;
@@ -1318,7 +1431,7 @@
 
 
 
-   </div>
+   
 
 </body>
 

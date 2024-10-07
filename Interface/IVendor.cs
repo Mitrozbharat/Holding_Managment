@@ -13,6 +13,10 @@ namespace Hoarding_managment.Interface
 
        // public Task<int> GetVendorCountAsync();
         public Task<int> GetVendorCountAsync(string searchQuery);
+
+        public List<TblVendor> getvendorlist();
+
+        public InventoryFilterViewModel ApplyFilters(InventoryFilterViewModel filter);
     }
        
     }
