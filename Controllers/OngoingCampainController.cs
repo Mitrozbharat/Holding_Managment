@@ -5,9 +5,11 @@ namespace Hoarding_managment.Controllers
     public class OngoingCampainController : Controller
     {
         private readonly IOngoingCampain _context;
-        public OngoingCampainController(IOngoingCampain ongoingCampain)
+        private readonly db_hoarding_managementContext _dbContext;
+        public OngoingCampainController(db_hoarding_managementContext dbContext, IOngoingCampain ongoingCampain)
         {
             _context = ongoingCampain;
+            _dbContext = dbContext;
         }
 
         //public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 9)
@@ -161,6 +163,72 @@ namespace Hoarding_managment.Controllers
             var upcomingeventCount = await _context.GetOngoingCampaignCountAsync();
             return Json(new { success = true, count = upcomingeventCount });
         }
+        
+        [HttpGet]
+        public async Task<IActionResult> getallQuotationCount()
+        {
+            // Assuming GetOngoingCampaignCountAsync() returns an integer count value
+            var upcomingeventCount = await _dbContext.TblQuotations.Where(x=>x.IsDelete==0).Select(x=>x.Id).CountAsync();
+            return Json(new { success = true, count = upcomingeventCount });
+        } 
+        
+        [HttpGet]
+        public async Task<IActionResult> getallongoingCount()
+        {
+            // Assuming GetOngoingCampaignCountAsync() returns an integer count value
+            var upcomingeventCount = _dbContext.TblCampaigns.Where(x => x.IsDelete == 0 && x.ToDate >= DateTime.Today).AsQueryable();
+            return Json(new { success = true, count = upcomingeventCount.Count() });
+        } 
+        
+        [HttpGet]
+        public async Task<IActionResult> getallongoingDuedateCount()
+        {
+            // Assuming GetOngoingCampaignCountAsync() returns an integer count value
+            //var twoWeeksFromToday = DateTime.Today.AddDays(14);
+            //var expiringCampaignsCount = _dbContext.TblCampaigns
+            //    .Where(x => x.IsDelete == 0 && x.ToDate == twoWeeksFromToday)
+            //    .Count();
+            var twoWeeksFromToday = DateTime.Today.AddDays(14);
+            var expiringCampaignsCount = _dbContext.TblCampaigns
+                .Where(x => x.IsDelete == 0 && x.ToDate >= DateTime.Today && x.ToDate <= twoWeeksFromToday)
+                .Count();
+
+            var upcommingCampaignsCount = _dbContext.TblCampaigns
+              .Where(x => x.IsDelete == 0 && x.ToDate > DateTime.Today)
+              .Count();
+
+
+            return Json(new { success = true, count = expiringCampaignsCount,upcomingcout= upcommingCampaignsCount });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> getallhordingandVendorCount()
+        {
+            // Assuming GetOngoingCampaignCountAsync() returns an integer count value
+            //  var upcomingeventCount = await _context.GetOngoingCampaignCountAsync();
+            var horingcount = await _dbContext.TblInventories.Where(x => x.IsDelete == 0).Select(x=>x.Id).CountAsync();
+            var vendorcount = await _dbContext.TblVendors.Where(x => x.IsDelete == 0).Select(x=>x.Id).CountAsync();
+            return Json(new { success = true, hcount = horingcount,vcount= vendorcount });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetWeeklyQuotationData(DateTime startDate, DateTime endDate)
+        {
+            // Fetch the quotations that fall within the given date range
+            var quotations = await _dbContext.TblQuotations
+                .Where(q => q.IsDelete == 0 && q.CreatedAt >= startDate && q.CreatedAt <= endDate)
+                .Select(q => new
+                {
+                    q.Id,
+                    q.CreatedAt
+                })
+                .ToListAsync();
+
+            return Json(quotations);
+        }
+
+
+
 
     }
 }
