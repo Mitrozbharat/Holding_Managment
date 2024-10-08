@@ -7,6 +7,7 @@
         public Task<TblCampaign> GetCampaingnByIdAsync(int id);
         public Task<int> DeleteCampaignAsync(int id);
         public Task<int> GetOngoingCampaignCountAsync();
+      
         public  Task<QuotationItemListViewModel> addCampaign(QuotationItemListViewModel selectedItems);
 
 
