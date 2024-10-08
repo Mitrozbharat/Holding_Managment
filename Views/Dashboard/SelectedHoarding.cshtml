@@ -724,9 +724,14 @@
 
         //Use Date Validation for not select the preview data for "End date"
         function updateEndDateMin(itemId) {
-            const startDate = document.getElementById(`StartDate_${itemId}`).value;
 
+            const startDate = document.getElementById(`StartDate_${itemId}`).value;
             document.getElementById(`EndDate_${itemId}`).setAttribute('min', startDate);
+
+
+
+
+
         }
 
         function validateDates(id) {
@@ -1058,7 +1063,7 @@
                 actionButtons.style.display = 'block';
                 saveQuotationButton.style.display = 'inline-block';
                 saveCampaignButton.style.display = 'none';
-                openCustomerModalButton.style.display = 'inline-block';
+                // openCustomerModalButton.style.display = 'inline-block';
 
             }
             else if (document.getElementById('add-campaign').checked) {
@@ -1066,7 +1071,7 @@
                 $('#campDate').show();
                 saveQuotationButton.style.display = 'none';
                 saveCampaignButton.style.display = 'inline-block';
-                openCustomerModalButton.style.display = 'block';
+                // openCustomerModalButton.style.display = 'block';
             }
             else {
                 actionButtons.style.display = 'none';
