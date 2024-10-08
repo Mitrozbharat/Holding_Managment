@@ -296,7 +296,7 @@
 
 
                 // Save the PDF
-                doc.save(`quotation_${qnum}.pdf`);
+                doc.save(`Sahu_Advertising_quotation_${qnum}.pdf`);
 
             });
 
@@ -333,12 +333,7 @@
             });
 
 
-        });
-    </script>
-
-    <script>
-
-        $(document).ready(function () {
+       
             $("#exportToPPT").on("click", function () {
                 let pptx = new PptxGenJS();
 
@@ -545,10 +540,10 @@
                 thankYouSlide.addText('Email: marketing@sahuads.com  GSTIN: 27ABJCS1061L1Z3', { x: 1, y: 4.8, ...textforaddress, align: 'center' });
                 //thankYouSlide.addText('Email: marketing@sahuads.com', { x: 1, y: 4.6, ...textFontone, align: 'center' });
 
-
+                let quatationnumber = $('#exportContent').find("input[qnumber]").val();
 
                 // Save the presentation
-                pptx.writeFile('Sahu_Advertising.pptx').then(function (fileName) {
+                pptx.writeFile(`Sahu_Advertising_quotation_${quatationnumber}.pptx`).then(function (fileName) {
                     console.log('Presentation saved as:', fileName);
                 }).catch(function (err) {
                     console.error('Error saving presentation:', err);
@@ -621,10 +616,12 @@
             })
                 .then(response => response.blob())
                 .then(blob => {
-                    const url = window.URL.createObjectURL(new Blob([blob]));
+                    const url = window.URL.createObjectURL(new Blob([ blob ]));
                     const link = document.createElement('a');
+                    let quatationnumber = $('#exportContent').find("input[qnumber]").val();
+
                     link.href = url;
-                    link.setAttribute('download', 'Quotation.xlsx');
+                    link.setAttribute('download', `Sahu_Advertising_quotation_${quatationnumber}.xlsx`);
                     document.body.appendChild(link);
                     link.click();
                     link.parentNode.removeChild(link);

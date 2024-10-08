@@ -83,7 +83,7 @@
 
                                 </div>
                                 <div class="col-3 d-flex justify-content-center align-items-center mt-3">
-                                    <button type="button" class="btn btn-primary my-3" id="openCustomerModal" data-toggle="modal" data-target="#addCustomerModal">+</button>
+                                    <button type="button" class="btn btn-primary my-3" data-toggle="modal" data-target="#addCustomerModal">+</button>
                                 </div>
                             </div>
                         </div>
@@ -134,31 +134,7 @@
         </div>
     </div>
 </div>
-
-
-    @* <!-- Delete Modal -->
-    <div class="modal fade" id="deleteModalquate" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content" style="border-radius:20px;">
-                <div class="modal-header">
-                    <h5 class="modal-title text-primary" id="deleteModalLabel">Delete</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p class="text-muted-foreground text-center mt-2">Are you sure you want to Delete this Hoarding ?</p>
-                    <input type="hidden" id="selectedId" />
-                </div>
-                <div class="modal-footer justify-content-center">
-                    <button type="button" class="btn btn-danger" id="deleteQuteHoarding">Delete</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div> *@
-
-    <!-- add model -->
+ <!-- add model -->
     <div class="modal fade" id="addCustomerModal" tabindex="-1" aria-labelledby="addCustomerModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -171,13 +147,13 @@
                 <div class="modal-body">
                     <form id="addCustomerForm">
                         <div class="form-row">
-                            @*   <div class="form-group col-md-6">
-                            <label for="businessName">Business Name <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control custom-border" id="businessName" name="businessName" placeholder="Business Name" required>
-                            </div> *@
                             <div class="form-group col-md-6">
-                                <label for="customerName">Customer Person Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control custom-border" id="customerName" name="customerName" placeholder="Customer Person Name" required>
+                                <label for="businessName">Business Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control custom-border" id="businessName" name="businessName" placeholder="Business Name" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="customerName">Contact Person Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control custom-border" id="customerName" name="customerName" placeholder="Contact Person Name" required>
                             </div>
                         </div>
                         <div class="form-row">
@@ -186,7 +162,7 @@
                                 <input type="email" class="form-control custom-border" id="email" name="email" placeholder="Email" required>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="gstn">GST Number <span class="text-danger">*</span></label>
+                                <label for="gstn">GST Number</label>
                                 <input type="text" class="form-control custom-border" id="gstn" name="gstn" placeholder="GST Number" required>
                             </div>
                         </div>
@@ -247,22 +223,121 @@
                                     <option value="Uttarakhand">Uttarakhand</option>
                                     <option value="West Bengal">West Bengal</option>
                                 </select>
+
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="saveCustomerButton">Save</button>
+                    <button type="button" class="btn btn-primary"  id="savecustomer" >Save</button>
                 </div>
             </div>
         </div>
     </div>
 
+
+
       <a id="hiddenRedirectLink" href="/SelectedHoarding" style="display:none;"></a>
       <input type="text" id="selecteId"  style="display:none;" />
 
+
+
+
+
+      <script>
+          
+          $('#savecustomer').on('click',function (e) {
+         e.preventDefault(); // Prevent the default form submission
+
+        // Clear previous error messages
+        $('.error-message').remove();
+
+        // Validate required fields
+        var isValid = true;
+
+        // Check Business Name
+        // if ($('#businessName').val().trim() === '') {
+        //     $('#businessName').after('<span class="error-message text-danger">This field is required.</span>');
+        //     isValid = false;
+        // }
+
+        // // Check Contact Person Name
+        // if ($('#customerName').val().trim() === '') {
+        //     $('#customerName').after('<span class="error-message text-danger">This field is required.</span>');
+        //     isValid = false;
+        // }
+
+        // Check Email
+        if ($('#email').val().trim() === '') {
+            $('#email').after('<span class="error-message text-danger">This field is required.</span>');
+            isValid = false;
+        }
+
+        // Check Contact Number
+        if ($('#contactNumber').val().trim() === '') {
+            $('#contactNumber').after('<span class="error-message text-danger">This field is required.</span>');
+            isValid = false;
+        }
+
+        // Check if GST Number (if filled) is exactly 15 characters long
+        var gstNumber = $('#gstn').val().trim();
+        if (gstNumber !== '' && gstNumber.length !== 15) {
+            $('#gstn').after('<span class="error-message text-danger">GST Number must be exactly 15 characters.</span>');
+            isValid = false;
+        }
+
+        // If the form is valid, proceed with the AJAX submission
+        if (isValid) {
+            var formData = $('#addCustomerForm').serialize();
+            console.log("Serialized Form Data: ", formData); // For debugging
+
+            $.ajax({
+                type: "POST",
+                url: '/Customer/AddNewCustomer', // Update the URL to match your controller action
+                data: formData,
+                success: function (response) {
+                    console.log("Response: " + response);
+                    if (response.message == "Customer Add Successfully. ") {
+                        toastr.success('Customer added successfully.');
+                        $('#addCustomerModal').modal('hide'); // Hide the modal
+                        location.reload(); // Optionally reload the page
+                    }
+                    else {
+                        toastr.error('An error occurred while adding the customer.');
+                    }
+                   
+                },
+                error: function (xhr, status, error) {
+                    toastr.error('An error occurred while adding the customer.');
+                }
+            });
+        } else {
+            toastr.error('Please fill all the required fields.');
+        }
+    });
+
+
+
+      </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <script>
+
+
+
         $(document).ready(function () {
             var updatedRates = [];
             var addCamign = [];
