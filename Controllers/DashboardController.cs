@@ -109,25 +109,6 @@ namespace Hoarding_managment.Controllers
             return View(viewModel);
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> HoardingInventory(string searchQuery = "", int pageSize = 9, int pageNumber = 1)
-        //{
-        //    var inventory = await _context.GetAllHoarldingInvenrotyAsync(searchQuery, pageNumber, pageSize);
-        //    var totalItems = await _context.GetAllHoarldingInvenrotyCountAsync(searchQuery);
-        //    var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
-
-        //    InventoryPagedViewModel? viewModel = new InventoryPagedViewModel
-        //    {
-        //        InventoryViewModel = inventory,
-        //        CurrentPage = pageNumber,
-        //        TotalPages = totalPages,
-        //        PageSize = pageSize,
-        //        SearchQuery = searchQuery
-        //    };
-
-        //    return View(viewModel);
-        //}
-
         [HttpGet("search")]
         public async Task<IActionResult> SearchByInventoryName(string name)
         {

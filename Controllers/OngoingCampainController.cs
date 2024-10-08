@@ -162,5 +162,20 @@ namespace Hoarding_managment.Controllers
             return Json(new { success = true, count = upcomingeventCount });
         }
 
+        [HttpPost]
+        public IActionResult CheckCampaignDates(int id, DateTime fromDate)
+        {
+
+            var finddata = _context.GetCampaingnByIdAsync(id);
+            if (finddata == null )
+            {
+                return Json(new { success = false, message = "data not found"});
+            }
+            var exitsdate = _context.IsCampaignBooked(id, fromDate);
+
+
+            return Json(new { success=true, message="success", date = exitsdate });
+        }
+
     }
 }

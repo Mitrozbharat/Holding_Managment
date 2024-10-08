@@ -54,8 +54,8 @@ namespace Hoarding_managment.Repository
                     campaigndetails.FromDate = model.FromDate;
                     campaigndetails.ToDate = model.ToDate;
                     campaigndetails.BookingAmt = model.BookingAmt;
-
-                    _context.SaveChangesAsync();
+                    _context.TblCampaigns.UpdateRange();
+                  await  _context.SaveChangesAsync();
 
                 }
 
@@ -348,7 +348,14 @@ namespace Hoarding_managment.Repository
             return campaign;
         }
 
+        public async Task<TblCampaign> IsCampaignBooked(int id, DateTime fromDate)
+        {
+            var existingCampaign = _context.TblCampaigns
+        .Where(c => c.FkInventoryId == id &&  c.ToDate < fromDate)
+        .FirstOrDefault();
 
-
+            // No conflict found, return false
+            return existingCampaign;
+        }
     }
 }

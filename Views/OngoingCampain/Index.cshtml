@@ -185,11 +185,11 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="startDate">Start Date <span class="text-danger">*</span></label>
-                                <input type="date" class="form-control" id="editfromdate" required>
+                                <input type="date" class="form-control fromdate" id="editfromdate" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="endDate">End Date <span class="text-danger">*</span></label>
-                                <input type="date" class="form-control" id="edittodate" required>
+                                <input type="date" class="form-control  todate" id="edittodate" required>
                             </div>
                         </div>
                         <div class="form-row">
@@ -233,7 +233,92 @@
         </div>
     </div>
 </div>
+
+
+
+
+
     <script>
+
+        $(document).ready(function () {
+            // Listen for changes on the Start Date and End Date
+
+            var today = new Date().toISOString().split('T')[ 0 ]; // Get today's date in YYYY-MM-DD format
+            $('#editfromdate').attr('min', today); // Set the min attribute to today's date, disabling past dates
+
+            // Initialize variables to store valid start and end dates
+            var previousStartDate = $('#editfromdate').val();
+            var previousEndDate = $('#edittodate').val();
+
+            // Handle start date change
+            $('.fromdate').on('change', function () {
+                var selectedDate = $('#editfromdate').val(); // Get the selected date
+
+                // Check if the selected date is valid (today or later)
+                if (selectedDate >= today) {
+                    toastr.success('Valid date selected.');
+                    previousStartDate = selectedDate; // Update the valid start date
+                } else {
+                    toastr.error('Please select a date that is today or later.');
+                    $('#editfromdate').val(previousStartDate); // Revert to the previous valid start date
+                }
+            });
+
+            // Handle end date change
+            $('.todate').on('change', function () {
+                var startDate = new Date($('#editfromdate').val()); // Get the selected start date
+                var endDate = new Date($('#edittodate').val()); // Get the selected end date
+
+                // Add 1 day to the start date for validation
+                var minEndDate = new Date(startDate);
+                minEndDate.setDate(minEndDate.getDate() + 1); // Set minimum end date to start date + 1 day
+
+                // Check if the selected end date is at least 1 day after the start date
+                if (endDate >= minEndDate) {
+                    toastr.success('Valid end date selected.');
+                    previousEndDate = $('#edittodate').val(); // Update the valid end date
+                } else {
+                    toastr.error('End date must be at least one day after the start date.');
+                    $('#edittodate').val(endDate); // Revert to the previous valid end date
+                }
+            });
+
+
+
+            // $('.fromdate').on('change', function () {
+               
+            //     if (startdate && enddate) {
+            //         $.ajax({
+            //             type: 'POST',
+            //             url: '/Campaign/CheckAvailability', // Change this to your actual controller and action method
+            //             data: {
+            //                 id: campaignId,
+            //                 fromDate: startdate,
+            //                toDate: enddate
+            //             },
+            //             success: function (response) {
+            //                 if (response.isBooked) {
+            //                     toastr.error('Campaign already booked from ' + startdate + ' to ' + enddate);
+            //                 } else {
+            //                     toastr.success('Campaign is available.');
+            //                 }
+            //             },
+            //             error: function (xhr, status, error) {
+            //                 toastr.error('An error occurred while checking availability.');
+            //             }
+            //         });
+            //     } else {
+            //         toastr.warning('Please select both from and to dates.');
+            //     }
+            // });
+
+           
+        });
+
+
+
+
+
         function searchCustomers() {
             var searchQuery = document.getElementById('searchQuery').value;
             var pageSize = document.getElementById('rowQuantity').value;
@@ -245,9 +330,7 @@
             var searchQuery = document.getElementById('searchQuery').value;
             window.location.href = `/OngoingCampain/Index?searchQuery=${searchQuery}&pageNumber=1&pageSize=${pageSize}`;
         }
-    </script>
-
-<script>
+   
 
         function openEditcampModal(id, fromDate, toDate, budget) {
             // Check if valid dates and budget
@@ -277,6 +360,7 @@
                 type: 'POST',
                 data: { Id: id, FromDate: fromDate, ToDate: toDate, BookingAmt: bookingAmt },
                 success: function (response) {
+
                     setTimeout(function () {
                         $('#editCampaignModal').modal('hide');
                         toastr.success('Campaign updated successfully.');

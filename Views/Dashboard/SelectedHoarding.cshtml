@@ -113,27 +113,28 @@
         </div>
     </div>
 
-    <!-- Delete Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content" style="border-radius:20px;">
-                <div class="modal-header">
-                    <h5 class="modal-title text-primary" id="deleteModalLabel">Delete</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p class="text-muted-foreground text-center mt-2">Are you sure you want to Delete this Hoarding ?</p>
-                    <input type="hidden" id="selectedId" />
-                </div>
-                <div class="modal-footer justify-content-center">
-                    <button type="button" class="btn btn-danger" id="deleteHoarding">Delete</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                </div>
+   <!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="border-radius:20px;">
+            <div class="modal-header">
+                <h5 class="modal-title text-primary" id="deleteModalLabel">Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="text-muted-foreground text-center mt-2">Are you sure you want to Delete this Hoarding?</p>
+                <input type="hidden" id="selectedId" />
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-danger" id="deleteHoarding">Delete</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>
+</div>
+
 
     @* <!-- Delete Modal -->
     <div class="modal fade" id="deleteModalquate" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -258,8 +259,8 @@
         </div>
     </div>
 
-
-
+      <a id="hiddenRedirectLink" href="/SelectedHoarding" style="display:none;"></a>
+      <input type="text" id="selecteId"  style="display:none;" />
 
     <script>
         $(document).ready(function () {
@@ -270,16 +271,17 @@
             var originalRates = {};
             var id = sessionStorage.getItem('selectedHoardingId');
             let idString = "";  // Step 1: Initialize an empty string
+           
 
             function fetchData() {
-                 updatedRates = [];
-                 addCamign = [];
-                 changedateids = [];
-                 newRate;
-                 originalRates = {};
+                //  updatedRates = [];
+                //  addCamign = [];
+                //  changedateids = [];
+                //  newRate;
+                //  originalRates = {};
                 
-                 idString = "";
-                var id = sessionStorage.getItem('selectedHoardingId');
+                //  idString = "";
+                // var id = sessionStorage.getItem('selectedHoardingId');
 
                 // Define ajaxOptions based on default GET request
                 var ajaxOptions = {
@@ -491,6 +493,10 @@
                     ajaxOptions.url = '/Dashboard/GetHordingdata'; // Change URL
                     ajaxOptions.type = 'POST'; // Change request type
                     ajaxOptions.data = { id: id }; // Pass id as data
+                 
+                      document.getElementById('selecteId').value=id;
+
+                    console.log("id :",selecteId);
                     sessionStorage.removeItem('selectedHoardingId');
                 }
 
@@ -555,59 +561,9 @@
             });
 
         
+              
 
-            $('#deleteHoarding').off('click').on('click', function () {
-                var selectedCustomerId = $('#selectedId').val();
-                var selectedAction = $('input[name="quotation"]:checked').val(); // Get the selected radio button value
-
-                console.log("id: " + selectedCustomerId);
-                console.log("Selected Action: " + selectedAction);
-
-                // If "Create Quotation" is selected, call DeletedSelectInventoryHoarding
-                if (selectedAction === 'quotation') {
-                    $.ajax({
-                        url: '/Dashboard/DeletedSelectInventoryHoarding',
-                        type: 'POST',
-                        data: { id: selectedCustomerId },
-                        success: function (response) {
-                            if (response.success) {
-                                toastr.success(response.message);
-                                location.reload();
-                            } else {
-                                toastr.error(response.message);
-                            }
-                        },
-                        error: function (xhr, status, error) {
-                            console.error('Error deleting inventory hoarding:', error);
-                        }
-                    });
-                }
-                // If "Add to Campaign" is selected and .camp-date is visible, call DeletedHoardingQuation
-                else if (selectedAction === 'campaign' && $('.camp-date').is(':visible')) {
-                    $.ajax({
-                        url: '/Quatation/DeleteQuatationitem',
-                        type: 'POST',
-                        data: { id: selectedCustomerId },
-                        success: function (response) {
-                            if (response.success) {
-                                toastr.success(response.message);
-                                // location.reload();
-                               // var id = sessionStorage.getItem('selectedHoardingId');
-                              //  sessionStorage.setItem('selectedHoardingId', id);
-                              //  $('#deleteModal').css('display:None');
-                               // $('#deleteModal').hide();
-                                fetchData();
-                            } else {
-                                toastr.error(response.message);
-                            }
-                        },
-                        error: function (xhr, status, error) {
-                            console.error('Error deleting hoarding quotation:', error);
-                        }
-                    });
-                }
-            });
-
+         
 
             $('#saveCampaign').on('click', function () {
                 var customerId = document.getElementById('businessNameid').value;
@@ -734,7 +690,97 @@
                 alert("End date cannot be less than the start date.");
                 endDateInput.value = startDateInput.value; // Reset to start date
             }
+         }
+
+
+
+
+
+
+
+
+
+
+          function cnfDeleteselecedInvetry(id) {
+
+            $('#selectedId').val(id);
+
         }
+       
+
+      
+             $('#deleteHoarding').off('click').on('click', function () {
+                var selectedCustomerId = $('#selectedId').val();
+                var selectedAction = $('input[name="quotation"]:checked').val(); // Get the selected radio button value
+
+                console.log("id: " + selectedCustomerId);
+                console.log("Selected Action: " + selectedAction);
+
+                // If "Create Quotation" is selected, call DeletedSelectInventoryHoarding
+                if (selectedAction === 'quotation') {
+                    $.ajax({
+                        url: '/Dashboard/DeletedSelectInventoryHoarding',
+                        type: 'POST',
+                        data: { id: selectedCustomerId },
+                        success: function (response) {
+                            if (response.success) {
+                                toastr.success(response.message);
+                                location.reload();
+
+                            } else {
+                                toastr.error(response.message);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error deleting inventory hoarding:', error);
+                        }
+                    });
+                }
+                // If "Add to Campaign" is selected and .camp-date is visible, call DeletedHoardingQuation
+                else if (selectedAction === 'campaign' && $('.camp-date').is(':visible')) {
+                    $.ajax({
+                        url: '/Quatation/DeleteQuatationitem',
+                        type: 'POST',
+                        data: { id: selectedCustomerId },
+                        success: function (response) {
+                            if (response.success) {
+                                toastr.success(response.message);
+                                // Close the modal properly using Bootstrap's hide method
+                                $('#deleteModal').modal('hide');
+                                fetchData3();
+                            } else {
+                                toastr.error(response.message);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error deleting hoarding quotation:', error);
+                        }
+                    });
+                }
+
+            });
+
+        
+
+
+          
+         function fetchData3() 
+          {
+              let selecteId =$('#selecteId').val();
+
+               console.log(selecteId);
+
+            // Store the ID in sessionStorage
+            sessionStorage.setItem('selectedHoardingId', selecteId);
+
+            // Verify that the ID is set correctly
+            console.log("ID set in sessionStorage: " + sessionStorage.getItem('selectedHoardingId'));
+
+            // Trigger a click event on the hidden link to redirect
+            document.getElementById('hiddenRedirectLink').click();
+        }
+
+     
 
 
     </script>
@@ -1056,12 +1102,9 @@
             });
 
         });
-        function cnfDeleteselecedInvetry(id) {
 
-            $('#selectedId').val(id);
+      
 
-        }
-       
 
 
     </script>
