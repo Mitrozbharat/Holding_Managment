@@ -1,4 +1,5 @@
 ﻿using HoardingManagement.Interface;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hoarding_managment.Controllers
 {
@@ -48,28 +49,61 @@ namespace Hoarding_managment.Controllers
         //}
 
 
+        //[HttpGet]
+        //public async Task<IActionResult> HoardingInventory(string searchQuery = "", int pageSize = 9, int pageNumber = 1,
+        //    string? city = null,
+        //    string? area = null,
+        //    string? minRate = null,
+        //    string? maxRate = null,
+        //    string? width = null,
+        //    string? height = null,
+        //    int? vendorId = null)
+        //{
+        //    var inventory = await _context.GetAllHoarldingInvenrotyAsync(searchQuery = "", pageSize, pageNumber, city, area, minRate, maxRate,
+        //             width, height, vendorId);
+        //    var totalItems = await _context.GetAllHoarldingInvenrotyCountAsync(searchQuery);
+        //    var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+        //    InventoryPagedViewModel? viewModel = new InventoryPagedViewModel
+        //    {
+        //        InventoryViewModel = inventory,
+        //        CurrentPage = pageNumber,
+        //        TotalPages = totalPages,
+        //        PageSize = pageSize,
+        //        SearchQuery = searchQuery
+        //    };
+
+        //    return View(viewModel);
+        //}
+
         [HttpGet]
-        public async Task<IActionResult> HoardingInventory(string searchQuery = "", int pageSize = 9, int pageNumber = 1,
-            string? city = null,
-            string? area = null,
-            string? minRate = null,
-            string? maxRate = null,
-            string? width = null,
-            string? height = null,
-            int? vendorId = null)
+        public async Task<IActionResult> HoardingInventory(string searchQuery = "", string amount = "", string vendor = "", string City = "", string Area = "", string Width = "", string Height = "", int pageSize = 9, int pageNumber = 1)
         {
-            var inventory = await _context.GetAllHoarldingInvenrotyAsync(searchQuery = "", pageSize, pageNumber, city, area, minRate, maxRate,
-                     width, height, vendorId);
-            var totalItems = await _context.GetAllHoarldingInvenrotyCountAsync(searchQuery);
+            var inventory = await _context.GetAllHoarldingInvenrotyAsync(searchQuery,amount,vendor,City,Area,Width,Height, pageNumber, pageSize);
+            var totalItems = await _context.GetAllHoarldingInvenrotyCountAsync(searchQuery, amount, vendor, City, Area, Width, Height);
             var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            var vendorlist = await _dbContext.TblVendors.Where(x => x.IsDelete == 0).ToListAsync();
+
+            if (string.IsNullOrEmpty(amount))
+            {
+                amount = "0";
+            }
 
             InventoryPagedViewModel? viewModel = new InventoryPagedViewModel
             {
                 InventoryViewModel = inventory,
+                vendorlist= vendorlist,
                 CurrentPage = pageNumber,
                 TotalPages = totalPages,
                 PageSize = pageSize,
-                SearchQuery = searchQuery
+                SearchQuery = searchQuery,
+                amount=amount,
+                vendor=vendor,
+                City=City,
+                Area=Area,
+                Width=Width,
+                Height=Height
+
             };
 
             return View(viewModel);

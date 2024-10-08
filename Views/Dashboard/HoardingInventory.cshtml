@@ -199,6 +199,10 @@
 
 </style>
 <link href="~/css/circle.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable@11.1.0/dist/handsontable.full.min.css">
+<script src="https://cdn.jsdelivr.net/npm/handsontable@11.1.0/dist/handsontable.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
 
 <body>
    <div class="container-fluid my-2">
@@ -207,18 +211,20 @@
             <div class="col-sm-12 col-md-6 col-lg-4">
                 <h3 class="text-primary pt-2">Inventory</h3>
             </div>
-            <div class="col-sm-12 col-lg-8  "  >
+             <div class="col-sm-12 col-lg-4  "  >
+               
+            </div>
+            <div class="col-sm-12 col-lg-4  "  >
                 <div class=" d-flex justify-content-around " id="heading">
-                        <input type="search" id="searchQuery" autocomplete="off" placeholder="Search by City, Area, Vendor..."
+                       @* <input type="search" id="searchQuery" autocomplete="off" placeholder="Search by City, Area, Vendor..."
                                class="rounded-pill btn-outline-red" style="border: 1px solid;"
-                               value="@Model.SearchQuery" oninput="searchInventory()" />
-                        <!-- Filter icon button -->
+                               value="@Model.SearchQuery" oninput="searchInventory()" />*@
+                        <!-- Filter icon button --> 
 
-                    <i id="filter" class="bi bi-funnel" style="color: blue; cursor: pointer;" data-toggle="modal" data-target="#filterModal"></i>
-
-                    <div id="inventoryContainer">
-                        <!-- Render inventory items here after filter/search -->
-                    </div>
+                    @*<i id="filter" class="bi bi-funnel" style="color: blue; cursor: pointer;" onclick="openfilter" data-toggle="modal" data-target="#filterModal"></i>*@
+                      <i class="mdi mdi-filter" id="mainfiltericon" style="font-size: 43px;padding: 0px 6px;" onclick="mainfiltericon();"></i>
+                      <i class="mdi mdi-filter-remove" id="removemainfiltericon" style="font-size: 43px;padding: 0px 6px;display:none"></i>
+                   
 
                     <input class="form-control btn" type="file" id="formFile" style="display: none;">
                         <button class="btn btn-primary" data-toggle="modal" data-target="#ImportinventoryModal">
@@ -247,82 +253,80 @@
                         <div class="form-row">
                             <div class="form-group col-6">
                                 <label for="cityInput"><strong>City  :</strong></label>
-                                <input type="text" id="cityFilter" class="form-control text-black" placeholder="Enter City" />
+                                <input type="text" id="cityFilter" class="form-control text-black" value="@Model.City" style="border: 1px solid #151414 !important;" placeholder="Enter City" />
                             </div>
                             <div class="form-group col-6">
                                 <label for="areaInput"><strong>Area:</strong></label>
-                                <input type="text" id="areaFilter" class="form-control text-black" placeholder="Enter Area" />
+                                <input type="text" id="areaFilter" class="form-control text-black" placeholder="Enter Area" value="@Model.Area" style="border: 1px solid #151414 !important;" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="range-slider" style="display: flex;flex-direction: column;">
+                              <label for="rangeValue"><strong>Select Rate Range:</strong></label>
+                              <input type="range" id="accountRange" min="0" max="500000" step="1000" value="@Model.amount" oninput="updateRangeValue(this.value)" style="width: 100%;">
+                                <input type="text" id="filterrangeValue" class="form-control text-black" value="@Model.amount" placeholder="Enter Area" style="border: 1px solid #151414 !important;display:none" />
+                              <center><span id="rangeValue">@Model.amount</span> </center>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label><strong>Rate  :</strong></label>
-                            <div class="row">
-                                <div class="col">
-                                    <input type="number" id="minRateFilter" class="form-control text-black" placeholder=" Enter Minimum rate" aria-label="Width" />
-                                </div>
-                                <div class="col-auto align-self-center">
-                                    <span>X</span>
-                                </div>
-                                <div class="col">
-                                    <input type="number" id="maxRateFilter" class="form-control text-black" placeholder="Enter Maximum rate" aria-label="Height" />
-                                </div>
-                            </div>
-                        </div>
+                     
 
                         <div class="form-group">
-                            <label for="rateSelect1"><strong>Size  :</strong></label>
+                            <label for="rateSelect1"><strong>Size (Feet) :</strong></label>
                             <div class="row align-items-center">
                                 <!-- First rate select -->
                                 <div class="col-5">
-                                    <select id="widthFilter" class="form-control text-black" style="margin-left:0px; padding:0px">
-                                          <option value="">Select Width </option>
-                                         <option  value="10">10 FT</option>
-                                        <option value="20">20 FT</option>
-                                        <option value="30">30 FT</option>
-                                        <option value="40">40 FT</option>
-                                        <option value="50">50 FT</option>
-                                         <option value="60">60 FT</option>
-                                        <option value="70">70 FT</option>
-                                         <option value="80">80 FT</option>
-                                        <option value="90">90 FT</option>
-                                         <option value="100">100 FT</option>
-                                    </select>
+                                    <input type="number" id="filterwidth" class="form-control text-black" value="@Model.Width" placeholder="Width" style="border: 1px solid #151414 !important;" />
                                 </div>
 
                                 <!-- Multiplication symbol -->
                                 
-                                    <span style="margin-left:60px">X</span>
+                                    <span> X</span>
                              
                                 <!-- Second rate select -->
                                 <div class="col-5">
-                                    <select id="heightFilter" class="form-control  text-black" style="margin-left:20px">
-                                         <option value="">Select Width </option>
-                                        <option  value="10">10 FT</option>
-                                        <option value="20">20 FT</option>
-                                        <option value="30">30 FT</option>
-                                        <option value="40">40 FT</option>
-                                        <option value="50">50 FT</option>
-                                         <option value="60">60 FT</option>
-                                        <option value="70">70 FT</option>
-                                         <option value="80">80 FT</option>
-                                        <option value="90">90 FT</option>
-                                           <option value="100">100 FT</option>
-                                    </select>
+                                  
+                                    <input type="number" id="filterheight" class="form-control text-black" value="@Model.Height" placeholder="Height" style="border: 1px solid #151414 !important;" />
+                                 
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group">
                            <label for="vendorSelect"><strong>Vendor  :</strong></label>
-                          <select  name="vendorName" id="selectvendorName" class="dropdownVendor  form-control w-75">
-                              <option value="">Select vendor</option> <!-- Default option -->
-                          </select>
+                            @*<input type="text" id="vendoramtFilter" class="form-control text-black" style="border: 1px solid #151414 !important;" placeholder="Enter Vendorname" />*@
+                           <select name="vendorName" id="vendoramtFilter" class="dropdownVendor form-control w-75">
+                                <option value="0">Select vendor</option> 
+                                @if(Model.vendor == "0")
+                                {
+                                    <option value="0" selected>All vendor</option>
+                                }
+                                else
+                                {
+                                    <option value="0" >All vendor</option>
+                                }
+                              
+    
+                                @foreach(var vend in Model.vendorlist)
+                                {
+                                    @if(Model.vendor == vend.Id.ToString())
+                                    {
+                                        <option value="@vend.Id.ToString()" selected>@vend.VendorName</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@vend.Id.ToString()">@vend.VendorName</option> 
+                                    }
+                                }
+                            </select>
+
+
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" id="applyFilter">Apply Filter</button>
+                        <button type="button" class="btn btn-primary"  onclick="Applayfilter()">Apply Filter</button>
+                        <button type="button" class="btn btn-danger"  onclick="removefilter()">Remove Filter</button>
                     </div>
                 </div>
             </div>
@@ -413,11 +417,11 @@
                                             <div class="col-lg-7 img-container" onclick="showDetail(@i.Id)">
                                             @if (!string.IsNullOrEmpty(i.Image))
                                             {
-                                                <img src="data:image/png;base64,@i.Image" class="img-fluid" alt="Image" width="100%" height="100%" />
+                                                <img src="data:image/png;base64,@i.Image" class="img-fluid" alt="Image" width="100%" height="100%" onclick="Openlivepreview(this.src)" />
                                             }
                                             else
                                             {
-                                                <img src="~/images/Shahu-logo.png" class="img-fluid" alt="Image" width="100%" height="100%" />
+                                                <img src="~/images/Shahu-logo.png" class="img-fluid" alt="Image" width="100%" height="100%" onclick="Openlivepreview(this.src)" />
                                             }
                                          </div>
                                             <div class="col-lg-5">
@@ -455,29 +459,50 @@
                     }
                 </div>
 
+                 <div class="pagination justify-content-end m-2">
+                    @if (Model.TotalPages > 0)
+                    {
+                        if (Model.CurrentPage > 1)
+                        {
+                            <a href="@Url.Action("HoardingInventory", new { searchQuery = Model.SearchQuery,amount=Model.amount, vendor=Model.vendor, City=Model.City, Area=Model.Area, Width=Model.Width, Height=Model.Height, pageNumber = Model.CurrentPage - 1, pageSize = Model.PageSize })" class="btn btn-primary">Previous</a>
+                        }
 
+                        for (int i = 1; i <= Model.TotalPages; i++)
+                        {
+                            <a href="@Url.Action("HoardingInventory", new { searchQuery = Model.SearchQuery,amount=Model.amount, vendor=Model.vendor, City=Model.City, Area=Model.Area, Width=Model.Width, Height=Model.Height, pageNumber = i, pageSize = Model.PageSize })" class="btn @(i == Model.CurrentPage ? "btn-secondary" : "btn-light")">@i</a>
+                        }
+
+                        if (Model.CurrentPage < Model.TotalPages)
+                        {
+                        <a href="@Url.Action("HoardingInventory", new { searchQuery = Model.SearchQuery,amount=Model.amount, vendor=Model.vendor, City=Model.City, Area=Model.Area, Width=Model.Width, Height=Model.Height, pageNumber = Model.CurrentPage + 1, pageSize = Model.PageSize })" class="btn btn-primary">Next</a>
+                        }
+                    }
+                </div>
 
             <!-- Pagination Controls -->
-            <nav aria-label="Page navigation float-right">
+           @* <nav aria-label="Page navigation float-right">
+
+
+
                 <ul class="pagination float-right">
                     <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
-                        <a class="page-link" href="@Url.Action("HoardingInventory", new { pageNumber = Model.CurrentPage - 1, pageSize  = 9 })" aria-label="Previous">
+                        <a class="page-link" href="@Url.Action("HoardingInventory", new {searchQuery = Model.SearchQuery,amount=Model.amount, vendor=Model.vendor, City=Model.City, Area=Model.Area, Width=Model.Width, Height=Model.Height, pageNumber = Model.CurrentPage - 1, pageSize  = 9 })" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
                     @for (int i = 1; i <= Model.TotalPages; i++)
                     {
                         <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-                            <a class="page-link" href="@Url.Action("HoardingInventory", new { pageNumber = i, pageSize =9  })">@i</a>
+                            <a class="page-link" href="@Url.Action("HoardingInventory", new { searchQuery = Model.SearchQuery,amount=Model.amount, vendor=Model.vendor, City=Model.City, Area=Model.Area, Width=Model.Width, Height=Model.Height,pageNumber = i, pageSize =9  })">@i</a>
                         </li>
                     }
                     <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
-                        <a class="page-link" href="@Url.Action("HoardingInventory", new { pageNumber = Model.CurrentPage + 1, pageSize = 9 })" aria-label="Next">
+                        <a class="page-link" href="@Url.Action("HoardingInventory", new {searchQuery = Model.SearchQuery,amount=Model.amount, vendor=Model.vendor, City=Model.City, Area=Model.Area, Width=Model.Width, Height=Model.Height, pageNumber = Model.CurrentPage + 1, pageSize = 9 })" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
                 </ul>
-            </nav>
+            </nav>*@
 
 
                 <!--Add Inventory-->
@@ -570,7 +595,7 @@
                     </div>
                 </div>
 
-                <div class="modal fade" id="ImportinventoryModal" tabindex="-1" aria-labelledby="ImportinventoryModalLabel" aria-hidden="true">
+               @* <div class="modal fade" id="ImportinventoryModal" tabindex="-1" aria-labelledby="ImportinventoryModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -588,20 +613,7 @@
                                             <label class="custom-file-label" id="inventoryimportname" for="inventoryimportInput">Choose file</label>
                                         </div>
                                     </div>
-                                  @*  <div class="form-group col-md-12">
-                                        <center><span>Please wait import inprogress..</span></center>  
-                                      	<div class="conteneur5">
-			                                <div class="points5"></div>
-			                                <div class="points5"></div>
-			                                <div class="points5"></div>
-			                                <div class="points5"></div>
-			                                <div class="points5"></div>
-		                                </div>
-                                    </div>
-                                    <div class="form-group col-md-12">
-                                        <center><span>Uploded file successfully import !</span></center>
-                                      <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/></svg>
-                                    </div>*@
+                              
                                 </div>                                
                             </div>
                             <div class="modal-footer">
@@ -609,7 +621,60 @@
                             </div>
                         </div>
                     </div>
+                </div>*@
+
+            <div class="modal fade" id="ImportinventoryModal" tabindex="-1" aria-labelledby="ImportinventoryModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="ImportinventoryModalLabel">Import Inventory</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label for="fileInput" class="form-label">Upload file</label>
+                                    <div class="custom-file">
+                                        <input type="file" id="inventoryimportInput" accept=".xls,.xlsx,.csv" class="custom-file-input" onchange="updateFileName(); handleFile(event)" />
+                                        <label class="custom-file-label" id="inventoryimportname" for="inventoryimportInput">Choose file</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Placeholder for the Handsontable preview -->
+                            <div id="handsontable-preview" class="mt-4" style="overflow: auto; height: 400px;"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" onclick="uploadFile()">Upload</button>
+                        </div>
+                    </div>
                 </div>
+            </div>
+
+            <div class="modal fade" id="imagePreviewModal" tabindex="-1" aria-labelledby="imagePreviewModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="imagePreviewModalLabel"></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                          
+                            <div  class="mt-4" style="overflow: auto; height: 400px;">
+                                <img id="targetImage" src=""  alt="Preview Image"  style="width: 100%;height: 390px;"/>
+
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+
 
            
                 <!--Add Inventory-->
@@ -664,16 +729,16 @@
                                         </div>
                                         <div class="form-group col-md-6">
                                              <label for="Area">Area <span class="text-danger">*</span></label>
-                                             <input type="text" class="form-control custom-border" id="edit-Area" name="edit-Area" placeholder="Enter Area Name" required>
+                                             <input type="text" class="form-control custom-border" id="edit-Area" name="edit-Area" placeholder="Enter Area " required>
                                            
                                         </div>
                                     </div>
                                     
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <label for="height">Vendor</label>                                         
-                                            <input type="text" class="autocomplete form-control custom-border" id="edit-vendorName" name="edit-vendorName" placeholder="Enter Height" data-id="edit-vendorName"  data-width="nowidth" autocomplete="off" required>                                            
-                                        </div>
+                                            <label for="height">Vendor</label>
+                                        <input type="text" class="autocomplete form-control custom-border" id="edit-vendorName" name="edit-vendorName" placeholder="Enter Vendor" data-id="edit-vendorName" data-width="nowidth" autocomplete="off" required>
+                                    </div>
                                          <div class="form-group col-md-6" style="display:none">
                                             <label for="vendoramt">Vendor id</label>
                                             <input type="text" class="form-control custom-border" id="edit-vendorids" name="edit-vendorids" placeholder="Enter Vandor Amount">
@@ -684,7 +749,7 @@
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="City">City <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control custom-border" id="edit-city" name="edit-city" placeholder="Enter City Name" required>
+                                            <input type="text" class="form-control custom-border" id="edit-city" name="edit-city" placeholder="Enter City " required>
                                           
                                         </div>
                                         <div class="form-group col-md-6">
@@ -777,53 +842,53 @@
             
             
             
-              $(document).ready(function () {
-                     $('#applyFilter').on('click', function () {
-                            // Get filter values from the modal inputs
-                            var city = $('#cityFilter').val();
-                            var area = $('#areaFilter').val();
-                            var minRate = $('#minRateFilter').val();
-                            var maxRate = $('#maxRateFilter').val();
-                            var width = $('#widthFilter').val();
-                            var height = $('#heightFilter').val();
-                            var vendorId = $('#selectvendorName').val();
+             // $(document).ready(function () {
+                    // $('#applyFilter').on('click', function () {
+                    //        // Get filter values from the modal inputs
+                    //        var city = $('#cityFilter').val();
+                    //        var area = $('#areaFilter').val();
+                    //        var minRate = $('#minRateFilter').val();
+                    //        var maxRate = $('#maxRateFilter').val();
+                    //        var width = $('#widthFilter').val();
+                    //        var height = $('#heightFilter').val();
+                    //        var vendorId = $('#selectvendorName').val();
 
-                            // Prepare data object to be sent in the AJAX request
-                            var data = {
-                                city: city,
-                                area: area,
-                                minRate: minRate,
-                                maxRate: maxRate,
-                                width: width,
-                                height: height,
-                                vendorId: vendorId
-                            };
+                    //        // Prepare data object to be sent in the AJAX request
+                    //        var data = {
+                    //            city: city,
+                    //            area: area,
+                    //            minRate: minRate,
+                    //            maxRate: maxRate,
+                    //            width: width,
+                    //            height: height,
+                    //            vendorId: vendorId
+                    //        };
 
-                            // Send AJAX request to filter the inventory
-                            $.ajax({
-                                url: '/Dashboard/HoardingInventory',
-                                type: 'GET',
-                                data: data,
-                                success: function (response) {
+                    //        // Send AJAX request to filter the inventory
+                    //        $.ajax({
+                    //            url: '/Dashboard/HoardingInventory',
+                    //            type: 'GET',
+                    //            data: data,
+                    //            success: function (response) {
 
                                
-                                    if (response.success) {
-                                        // Process and display the filtered data (e.g., update a table or grid with response.data)
-                            alert(response.message);
-                                        // You can replace this with code to display data in your frontend
-                                    } else {
-                                        // Handle failure scenario
-                                        alert(response.message);
-                                    }
-                                },
-                                error: function (xhr, status, error) {
-                                    // Handle error scenario
-                                    console.error(error);
-                                    alert('An error occurred while applying the filter.');
-                                }
-                            });
-                        }); 
-                    });
+                    //                if (response.success) {
+                    //                    // Process and display the filtered data (e.g., update a table or grid with response.data)
+                    //        alert(response.message);
+                    //                    // You can replace this with code to display data in your frontend
+                    //                } else {
+                    //                    // Handle failure scenario
+                    //                    alert(response.message);
+                    //                }
+                    //            },
+                    //            error: function (xhr, status, error) {
+                    //                // Handle error scenario
+                    //                console.error(error);
+                    //                alert('An error occurred while applying the filter.');
+                    //            }
+                    //        });
+                    //    }); 
+                    //});
 
 
 
@@ -861,9 +926,11 @@
             });
 
              $('#applyFilter').on('click', function () {
+               $('#filterModal').modal('show');
+
                 // Show the modal
-                var filterModal = new bootstrap.Modal(document.getElementById('filterModal'));
-                filterModal.hide();
+              ////  var filterModal = new bootstrap.Modal(document.getElementById('filterModal'));
+               // filterModal.hide();
             });
 
             
@@ -879,20 +946,14 @@
                 }
             }
 
+               // When the filter icon is clicked  mainfiltericon removemainfiltericon
+            //$('#mainfiltericon').on('click', function () {
+            //    $('#filterModal').modal('show');
+        //}); amount=Model.amount, vendor=Model.vendor, City=Model.City, Area=Model.Area, Width=Model.Width, Height=Model.Height,
 
 
 
-            function searchInventory() {
-                var searchQuery = document.getElementById('searchQuery').value;
-                var pageSize = document.getElementById('rowQuantity').value;
-                window.location.href = `/Dashboard/HoardingInventory?searchQuery=${searchQuery}&pageNumber=1&pageSize=${pageSize}`;
-            }
-
-            function updateRowQuantity() {
-                var pageSize = document.getElementById('rowQuantity').value;
-                var searchQuery = document.getElementById('searchQuery').value;
-                window.location.href = `/Dashboard/HoardingInventory?searchQuery=${searchQuery}&pageNumber=1&pageSize=${pageSize}`;
-            }
+          
 
             $(document).ready(function () {
 
@@ -1106,6 +1167,62 @@
                 //document.getElementById('fileInput').addEventListener('change', function() {
                 //    uploadFile();
                 //});
+        function handleFile(e) {
+            var file = e.target.files[0];
+            var reader = new FileReader();
+
+            reader.onload = function (event) {
+                var data = new Uint8Array(event.target.result);
+                var workbook = XLSX.read(data, { type: 'array' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert the Excel sheet to JSON array
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+                // Initialize Handsontable with the JSON data
+                initHandsontable(jsonData);
+            };
+
+            reader.readAsArrayBuffer(file);
+        }
+
+        function initHandsontable(data) {
+            var container = document.getElementById('handsontable-preview');
+
+            // Clear any previous Handsontable instance
+            if (container.handsontableInstance) {
+                container.handsontableInstance.destroy();
+            }
+
+            // Initialize a new Handsontable instance
+            container.handsontableInstance = new Handsontable(container, {
+                data: data,
+                rowHeaders: true,
+                colHeaders: true,
+                stretchH: 'all',
+                height: 400,
+                licenseKey: 'non-commercial-and-evaluation' // For non-commercial use only
+            });
+        }
+
+        function Openlivepreview(imageSrc) {
+            // Get the target image element where you want to apply the new src
+            var targetImage = document.getElementById('targetImage');
+    
+            // If the imageSrc contains a relative URL (like '~/images/Shahu-logo.png'), convert it to an absolute path
+            if (imageSrc.startsWith('~/')) {
+                // Assuming the app runs at the root of the site, you can replace '~/' with the actual root path
+                imageSrc = imageSrc.replace('~/', window.location.origin + '/');
+            }
+
+            // Set the source of the target image to the clicked image's src
+            targetImage.src = imageSrc;
+
+            // If you want to display the image in a modal or popup, you can add that logic here
+            $('#imagePreviewModal').modal('show'); // Assuming you are using Bootstrap modal
+        }
+
           </script>
         <script>
             // Set the values of the form fields in the modal
@@ -1423,9 +1540,88 @@
             //         }
 
             //     }
-            // });
+            // });  mainfiltericon removemainfiltericon
+
+            
+            function mainfiltericon(){
+               // document.getElementById('mybtn').style.display = 'none';
+
+                 $('#filterModal').modal('show');
+
+            }
+            function updateRangeValue(value) {
+                // Update the range value displayed next to the slider
+                //document.getElementById('rangeValue').innerText = (value / 100000).toFixed(2) + ' Lakh';
+                document.getElementById('rangeValue').innerText ="0 To "+value+"/-";
+
+                $("#filterrangeValue").val("");
+                $("#filterrangeValue").val(""+value+"");
+  
+                // Here you can fetch the range value to filter data
+                console.log("Selected Range: " + value);
+  
+                // Example: You can send the range value to the server for fetching filtered data
+                // fetchFilteredData(value);
+            }
+
+            function searchInventory() {
+               // var searchQuery = document.getElementById('searchQuery').value;
+                var searchQuery ="";
+                var pageSize = document.getElementById('rowQuantity').value;
+                 var amount = '@(string.IsNullOrEmpty(Model.amount) ? "" : Model.amount)';
+                var vendor = '@(string.IsNullOrEmpty(Model.vendor) ? "0" : Model.vendor)';
+                var City = '@(string.IsNullOrEmpty(Model.City) ? "" : Model.City)';
+                var Area = '@(string.IsNullOrEmpty(Model.Area) ? "" : Model.Area)';
+                var Width = '@(string.IsNullOrEmpty(Model.Width) ? "" : Model.Width)';
+                var Height = '@(string.IsNullOrEmpty(Model.Height) ? "" : Model.Height)';
+                window.location.href = `/Dashboard/HoardingInventory?searchQuery=${searchQuery}&amount=${amount}&vendor=${vendor}&City=${City}&Area=${Area}&Width=${Width}&Height=${Height}&pageNumber=1&pageSize=${pageSize}`;
+            }
+
+            function updateRowQuantity() {
+                var pageSize = document.getElementById('rowQuantity').value;
+              //  var searchQuery = document.getElementById('searchQuery').value;
+                var searchQuery = "";
+                var amount = '@(string.IsNullOrEmpty(Model.amount) ? "" : Model.amount)';
+                var vendor = '@(string.IsNullOrEmpty(Model.vendor) ? "0" : Model.vendor)';
+                var City = '@(string.IsNullOrEmpty(Model.City) ? "" : Model.City)';
+                var Area = '@(string.IsNullOrEmpty(Model.Area) ? "" : Model.Area)';
+                var Width = '@(string.IsNullOrEmpty(Model.Width) ? "" : Model.Width)';
+                var Height = '@(string.IsNullOrEmpty(Model.Height) ? "" : Model.Height)';
+                  window.location.href = `/Dashboard/HoardingInventory?searchQuery=${searchQuery}&amount=${amount}&vendor=${vendor}&City=${City}&Area=${Area}&Width=${Width}&Height=${Height}&pageNumber=1&pageSize=${pageSize}`;
+            }
 
 
+            function Applayfilter(){
+                var pageSize = document.getElementById('rowQuantity').value;
+                var searchQuery = "";
+              //  var searchQuery = document.getElementById('searchQuery').value;
+            //cityFilter areaFilter filterwidth filterheight vendoramtFilter
+                 var amount=$("#filterrangeValue").val();
+            var vendor = $("#vendoramtFilter").val();
+                var City=$("#cityFilter").val();
+                var Area=$("#areaFilter").val();
+                var Width=$("#filterwidth").val();
+                var Height=$("#filterheight").val();
+                window.location.href = `/Dashboard/HoardingInventory?searchQuery=${searchQuery}&amount=${amount}&vendor=${vendor}&City=${City}&Area=${Area}&Width=${Width}&Height=${Height}&pageNumber=1&pageSize=${pageSize}`;
+
+            }
+            
+            function removefilter(){
+
+
+                var pageSize = document.getElementById('rowQuantity').value;
+              //  var searchQuery = document.getElementById('searchQuery').value;
+                var searchQuery = "";
+            //cityFilter areaFilter filterwidth filterheight vendoramtFilter
+                 var amount="";
+                var vendor = "0";
+                var City="";
+                var Area="";
+                var Width="";
+                var Height="";
+                window.location.href = `/Dashboard/HoardingInventory?searchQuery=${searchQuery}&amount=${amount}&vendor=${vendor}&City=${City}&Area=${Area}&Width=${Width}&Height=${Height}&pageNumber=1&pageSize=${pageSize}`;
+
+            }
 
         </script>
 

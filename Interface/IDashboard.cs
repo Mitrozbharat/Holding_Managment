@@ -26,7 +26,8 @@ namespace Hoarding_managment.Interface
         public  Task<QuotationItemListViewModel> addCampaign(QuotationItemListViewModel selectedItems);
         public  Task<TblInventory> UploadExcelAsync(TblInventory inventory);
 
-        public Task<int> GetAllHoarldingInvenrotyCountAsync(string searchQuery);
+     //   public Task<int> GetAllHoarldingInvenrotyCountAsync(string searchQuery);
+        public Task<int> GetAllHoarldingInvenrotyCountAsync(string searchQuery, string amount, string vendor, string City, string Area, string Width, string Height);
         public Task<InventoryViewModel> SearchByInventoryNameAsync(string name);
 
         //public Task<List<InventoryViewModel>> GetAllHoarldingInvenrotyAsync(
@@ -34,10 +35,11 @@ namespace Hoarding_managment.Interface
         //          string? city, string? area, string? minRate, string? maxRate,
         //          string? width, string? height, int? vendorId);
 
-        //   public Task<List<InventoryViewModel>> GetAllHoarldingInvenrotyAsync(string searchQuery,int pageNumber, int pageSize);
+          // public Task<List<InventoryViewModel>> GetAllHoarldingInvenrotyAsync(string searchQuery,int pageNumber, int pageSize);
+           public Task<List<InventoryViewModel>> GetAllHoarldingInvenrotyAsync(string searchQuery, string amount, string vendor, string City, string Area, string Width, string Height, int pageNumber, int pageSize);
 
 
-        public Task<List<InventoryViewModel>> GetAllHoarldingInvenrotyAsync(string searchQuery, int pageNumber, int pageSize,string? city = null, string? area = null,  string? minRate = null,string? maxRate = null, string? width = null,  string? height = null,  int? vendorId = null);
+       // public Task<List<InventoryViewModel>> GetAllHoarldingInvenrotyAsync(string searchQuery, int pageNumber, int pageSize,string? city = null, string? area = null,  string? minRate = null,string? maxRate = null, string? width = null,  string? height = null,  int? vendorId = null);
 
        
      
