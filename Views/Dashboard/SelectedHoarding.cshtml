@@ -471,8 +471,8 @@
                             }
 
 
-                            $("#idforalldatechangestring").val("");
-                            $("#idforalldatechangestring").val("" + idString + "");
+                            $("#idforalldatechange").val("");
+                            $("#idforalldatechange").val("" + idString + "");
                             if (id !== null) {
                                 $.ajax({
                                     url: '/Customer/GetCustomerinfoById',
@@ -745,7 +745,7 @@
             var newid = $("#idforalldatechange").val();
 
             var newidsaary = [];
-            var idString = $("#idforalldatechangestring").val();
+            var idString = $("#idforalldatechange").val();
 
             newidsaary = idString.split(',');
 
@@ -770,7 +770,26 @@
                 alert("End date cannot be less than the start date.");
                 endDateInput.value = startDateInput.value; // Reset to start date
             }
+
+             // $.ajax({
+             //        url: '/OngoingCampain/ValidateDatesCampaign',
+             //        type: 'POST',
+             //        data: { Id: id, FromDate: startDateInput.value }, // Send input value
+             //        success: function (response) {
+             //            setTimeout(function () {
+             //                toastr.success(' successfully.');
+             //            }, 1000);
+                       
+             //        },
+             //        error: function (xhr, status, error) {
+             //            toastr.error('Error updating campaign.');
+             //        }
+             //    });
+
+
          }
+
+
 
 
 

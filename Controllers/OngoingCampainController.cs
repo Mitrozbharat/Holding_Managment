@@ -163,7 +163,7 @@ namespace Hoarding_managment.Controllers
         }
 
         [HttpPost]
-        public IActionResult CheckCampaignDates(int id, DateTime fromDate)
+        public IActionResult ValidateDatesCampaign(int id, DateTime fromDate)
         {
 
             var finddata = _context.GetCampaingnByIdAsync(id);
