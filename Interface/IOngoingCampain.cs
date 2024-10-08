@@ -17,6 +17,6 @@
 
         public Task<CampaignViewModel> SearchByCampaignNameAsync(string name);
 
-        bool IsCampaignBooked(int id, DateTime fromDate, DateTime toDate);
+        public Task<TblCampaign> IsCampaignBooked(int id, DateTime fromDate);
     }
 }

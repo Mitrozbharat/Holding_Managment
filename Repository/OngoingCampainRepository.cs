@@ -348,13 +348,14 @@ namespace Hoarding_managment.Repository
             return campaign;
         }
 
-        public bool IsCampaignBooked(int id, DateTime fromDate, DateTime toDate)
+        public async Task<TblCampaign> IsCampaignBooked(int id, DateTime fromDate)
         {
-            return _context.TblCampaigns
-                           .Any(c => c.Id == id &&
-                                     c.FromDate <= toDate &&
-                                     c.ToDate >= fromDate &&
-                                     c.IsDelete==0);
+            var existingCampaign = _context.TblCampaigns
+        .Where(c => c.FkInventoryId == id &&  c.ToDate < fromDate)
+        .FirstOrDefault();
+
+            // No conflict found, return false
+            return existingCampaign;
         }
     }
 }

@@ -163,10 +163,18 @@ namespace Hoarding_managment.Controllers
         }
 
         [HttpPost]
-        public IActionResult CheckAvailability(int id, DateTime fromDate, DateTime toDate)
+        public IActionResult CheckCampaignDates(int id, DateTime fromDate)
         {
-            var isBooked = _context.IsCampaignBooked(id, fromDate, toDate);
-            return Json(new { isBooked = isBooked });
+
+            var finddata = _context.GetCampaingnByIdAsync(id);
+            if (finddata == null )
+            {
+                return Json(new { success = false, message = "data not found"});
+            }
+            var exitsdate = _context.IsCampaignBooked(id, fromDate);
+
+
+            return Json(new { success=true, message="success", date = exitsdate });
         }
 
     }
