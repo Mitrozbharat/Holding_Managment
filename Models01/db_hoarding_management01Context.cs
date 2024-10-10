@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Hoarding_managment.Models
+namespace Hoarding_managment.Models01
 {
-    public partial class db_hoarding_managementContext : DbContext
+    public partial class db_hoarding_management01Context : DbContext
     {
-      
-        public db_hoarding_managementContext(DbContextOptions<db_hoarding_managementContext> options)
+       
+        public db_hoarding_management01Context(DbContextOptions<db_hoarding_management01Context> options)
             : base(options)
         {
         }
@@ -26,6 +26,7 @@ namespace Hoarding_managment.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+           
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -108,9 +109,13 @@ namespace Hoarding_managment.Models
 
                 entity.Property(e => e.FkInventoryId).HasColumnName("Fk_InventoryId");
 
+                entity.Property(e => e.FromDate).HasColumnType("datetime");
+
                 entity.Property(e => e.IsDelete)
                     .HasColumnType("bit(1)")
                     .HasDefaultValueSql("b'0'");
+
+                entity.Property(e => e.ToDate).HasColumnType("datetime");
             });
 
             modelBuilder.Entity<TblCustomer>(entity =>

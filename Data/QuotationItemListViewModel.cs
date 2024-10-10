@@ -14,5 +14,8 @@
         public DateTime? FromDate { get; set; }
         public DateTime? ToDate { get; set; }
         public int FkInventoryId { get; set; }
+        public int status { get; set; }
+
+
     }
 }

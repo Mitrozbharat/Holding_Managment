@@ -436,7 +436,6 @@ namespace Hoarding_managment.Controllers
             }
         }
 
-
         [HttpPost]
         public async Task<IActionResult> addCampaign([FromBody] QuotationItemListViewModel model)
         {
@@ -538,9 +537,7 @@ namespace Hoarding_managment.Controllers
             }
         }
 
-
-        [HttpPost]
-                       
+        [HttpPost]          
         public async Task<IActionResult> AddNewInventory(string city, string area, string location, string width, string height, string rate, string vendoramt, string Image,int vendorid,int stype)
         {
             

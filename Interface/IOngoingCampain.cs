@@ -18,5 +18,11 @@
         public Task<CampaignViewModel> SearchByCampaignNameAsync(string name);
 
         public Task<TblCampaign> IsCampaignBooked(int id, DateTime fromDate);
+
+
+        public Task<List<CampaignViewModel>> GetCampaignAsync(string searchQuery, int pageNumber, int pageSize);
+        public Task<List<CampaignViewModel>> CompletedOngoingcampaignAsync(string searchQuery, int pageNumber, int pageSize);
+
+
     }
 }

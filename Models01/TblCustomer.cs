@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Hoarding_managment.Models
+namespace Hoarding_managment.Models01
 {
     public partial class TblCustomer
     {

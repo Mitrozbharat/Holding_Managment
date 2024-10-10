@@ -7,7 +7,6 @@ namespace Hoarding_managment.Models
     {
         public TblVendor()
         {
-            TblCards = new HashSet<TblCard>();
             TblInventories = new HashSet<TblInventory>();
         }
 
@@ -26,7 +25,6 @@ namespace Hoarding_managment.Models
         public DateTime? UpdatedAt { get; set; }
         public string? UpdatedBy { get; set; }
 
-        public virtual ICollection<TblCard> TblCards { get; set; }
         public virtual ICollection<TblInventory> TblInventories { get; set; }
     }
 }
