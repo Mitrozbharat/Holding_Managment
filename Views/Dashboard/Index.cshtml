@@ -257,8 +257,16 @@
                 type: 'GET',
                 success: function (data) {
                     if (data.success) {
-                        $('#Duedatecampians').text(data.count);
-                        $('#upcommingscampians').text(data.upcomingcout);
+
+                        $('#Duedatecampians').text(data.expiringCount);
+                        let due = $('#Duedatecampians').val();
+                        console.log("Duedatecampians: ", due);
+                        
+                       
+                        $('#upcommingscampians').text(data.upcomingCount);
+                        let up = $('#upcommingscampians').val();
+                        console.log("upcommingscampians: ", up);
+
                     } else {
                         $('#Duedatecampians').text('Error: ' + data.message);
                     }

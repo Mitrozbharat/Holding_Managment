@@ -171,36 +171,49 @@ namespace Hoarding_managment.Controllers
             // Assuming GetOngoingCampaignCountAsync() returns an integer count value
             var upcomingeventCount = await _dbContext.TblQuotations.Where(x=>x.IsDelete==0).Select(x=>x.Id).CountAsync();
             return Json(new { success = true, count = upcomingeventCount });
-        } 
-        
+        }
         [HttpGet]
-        public async Task<IActionResult> getallongoingCount()
+        public async Task<IActionResult> GetAllOngoingCount()
         {
-            // Assuming GetOngoingCampaignCountAsync() returns an integer count value
-            var upcomingeventCount = _dbContext.TblCampaigns.Where(x => x.IsDelete == 0 && x.ToDate >= DateTime.Today).AsQueryable();
-            return Json(new { success = true, count = upcomingeventCount.Count() });
-        } 
-        
+            // Join TblCampaignnews with TblCampaignitems and count ongoing campaigns
+            var ongoingEventCount = await (from campaignNews in _dbContext.TblCampaignnews
+                                           join campaignItem in _dbContext.TblCampaingitems
+                                           on campaignNews.Id equals campaignItem.FkCampaignId // Assuming FkCampaignId is the foreign key
+                                           where campaignNews.IsDelete == 0
+                                           && campaignItem.ToDate >= DateTime.Today
+                                           select campaignNews).CountAsync(); // Use CountAsync for better performance
+
+            return Json(new { success = true, count = ongoingEventCount });
+        }
+
+
         [HttpGet]
         public async Task<IActionResult> getallongoingDuedateCount()
         {
-            // Assuming GetOngoingCampaignCountAsync() returns an integer count value
-            //var twoWeeksFromToday = DateTime.Today.AddDays(14);
-            //var expiringCampaignsCount = _dbContext.TblCampaigns
-            //    .Where(x => x.IsDelete == 0 && x.ToDate == twoWeeksFromToday)
-            //    .Count();
+            // Define the date range for campaigns expiring in the next 14 days
             var twoWeeksFromToday = DateTime.Today.AddDays(14);
-            var expiringCampaignsCount = _dbContext.TblCampaigns
-                .Where(x => x.IsDelete == 0 && x.ToDate >= DateTime.Today && x.ToDate <= twoWeeksFromToday)
-                .Count();
 
-            var upcommingCampaignsCount = _dbContext.TblCampaigns
-              .Where(x => x.IsDelete == 0 && x.ToDate > DateTime.Today)
-              .Count();
+            // Count campaigns that are expiring within two weeks
+            var expiringCampaignsCount = await (from campaignNews in _dbContext.TblCampaignnews
+                                                join campaignItem in _dbContext.TblCampaingitems
+                                                on campaignNews.Id equals campaignItem.FkCampaignId
+                                                where campaignNews.IsDelete == 0
+                                                && campaignItem.ToDate >= DateTime.Today
+                                                && campaignItem.ToDate <= twoWeeksFromToday
+                                                select campaignItem).CountAsync();
 
+            // Count upcoming campaigns with a due date later than today
+            var upcomingCampaignsCount = await (from campaignNews in _dbContext.TblCampaignnews
+                                                join campaignItem in _dbContext.TblCampaingitems
+                                                on campaignNews.Id equals campaignItem.FkCampaignId
+                                                where campaignNews.IsDelete == 0
+                                                && campaignItem.ToDate > DateTime.Today
+                                                select campaignItem).CountAsync();
 
-            return Json(new { success = true, count = expiringCampaignsCount,upcomingcout= upcommingCampaignsCount });
+            // Return the counts in the response
+            return Json(new { success = true, expiringCount = expiringCampaignsCount, upcomingCount = upcomingCampaignsCount });
         }
+
 
         [HttpGet]
         public async Task<IActionResult> getallhordingandVendorCount()
