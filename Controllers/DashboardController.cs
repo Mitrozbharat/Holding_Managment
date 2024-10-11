@@ -147,7 +147,7 @@ namespace Hoarding_managment.Controllers
                 return Json(new { success = false, message = "Error: " + ex.Message });
             }
         }
-
+        
         [HttpPost]
         public async Task<IActionResult> CreateInventoryItems(int Id, string Image, string Area, string City, string width, string height, string Rate,int FkVendorId  )
         {
