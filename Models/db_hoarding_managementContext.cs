@@ -7,13 +7,15 @@ namespace Hoarding_managment.Models
 {
     public partial class db_hoarding_managementContext : DbContext
     {
+      
         public db_hoarding_managementContext(DbContextOptions<db_hoarding_managementContext> options)
             : base(options)
         {
         }
 
         public virtual DbSet<TblCampaign> TblCampaigns { get; set; } = null!;
-        public virtual DbSet<TblCard> TblCards { get; set; } = null!;
+        public virtual DbSet<TblCampaignnew> TblCampaignnews { get; set; } = null!;
+        public virtual DbSet<TblCampaingitem> TblCampaingitems { get; set; } = null!;
         public virtual DbSet<TblCustomer> TblCustomers { get; set; } = null!;
         public virtual DbSet<TblInventory> TblInventories { get; set; } = null!;
         public virtual DbSet<TblInventoryitem> TblInventoryitems { get; set; } = null!;
@@ -24,8 +26,8 @@ namespace Hoarding_managment.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.UseCollation("utf8mb4_0900_ai_ci")
@@ -67,33 +69,48 @@ namespace Hoarding_managment.Models
                     .HasConstraintName("tbl_campaign_ibfk_2");
             });
 
-            modelBuilder.Entity<TblCard>(entity =>
+            modelBuilder.Entity<TblCampaignnew>(entity =>
             {
-                entity.ToTable("tbl_cards");
+                entity.ToTable("tbl_campaignnew");
 
-                entity.HasIndex(e => e.FkCustomer, "Fk_customer");
+                entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.HasIndex(e => e.FkVendorId, "Fk_vendorID");
+                entity.Property(e => e.CampaignNumber).HasMaxLength(45);
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                entity.Property(e => e.CreatedBy).HasMaxLength(255);
+
+                entity.Property(e => e.FkCustomerId).HasColumnName("Fk_customerId");
+
+                entity.Property(e => e.IsDelete)
+                    .HasColumnType("bit(1)")
+                    .HasDefaultValueSql("b'0'");
+
+                entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+
+                entity.Property(e => e.UpdatedBy).HasMaxLength(255);
+            });
+
+            modelBuilder.Entity<TblCampaingitem>(entity =>
+            {
+                entity.ToTable("tbl_campaingitem");
+
+                entity.Property(e => e.BookingAmt).HasMaxLength(45);
 
                 entity.Property(e => e.CreatedAt).HasColumnType("datetime");
 
                 entity.Property(e => e.CreatedBy).HasMaxLength(255);
 
-                entity.Property(e => e.FkCustomer).HasColumnName("Fk_customer");
+                entity.Property(e => e.FkCampaignId).HasColumnName("Fk_CampaignId");
 
-                entity.Property(e => e.FkVendorId).HasColumnName("Fk_vendorID");
+                entity.Property(e => e.FkInventoryId).HasColumnName("Fk_InventoryId");
 
-                entity.Property(e => e.IsDelete).HasColumnType("bit(1)");
-
-                entity.HasOne(d => d.FkCustomerNavigation)
-                    .WithMany(p => p.TblCards)
-                    .HasForeignKey(d => d.FkCustomer)
-                    .HasConstraintName("tbl_cards_ibfk_2");
-
-                entity.HasOne(d => d.FkVendor)
-                    .WithMany(p => p.TblCards)
-                    .HasForeignKey(d => d.FkVendorId)
-                    .HasConstraintName("tbl_cards_ibfk_1");
+                entity.Property(e => e.IsDelete)
+                    .HasColumnType("bit(1)")
+                    .HasDefaultValueSql("b'0'");
             });
 
             modelBuilder.Entity<TblCustomer>(entity =>

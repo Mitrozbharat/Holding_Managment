@@ -8,7 +8,6 @@ namespace Hoarding_managment.Models
         public TblCustomer()
         {
             TblCampaigns = new HashSet<TblCampaign>();
-            TblCards = new HashSet<TblCard>();
         }
 
         public int Id { get; set; }
@@ -28,6 +27,5 @@ namespace Hoarding_managment.Models
         public string? UpdatedBy { get; set; }
 
         public virtual ICollection<TblCampaign> TblCampaigns { get; set; }
-        public virtual ICollection<TblCard> TblCards { get; set; }
     }
 }

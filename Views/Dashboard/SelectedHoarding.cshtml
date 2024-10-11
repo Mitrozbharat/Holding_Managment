@@ -237,17 +237,16 @@
     </div>
 
 
+    <input type="text" id="sendId" value="0" style="display:none;" />
 
-      <a id="hiddenRedirectLink" href="/SelectedHoarding" style="display:none;"></a>
-      <input type="text" id="selecteId"  style="display:none;" />
-
-
-
+    <a id="hiddenRedirectLink" href="/SelectedHoarding" style="display:none;"></a>
+    <input type="text" id="selecteId" style="display:none;" />
 
 
-      <script>
+
+    <script>
           
-          $('#savecustomer').on('click',function (e) {
+         $('#savecustomer').on('click',function (e) {
          e.preventDefault(); // Prevent the default form submission
 
         // Clear previous error messages
@@ -320,19 +319,6 @@
 
 
       </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     <script>
 
@@ -488,6 +474,7 @@
                                             $('#contactNo').text(customer.contactNo);
                                             $('#alternateNumber').text(customer.alternateNumber);
                                             $('#state').text(customer.state);
+                                            $('#sendId').text(customer.state);
 
                                             toastr.success('Customer loaded successfully.');
                                         } else {
@@ -550,8 +537,13 @@
                                     $('#saveCampaign').show();
                                     $('#saveQuotation').hide();
                                     $('#deleteQuteHoarding').hide();
+
+                                    $('#sendId').css('display', 'none');
+                                    $('#sendId').val(1);
+
                                 } else {
                                     $('.camp-date').hide();
+                                    $('#sendId').css('display', 'none');
                                 }
                             }
                         } else {
@@ -586,9 +578,12 @@
                     if ($(this).val() === 'campaign') {
                         $('.camp-date').show();
                         $('.camp-date').css('display', 'flex');
+                        $('#sendId').show();
+                        $('#sendId').css('display', 'none');
 
                     } else {
                         $('.camp-date').hide();
+                        $('#sendId').css('display', 'none');
                     }
                 });
             }
@@ -661,6 +656,8 @@
                 addCamign.forEach(item => {
                     let startDate = document.getElementById(`StartDate_${item.id}`).value;
                     let endDate = document.getElementById(`EndDate_${item.id}`).value;
+                    let status = $('#sendId').val();
+
 
                     // Validate startDate and endDate
                     if (!startDate || !endDate) {
@@ -674,7 +671,8 @@
                         rate: item.rate,
                         FkInventoryId: item.FkInventoryId,
                         FromDate: startDate,
-                        ToDate: endDate
+                        ToDate: endDate,
+                        status: status
                     };
                     updatedArray1.push(newItem);
                 });
