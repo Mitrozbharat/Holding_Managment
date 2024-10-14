@@ -769,32 +769,46 @@
                 endDateInput.value = startDateInput.value; // Reset to start date
             }
 
-             // $.ajax({
-             //        url: '/OngoingCampain/ValidateDatesCampaign',
-             //        type: 'POST',
-             //        data: { Id: id, FromDate: startDateInput.value }, // Send input value
-             //        success: function (response) {
-             //            setTimeout(function () {
-             //                toastr.success(' successfully.');
-             //            }, 1000);
-                       
-             //        },
-             //        error: function (xhr, status, error) {
-             //            toastr.error('Error updating campaign.');
-             //        }
-             //    });
+          
+          
+          $(document).on('change', `#EndDate_${id}`, function () {
 
+                const startDateInput = document.getElementById(`StartDate_${id}`);
+                const endDateInput = document.getElementById(`EndDate_${id}`);
 
+                // Validate that both start and end dates are provided
+                if (!startDateInput.value || !endDateInput.value) {
+                    toastr.error('Please select both start and end dates.');
+                    return; // Exit if validation fails
+                }
+
+                $.ajax({
+                    url: '/OngoingCampain/ValidateDatesCampaign',
+                    type: 'POST',
+                    data: {
+                        id: id,
+                        requestedFromDate: startDateInput.value,
+                        requestedToDate: endDateInput.value
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            setTimeout(function () {
+                                toastr.success(response.message);
+                            }, 1000);
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        toastr.error('Data not found.');
+                    }
+                });
+
+              $('#EndDate_${id}').val(0);
+            });
          }
 
-
-
-
-
-
-
-
-
+       
 
 
 

@@ -132,7 +132,7 @@ namespace Hoarding_managment.Repository
             Width = Width?.Trim();
             Height = Height?.Trim();
 
-            var lst = _context.TblInventories.ToList();
+            var lst = _context.TblInventories.Where(x => x.IsDelete == 0).ToList();
 
 
 
@@ -333,7 +333,7 @@ namespace Hoarding_managment.Repository
                                   x.City.ToLower().Contains(searchQuery) ||
                                   x.Area.ToLower().Contains(searchQuery) ||
                                   x.Location.ToLower().Contains(searchQuery)))
-                      .OrderByDescending(x => x.CreatedAt) // Ordering by CreatedAt in descending order
+                      .OrderByDescending(x => x.CreatedAt ) // Ordering by CreatedAt in descending order
                       
                       .ToList();
 

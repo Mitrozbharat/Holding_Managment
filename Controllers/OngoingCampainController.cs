@@ -241,26 +241,6 @@ namespace Hoarding_managment.Controllers
             return Json(quotations);
         }
 
-
-
-
-        [HttpPost]
-        public IActionResult ValidateDatesCampaign(int id, DateTime fromDate)
-        {
-
-            var finddata = _context.GetCampaingnByIdAsync(id);
-            if (finddata == null )
-            {
-                return Json(new { success = false, message = "data not found"});
-            }
-            var exitsdate = _context.IsCampaignBooked(id, fromDate);
-
-
-            return Json(new { success=true, message="success", date = exitsdate });
-        }
-
-
-
         [HttpPost]
         public async Task<IActionResult> Addcampaingn([FromBody] QuotationItemListViewModel model)
         {
@@ -282,6 +262,27 @@ namespace Hoarding_managment.Controllers
                 // Log the error (optional)
                 return StatusCode(500, new { success = false, message = "Campaign saved error." });
             }
+        }
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> ValidateDatesCampaign(int id, DateTime requestedFromDate, DateTime requestedToDate)
+        {
+            var existingCampaign = await _context.IsCampaignBooked(id, requestedFromDate, requestedToDate);
+
+            if (existingCampaign)
+            {
+                // Valid date range, return success message
+                return Json(new
+                {
+                    success = true,
+                    message = "Valid date."
+                });
+            }
+
+            // Conflicting campaign found, return error message
+            return Json(new { success = false, message = "Please select another date. Already ongoing campaign." });
         }
 
 

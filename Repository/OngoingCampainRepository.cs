@@ -70,29 +70,29 @@ namespace Hoarding_managment.Repository
             return model;
         }
 
-        public async Task<TblCampaign> GetCampaingnByIdAsync(int id)
+        public async Task<TblCampaingitem> GetCampaingnByIdAsync(int id)
         {
-            return await _context.TblCampaigns.FirstOrDefaultAsync(x => x.Id == id && x.IsDelete == 0);
+            return await _context.TblCampaingitems.FirstOrDefaultAsync(x => x.Id == id && x.IsDelete == 0);
         }
         public async Task<int> DeleteCampaignAsync(int id)
         {
-            var campaign = await _context.TblCampaigns
+            // Find the campaign that is not marked as deleted
+            var campaignToDelete = await _context.TblCampaingitems
                 .FirstOrDefaultAsync(x => x.Id == id && x.IsDelete == 0);
 
-            if (campaign == null)
+            // Return 0 if the campaign does not exist or is already marked as deleted
+            if (campaignToDelete == null)
             {
                 return 0;
             }
-            // Mark the campaign as deleted
-            campaign.IsDelete = 1;
 
-            // Update the campaign in the database
-            _context.TblCampaigns.Update(campaign);
+             campaignToDelete.IsDelete = 1;
+            _context.TblCampaingitems.Update(campaignToDelete);
             await _context.SaveChangesAsync();
 
-            // Return 1 (indicating a successful deletion)
             return 1;
         }
+
         public async Task<int> GetOngoingCampaignCountAsync()
         {
             return await _context.TblCampaigns
@@ -345,16 +345,20 @@ namespace Hoarding_managment.Repository
 
             return campaign;
         }
+        
 
-        public async Task<TblCampaign> IsCampaignBooked(int id, DateTime fromDate)
+
+        public async Task<TblCampaingitem> GetCampaingnItemByIdAsync(int id)
         {
-            var existingCampaign = _context.TblCampaigns
-        .Where(c => c.FkInventoryId == id &&  c.ToDate < fromDate)
-        .FirstOrDefault();
+            var existingCampaign = await _context.TblCampaingitems
+                .Where(c => c.FkInventoryId == id )
+                .FirstOrDefaultAsync();
 
-            // No conflict found, return false
+            // Return the campaign if found, null otherwise
             return existingCampaign;
         }
+
+
 
 
         public async Task<List<CampaignViewModel>> GetCampaignAsync(string searchQuery, int pageNumber, int pageSize)
@@ -512,14 +516,14 @@ namespace Hoarding_managment.Repository
                 string financialYearCode = $"{currentYear % 100}{nextYear % 100}"; // For example: "2425"
 
                 // Get the last quotation number
-                var lastQuotation = await _context.TblQuotations
-                    .Where(x => x.IsDelete == 0 && x.QuotationNumber.Contains(financialYearCode))
-                    .OrderByDescending(x => x.QuotationNumber)
+                var lastQuotation = await _context.TblCampaignnews
+                    .Where(x => x.IsDelete == 0 && x.CampaignNumber.Contains(financialYearCode))
+                    .OrderByDescending(x => x.CampaignNumber)
                     .FirstOrDefaultAsync();
 
                 // Extract the sequence number
                 string lastNumberPart = lastQuotation != null
-                    ? lastQuotation.QuotationNumber.Substring(6) // Extracts the last three digits (sequence)
+                    ? lastQuotation.CampaignNumber.Substring(6) // Extracts the last three digits (sequence)
                     : "000";
 
                 int nextNumber = int.Parse(lastNumberPart) + 1;
@@ -596,6 +600,37 @@ namespace Hoarding_managment.Repository
             return null;
         }
 
+
+        public async Task<bool> IsCampaignBooked(int id, DateTime requestedFromDate, DateTime requestedToDate)
+        {
+
+
+            var FkId = await _context.TblInventoryitems
+                .Where(x => x.Id == id) // Replace 'id' with your actual Id value
+                .Select(x => x.FkInventoryId)
+                .FirstOrDefaultAsync(); // Execute the query and return the first matching result or null
+
+
+            var campaignItems = await _context.TblCampaingitems
+                .Where(c => c.FkInventoryId == FkId && c.IsDelete == 0 && c.ToDate >= DateTime.Today) // Ensure it's not marked as deleted and ToDate is in the future
+                .ToListAsync();
+
+            // Check if the requested date range is outside all existing campaign date ranges
+            foreach (var campaignItem in campaignItems)
+            {
+                // Check if the requested dates are outside the existing campaign's dates
+                bool isOutside = (requestedFromDate > campaignItem.ToDate) || (requestedToDate < campaignItem.FromDate);
+
+                // If requested dates are outside any campaign's date range, return false (no conflict)
+                if (!isOutside)
+                {
+                    return false; // No overlap found
+                }
+            }
+
+            // No overlap found, return false
+            return true;
+        }
 
 
     }
