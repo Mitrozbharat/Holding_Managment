@@ -346,8 +346,6 @@ namespace Hoarding_managment.Repository
             return campaign;
         }
         
-
-
         public async Task<TblCampaingitem> GetCampaingnItemByIdAsync(int id)
         {
             var existingCampaign = await _context.TblCampaingitems
@@ -357,9 +355,6 @@ namespace Hoarding_managment.Repository
             // Return the campaign if found, null otherwise
             return existingCampaign;
         }
-
-
-
 
         public async Task<List<CampaignViewModel>> GetCampaignAsync(string searchQuery, int pageNumber, int pageSize)
         {

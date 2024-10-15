@@ -25,7 +25,7 @@
             <div class="row h-100">
                 <!-- First 6 columns with image -->
                 <div class="col-12 col-md-6 d-flex justify-content-center align-items-center">
-                    <img src="~/images/HoardingImg.png" alt="Description of Image" class="img-fluid" style="max-width: 150%";/>
+                    <img src="~/images/HoardingImg.png" alt="Description of Image" class="img-fluid" style="max-width: 150%" ; />
                 </div>
 
                 <!-- Second 6 columns with form -->
@@ -34,9 +34,9 @@
                         <div class="card shadow-2-strong" style="border-radius: 1rem;">
                             <div class="card-body p-5 text-center">
                                 <h2 class="mb-5">Login</h2>
+                               
 
-
-                                <form asp-action="Login" method="post">
+                                <form asp-action="Index" method="post">
                                     <div data-mdb-input-init class="form-outline mb-4">
                                         <input type="text" placeholder="Username" name="Username" required class="form-control border form-control-lg" />
                                         <label class="form-label" for="typeEmailX-2">Username</label>
@@ -46,7 +46,15 @@
                                         <input type="password" placeholder="Password" name="Password" required class="form-control form-control-lg" />
                                         <label class="form-label" for="typePasswordX-2">Password</label>
                                     </div>
-
+                                    @if (!ViewData.ModelState.IsValid)
+                                    {
+                                        <p class="alert alert-danger">
+                                            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                                            {
+                                                <span>@error.ErrorMessage</span>
+                                            }
+                                        </p>
+                                    }
                                     @*  <!-- Checkbox -->
                                     <div class="form-check d-flex justify-content-start mb-4">
                                     <input class="form-check-input" type="checkbox" value="" id="form1Example3" />

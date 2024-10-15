@@ -1,13 +1,15 @@
-
 using HoardingManagement.Interface;
 using HoardingManagement.Repository;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Hoarding_managment;
 
-namespace Hoarding_managment
+namespace HoardingManagement
 {
     public class Program
     {
-        public IConfiguration Configuration { get; }
-       // private string _connectionString;
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -15,23 +17,31 @@ namespace Hoarding_managment
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-           var _connectionString =builder.Configuration.GetConnectionString("DefaultConnection");
+            // Retrieve the connection string from the configuration
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContextPool<db_hoarding_managementContext>(options =>
-             options.UseMySql(
-                        _connectionString,
-                        ServerVersion.AutoDetect(_connectionString)
-            ));
+                options.UseMySql(
+                    connectionString,
+                    ServerVersion.AutoDetect(connectionString)
+                ));
 
-            builder.Services.AddSession();
+            // Add session services
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout
+                options.Cookie.HttpOnly = true; // Prevent client-side script from accessing the cookie
+                options.Cookie.IsEssential = true; // Make the session cookie essential
+            });
 
-            builder.Services.AddScoped<IAuth,AuthRepository>();
+            // Register repositories
+            builder.Services.AddScoped<IAuth, AuthRepository>();
             builder.Services.AddScoped<IDashboard, DashboardRepository>();
             builder.Services.AddScoped<ICustomer, CustomerRepository>();
-            builder.Services.AddScoped<IVendor,VendorRepository>();
+            builder.Services.AddScoped<IVendor, VendorRepository>();
             builder.Services.AddScoped<IQuotation, QuotationRepository>();
-            builder.Services.AddScoped<IOngoingCampain, OngoingCampainRepository>();  
-            builder.Services.AddScoped<AutocompleteService>();  
-            
+            builder.Services.AddScoped<IOngoingCampain, OngoingCampainRepository>();
+            builder.Services.AddScoped<AutocompleteService>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -43,15 +53,18 @@ namespace Hoarding_managment
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseSession();   
-            app.UseCookiePolicy();  
+
             app.UseRouting();
+
+            // Enable session before authentication
+            app.UseSession();
 
             app.UseAuthorization();
 
+            // Define the default route
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Dashboard}/{action=Index}/{id?}");
+                pattern: "{controller=Auth}/{action=Index}/{id?}");
 
             app.Run();
         }

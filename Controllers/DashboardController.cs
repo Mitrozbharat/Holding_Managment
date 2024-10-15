@@ -1,4 +1,5 @@
-﻿using HoardingManagement.Interface;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using HoardingManagement.Interface;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hoarding_managment.Controllers
@@ -11,7 +12,7 @@ namespace Hoarding_managment.Controllers
         private readonly IQuotation _Quoatations_context;
         IWebHostEnvironment hostingenvironment;
         private readonly ICustomer _customer;
-
+      
         public DashboardController(IDashboard dashboard, IWebHostEnvironment hc, IQuotation quotation, db_hoarding_managementContext dbContext,ICustomer customer, AutocompleteService autocompleteService)
         {
             _context = dashboard;
@@ -24,6 +25,7 @@ namespace Hoarding_managment.Controllers
         }
         public IActionResult Index()
         {
+            
             return View();
         }
 
@@ -79,6 +81,17 @@ namespace Hoarding_managment.Controllers
         [HttpGet]
         public async Task<IActionResult> HoardingInventory(string searchQuery = "", string amount = "", string vendor = "", string City = "", string Area = "", string Width = "", string Height = "", int pageSize = 9, int pageNumber = 1)
         {
+            var sessionUserId = HttpContext.Session.GetInt32("Id");
+           var name = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUser = name;
+            ViewBag.sessionUser = sessionUserId;
+
+            if (sessionUserId == null)
+            {
+                // If session is null (user is not logged in), redirect to login page
+                return RedirectToAction("Index", "Auth");
+            }
             var inventory = await _context.GetAllHoarldingInvenrotyAsync(searchQuery,amount,vendor,City,Area,Width,Height, pageNumber, pageSize);
             var totalItems = await _context.GetAllHoarldingInvenrotyCountAsync(searchQuery, amount, vendor, City, Area, Width, Height);
             var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
