@@ -12,9 +12,6 @@ namespace Hoarding_managment.Controllers
             _dbContext = dbContext;
         }
 
-
-
-
         [HttpGet]
         public async Task<IActionResult> Index(string searchQuery = "", int pageSize = 10, int pageNumber = 1)
         {
