@@ -271,7 +271,7 @@ namespace Hoarding_managment.Controllers
         {
             var existingCampaign = await _context.IsCampaignBooked(id, requestedFromDate, requestedToDate);
 
-            if (existingCampaign)
+            if (existingCampaign== null)
             {
                 // Valid date range, return success message
                 return Json(new
@@ -282,7 +282,12 @@ namespace Hoarding_managment.Controllers
             }
 
             // Conflicting campaign found, return error message
-            return Json(new { success = false, message = "Please select another date. Already ongoing campaign." });
+            return Json(new
+            {
+                success = false,
+                message = $"Please select a valid date. Already ongoing campaign {existingCampaign.ToDate:dd/MM/yyyy}.",
+                model = existingCampaign.ToDate
+            });
         }
 
 

@@ -630,10 +630,11 @@
                 });
             });
 
-        
-              
 
-         
+
+
+            $('#saveCampaign').prop('disabled', true);
+
 
             $('#saveCampaign').on('click', function () {
                 var customerId = document.getElementById('businessNameid').value;
@@ -693,6 +694,7 @@
                         setTimeout(function () {
                             window.location.href = '/OngoingCampain/Index';
                         }, 2000); // 2000 milliseconds = 2 seconds
+
                     },
                     error: function (xhr, status, error) {
                         toastr.error('Error saving the campaign.');
@@ -703,7 +705,6 @@
 
 
         });
-
 
 
 
@@ -769,7 +770,7 @@
                 endDateInput.value = startDateInput.value; // Reset to start date
             }
 
-          
+
           
           $(document).on('change', `#EndDate_${id}`, function () {
 
@@ -795,8 +796,14 @@
                             setTimeout(function () {
                                 toastr.success(response.message);
                             }, 1000);
+                            $('#saveCampaign').prop('disabled', false);
+
                         } else {
                             toastr.error(response.message);
+
+                            $('#saveCampaign').prop('disabled', true);
+                            $('#EndDate_' + id).val(response.model);
+
                         }
                     },
                     error: function (xhr, status, error) {

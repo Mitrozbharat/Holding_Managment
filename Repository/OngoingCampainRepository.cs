@@ -529,8 +529,7 @@ namespace Hoarding_managment.Repository
                 int nextNumber = int.Parse(lastNumberPart) + 1;
 
                 // Generate the next quotation number
-                string nextNumberString = $"camp{financialYearCode}{nextNumber:D3}"; // Example: "Q2425001"
-
+                string nextNumberString = $"C{financialYearCode}{nextNumber:D3}"; // Example: "Q2425001"
 
 
                 // Create and add the new quotation
@@ -601,7 +600,7 @@ namespace Hoarding_managment.Repository
         }
 
 
-        public async Task<bool> IsCampaignBooked(int id, DateTime requestedFromDate, DateTime requestedToDate)
+        public async Task<TblCampaingitem> IsCampaignBooked(int id, DateTime requestedFromDate, DateTime requestedToDate)
         {
 
 
@@ -624,12 +623,12 @@ namespace Hoarding_managment.Repository
                 // If requested dates are outside any campaign's date range, return false (no conflict)
                 if (!isOutside)
                 {
-                    return false; // No overlap found
+                    return campaignItem; // No overlap found
                 }
             }
 
             // No overlap found, return false
-            return true;
+            return null;
         }
 
 

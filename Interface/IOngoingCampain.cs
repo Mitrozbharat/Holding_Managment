@@ -23,7 +23,7 @@ namespace Hoarding_managment.Interface
          public Task<TblCampaingitem>  GetCampaingnItemByIdAsync(int id);
 
 
-        public  Task<bool> IsCampaignBooked(int id, DateTime requestedFromDate, DateTime requestedToDate);
+        public  Task<TblCampaingitem> IsCampaignBooked(int id, DateTime requestedFromDate, DateTime requestedToDate);
 
 
     }
