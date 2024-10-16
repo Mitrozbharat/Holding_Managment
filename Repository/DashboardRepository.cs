@@ -634,9 +634,10 @@ namespace Hoarding_managment.Repository
             return selectedInvert;
         }
 
-
-        public async Task<int> AddQuatationsAsync(QuotationItemListViewModel selectedItems)
+        public async Task<int> AddQuatationsAsync(QuotationItemListViewModel selectedItems, string sessionUserName)
         {
+           
+
             // Determine the financial year part
             int currentYear = DateTime.Now.Year;
             int nextYear = DateTime.Now.Month >= 4 ? currentYear + 1 : currentYear;
@@ -663,9 +664,10 @@ namespace Hoarding_managment.Repository
             {
                 QuotationNumber = nextQuotationNumber,
                 CreatedAt = DateTime.Now,
-                CreatedBy = "admin",
+                CreatedBy = sessionUserName,
                 FkCustomerId = selectedItems.CustomerId,
                 IsDelete = 0
+                
             };
 
             await _context.TblQuotations.AddAsync(data);
@@ -699,9 +701,9 @@ namespace Hoarding_managment.Repository
                         VendorAmt = inventory.VendorAmt,
                         Image = inventoryitems.Image,
                         LocationDescription = inventory.Location,
-                        FkVendorId = inventoryitems.FkVendorId,
-                        UpdatedBy = "admin",
-                        CreatedBy = "Admin",
+                        FkVendorId =inventoryitems.FkVendorId,
+                        UpdatedBy = "",
+                        CreatedBy = sessionUserName,
                         FkInventory = item.FkInventoryId
                     };
 
@@ -718,6 +720,53 @@ namespace Hoarding_managment.Repository
             }
 
             return qid;
+        }
+
+
+        public async Task<QuotationItemListViewModel> addCampaign(QuotationItemListViewModel selectedItems, string sessionUserName)
+        {
+
+
+            if (selectedItems.CustomerId != null && selectedItems.SelectedItems != null)
+            {
+                foreach (var item in selectedItems.SelectedItems)
+                {
+                    var inventoryitems = _context.TblInventoryitems.Where(x => x.Id == item.Id).FirstOrDefault();
+                    var inventory = _context.TblInventories.Where(x => x.Id == inventoryitems.FkInventoryId).FirstOrDefault();
+
+                    var newdata = new TblCampaign
+                    {
+                        FkCustomerId = selectedItems.CustomerId,
+                        FkInventoryId = item.FkInventoryId,
+                        FromDate = DateTime.Now,
+                        ToDate = DateTime.Now,
+                        BookingAmt = item.Rate,
+                        CreatedAt = DateTime.Now,
+                        UpdatedAt = DateTime.Now,
+                        IsDelete = 0,
+                        UpdatedBy = "sessionUserName",
+                        CreatedBy = sessionUserName
+                    };
+
+                    _context.TblCampaigns.Add(newdata);
+                    await _context.SaveChangesAsync();
+
+                }
+            }
+
+            return null;
+        }
+
+        public async Task<TblInventory> UploadExcelAsync(TblInventory inventory)
+        {
+            return inventory;
+        }
+        public async Task<TblInventory> AddNewInventoryAsync(TblInventory model)
+        {
+            _context.TblInventories.Add(model);
+            await _context.SaveChangesAsync();
+            return model;
+
         }
 
 
@@ -795,51 +844,6 @@ namespace Hoarding_managment.Repository
         //    return qid;
         //}
 
-        public async Task<QuotationItemListViewModel> addCampaign(QuotationItemListViewModel selectedItems)
-        {
-
-
-            if (selectedItems.CustomerId != null && selectedItems.SelectedItems != null)
-            {
-                foreach (var item in selectedItems.SelectedItems)
-                {
-                    var inventoryitems = _context.TblInventoryitems.Where(x => x.Id == item.Id).FirstOrDefault();
-                    var inventory = _context.TblInventories.Where(x => x.Id == inventoryitems.FkInventoryId).FirstOrDefault();
-
-                    var newdata = new TblCampaign
-                    {
-                        FkCustomerId = selectedItems.CustomerId,
-                        FkInventoryId = item.FkInventoryId,
-                        FromDate = DateTime.Now,
-                        ToDate = DateTime.Now,
-                        BookingAmt = item.Rate,
-                        CreatedAt = DateTime.Now,
-                        UpdatedAt = DateTime.Now,
-                        IsDelete = 0,
-                        UpdatedBy = "admin",
-                        CreatedBy = "Admin"
-                    };
-
-                    _context.TblCampaigns.Add(newdata);
-                    await _context.SaveChangesAsync();
-
-                }
-            }
-
-            return null;
-        }
-
-        public async Task<TblInventory> UploadExcelAsync(TblInventory inventory)
-        {
-            return inventory;
-        }
-        public async Task<TblInventory> AddNewInventoryAsync(TblInventory model)
-        {
-            _context.TblInventories.Add(model);
-            await _context.SaveChangesAsync();
-            return model;
-
-        }
 
         //    public async Task<TblInventory> UploadExcelAsync(TblInventory inventory)
         //    {

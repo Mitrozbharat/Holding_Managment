@@ -25,7 +25,20 @@ namespace Hoarding_managment.Controllers
         }
         public IActionResult Index()
         {
-            
+
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+           
+
+            if (sessionUserId == null)
+            {
+                // If session is null (user is not logged in), redirect to login page
+                return RedirectToAction("Index", "Auth");
+            }
             return View();
         }
 
@@ -81,15 +94,16 @@ namespace Hoarding_managment.Controllers
         [HttpGet]
         public async Task<IActionResult> HoardingInventory(string searchQuery = "", string amount = "", string vendor = "", string City = "", string Area = "", string Width = "", string Height = "", int pageSize = 9, int pageNumber = 1)
         {
-            var sessionUserId = HttpContext.Session.GetInt32("Id");
-           var name = HttpContext.Session.GetString("SessionUsername");
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
 
-            ViewBag.sessionUser = name;
-            ViewBag.sessionUser = sessionUserId;
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
 
             if (sessionUserId == null)
             {
-                // If session is null (user is not logged in), redirect to login page
                 return RedirectToAction("Index", "Auth");
             }
             var inventory = await _context.GetAllHoarldingInvenrotyAsync(searchQuery,amount,vendor,City,Area,Width,Height, pageNumber, pageSize);
@@ -125,6 +139,18 @@ namespace Hoarding_managment.Controllers
         [HttpGet("search")]
         public async Task<IActionResult> SearchByInventoryName(string name)
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             if (string.IsNullOrWhiteSpace(name))
             {
                 return BadRequest("Name cannot be empty.");
@@ -139,6 +165,18 @@ namespace Hoarding_managment.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteInventory(int id)
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             var inventory = await _context.GetInvetroyByIdAsync(id);
             if (inventory == null)
             {
@@ -164,6 +202,18 @@ namespace Hoarding_managment.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateInventoryItems(int Id, string Image, string Area, string City, string width, string height, string Rate,int FkVendorId  )
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             var existingItem = _dbContext.TblInventoryitems.FirstOrDefault(x => x.FkInventoryId == Id && x.IsDelete==0); // Use await to get the result
 
             if (existingItem == null)
@@ -210,6 +260,8 @@ namespace Hoarding_managment.Controllers
 
         public JsonResult GetVendorName(string query)
         {
+           
+
             var subproduct = _autocompleteService.Getvendorname(query);
 
             var result = subproduct
@@ -243,6 +295,18 @@ namespace Hoarding_managment.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateInventoryItems(int id, string city, string area, string width, string height, string rate, string VendorName,int vendorid,string Image,string location,string vendoramt,int st)
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             if (!ModelState.IsValid)
             {
                 return Json(new { success = false, message = "Model state is invalid." });
@@ -266,6 +330,7 @@ namespace Hoarding_managment.Controllers
             existingItem.Location = location;
             existingItem.VendorAmt = vendoramt;
             existingItem.Type = st;
+            existingItem.UpdatedBy = sessionUserName;
 
             // Save changes to the database
             this._dbContext.SaveChanges();
@@ -296,6 +361,18 @@ namespace Hoarding_managment.Controllers
         [HttpGet]
         public async Task<IActionResult> getallCount()
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             try
             {
                 int itemCount = await _context.InventryItemscountAsync();
@@ -311,6 +388,18 @@ namespace Hoarding_managment.Controllers
         [HttpGet]
         public async Task<IActionResult> InventoryallCount()
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             try
             {
             
@@ -327,6 +416,18 @@ namespace Hoarding_managment.Controllers
 
         public async Task<IActionResult> getSelectedHoarding()
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             var data = _context.GetInventryItemsAsync();
 
             if (data == null)
@@ -340,6 +441,18 @@ namespace Hoarding_managment.Controllers
 
         public async Task<IActionResult> GetAllInventoryItems()
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             var model = await _context.GetInventryItemsAsync();
             return View();
         }
@@ -347,18 +460,54 @@ namespace Hoarding_managment.Controllers
         [HttpGet("SelectedHoarding")]
         public async Task<IActionResult> SelectedHoarding()
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             var model = await _context.GetInventryItemsAsync();
             return View(model);
         }
         [HttpGet]
         public async Task<IActionResult> SelectedHoardingJ()
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             var quotations = await _context.GetInventryItemsAsync();
             return Json(new { success = true, message = "Success", model = quotations });
         }
         [HttpPost]
         public  IActionResult GetHordingdata(int id)
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             if (id != null)
             {
                 var getHordingItemsAgainstId = this._dbContext.TblQuotationitems.Where(x => x.FkQuotationId == id && x.IsDelete == 0).Select(item => new InventoryitemViewmodel
@@ -399,6 +548,18 @@ namespace Hoarding_managment.Controllers
         [HttpGet]
         public async Task<IActionResult> SelectedHoarding(int pageNumber = 1, int pageSize = 5)
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             var quotations = await _context.GetInventryItemsAsync();
 
             return Json(new { success = true, Message = "", model = quotations });
@@ -421,6 +582,18 @@ namespace Hoarding_managment.Controllers
         [HttpGet]
         public async Task<IActionResult> getSelectInventoryHoarding()
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
 
             var model = _context.get();
             return Json(new { success = true, message = "Selected hoarding deleted successfully", model = model });
@@ -430,6 +603,18 @@ namespace Hoarding_managment.Controllers
         [HttpPost]
         public async Task<IActionResult> SaveSelectedHoardings([FromBody] QuotationItemListViewModel model)
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             if (model == null || model.SelectedItems == null )
             {
                 return BadRequest(new { success = false, message = "No items selected." });
@@ -438,7 +623,7 @@ namespace Hoarding_managment.Controllers
             try
             {
 
-                var id =  await  _context.AddQuatationsAsync(model);
+                var id =  await  _context.AddQuatationsAsync(model, sessionUserName);
 
                return Json(new { success = true, message = "Selected hoardings saved successfully." ,id =id});
             }
@@ -452,6 +637,18 @@ namespace Hoarding_managment.Controllers
         [HttpPost]
         public async Task<IActionResult> addCampaign([FromBody] QuotationItemListViewModel model)
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             if (model == null || model.SelectedItems == null || !model.SelectedItems.Any())
             {
                 return BadRequest(new { success = false, message = "No items selected." });
@@ -460,7 +657,7 @@ namespace Hoarding_managment.Controllers
             try
             {
 
-                await _context.addCampaign(model);
+                await _context.addCampaign(model, sessionUserName);
 
 
                 return Ok(new { success = true, message = "Campaign Created saved successfully." });
@@ -475,6 +672,19 @@ namespace Hoarding_managment.Controllers
         [HttpPost]
         public async Task<IActionResult> Upload(IFormFile file)
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
+
             if (file == null || file.Length == 0)
             {
                 return BadRequest("Please upload a valid Excel file.");
@@ -553,8 +763,20 @@ namespace Hoarding_managment.Controllers
         [HttpPost]          
         public async Task<IActionResult> AddNewInventory(string city, string area, string location, string width, string height, string rate, string vendoramt, string Image,int vendorid,int stype)
         {
-            
-                var data = new TblInventory
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
+
+            var data = new TblInventory
                 {
                     City = city,
                     Area = area,
@@ -568,7 +790,7 @@ namespace Hoarding_managment.Controllers
                    Type=stype,
                     IsDelete = 0,
                     CreatedAt = DateTime.Now,
-                    CreatedBy = "Admin",
+                    CreatedBy = "sessionUserName",
                 };
 
                 await _context.AddNewInventoryAsync(data);
@@ -580,6 +802,18 @@ namespace Hoarding_managment.Controllers
         [HttpGet]
         public IActionResult SearchCustomersByName(string name)
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             if (string.IsNullOrWhiteSpace(name))
             {
                 return BadRequest("Name cannot be empty.");

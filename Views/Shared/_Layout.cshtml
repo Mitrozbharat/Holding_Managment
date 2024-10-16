@@ -54,7 +54,7 @@
                     <a class="navbar-brand brand-logo" href="../../index.html"><img src="~/images/logo.png" alt="logo" /></a>
                     <a class="navbar-brand brand-logo-mini" href="../../index.html">
                         <img src="~/images/logo.png"
-                             alt="logo" />
+                             alt="logo" id="logoImg" onclick="uploadImg()" />
                     </a>
                     <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
                         <span class="mdi mdi-sort-variant"></span>
@@ -79,8 +79,15 @@
                     </li>
                     <li class="nav-item nav-profile dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                            <img src="~/images/Shahu-logo.png" alt="profile" />
-                            <span class="nav-profile-name">SAHU ADVERTISING</span>
+                            @{
+                            var firstLetter = ViewBag.sessionUserName != null && ViewBag.sessionUserName.Length > 0 
+                                              ? char.ToUpper(ViewBag.sessionUserName[0]) 
+                                              : ' '; // Handle empty or null case
+                        }
+
+                            <span>@firstLetter</span>
+@*                             <img src="~/images/Shahu-logo.png" alt="profile" />
+ *@                            <span class="nav-profile-name" id="@ViewBag.sessionUserId"> @ViewBag.sessionUserName</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                            
@@ -114,6 +121,7 @@
                             <i class="mdi mdi-animation menu-icon"></i>
                             <span class="menu-title">Hoarding Inventory</span>
                         </a>
+
                     </li>
                    @* <li class="nav-item">
                         <a class="nav-link" asp-controller="OngoingCampain" asp-action="Index">
@@ -218,7 +226,36 @@
                     $('#empCount').text('Error occurred while fetching data.');
                 }
             });
+
+
+
+        //  function  uploadImg()
+        //  {
+        //     var img = $('#logoImg').val();
+        //      $.ajax({
+        //         url: '/Dashboard/getallCount',
+        //         type: 'POST',
+        //         success: function (data) {
+        //             if (data.success) {
+                      
+        //                 const empCountElement = document.getElementById('empCount');
+        //                 empCountElement.setAttribute('data-count', data.count);
+        //             } else {
+        //                 $('#empCount').text('Error: ' + data.message);
+        //             }
+        //         },
+        //         error: function () {
+        //             $('#empCount').text('Error occurred while fetching data.');
+        //         }
+        //     });
+        //  }
+
+
         });
+
+
+
+
     </script>
 
 </body>

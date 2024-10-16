@@ -11,8 +11,7 @@ namespace Hoarding_management.Controllers
         private readonly db_hoarding_managementContext _context;
         private readonly ILogger<AuthController> _logger;
 
-        private const string SessionUserIdKey="Id";
-
+       
         public AuthController(IAuth auth, db_hoarding_managementContext context, ILogger<AuthController> logger)
         {
             _auth = auth;
@@ -45,7 +44,7 @@ namespace Hoarding_management.Controllers
                     if (user.Password.ToLower() == model.Password.ToLower())
                     {
                         // Store user ID in session
-                        HttpContext.Session.SetInt32(SessionUserIdKey, user.Id);
+                        HttpContext.Session.SetInt32("SessionUserIdKey", user.Id);
                         HttpContext.Session.SetString("SessionUsername", user.UserName);
 
                         return RedirectToAction("Index", "Dashboard");
@@ -69,7 +68,7 @@ namespace Hoarding_management.Controllers
         public async Task<IActionResult> LogOut()
         {
             // Clear the user session
-            HttpContext.Session.Remove("Id");
+            HttpContext.Session.Remove("SessionUserIdKey");
             HttpContext.Session.Remove("SessionUsername");
             // Optionally, you can sign out from any authentication provider here if applicable
 

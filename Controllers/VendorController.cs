@@ -13,13 +13,36 @@ namespace Hoarding_managment.Controllers
         [HttpGet]
         public async Task<IActionResult> GetVendorList()
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
 
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             var listofvendor = _context.getvendorlist();
             return Json(new { success = true, Message = "success", data = listofvendor });
         }
             [HttpGet]
         public async Task<IActionResult> Index(string searchQuery = "", int pageSize = 10, int pageNumber = 1)
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             // Get filtered customers based on the search query
             var vendors = await _context.GetAllVendorsAsync(searchQuery, pageNumber, pageSize);
 
@@ -51,6 +74,18 @@ namespace Hoarding_managment.Controllers
         [HttpGet]   
         public async Task<IActionResult> Details(int id)
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             var vendor = await _context.GetVendorByIdAsync(id);
             if (vendor == null)
             {
@@ -69,6 +104,18 @@ namespace Hoarding_managment.Controllers
         [HttpPost]
         public async Task<IActionResult> AddVendor(string businessName, string vendorName, string email, string gstNo, string contactNo, string alternateNumber, string address, string state)
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             try
             {
                 var data = new TblVendor
@@ -122,6 +169,18 @@ namespace Hoarding_managment.Controllers
         [HttpPut]
         public async Task<IActionResult> EditVendor(int id, VendorViewModel viewModel)
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             if (id != viewModel.Id)
             {
                 return BadRequest();
@@ -151,6 +210,18 @@ namespace Hoarding_managment.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             var customer = _context.DeleteVendor(id);
             if (customer == null)
             {
@@ -178,6 +249,18 @@ namespace Hoarding_managment.Controllers
         [HttpPost]
         public IActionResult DeleteVendor(int id)
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             var vendor = _context.DeleteVendor(id);
             if (vendor != null)
             {

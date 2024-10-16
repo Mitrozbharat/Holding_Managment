@@ -15,6 +15,18 @@ namespace Hoarding_managment.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(string searchQuery = "", int pageSize = 10, int pageNumber = 1)
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             var campaign = await _context.GetCampaignAsync(searchQuery, pageNumber, pageSize);
             var totalItems = await _context.GetOngoingCampaignCountAsync(searchQuery);
             var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
@@ -34,6 +46,18 @@ namespace Hoarding_managment.Controllers
         [HttpGet]
         public async Task<IActionResult> CompletedCampain(string searchQuery = "", int pageSize = 10, int pageNumber = 1)
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             var campaign = await _context.CompletedOngoingcampaignAsync(searchQuery, pageNumber, pageSize);
             var totalItems = await _context.GetCompletedCampaignCountAsync(searchQuery);
             var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
@@ -106,6 +130,18 @@ namespace Hoarding_managment.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteCampaign(int id)
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             var Campaign = await _context.GetCampaingnByIdAsync(id);
             if (Campaign != null)
             {
@@ -134,6 +170,18 @@ namespace Hoarding_managment.Controllers
         [ HttpPost]
         public async Task<IActionResult> UpdateCampaign(CampaigneditViewModel model)
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             if (model == null)
             {
                 return Json(new { success = false, Meassage = "Invalid data" });
@@ -157,6 +205,18 @@ namespace Hoarding_managment.Controllers
         [HttpGet]
         public async Task<IActionResult> getallCampaignCount()
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             // Assuming GetOngoingCampaignCountAsync() returns an integer count value
             var upcomingeventCount = await _context.GetOngoingCampaignCountAsync();
             return Json(new { success = true, count = upcomingeventCount });
@@ -165,6 +225,18 @@ namespace Hoarding_managment.Controllers
         [HttpGet]
         public async Task<IActionResult> getallQuotationCount()
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             // Assuming GetOngoingCampaignCountAsync() returns an integer count value
             var upcomingeventCount = await _dbContext.TblQuotations.Where(x=>x.IsDelete==0).Select(x=>x.Id).CountAsync();
             return Json(new { success = true, count = upcomingeventCount });
@@ -172,6 +244,18 @@ namespace Hoarding_managment.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllOngoingCount()
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             // Join TblCampaignnews with TblCampaignitems and count ongoing campaigns
             var ongoingEventCount = await (from campaignNews in _dbContext.TblCampaignnews
                                            join campaignItem in _dbContext.TblCampaingitems
@@ -187,6 +271,18 @@ namespace Hoarding_managment.Controllers
         [HttpGet]
         public async Task<IActionResult> getallongoingDuedateCount()
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             // Define the date range for campaigns expiring in the next 14 days
             var twoWeeksFromToday = DateTime.Today.AddDays(14);
 
@@ -215,6 +311,18 @@ namespace Hoarding_managment.Controllers
         [HttpGet]
         public async Task<IActionResult> getallhordingandVendorCount()
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             // Assuming GetOngoingCampaignCountAsync() returns an integer count value
             //  var upcomingeventCount = await _context.GetOngoingCampaignCountAsync();
             var horingcount = await _dbContext.TblInventories.Where(x => x.IsDelete == 0).Select(x=>x.Id).CountAsync();
@@ -225,6 +333,18 @@ namespace Hoarding_managment.Controllers
         [HttpGet]
         public async Task<IActionResult> GetWeeklyQuotationData(DateTime startDate, DateTime endDate)
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             // Fetch the quotations that fall within the given date range
             var quotations = await _dbContext.TblQuotations
                 .Where(q => q.IsDelete == 0 && q.CreatedAt >= startDate && q.CreatedAt <= endDate)
@@ -241,6 +361,18 @@ namespace Hoarding_managment.Controllers
         [HttpPost]
         public async Task<IActionResult> Addcampaingn([FromBody] QuotationItemListViewModel model)
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             if (model == null || model.SelectedItems == null || !model.SelectedItems.Any())
             {
                 return BadRequest(new { success = false, message = "No items selected." });
@@ -266,6 +398,18 @@ namespace Hoarding_managment.Controllers
         [HttpPost]
         public async Task<IActionResult> ValidateDatesCampaign(int id, DateTime requestedFromDate, DateTime requestedToDate)
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             var existingCampaign = await _context.IsCampaignBooked(id, requestedFromDate, requestedToDate);
 
             if (existingCampaign== null)

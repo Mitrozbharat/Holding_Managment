@@ -78,7 +78,7 @@
                                     <option value="">Select Customer</option>
                                     </select> *@
                                     <!-- Autocomplete Input Element -->
-                                    <input type="text" class="autocomplete form-control custom-border" id="businessName" name="businessName" placeholder="Enter Business Name" data-id="businessName" data-width="nowidth" autocomplete="off" required>
+                                    <input type="text" class="autocomplete form-control custom-border " id="businessName" name="businessName" placeholder="Enter Business Name" data-id="businessName" data-width="nowidth" autocomplete="off" required>
                                     <input type="text" id="businessNameid" name="businessNameid" style="display:none">
 
                                 </div>
@@ -907,6 +907,7 @@
 
 
     <script>
+       
         document.querySelectorAll('.autocomplete').forEach(function (input) {
             let suggestionsContainer;
             let activeSuggestionIndex = -1;
@@ -977,9 +978,9 @@
             }, 300)); // Debounce delay
 
             // Handle keyboard navigation
-            input.addEventListener('keydown', function (e) {
+            input.addEventListener('keyup', function (e) {
                 const suggestions = suggestionsContainer?.querySelectorAll('.autocomplete-suggestion');
-                if (!suggestions) return;
+                if (!suggestions || suggestions.length === 0) return;
 
                 if (e.key === 'ArrowDown') {
                     activeSuggestionIndex = (activeSuggestionIndex + 1) % suggestions.length;
@@ -999,6 +1000,29 @@
                     }
                 }
             });
+
+            // Update active suggestion style
+            function updateActiveSuggestion(suggestions) {
+                suggestions.forEach((suggestion, index) => {
+                    suggestion.classList.remove('active');
+                    if (index === activeSuggestionIndex) {
+                        suggestion.classList.add('active');
+                    }
+                });
+            }
+
+            // Function to handle suggestion selection
+            function selectSuggestion(item, input, suggestionsContainer) {
+                input.value = item.name;
+                document.getElementById('businessNameid').value = item.id;
+                suggestionsContainer.innerHTML = '';
+                suggestionsContainer.style.display = 'none';
+            }
+      
+
+
+
+
 
             // Function to select a suggestion
             function selectSuggestion(item, input, suggestionsContainer) {

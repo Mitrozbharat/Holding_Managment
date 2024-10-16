@@ -33,6 +33,18 @@ namespace Hoarding_managment.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(string searchQuery = "", int pageSize = 10, int pageNumber = 1)
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             List<QuatationViewModel>? quotations = await _context.GetAllQuotationsListAsync(searchQuery, pageNumber, pageSize);
             var totalItems = await _context.GetQuotationCountAsync(searchQuery);
             var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
@@ -52,6 +64,18 @@ namespace Hoarding_managment.Controllers
         [HttpGet]
         public async Task<IActionResult> GetQuataionsJ(int pageNumber = 1, int pageSize = 10)
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             var quotations = await _context.GetAllQuotationsListAsync(pageNumber, pageSize);
 
 
@@ -69,6 +93,18 @@ namespace Hoarding_managment.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteQuotation(int id)
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             if (id == 0)
             {
                 return BadRequest();
@@ -86,6 +122,18 @@ namespace Hoarding_managment.Controllers
         [HttpGet]
         public async Task<IActionResult> ViewQuotation(int id)
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             if (id <= 0)
             {
                 return BadRequest();
@@ -120,6 +168,18 @@ namespace Hoarding_managment.Controllers
         [HttpGet("search")]
         public async Task<IActionResult> SearchByCustomerName(string name)
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             if (string.IsNullOrWhiteSpace(name))
             {
                 return BadRequest("Name cannot be empty.");
@@ -134,7 +194,18 @@ namespace Hoarding_managment.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteQuatationitem(int id)
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
 
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             var qitemId = await _context.findQuotationitemByIdAsync(id);
             if (qitemId != null)
             {
@@ -199,6 +270,18 @@ namespace Hoarding_managment.Controllers
         [HttpPost]
         public IActionResult GenerateExcel([FromBody] QuotationData model)
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
             using (var package = new ExcelPackage())

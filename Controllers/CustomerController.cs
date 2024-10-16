@@ -15,12 +15,16 @@ namespace Hoarding_managment.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(string searchQuery = "", int pageSize = 10, int pageNumber = 1)
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
 
-            var sessionUserId = HttpContext.Session.GetInt32("Id");
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
 
             if (sessionUserId == null)
             {
-                // If session is null (user is not logged in), redirect to login page
                 return RedirectToAction("Index", "Auth");
             }
             var customers = await _context.GetallCustomerAsync(searchQuery, pageNumber, pageSize);
@@ -47,16 +51,33 @@ namespace Hoarding_managment.Controllers
         [HttpGet]
         public IActionResult AddNewCustomer()
         {
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
+
+            if (sessionUserId == null)
+            {
+                return RedirectToAction("Index", "Auth");
+            }
             return View();
         }
         [HttpPost]
         public async Task<IActionResult> AddNewCustomer(string businessName, string customerName, string email, string gstn, string contactNumber, string alternateNumber, string address, string state)
         {
-            var sessionUserId = HttpContext.Session.GetInt32("Id");
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
 
             if (sessionUserId == null)
             {
-                // If session is null (user is not logged in), redirect to login page
                 return RedirectToAction("Index", "Auth");
             }
             try
@@ -73,7 +94,7 @@ namespace Hoarding_managment.Controllers
                     State = state,
                     IsDelete = 0,
                     CreatedAt = DateTime.Now,
-                    CreatedBy = customerName,
+                    CreatedBy = sessionUserName,
                 };
 
                 var newresult = await _context.AddNewCustomerasAsync(data);
@@ -97,11 +118,16 @@ namespace Hoarding_managment.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateCustomer([FromBody] CustomerViewModel model)
         {
-            var sessionUserId = HttpContext.Session.GetInt32("Id");
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
 
             if (sessionUserId == null)
             {
-                // If session is null (user is not logged in), redirect to login page
                 return RedirectToAction("Index", "Auth");
             }
             if (model == null)
@@ -125,6 +151,7 @@ namespace Hoarding_managment.Controllers
             customer.Address = model.Address;
             customer.State = model.State;
             customer.UpdatedAt = DateTime.Now;
+            customer.CreatedBy = sessionUserName;
 
             await _context.UpdateCustomer(customer); // Ensure the update method is async
 
@@ -134,13 +161,20 @@ namespace Hoarding_managment.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
-            var sessionUserId = HttpContext.Session.GetInt32("Id");
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
 
             if (sessionUserId == null)
             {
-                // If session is null (user is not logged in), redirect to login page
                 return RedirectToAction("Index", "Auth");
             }
+
+
             var customer = _context.GetCustomerById(id);
             if (customer == null)
             {
@@ -169,11 +203,16 @@ namespace Hoarding_managment.Controllers
         [HttpGet("GetDetails")]
         public IActionResult Details(int id)
         {
-            var sessionUserId = HttpContext.Session.GetInt32("Id");
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
 
             if (sessionUserId == null)
             {
-                // If session is null (user is not logged in), redirect to login page
                 return RedirectToAction("Index", "Auth");
             }
             var customer = _context.GetCustomerById(id);
@@ -189,11 +228,16 @@ namespace Hoarding_managment.Controllers
 
         public IActionResult GetCustomerinfoById(int id)
         {
-            var sessionUserId = HttpContext.Session.GetInt32("Id");
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
 
             if (sessionUserId == null)
             {
-                // If session is null (user is not logged in), redirect to login page
                 return RedirectToAction("Index", "Auth");
             }
             var customer = _context.GetCustomerById(id); // Assuming _context is your database context
@@ -208,11 +252,16 @@ namespace Hoarding_managment.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCustomerinfo()
         {
-            var sessionUserId = HttpContext.Session.GetInt32("Id");
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
 
             if (sessionUserId == null)
             {
-                // If session is null (user is not logged in), redirect to login page
                 return RedirectToAction("Index", "Auth");
             }
             var customer = await _context.GetCustomerinfo();
@@ -229,11 +278,16 @@ namespace Hoarding_managment.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCountCustomer()
         {
-            var sessionUserId = HttpContext.Session.GetInt32("Id");
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
 
             if (sessionUserId == null)
             {
-                // If session is null (user is not logged in), redirect to login page
                 return RedirectToAction("Index", "Auth");
             }
             try
@@ -254,11 +308,16 @@ namespace Hoarding_managment.Controllers
         [HttpGet("search")]
         public async Task<IActionResult> SearchCustomersByName(string name)
         {
-            var sessionUserId = HttpContext.Session.GetInt32("Id");
+            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
 
             if (sessionUserId == null)
             {
-                // If session is null (user is not logged in), redirect to login page
                 return RedirectToAction("Index", "Auth");
             }
             if (string.IsNullOrWhiteSpace(name))
