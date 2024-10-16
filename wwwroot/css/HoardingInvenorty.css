@@ -1,0 +1,239 @@
+﻿
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+
+
+.custom-file {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.custom-file-input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    cursor: pointer;
+}
+
+.custom-file-label {
+    margin-top: 0.5rem;
+    display: block;
+    color: #6c757d;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.custom-file-input:focus ~ .custom-file-label {
+    color: #495057;
+    background-color: #e9ecef;
+    border-color: #80bdff;
+}
+
+.autocomplete-suggestions {
+    position: absolute;
+    border: 1px solid #ddd;
+    background-color: white;
+    max-height: 150px;
+    overflow-y: auto;
+    margin-left: -3px;
+    border-radius: 11px;
+    z-index: 1000;
+}
+
+td .autocomplete-suggestions {
+    position: relative !important;
+    border: 1px solid #ddd;
+    background-color: white;
+    max-height: 71px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.autocomplete-suggestion {
+    padding: 5px;
+    cursor: pointer;
+}
+
+    .autocomplete-suggestion:hover,
+    .autocomplete-suggestion.active {
+        background-color: #007bff;
+        color: #453b3b;
+    }
+
+
+#profile-upload {
+    background-image: url('');
+    background-size: cover;
+    background-position: center;
+    width: 300px;
+    border: 1px solid #bbb;
+    position: relative;
+    /*  border-radius: 250px;*/
+    overflow: hidden;
+}
+
+    #profile-upload:hover input.upload {
+        display: block;
+    }
+
+    #profile-upload:hover .hvr-profile-img {
+        display: inline-block;
+    }
+
+    #profile-upload .fa {
+        margin: auto;
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        text-align: center;
+        right: 0;
+        padding: 6px;
+        opacity: 1;
+        transition: opacity 1s linear;
+        -webkit-transform: scale(.75);
+    }
+
+    #profile-upload:hover .fa {
+        opacity: 7;
+        -webkit-transform: scale(1);
+    }
+
+    #profile-upload input.upload {
+        z-index: 1;
+        left: 0;
+        margin: 0;
+        bottom: 0;
+        top: 0;
+        padding: 0;
+        opacity: 0;
+        outline: none;
+        cursor: pointer;
+        position: absolute;
+        background: #ccc;
+        width: 100%;
+        display: none;
+    }
+
+    #profile-upload .hvr-profile-img {
+        width: 100%;
+        height: 100%;
+        display: none;
+        position: absolute;
+        vertical-align: middle;
+        position: relative;
+        background: #766666bd;
+    }
+
+    #profile-upload .fa:after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 0px;
+        background: rgba(0,0,0,0.3);
+        z-index: -1;
+        transition: height 0.3s;
+    }
+
+    #profile-upload:hover .fa:after {
+        height: 100%;
+    }
+
+.input-group-inv {
+    display: flex;
+    justify-content: end;
+}
+
+#filter {
+    color: blue;
+    align-items: center;
+    font-size: 45px;
+}
+
+#heading {
+    height: 45px;
+}
+
+p > strong {
+    width: 100px;
+}
+
+p > input {
+    margin-left: 25px;
+}
+
+#selectvendorName {
+    margin: 0px;
+    padding: 0px;
+}
+
+select > option {
+    color: black;
+}
+
+#searchQuery {
+    /* //  margin-right:10px; */
+    width: 35%;
+    padding-left: 20px;
+}
+
+.conteneur5 {
+    display: flex;
+    margin-left: 38%;
+    margin-top: 14px;
+}
+
+.points5 {
+    margin: 8px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #555555;
+}
+
+    .points5:nth-child(1) {
+        animation: animPoints5 2.5s linear infinite;
+    }
+
+    .points5:nth-child(2) {
+        animation: animPoints5 2.5s linear .5s infinite;
+    }
+
+    .points5:nth-child(3) {
+        animation: animPoints5 2.5s linear 1s infinite;
+    }
+
+    .points5:nth-child(4) {
+        animation: animPoints5 2.5s linear 1.5s infinite;
+    }
+
+    .points5:nth-child(5) {
+        animation: animPoints5 2.5s linear 2s infinite;
+    }
+
+@@keyframes animPoints5 {
+    0% {
+        transform: scale(1);
+        background: #cccccc;
+    }
+
+    50% {
+        transform: scale(2);
+        background: #555555;
+    }
+
+    100% {
+        transform: scale(1);
+        background: #cccccc;
+    }
+}
+
+
+

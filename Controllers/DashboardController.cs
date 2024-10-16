@@ -794,7 +794,7 @@ namespace Hoarding_managment.Controllers
                 };
 
                 await _context.AddNewInventoryAsync(data);
-                return Ok(new { Success = true, Message = "Customer  Add Successfully." });
+                return Ok(new { Success = true, Message = "Inventory Add Successfully." });
            
         }
 
