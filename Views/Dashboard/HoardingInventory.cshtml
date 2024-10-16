@@ -561,7 +561,7 @@
                                             
                                         </div>
                                          <div class="form-group col-md-6" style="display:none">
-                                            <label for="vendoramt">Vendor id</label>
+                                        <label for="vendoramt">Vendor id</label>
                                             <input type="text" class="form-control custom-border" id="vendorids" name="vendorids" placeholder="Enter Vandor Amount">
                                         </div>
                                         <div class="form-group col-md-6">
@@ -1008,122 +1008,261 @@
                     }
                    
                 }
-                document.querySelectorAll('.autocomplete').forEach(function (input) {
-                    let suggestionsContainer;
-                    let activeSuggestionIndex = -1;
 
-                    input.addEventListener('input', function () {
-                        const query = input.value;
-                        const id = input.getAttribute('data-id');
 
-                        let urls = "";
-                        let inputwidth = "";
-                    
-                        if (id === "vendorName") {
-                            urls = `/Dashboard/GetVendorName?query=${query}`;
-                        } 
-                        
-                        if (id === "edit-vendorName") {
-                            urls = `/Dashboard/GetVendorName?query=${query}`;
+
+
+             document.querySelectorAll('.autocomplete').forEach(function (input)
+             {
+                let suggestionsContainer;
+                let activeSuggestionIndex = -1;
+                let debounceTimer;
+
+                 input.addEventListener('input', function () {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => {
+                    const query = input.value.trim();
+                    const id = input.getAttribute('data-id');
+                    let urls = "";
+
+                if (id === "vendorName" || id === "edit-vendorName") {
+                    urls = `/Dashboard/GetVendorName?query=${query}`;
+                }
+
+                if (query.length < 1) {
+                    if (suggestionsContainer) {
+                        suggestionsContainer.innerHTML = '';
+                        suggestionsContainer.style.display = 'none';
+                    }
+                    return;
+                }
+
+                // Fetch suggestions from the server
+                fetch(urls)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (!suggestionsContainer) {
+                            suggestionsContainer = document.createElement('div');
+                            suggestionsContainer.className = 'autocomplete-suggestions';
+                            input.parentNode.appendChild(suggestionsContainer);
                         }
-                        if (query.length < 1) {
-                            if (suggestionsContainer) {
-                                suggestionsContainer.innerHTML = '';
-                                suggestionsContainer.style.display = 'none';
-                            }
+
+                        suggestionsContainer.innerHTML = '';
+                        suggestionsContainer.style.display = 'block';
+                        activeSuggestionIndex = -1;
+
+                        if (data.length === 0) {
+                            // Show "No matches found" if no data
+                            suggestionsContainer.innerHTML = `<div class="no-results">No matches found</div>`;
                             return;
                         }
 
-                        fetch(`${urls}`)
-                            .then(response => response.json())
-                            .then(data => {
-                                if (!suggestionsContainer) {
-                                    suggestionsContainer = document.createElement('div');
-                                    suggestionsContainer.className = 'autocomplete-suggestions';
-                                    input.parentNode.appendChild(suggestionsContainer);
-                                }
+                        // Populate suggestions
+                        data.forEach((item) => {
+                            const suggestionItem = document.createElement('div');
+                            suggestionItem.className = 'autocomplete-suggestion';
+                            suggestionItem.textContent = item.name;
+                            suggestionItem.dataset.key = item.id;
+                            suggestionItem.dataset.value = item.name;
 
-                                if (input.getAttribute('data-width') == "nowidth") {
-                                 suggestionsContainer.style.width = `${input.parentNode.offsetWidth}px`;
-                                }
-
-                             
-                                suggestionsContainer.innerHTML = '';
-                                suggestionsContainer.style.display = 'block';
-                                activeSuggestionIndex = -1;
-
-                                data.forEach((item, index) => {
-                                    const suggestionItem = document.createElement('div');
-                                    suggestionItem.className = 'autocomplete-suggestion';
-                                    suggestionItem.textContent = item.name;
-                                    suggestionItem.dataset.key = item.id;
-                                    suggestionItem.dataset.value = item.name;
-
-                                    suggestionItem.addEventListener('click', function () {
-                                        input.value = item.name;
-                                        suggestionsContainer.style.display = 'none';
-
-                                        if (id === "vendorName") {
-                                            $("#vendorids").val(item.id);
-                                        } 
-                                        if (id === "edit-vendorName") {
-                                            $("#edit-vendorids").val(item.id);
-                                        } 
-                                    });
-                                    suggestionsContainer.appendChild(suggestionItem);
-                                });
+                            // Handle suggestion click
+                            suggestionItem.addEventListener('click', function () {
+                                selectSuggestion(item, input, suggestionsContainer);
                             });
+                            suggestionsContainer.appendChild(suggestionItem);
+                        });
                     });
+              }, 300); // Debounce delay
+          });
 
-                    input.addEventListener('keydown', function (e) {
+                        input.addEventListener('keydown', function (e) {
+                            const suggestions = suggestionsContainer?.querySelectorAll('.autocomplete-suggestion');
+                            if (!suggestions || suggestions.length === 0) return;
 
-                        const idd = input.getAttribute('data-id');
+                            if (e.key === 'ArrowDown') {
+                                activeSuggestionIndex = (activeSuggestionIndex + 1) % suggestions.length;
+                                updateActiveSuggestion(suggestions);
+                            } else if (e.key === 'ArrowUp') {
+                                activeSuggestionIndex = (activeSuggestionIndex - 1 + suggestions.length) % suggestions.length;
+                                updateActiveSuggestion(suggestions);
+                            } else if (e.key === 'Enter') {
+                                e.preventDefault();
+                                if (activeSuggestionIndex > -1) {
+                                    // Select the active suggestion on "Enter"
+                                    const activeSuggestion = suggestions[activeSuggestionIndex];
+                                    input.value = activeSuggestion.dataset.value;
+                                    suggestionsContainer.style.display = 'none';
 
-                        const suggestions = suggestionsContainer?.querySelectorAll('.autocomplete-suggestion');
-                        if (!suggestions) return;
+                                    if (input.getAttribute('data-id') === "vendorName") {
+                                        $("#vendorids").val(activeSuggestion.dataset.key);
+                                    } 
+                                    if (input.getAttribute('data-id') === "edit-vendorName") {
+                                        $("#edit-vendorids").val(activeSuggestion.dataset.key);
+                                    }
+                                } else {
+                                    // If no suggestion is highlighted, match the entered text
+                                    matchAndSelectSuggestion(query, data, input, suggestionsContainer);
+                                }
+                            }
+                        });
 
-                        if (e.key === 'ArrowDown') {
-                            activeSuggestionIndex = (activeSuggestionIndex + 1) % suggestions.length;
-                            updateActiveSuggestion(suggestions);
-                        } else if (e.key === 'ArrowUp') {
-                            activeSuggestionIndex = (activeSuggestionIndex - 1 + suggestions.length) % suggestions.length;
-                            updateActiveSuggestion(suggestions);
-                        } else if (e.key === 'Enter') {
-                            e.preventDefault();
-                            if (activeSuggestionIndex > -1) {
-                                const activeSuggestion = suggestions[activeSuggestionIndex];
-                                input.value = activeSuggestion.dataset.value;
+                        document.addEventListener('click', function (event) {
+                            if (suggestionsContainer && !input.contains(event.target)) {
                                 suggestionsContainer.style.display = 'none';
+                            }
+                        });
 
+                        function updateActiveSuggestion(suggestions) {
+                            suggestions.forEach((suggestion, index) => {
+                                suggestion.classList.toggle('active', index === activeSuggestionIndex);
+                            });
+                        }
 
-                                if (idd === "vendorName") {
+                        function selectSuggestion(item, input, suggestionsContainer) {
+                            input.value = item.name;
+                            suggestionsContainer.style.display = 'none';
 
-                                    $("#vendorids").val(activeSuggestion.dataset.key);
+                            if (input.getAttribute('data-id') === "vendorName") {
+                                $("#vendorids").val(item.id);
+                            }
+                            if (input.getAttribute('data-id') === "edit-vendorName") {
+                                $("#edit-vendorids").val(item.id);
+                            }
+                        }
 
-                                } 
-                                if (idd === "edit-vendorName") {
-
-                                    $("#edit-vendorids").val(activeSuggestion.dataset.key);
-
-                                } 
-
+                        function matchAndSelectSuggestion(query, data, input, suggestionsContainer) {
+                            const matchedItem = data.find(item => item.name.toLowerCase() === query.toLowerCase());
+                            if (matchedItem) {
+                                selectSuggestion(matchedItem, input, suggestionsContainer);
+                            } else {
+                                suggestionsContainer.innerHTML = `<div class="no-results">No exact match found</div>`;
                             }
                         }
                     });
 
-                    document.addEventListener('click', function (event) {
-                        if (suggestionsContainer && !input.contains(event.target)) {
-                            suggestionsContainer.style.display = 'none';
-                        }
-                    });
+                // document.querySelectorAll('.autocomplete').forEach(function (input) {
+                //     let suggestionsContainer;
+                //     let activeSuggestionIndex = -1;
 
-                    function updateActiveSuggestion(suggestions) {
-                        suggestions.forEach((suggestion, index) => {
-                            suggestion.classList.toggle('active', index === activeSuggestionIndex);
-                        });
-                    }
-                });
+                //     input.addEventListener('input', function () {
+                //         const query = input.value;
+                //         const id = input.getAttribute('data-id');
+
+                //         let urls = "";
+                //         let inputwidth = "";
+                    
+                //         if (id === "vendorName") {
+                //             urls = `/Dashboard/GetVendorName?query=${query}`;
+                //         } 
+                        
+                //         if (id === "edit-vendorName") {
+                //             urls = `/Dashboard/GetVendorName?query=${query}`;
+                //         }
+                //         if (query.length < 1) {
+                //             if (suggestionsContainer) {
+                //                 suggestionsContainer.innerHTML = '';
+                //                 suggestionsContainer.style.display = 'none';
+                //             }
+                //             return;
+                //         }
+
+                //         fetch(`${urls}`)
+                //             .then(response => response.json())
+                //             .then(data => {
+                //                 if (!suggestionsContainer) {
+                //                     suggestionsContainer = document.createElement('div');
+                //                     suggestionsContainer.className = 'autocomplete-suggestions';
+                //                     input.parentNode.appendChild(suggestionsContainer);
+                //                 }
+
+                //                 if (input.getAttribute('data-width') == "nowidth") {
+                //                  suggestionsContainer.style.width = `${input.parentNode.offsetWidth}px`;
+                //                 }
+
+                             
+                //                 suggestionsContainer.innerHTML = '';
+                //                 suggestionsContainer.style.display = 'block';
+                //                 activeSuggestionIndex = -1;
+
+
+
+
+                //                 data.forEach((item, index) => {
+                //                     const suggestionItem = document.createElement('div');
+                //                     suggestionItem.className = 'autocomplete-suggestion';
+                //                     suggestionItem.textContent = item.name;
+                //                     suggestionItem.dataset.key = item.id;
+                //                     suggestionItem.dataset.value = item.name;
+
+                //                     suggestionItem.addEventListener('click', function () {
+                //                         input.value = item.name;
+                //                         suggestionsContainer.style.display = 'none';
+
+                //                         if (id === "vendorName") {
+                //                             $("#vendorids").val(item.id);
+                //                         } 
+                //                         if (id === "edit-vendorName") {
+                //                             $("#edit-vendorids").val(item.id);
+                //                         } 
+                //                     });
+                //                     suggestionsContainer.appendChild(suggestionItem);
+                //                 });
+                //             });
+
+                //     });
+
+
+                //     input.addEventListener('keydown', function (e) {
+
+                //         const idd = input.getAttribute('data-id');
+
+                //         const suggestions = suggestionsContainer?.querySelectorAll('.autocomplete-suggestion');
+                //         if (!suggestions) return;
+
+                //         if (e.key === 'ArrowDown') {
+                //             activeSuggestionIndex = (activeSuggestionIndex + 1) % suggestions.length;
+                //             updateActiveSuggestion(suggestions);
+                //         } else if (e.key === 'ArrowUp') {
+                //             activeSuggestionIndex = (activeSuggestionIndex - 1 + suggestions.length) % suggestions.length;
+                //             updateActiveSuggestion(suggestions);
+                //         } else if (e.key === 'Enter') {
+                //             e.preventDefault();
+                //             if (activeSuggestionIndex > -1) {
+                //                 const activeSuggestion = suggestions[activeSuggestionIndex];
+                //                 input.value = activeSuggestion.dataset.value;
+                //                 suggestionsContainer.style.display = 'none';
+
+
+                //                 if (idd === "vendorName") {
+
+                //                     $("#vendorids").val(activeSuggestion.dataset.key);
+
+                //                 } 
+                //                 if (idd === "edit-vendorName") {
+
+                //                     $("#edit-vendorids").val(activeSuggestion.dataset.key);
+
+                //                 } 
+
+                //             }
+                //         }
+                //     });
+
+                //     document.addEventListener('click', function (event) {
+                //         if (suggestionsContainer && !input.contains(event.target)) {
+                //             suggestionsContainer.style.display = 'none';
+                //         }
+                //     });
+
+                //     function updateActiveSuggestion(suggestions) {
+                //         suggestions.forEach((suggestion, index) => {
+                //             suggestion.classList.toggle('active', index === activeSuggestionIndex);
+                //         });
+                //     }
+                // });
             });
+
+
         </script>
          <script>
                 function uploadFile() {
@@ -1501,51 +1640,51 @@
             //     var stype= $('#styp').val();
                    
 
-            //     if (imageFile && vendorname != "") {
-            //         var reader = new FileReader();
+                if (imageFile && vendorname != "") {
+                    var reader = new FileReader();
 
-            //         reader.onloadend = function () {
-            //             var base64String = reader.result.replace("data:", "").replace(/^.+,/, ''); // Convert image to Base64 string
+                    reader.onloadend = function () {
+                        var base64String = reader.result.replace("data:", "").replace(/^.+,/, ''); // Convert image to Base64 string
 
-            //             // Send the form data along with the Base64 string via AJAX
-            //             $.ajax({
-            //                 type: "POST",
-            //                 url: '/Dashboard/AddNewInventory', // Update the URL to match your controller action
-            //                 data: {
-            //                     city: $('#city').val(),
-            //                     area: $('#Area').val(),
-            //                     location: $('#location').val(),
-            //                     width: $('#width').val(),
-            //                     height: $('#height').val(),
-            //                     rate: $('#rate').val(),
-            //                     vendoramt: $('#vendoramt').val(),
-            //                     vendorid: $('#vendorids').val(),
+                        // Send the form data along with the Base64 string via AJAX
+                        $.ajax({
+                            type: "POST",
+                            url: '/Dashboard/AddNewInventory', // Update the URL to match your controller action
+                            data: {
+                                city: $('#city').val(),
+                                area: $('#Area').val(),
+                                location: $('#location').val(),
+                                width: $('#width').val(),
+                                height: $('#height').val(),
+                                rate: $('#rate').val(),
+                                vendoramt: $('#vendoramt').val(),
+                                vendorid: $('#vendorids').val(),
 
-            //                     Image: base64String // Send the Base64 encoded image string
-            //                 },
-            //                 success: function (response) {
-            //                     console.log("Response: " + response);
-            //                     toastr.success('Customer added successfully.');
-            //                     document.getElementById('addCustomerModal').style.display = 'none';
-            //                     location.reload(); // Optionally reload the page
-            //                 },
-            //                 error: function (xhr, status, error) {
-            //                     toastr.error('An error occurred while adding the customer.');
-            //                 }
-            //             });
-            //         };
-            //         reader.readAsDataURL(imageFile); // Convert the image to Base64 string
-            //     } else {
+                                Image: base64String // Send the Base64 encoded image string
+                            },
+                            success: function (response) {
+                                console.log("Response: " + response);
+                                toastr.success('Customer added successfully.');
+                                document.getElementById('addCustomerModal').style.display = 'none';
+                                location.reload(); // Optionally reload the page
+                            },
+                            error: function (xhr, status, error) {
+                                toastr.error('An error occurred while adding the customer.');
+                            }
+                        });
+                    };
+                    reader.readAsDataURL(imageFile); // Convert the image to Base64 string
+                } else {
 
-            //         if (imageFile) {
-            //             toastr.error('Please select vendor name.');
-            //         }
-            //         else {
-            //             toastr.error('Please select an image file.');
-            //         }
+                    if (imageFile) {
+                        toastr.error('Please select vendor name.');
+                    }
+                    else {
+                        toastr.error('Please select an image file.');
+                    }
 
-            //     }
-            // });  mainfiltericon removemainfiltericon
+                }
+            });  mainfiltericon removemainfiltericon
 
             
             function mainfiltericon(){
