@@ -606,7 +606,7 @@ namespace Hoarding_managment.Repository
 
 
             var campaignItems = await _context.TblCampaingitems
-                .Where(c => c.FkInventoryId == FkId && c.IsDelete == 0 && c.ToDate >= DateTime.Today) // Ensure it's not marked as deleted and ToDate is in the future
+                .Where(c => c.FkInventoryId == id && c.IsDelete == 0 && c.ToDate >= DateTime.Today) // Ensure it's not marked as deleted and ToDate is in the future
                 .ToListAsync();
 
             // Check if the requested date range is outside all existing campaign date ranges

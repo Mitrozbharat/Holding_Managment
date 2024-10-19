@@ -228,18 +228,7 @@ namespace Hoarding_managment.Controllers
 
         public IActionResult GetCustomerinfoById(int id)
         {
-            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
-
-            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
-
-            ViewBag.sessionUserId = sessionUserId;
-            ViewBag.sessionUserName = sessionUserName;
-
-
-            if (sessionUserId == null)
-            {
-                return RedirectToAction("Index", "Auth");
-            }
+           
             var customer = _context.GetCustomerById(id); // Assuming _context is your database context
             if (customer == null)
             {
@@ -252,18 +241,7 @@ namespace Hoarding_managment.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCustomerinfo()
         {
-            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
-
-            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
-
-            ViewBag.sessionUserId = sessionUserId;
-            ViewBag.sessionUserName = sessionUserName;
-
-
-            if (sessionUserId == null)
-            {
-                return RedirectToAction("Index", "Auth");
-            }
+            
             var customer = await _context.GetCustomerinfo();
 
             if (customer != null)

@@ -240,7 +240,7 @@
                                                     <p><span class="bold-text">Vendor:</span> <span>@(!string.IsNullOrEmpty(i.VendorName) ? i.VendorName : "N/A")</span></p>
 
                                                     <div class="action-icons mt-3 d-flex justify-content-center">
-                                                    <img src="/images/cart.svg" alt="Add to Cart" class="start-icon" id="AddQuotationbtn"
+                                                    <img src="/images/cart.svg" alt="Add to Cart" class="start-icon" 
                                                              onclick="createItem('@i.Id', '@i.Image', '@i.Area', '@i.City', '@i.Width', '@i.Height', '@i.Rate', '@i.FkVendorId', '@i.BookingStatus')" />
 
                                                         <div class="end-icons">
@@ -1022,51 +1022,100 @@
             });
         }
 
-            function createItem(id, image, area, city, width,height, rate, fkVendorId)
-    {
-                if(fkVendorId != 0 && fkVendorId != null){
-        // Assign values to the form fields
-        $('#id').val(id);
-    $('#image').val(image);
-    $('#area').val(area);
-    $('#city').val(city);
-    $('#width').val(width);
-    $('#height').val(height);
-    $('#rate').val(rate);
-    $('#fk_VendorId').val(fkVendorId);
-    // $('#bookingStatus').val(bookingStatus);
+    //         function createItem(id, image, area, city, width,height, rate, fkVendorId)
+    // {
+    //             if(fkVendorId != 0 && fkVendorId != null){
+    //     // Assign values to the form fields
+    //     $('#id').val(id);
+    // $('#image').val(image);
+    // $('#area').val(area);
+    // $('#city').val(city);
+    // $('#width').val(width);
+    // $('#height').val(height);
+    // $('#rate').val(rate);
+    // $('#fk_VendorId').val(fkVendorId);
+    // // $('#bookingStatus').val(bookingStatus);
 
-    $.ajax({
-        type: "POST",
-    url: '/Dashboard/CreateInventoryItems', // Ensure the URL matches the action method
-    data: {
-        Id: id,
-    Image: image,
-    Area: area,
-    City: city,
-    Width: width,
-    Height: height,
-    Rate: rate,
-    FkVendorId: fkVendorId,
-                        },
-    success: function (response) {
-                            if (response.success) {
-        toastr.success(response.Message); // Display the success message from the response
-    location.reload(); // Optionally reload the page
-                            } else {
-        toastr.error(response.Message);
-    alert("Already Added!");// Display the error message from the response
-                            }
-                        },
-    error: function (xhr, status, error) {
-        toastr.error('An error occurred while adding the quotation.');
+    // $.ajax({
+    //     type: "POST",
+    // url: '/Dashboard/CreateInventoryItems', // Ensure the URL matches the action method
+    // data: {
+    //     Id: id,
+    // Image: image,
+    // Area: area,
+    // City: city,
+    // Width: width,
+    // Height: height,
+    // Rate: rate,
+    // FkVendorId: fkVendorId,
+    //                     },
+    // success: function (response) 
+    // {
+    //              if (response.success) {
+    //     toastr.success(response.Message); // Display the success message from the response
+    // location.reload(); // Optionally reload the page
+    //                         } 
+    //                         else {
+    //         toastr.error(response.Message);
+ 
+
+    //                        }
+    //                     },
+    // error: function (xhr, status, error) {
+    //     toastr.error('An error occurred while adding the quotation.');
+    //                     }
+    //                 });
+    //             }
+    // else{
+    //     toastr.error("This inventory does not have a vendor please add vendor");
+    //             }
+    //         }
+
+        function createItem(id, image, area, city, width, height, rate, fkVendorId) {
+            if (fkVendorId !== 0 && fkVendorId !== null) {
+                // Send AJAX request to add the inventory item
+                $.ajax({
+                    type: "POST",
+                    url: '/Dashboard/CreateInventoryItems',
+                    data: {
+                        Id: id,
+                        Image: image,
+                        Area: area,
+                        City: city,
+                        Width: width,
+                        Height: height,
+                        Rate: rate,
+                        FkVendorId: fkVendorId
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                          
+                            setTimeout(function () {
+                                 toastr.success(response.message);
+                            }, 2000);
+                           
+                            location.reload();
+                        } else {
+                            toastr.error(response.message);
                         }
-                    });
-                }
-    else{
-        toastr.error("This inventory does not have a vendor please add vendor");
-                }
+                    },
+                    error: function (xhr, status, error) {
+                        toastr.error('An error occurred while adding the inventory item.');
+                    }
+                });
+            } else {
+                toastr.error("This inventory does not have a vendor. Please add a vendor.");
             }
+        }
+
+
+
+
+
+
+
+
+
 
     const imageInput = document.getElementById('imageInput');
     const fileName = document.getElementById('fileName');

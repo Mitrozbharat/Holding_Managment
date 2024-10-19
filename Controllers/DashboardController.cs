@@ -198,29 +198,78 @@ namespace Hoarding_managment.Controllers
                 return Json(new { success = false, message = "Error: " + ex.Message });
             }
         }
-        
+
+        //[HttpPost]
+        //public async Task<IActionResult> CreateInventoryItems(int Id, string Image, string Area, string City, string width, string height, string Rate,int FkVendorId  )
+        //{
+        //    var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+        //    var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+        //    ViewBag.sessionUserId = sessionUserId;
+        //    ViewBag.sessionUserName = sessionUserName;
+
+
+        //    if (sessionUserId == null)
+        //    {
+        //        return RedirectToAction("Index", "Auth");
+        //    }
+        //    var existingItem = _dbContext.TblInventoryitems.FirstOrDefault(x => x.FkInventoryId == Id && x.IsDelete==0); // Use await to get the result
+
+        //    if (existingItem == null)
+        //    {
+        //        if (ModelState.IsValid)
+        //    {
+
+        //            var inventoryItem = new TblInventoryitem
+        //            {
+        //                FkInventoryId = Id,
+        //                Image = Image,
+        //                Area = Area,
+        //                City = City,
+        //                Width = width,
+        //                Height = height,
+        //                Rate = Rate,
+        //                BookingStatus = 0,
+        //                FkVendorId = FkVendorId,
+        //                IsDelete = 0,
+        //                Type = 0,
+        //                Fkcustomer = 1,
+        //                CreatedAt = DateTime.Now
+        //            };
+
+        //            _dbContext.TblInventoryitems.Add(inventoryItem);
+        //            _dbContext.SaveChanges();
+
+        //            return Json(new { success = true, Message = "Add Inventry successfully." });
+        //        }
+        //        else
+        //        {
+        //            return Json(new { success = false, Message = "Already Added" });
+
+        //        }
+
+        //    }
+        //    return Json(new { success = false, Message = "Creating error." });
+        //}
         [HttpPost]
-        public async Task<IActionResult> CreateInventoryItems(int Id, string Image, string Area, string City, string width, string height, string Rate,int FkVendorId  )
+        public async Task<IActionResult> CreateInventoryItems(int Id, string Image, string Area, string City, string width, string height, string Rate, int FkVendorId)
         {
             var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
-
             var sessionUserName = HttpContext.Session.GetString("SessionUsername");
-
-            ViewBag.sessionUserId = sessionUserId;
-            ViewBag.sessionUserName = sessionUserName;
-
 
             if (sessionUserId == null)
             {
                 return RedirectToAction("Index", "Auth");
             }
-            var existingItem = _dbContext.TblInventoryitems.FirstOrDefault(x => x.FkInventoryId == Id && x.IsDelete==0); // Use await to get the result
+
+            var existingItem = await _dbContext.TblInventoryitems
+                                               .FirstOrDefaultAsync(x => x.FkInventoryId == Id && x.IsDelete == 0);
 
             if (existingItem == null)
             {
                 if (ModelState.IsValid)
-            {
-
+                {
                     var inventoryItem = new TblInventoryitem
                     {
                         FkInventoryId = Id,
@@ -235,27 +284,21 @@ namespace Hoarding_managment.Controllers
                         IsDelete = 0,
                         Type = 0,
                         Fkcustomer = 1,
-                        CreatedAt = DateTime.Now
+                        CreatedAt = DateTime.Now,
                     };
 
                     _dbContext.TblInventoryitems.Add(inventoryItem);
-                    _dbContext.SaveChanges();
+                    await _dbContext.SaveChangesAsync();
 
-                    return Json(new { success = true, Message = "Create Quotation successfully." });
+                    return Json(new { success = true, Message = "Inventory added successfully." });
                 }
-                else
-                {
-                    return Json(new { success = false, Message = "Allready Added" });
-
-                }
-
-                //}
-                //else
-                //{
-                //    return Json(new { success = false, Message = "Please select another item." });
-                //}
             }
-            return Json(new { success = false, Message = "Creating error." });
+            else
+            {
+                return Json(new { success = false, Message = " already added." });
+            }
+
+            return Json(new { success = false, Message = "Error creating item." });
         }
 
         public JsonResult GetVendorName(string query)

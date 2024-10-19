@@ -28,7 +28,7 @@ namespace HoardingManagement
             // Add session services
             builder.Services.AddSession(options =>
             {
-                options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout
+                options.IdleTimeout = TimeSpan.FromDays(90); // Set session timeout
                 options.Cookie.HttpOnly = true; // Prevent client-side script from accessing the cookie
                 options.Cookie.IsEssential = true; // Make the session cookie essential
             });

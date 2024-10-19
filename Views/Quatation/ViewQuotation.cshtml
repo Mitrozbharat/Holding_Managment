@@ -36,7 +36,7 @@
                             <input type="hidden" class="hidden" quotationId="@Model.Id" value="@Model.Id" />
                             <p class="ml-2"><strong>Quotation Number :</strong> @Model.QuotationNumber</p>
                             <input type="hidden" qnumber="@Model.QuotationNumber" name="name" value="@Model.QuotationNumber" />
-                            <p class="ml-2"><strong>Date :</strong> @Model.CreatedAt?.ToString("yyyy-MM-dd")</p>
+                            <p class="ml-2"><strong>Date :</strong> @Model.CreatedAt?.ToString("dd/MMM/yyyy")</p>
                         </div>
                         <div class="col-md-3 totalamountclass" style="text-align:start">
                             <p ><strong>Quotation For :</strong> @Model.BusinessName</p>

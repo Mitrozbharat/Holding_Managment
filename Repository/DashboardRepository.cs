@@ -206,7 +206,7 @@ namespace Hoarding_managment.Repository
             }
 
                 lst = lst
-                       // Ordering by CreatedAt in descending order
+                      .OrderByDescending(x=>x.CreatedAt)
                       .Skip((pageNumber - 1) * pageSize)
                       .Take(pageSize)
                       .ToList();

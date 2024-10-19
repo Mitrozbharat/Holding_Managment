@@ -99,18 +99,19 @@
                             @foreach (var item in Model.QuatationViewModel)
                             {
                                     <tr class="text-center" id="row-@item.Id">
-                                      
-                                        <td>@item.QuotationNumber</td>
-                                        <td>@item.CreatedAt?.ToString("yyyy-MM-dd")</td>
-                                        <td>@item.BusinessName</td>
+
+                                    <td>
+                                        <a asp-action="ViewQuotation" asp-route-id="@item.Id"> @item.QuotationNumber</a>
+                                    </td>
+                                    <td>@item.CreatedAt?.ToString("dd/MMM/yyyy")</td>
+                                    <td>@item.BusinessName</td>
                                         <td>@item.Totalhoarding</td> <!-- Replace with actual total hoardings -->
                                         <td>
 
                                         <a class="btn btn-info p-2" onclick="fetchData3('@item.Id')">
-                                            <i class="mdi mdi-plus">  </i>
+                                            <i class="mdi mdi-plus" style=" color:aliceblue;">  </i>
                                         </a>
                                        
-
 
                                         </td>
                                         <td class="text-center">
