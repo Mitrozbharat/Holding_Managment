@@ -399,11 +399,11 @@ namespace Hoarding_managment.Repository
                     .Select(c => c.CustomerName)
                     .FirstOrDefault(),
                 BusinessName = _context.TblVendors
-                    .Where(v => v.Id == item.campaignItem.FkInventoryId)
+                    .Where(v => v.Id == _context.TblInventories.Where(f=>f.Id== item.campaignItem.FkInventoryId).Select(f=>f.FkVendorId).FirstOrDefault() )
                     .Select(v => v.BusinessName)
                     .FirstOrDefault(),
                 VendorName = _context.TblVendors
-                    .Where(v => v.Id == item.campaignItem.FkInventoryId)
+                    .Where(v => v.Id == _context.TblInventories.Where(f => f.Id == item.campaignItem.FkInventoryId).Select(f => f.FkVendorId).FirstOrDefault())
                     .Select(v => v.VendorName)
                     .FirstOrDefault(),
                 City = _context.TblInventories
