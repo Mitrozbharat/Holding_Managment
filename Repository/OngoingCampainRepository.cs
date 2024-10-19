@@ -469,29 +469,29 @@ namespace Hoarding_managment.Repository
                 IsDelete = item.campaign.IsDelete,
 
                 CustomerName = _context.TblCustomers
-                    .Where(c => c.Id == item.campaign.FkCustomerId)
-                    .Select(c => c.CustomerName)
-                    .FirstOrDefault(),
+                   .Where(c => c.Id == item.campaign.FkCustomerId)
+                   .Select(c => c.CustomerName)
+                   .FirstOrDefault(),
                 BusinessName = _context.TblVendors
-                    .Where(v => v.Id == item.campaignItem.FkInventoryId)
-                    .Select(v => v.BusinessName)
-                    .FirstOrDefault(),
+                   .Where(v => v.Id == _context.TblInventories.Where(f => f.Id == item.campaignItem.FkInventoryId).Select(f => f.FkVendorId).FirstOrDefault())
+                   .Select(v => v.BusinessName)
+                   .FirstOrDefault(),
                 VendorName = _context.TblVendors
-                    .Where(v => v.Id == item.campaignItem.FkInventoryId)
-                    .Select(v => v.VendorName)
-                    .FirstOrDefault(),
+                   .Where(v => v.Id == _context.TblInventories.Where(f => f.Id == item.campaignItem.FkInventoryId).Select(f => f.FkVendorId).FirstOrDefault())
+                   .Select(v => v.VendorName)
+                   .FirstOrDefault(),
                 City = _context.TblInventories
-                    .Where(v => v.Id == item.campaignItem.FkInventoryId)
-                    .Select(v => v.City)
-                    .FirstOrDefault(),
+                   .Where(v => v.Id == item.campaignItem.FkInventoryId)
+                   .Select(v => v.City)
+                   .FirstOrDefault(),
                 Location = _context.TblInventories
-                    .Where(v => v.Id == item.campaignItem.FkInventoryId)
-                    .Select(v => v.Location)
-                    .FirstOrDefault(),
+                   .Where(v => v.Id == item.campaignItem.FkInventoryId)
+                   .Select(v => v.Location)
+                   .FirstOrDefault(),
                 Image = _context.TblInventories
-                    .Where(v => v.Id == item.campaignItem.FkInventoryId)
-                    .Select(v => v.Image)
-                    .FirstOrDefault(),
+                   .Where(v => v.Id == item.campaignItem.FkInventoryId)
+                   .Select(v => v.Image)
+                   .FirstOrDefault(),
             }).ToList();
 
             return result;
