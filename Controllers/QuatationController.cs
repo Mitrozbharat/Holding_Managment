@@ -37,9 +37,7 @@ namespace Hoarding_managment.Controllers
 
             var sessionUserName = HttpContext.Session.GetString("SessionUsername");
 
-            ViewBag.sessionUserId = sessionUserId;
-            ViewBag.sessionUserName = sessionUserName;
-
+            
 
             if (sessionUserId == null || sessionUserId == 0)
             {
@@ -68,10 +66,8 @@ namespace Hoarding_managment.Controllers
 
             var sessionUserName = HttpContext.Session.GetString("SessionUsername");
 
-            ViewBag.sessionUserId = sessionUserId;
-            ViewBag.sessionUserName = sessionUserName;
-
-
+        
+          
             if (sessionUserId == null)
             {
                 return RedirectToAction("Index", "Auth");
@@ -167,8 +163,8 @@ namespace Hoarding_managment.Controllers
 
             var sessionUserName = HttpContext.Session.GetString("SessionUsername");
 
-            ViewBag.sessionUserId = sessionUserId;
-            ViewBag.sessionUserName = sessionUserName;
+        
+           
 
 
             if (sessionUserId == null)
@@ -193,8 +189,8 @@ namespace Hoarding_managment.Controllers
 
             var sessionUserName = HttpContext.Session.GetString("SessionUsername");
 
-            ViewBag.sessionUserId = sessionUserId;
-            ViewBag.sessionUserName = sessionUserName;
+        
+           
 
 
             if (sessionUserId == null)
@@ -269,8 +265,8 @@ namespace Hoarding_managment.Controllers
 
             var sessionUserName = HttpContext.Session.GetString("SessionUsername");
 
-            ViewBag.sessionUserId = sessionUserId;
-            ViewBag.sessionUserName = sessionUserName;
+        
+           
 
 
             if (sessionUserId == null)

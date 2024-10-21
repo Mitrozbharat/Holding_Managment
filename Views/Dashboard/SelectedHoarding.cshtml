@@ -803,7 +803,9 @@
                             toastr.error(response.message);
 
                             $('#saveCampaign').prop('disabled', true);
-                            $('#EndDate_' + id).val(response.model);
+
+                            $('#StartDate_' + id).val(response.model.todate);
+                            $('#EndDate_' + id).val('');
 
                         }
                     },

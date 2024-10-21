@@ -595,6 +595,37 @@ namespace Hoarding_managment.Repository
         }
 
 
+        //public async Task<TblCampaingitem> IsCampaignBooked(int id, DateTime requestedFromDate, DateTime requestedToDate)
+        //{
+
+
+        //    var FkId = await _context.TblInventoryitems
+        //        .Where(x => x.Id == id) // Replace 'id' with your actual Id value
+        //        .Select(x => x.FkInventoryId)
+        //        .FirstOrDefaultAsync(); // Execute the query and return the first matching result or null
+
+
+        //    var campaignItems = await _context.TblCampaingitems
+        //        .Where(c => c.FkInventoryId == id && c.IsDelete == 0 && c.ToDate >= DateTime.Today) // Ensure it's not marked as deleted and ToDate is in the future
+        //        .ToListAsync();
+
+        //    // Check if the requested date range is outside all existing campaign date ranges
+        //    foreach (var campaignItem in campaignItems)
+        //    {
+        //        // Check if the requested dates are outside the existing campaign's dates
+        //        bool isOutside = (requestedFromDate > campaignItem.ToDate) || (requestedToDate < campaignItem.FromDate);
+
+        //        // If requested dates are outside any campaign's date range, return false (no conflict)
+        //        if (!isOutside)
+        //        {
+        //            return campaignItem; // No overlap found
+        //        }
+        //    }
+
+        //    // No overlap found, return false
+        //    return null;
+        //}
+
         public async Task<TblCampaingitem> IsCampaignBooked(int id, DateTime requestedFromDate, DateTime requestedToDate)
         {
 
@@ -606,7 +637,7 @@ namespace Hoarding_managment.Repository
 
 
             var campaignItems = await _context.TblCampaingitems
-                .Where(c => c.FkInventoryId == id && c.IsDelete == 0 && c.ToDate >= DateTime.Today) // Ensure it's not marked as deleted and ToDate is in the future
+                .Where(c => c.FkInventoryId == FkId && c.IsDelete == 0 && c.ToDate >= DateTime.Today) // Ensure it's not marked as deleted and ToDate is in the future
                 .ToListAsync();
 
             // Check if the requested date range is outside all existing campaign date ranges
@@ -615,7 +646,6 @@ namespace Hoarding_managment.Repository
                 // Check if the requested dates are outside the existing campaign's dates
                 bool isOutside = (requestedFromDate > campaignItem.ToDate) || (requestedToDate < campaignItem.FromDate);
 
-                // If requested dates are outside any campaign's date range, return false (no conflict)
                 if (!isOutside)
                 {
                     return campaignItem; // No overlap found
