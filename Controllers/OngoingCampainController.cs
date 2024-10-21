@@ -426,7 +426,7 @@ namespace Hoarding_managment.Controllers
             return Json(new
             {
                 success = false,
-                message = $" select valid Dates .Already ongoing campaign. {existingCampaign.FromDate:dd/MM/yyyy}   To {existingCampaign.ToDate:dd/MM/yyyy} .",
+                message = $"Select valid Dates .Already ongoing campaign {existingCampaign.FromDate:dd/MM/yyyy} To {existingCampaign.ToDate:dd/MM/yyyy}.",
                 model = existingCampaign.ToDate
             });
         }
