@@ -396,21 +396,18 @@ namespace Hoarding_managment.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> ValidateDatesCampaign(int id, DateTime requestedFromDate, DateTime requestedToDate)
+        public async Task<IActionResult> ValidateDatesCampaign(int id, DateTime requestedFromDate, DateTime requestedToDate, int status)
         {
             var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
 
             var sessionUserName = HttpContext.Session.GetString("SessionUsername");
 
-            ViewBag.sessionUserId = sessionUserId;
-            ViewBag.sessionUserName = sessionUserName;
-
-
+           
             if (sessionUserId == null)
             {
                 return RedirectToAction("Index", "Auth");
             }
-            var existingCampaign = await _context.IsCampaignBooked(id, requestedFromDate, requestedToDate);
+            var existingCampaign = await _context.IsCampaignBooked(id, requestedFromDate, requestedToDate, status);
 
             if (existingCampaign== null)
             {

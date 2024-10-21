@@ -240,8 +240,10 @@
     <input type="text" id="sendId" value="0" style="display:none;" />
 
     <a id="hiddenRedirectLink" href="/SelectedHoarding" style="display:none;"></a>
+
     <input type="text" id="selecteId" style="display:none;" />
 
+   
 
 
     <script>
@@ -358,8 +360,6 @@
                                 document.getElementById('add-campaign').checked = true;
                                // $('#create-quotation').closest('.col-6').find('input').prop('disabled', true);
                                 $('#labelqute').css('display', 'none');
-
-                                
                             }
 
 
@@ -776,6 +776,9 @@
 
                 const startDateInput = document.getElementById(`StartDate_${id}`);
                 const endDateInput = document.getElementById(`EndDate_${id}`);
+                let status = $('#sendId').val();
+
+
 
                 // Validate that both start and end dates are provided
                 if (!startDateInput.value || !endDateInput.value) {
@@ -789,7 +792,8 @@
                     data: {
                         id: id,
                         requestedFromDate: startDateInput.value,
-                        requestedToDate: endDateInput.value
+                        requestedToDate: endDateInput.value,
+                        status:status
                     },
                     success: function (response) {
                         if (response.success) {
@@ -804,8 +808,12 @@
 
                             $('#saveCampaign').prop('disabled', true);
 
-                            $('#StartDate_' + id).val(response.model.todate);
-                            $('#EndDate_' + id).val('');
+                              let toDate = new Date(response.model.toDate);
+                                   
+                              
+                              $(`#StartDate_${id}`).val(toDate);
+
+                            $('.StartDate_' + id).val(toDate);
 
                         }
                     },
@@ -814,8 +822,9 @@
                     }
                 });
 
-              $('#EndDate_${id}').val(0);
-            });
+          });
+
+
          }
 
        

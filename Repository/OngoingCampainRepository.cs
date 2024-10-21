@@ -626,35 +626,46 @@ namespace Hoarding_managment.Repository
         //    return null;
         //}
 
-        public async Task<TblCampaingitem> IsCampaignBooked(int id, DateTime requestedFromDate, DateTime requestedToDate)
+        public async Task<TblCampaingitem> IsCampaignBooked(int id, DateTime requestedFromDate, DateTime requestedToDate, int status)
         {
+            int? FkId = null;
 
+            if (status == 0)
+            {
+                FkId = await _context.TblInventoryitems
+                    .Where(x => x.Id == id)
+                    .Select(x => x.FkInventoryId)
+                    .FirstOrDefaultAsync();
+            }
+            else if (status == 1)
+            {
+                FkId = await _context.TblQuotationitems
+                    .Where(x => x.Id == id)
+                    .Select(x => x.FkInventory)
+                    .FirstOrDefaultAsync();
+            }
 
-            var FkId = await _context.TblInventoryitems
-                .Where(x => x.Id == id) // Replace 'id' with your actual Id value
-                .Select(x => x.FkInventoryId)
-                .FirstOrDefaultAsync(); // Execute the query and return the first matching result or null
-
+            // Return null if no FkId was found
+            if (FkId == null) return null;
 
             var campaignItems = await _context.TblCampaingitems
-                .Where(c => c.FkInventoryId == FkId && c.IsDelete == 0 && c.ToDate >= DateTime.Today) // Ensure it's not marked as deleted and ToDate is in the future
+                .Where(c => c.FkInventoryId == FkId && c.IsDelete == 0 && c.ToDate >= DateTime.Today)
                 .ToListAsync();
 
-            // Check if the requested date range is outside all existing campaign date ranges
             foreach (var campaignItem in campaignItems)
             {
-                // Check if the requested dates are outside the existing campaign's dates
+                // Check if the requested dates overlap with any existing campaign dates
                 bool isOutside = (requestedFromDate > campaignItem.ToDate) || (requestedToDate < campaignItem.FromDate);
 
                 if (!isOutside)
                 {
-                    return campaignItem; // No overlap found
+                    return campaignItem; // Overlap found, return the campaign item
                 }
             }
 
-            // No overlap found, return false
-            return null;
+            return null; // No overlap found
         }
+
 
 
     }
