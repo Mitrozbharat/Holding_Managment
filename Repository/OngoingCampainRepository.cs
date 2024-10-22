@@ -51,7 +51,7 @@ namespace Hoarding_managment.Repository
             {
               
                 var campaignToDelete = await _context.TblCampaingitems
-               .FirstOrDefaultAsync(x => x.Id == model.Id && x.FkInventoryId == model.fk_id && x.IsDelete == 0);
+               .FirstOrDefaultAsync(x => x.FkCampaignId == model.Id && x.FkInventoryId == model.fk_id && x.IsDelete == 0);
 
                 if (campaignToDelete != null)
                 {
