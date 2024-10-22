@@ -50,8 +50,7 @@ namespace Hoarding_managment.Repository
             try
             {
                         var campaignToUpdate = await _context.TblCampaingitems
-              .Where(x => x.FkInventoryId == model.fk_id && x.IsDelete == 0)
-              .OrderBy(x => x.FkCampaignId)
+              .Where(x => x.FkCampaignId == model.Id && x.FkInventoryId == model.fk_id && x.IsDelete == 0)
               .FirstOrDefaultAsync();
 
                 if (campaignToUpdate != null)
