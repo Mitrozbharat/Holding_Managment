@@ -6,5 +6,7 @@
         public string? BookingAmt { get; set; }
         public DateTime? FromDate { get; set; }
         public DateTime? ToDate { get; set; }
+
+        public int fk_id { get; set; }
     }
 }

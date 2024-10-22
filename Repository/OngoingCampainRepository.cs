@@ -1,4 +1,5 @@
 ﻿
+using DocumentFormat.OpenXml.Office2010.Excel;
 using Hoarding_management.Data;
 
 namespace Hoarding_managment.Repository
@@ -48,12 +49,15 @@ namespace Hoarding_managment.Repository
         {
             try
             {
-                var campaigndetails =await _context.TblCampaigns.FirstOrDefaultAsync(x => x.Id == model.Id);
-                if(campaigndetails != null)
+              
+                var campaignToDelete = await _context.TblCampaingitems
+               .FirstOrDefaultAsync(x => x.Id == model.Id && x.FkInventoryId == model.fk_id && x.IsDelete == 0);
+
+                if (campaignToDelete != null)
                 {
-                    campaigndetails.FromDate = model.FromDate;
-                    campaigndetails.ToDate = model.ToDate;
-                    campaigndetails.BookingAmt = model.BookingAmt;
+                    campaignToDelete.FromDate = model.FromDate;
+                    campaignToDelete.ToDate = model.ToDate;
+                    campaignToDelete.BookingAmt = model.BookingAmt;
                     _context.TblCampaigns.UpdateRange();
                   await  _context.SaveChangesAsync();
 
@@ -74,17 +78,17 @@ namespace Hoarding_managment.Repository
         {
             return await _context.TblCampaingitems.FirstOrDefaultAsync(x => x.Id == id && x.IsDelete == 0);
         }
-        public async Task<int> DeleteCampaignAsync(int id)
+        public async Task<int> DeleteCampaignAsync(int id,int fk_id)
         {
             // Find the campaign that is not marked as deleted
             var campaignToDelete = await _context.TblCampaingitems
-                .FirstOrDefaultAsync(x => x.Id == id && x.IsDelete == 0);
+                .FirstOrDefaultAsync(x => x.FkCampaignId == id && x.FkInventoryId == fk_id && x.IsDelete == 0);
 
             // Return 0 if the campaign does not exist or is already marked as deleted
             if (campaignToDelete == null)
             {
                 return 0;
-            }
+            }       
 
              campaignToDelete.IsDelete = 1;
             _context.TblCampaingitems.Update(campaignToDelete);
@@ -92,6 +96,19 @@ namespace Hoarding_managment.Repository
 
             return 1;
         }
+
+        public Task<int> GetCampaingndelByIdAsync(int id)
+        {
+            var findthecampaign = _context.TblCampaignnews.Where(x => x.Id == id && x.IsDelete == 0).Select(x=>x.Id).FirstOrDefaultAsync();
+
+            if(findthecampaign == null)
+            {
+                return null;
+            }
+
+            return findthecampaign;
+        }
+
 
         public async Task<int> GetOngoingCampaignCountAsync()
         {
@@ -393,7 +410,7 @@ namespace Hoarding_managment.Repository
                 UpdatedBy = item.campaign.UpdatedBy,
                 CreatedAt = item.campaign.CreatedAt,
                 IsDelete = item.campaign.IsDelete,
-
+                FkInventoryId= item.campaignItem.FkInventoryId,
                 CustomerName = _context.TblCustomers
                     .Where(c => c.Id == item.campaign.FkCustomerId)
                     .Select(c => c.CustomerName)

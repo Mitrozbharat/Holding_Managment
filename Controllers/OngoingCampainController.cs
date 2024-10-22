@@ -128,7 +128,7 @@ namespace Hoarding_managment.Controllers
 
 
         [HttpDelete]
-        public async Task<IActionResult> DeleteCampaign(int id)
+        public async Task<IActionResult> DeleteCampaign(int id,int fk_id)
         {
             var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
 
@@ -142,10 +142,10 @@ namespace Hoarding_managment.Controllers
             {
                 return RedirectToAction("Index", "Auth");
             }
-            var Campaign = await _context.GetCampaingnByIdAsync(id);
+            var Campaign = await _context.GetCampaingndelByIdAsync(id);
             if (Campaign != null)
             {
-                var deleteCampaign = await _context.DeleteCampaignAsync(id);
+                var deleteCampaign = await _context.DeleteCampaignAsync(Campaign,fk_id);
 
 
                 return Json(new

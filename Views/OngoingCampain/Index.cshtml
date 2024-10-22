@@ -111,11 +111,11 @@
 
                                     <td class="text-center">
                                         <button type="button" class="btn btn-primary p-2"
-                                                onclick="openEditcampModal('@item.Id', '@item.FromDate?.ToString("yyyy-MM-dd")', '@item.ToDate?.ToString("yyyy-MM-dd")', '@item.BookingAmt')">
+                                                onclick="openEditcampModal('@item.Id', '@item.FromDate?.ToString("yyyy-MM-dd")', '@item.ToDate?.ToString("yyyy-MM-dd")', '@item.BookingAmt','@item.FkInventoryId')">
                                             <i class="mdi mdi-table-edit"></i>
                                         </button>
                                         |
-                                        <button type="button" class="btn btn-danger p-2" data-toggle="modal" data-target="#deleteModal" onclick="deleteModel('@item.Id')">
+                                        <button type="button" class="btn btn-danger p-2" data-toggle="modal" data-target="#deleteModal" onclick="deleteModel('@item.Id','@item.FkInventoryId')">
                                             <i class="mdi mdi-delete"></i>
                                         </button>
                                     </td>
@@ -234,8 +234,7 @@
     </div>
 </div>
 
-
-
+<input type="text" id="fk_id" style="display:none";/>
 
 
     <script>
@@ -332,13 +331,15 @@
         }
    
 
-        function openEditcampModal(id, fromDate, toDate, budget) {
+        function openEditcampModal(id, fromDate, toDate, budget,fk_id) {
             // Check if valid dates and budget
             if (fromDate && toDate && budget) {
                 $('#editId').val(id);
                 $('#editfromdate').val(fromDate);
                 $('#edittodate').val(toDate);
                 $('#budget').val(budget);
+                $('#fk_id').val(fk_id);
+
                 $('#editCampaignModal').modal('show');
             } else {
                 toastr.error('Invalid data provided for editing.');
@@ -348,17 +349,17 @@
        
 
         $('#saveEditcampain').on('click', function(e) {
-            e.preventDefault(); // Prevent form submission
-
+            
             var id = $('#editId').val();
             var fromDate = $('#editfromdate').val();
             var toDate = $('#edittodate').val();
             var bookingAmt = $('#budget').val();
+            var fk_id = $('#fk_id').val();
 
             $.ajax({
                 url: '/OngoingCampain/UpdateCampaign',
                 type: 'POST',
-                data: { Id: id, FromDate: fromDate, ToDate: toDate, BookingAmt: bookingAmt },
+                data: { Id: id, FromDate: fromDate, ToDate: toDate, BookingAmt: bookingAmt, fk_id: fk_id },
                 success: function (response) {
 
                     setTimeout(function () {
@@ -375,16 +376,24 @@
             });
         });
 
-    function deleteModel(id) {
+    function deleteModel(id,fk_id) {
            $('#editId').val(id);
+            $('#fk_id').val(fk_id);
+
+           
     }
 
         $('#DeleteBtn').on('click', function () {
             var id = $('#editId').val();
+            var fk_id = $('#fk_id').val();
+
+            console.log(id);
+            console.log(fk_id);
+
             $.ajax({
                 url: '/OngoingCampain/DeleteCampaign',
                 type: 'DELETE',
-                data: { id: id },
+                data: { id: id, fk_id },
                 success: function (response) {
                     toastr.success('Campaign deleted successfully.');
                     $('#deleteModal').modal('hide');
