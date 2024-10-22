@@ -45,34 +45,33 @@ namespace Hoarding_managment.Repository
             return campaigns;
         }
 
-        public async Task<CampaigneditViewModel> UpdateCampaignAsync(CampaigneditViewModel model)  
+        public async Task<CampaigneditViewModel> UpdateCampaignAsync(CampaigneditViewModel model)
         {
             try
             {
-              
-                var campaignToDelete = await _context.TblCampaingitems
-               .FirstOrDefaultAsync(x => x.FkCampaignId == model.Id && x.FkInventoryId == model.fk_id && x.IsDelete == 0);
+                        var campaignToUpdate = await _context.TblCampaingitems
+              .Where(x => x.FkInventoryId == model.fk_id && x.IsDelete == 0)
+              .OrderBy(x => x.FkCampaignId)
+              .FirstOrDefaultAsync();
 
-                if (campaignToDelete != null)
+                if (campaignToUpdate != null)
                 {
-                    campaignToDelete.FromDate = model.FromDate;
-                    campaignToDelete.ToDate = model.ToDate;
-                    campaignToDelete.BookingAmt = model.BookingAmt;
-                    _context.TblCampaigns.UpdateRange();
-                  await  _context.SaveChangesAsync();
+                    campaignToUpdate.FromDate = model.FromDate;
+                    campaignToUpdate.ToDate = model.ToDate;
+                    campaignToUpdate.BookingAmt = model.BookingAmt;
 
+                    _context.TblCampaingitems.Update(campaignToUpdate);
+                    await _context.SaveChangesAsync();  // Awaiting the async save operation
                 }
-
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
 
-        
-
             return model;
         }
+
 
         public async Task<TblCampaingitem> GetCampaingnByIdAsync(int id)
         {

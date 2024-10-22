@@ -361,14 +361,8 @@
                 type: 'POST',
                 data: { Id: id, FromDate: fromDate, ToDate: toDate, BookingAmt: bookingAmt, fk_id: fk_id },
                 success: function (response) {
-
-                    setTimeout(function () {
-                        $('#editCampaignModal').modal('hide');
-                        toastr.success('Campaign updated successfully.');
-                       
-                    }, 1000);
-                    location.reload();
-                   // Reload to update the table
+                       toastr.success('Campaign updated successfully.');
+                       location.reload();
                 },
                 error: function (xhr, status, error) {
                     toastr.error('Error updating campaign.');
