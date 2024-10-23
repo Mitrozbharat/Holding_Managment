@@ -302,7 +302,7 @@
                     if (response.message == "Customer Add Successfully. ") {
                         toastr.success('Customer added successfully.');
                         $('#addCustomerModal').modal('hide'); // Hide the modal
-                        location.reload(); // Optionally reload the page
+                       
                     }
                     else {
                         toastr.error('An error occurred while adding the inventory.');
@@ -733,59 +733,147 @@
 
         }
 
-        function validateDates(id) {
-            const startDateInput = document.getElementById(`StartDate_${id}`);
-            const endDateInput = document.getElementById(`EndDate_${id}`);
+        // function validateDates(id) {
+        //     const startDateInput = document.getElementById(`StartDate_${id}`);
+        //     const endDateInput = document.getElementById(`EndDate_${id}`);
 
-            const startDate = new Date(startDateInput.value);
-            const endDate = new Date(endDateInput.value);
-            const today = new Date();
+        //     const startDate = new Date(startDateInput.value);
+        //     const endDate = new Date(endDateInput.value);
+        //     const today = new Date();
 
-            var newid = $("#idforalldatechange").val();
+        //     var newid = $("#idforalldatechange").val();
 
-            var newidsaary = [];
-            var idString = $("#idforalldatechange").val();
+        //     var newidsaary = [];
+        //     var idString = $("#idforalldatechange").val();
 
-            newidsaary = idString.split(',');
+        //     newidsaary = idString.split(',');
 
-            if (newid == id) {
-                $.each(newidsaary, function (index, item) {
-                    // console.log("ID at index " + index + ": " + item.id);
-                    // Perform any other actions with item.id
-                    document.getElementById(`StartDate_${item}`).value = startDateInput.value;
-                    document.getElementById(`EndDate_${item}`).value = endDateInput.value;
-                });
+        //     if (newid == id) {
+        //         $.each(newidsaary, function (index, item) {
+        //             // console.log("ID at index " + index + ": " + item.id);
+        //             // Perform any other actions with item.id
+        //             document.getElementById(`StartDate_${item}`).value = startDateInput.value;
+        //             document.getElementById(`EndDate_${item}`).value = endDateInput.value;
+        //         });
 
-            }
+        //     }
 
-            // Check if start date is before today
-            if (startDate < today.setHours(0, 0, 0, 0)) {  // Compare with today's date at 00:00
-                alert("Start date cannot be in the past.");
-                startDateInput.value = today.toISOString().split('T')[ 0 ]; // Reset to today's date
-            }
+        //     // Check if start date is before today
+        //     if (startDate < today.setHours(0, 0, 0, 0)) {  // Compare with today's date at 00:00
+        //         alert("Start date cannot be in the past.");
+        //         startDateInput.value = today.toISOString().split('T')[ 0 ]; // Reset to today's date
+        //     }
 
-            // Check if end date is less than start date
-            if (endDate < startDate) {
-                alert("End date cannot be less than the start date.");
-                endDateInput.value = startDateInput.value; // Reset to start date
-            }
+        //     // Check if end date is less than start date
+        //     if (endDate < startDate) {
+        //         alert("End date cannot be less than the start date.");
+        //         endDateInput.value = startDateInput.value; // Reset to start date
+        //     }
 
 
           
-          $(document).on('change', `#EndDate_${id}`, function () {
+        //   $(document).on('change', `#EndDate_${id}`, function () {
 
+        //         const startDateInput = document.getElementById(`StartDate_${id}`);
+        //         const endDateInput = document.getElementById(`EndDate_${id}`);
+        //         let status = $('#sendId').val();
+
+
+
+        //         // Validate that both start and end dates are provided
+        //         if (!startDateInput.value || !endDateInput.value) {
+        //             toastr.error('Please select both start and end dates.');
+        //             return; // Exit if validation fails
+        //         }
+
+        //         $.ajax({
+        //             url: '/OngoingCampain/ValidateDatesCampaign',
+        //             type: 'POST',
+        //             data: {
+        //                 id: id,
+        //                 requestedFromDate: startDateInput.value,
+        //                 requestedToDate: endDateInput.value,
+        //                 status:status
+        //             },
+        //             success: function (response) {
+        //                 if (response.success) {
+        //                     setTimeout(function () {
+        //                         toastr.success(response.message);
+
+        //                     }, 1000);
+        //                     $('#saveCampaign').prop('disabled', false);
+
+        //                 } else {
+        //                     toastr.error(response.message);
+
+        //                     $('#saveCampaign').prop('disabled', true);
+
+        //                       let toDate = new Date(response.model.toDate);
+                                   
+                              
+        //                       $(`#StartDate_${id}`).val(toDate);
+
+        //                     $('.StartDate_' + id).val(toDate);
+
+        //                 }
+        //             },
+        //             error: function (xhr, status, error) {
+        //                 toastr.error('Data not found.');
+        //             }
+        //         });
+
+        //   });
+
+
+        //  }
+
+        function validateDates(id) {
+            const startDateInput = document.getElementById(`StartDate_${id}`);
+            const endDateInput = document.getElementById(`EndDate_${id}`);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); // Set time to 00:00 for comparison
+
+            // Convert input values to Date objects
+            const startDate = new Date(startDateInput.value);
+            const endDate = new Date(endDateInput.value);
+
+            // Synchronize start and end dates if needed
+            var newId = $("#idforalldatechange").val();
+            if (newId == id) {
+                var idsArray = $("#idforalldatechange").val().split(',');
+                $.each(idsArray, function (index, item) {
+                    document.getElementById(`StartDate_${item}`).value = startDateInput.value;
+                    document.getElementById(`EndDate_${item}`).value = endDateInput.value;
+                });
+            }
+
+            // Validate: Start date should not be in the past
+            if (startDate < today) {
+                alert("Start date cannot be in the past.");
+                startDateInput.value = today.toISOString().split('T')[ 0 ]; // Reset to today's date
+                return; // Stop further validation if this check fails
+            }
+
+            // Validate: End date should not be before start date
+            if (endDate < startDate) {
+                alert("End date cannot be earlier than the start date.");
+                endDateInput.value = startDateInput.value; // Reset to start date
+                return; // Stop further validation if this check fails
+            }
+
+            // End date change event handler
+            $(document).on('change', `#EndDate_${id}`, function () {
                 const startDateInput = document.getElementById(`StartDate_${id}`);
                 const endDateInput = document.getElementById(`EndDate_${id}`);
                 let status = $('#sendId').val();
 
-
-
-                // Validate that both start and end dates are provided
+                // Ensure both dates are provided before proceeding
                 if (!startDateInput.value || !endDateInput.value) {
                     toastr.error('Please select both start and end dates.');
-                    return; // Exit if validation fails
+                    return;
                 }
 
+                // Send AJAX request to validate dates on the server
                 $.ajax({
                     url: '/OngoingCampain/ValidateDatesCampaign',
                     type: 'POST',
@@ -793,41 +881,27 @@
                         id: id,
                         requestedFromDate: startDateInput.value,
                         requestedToDate: endDateInput.value,
-                        status:status
+                        status: status
                     },
                     success: function (response) {
                         if (response.success) {
-                            setTimeout(function () {
-                                toastr.success(response.message);
-
-                            }, 1000);
+                            toastr.success(response.message);
                             $('#saveCampaign').prop('disabled', false);
-
                         } else {
                             toastr.error(response.message);
-
                             $('#saveCampaign').prop('disabled', true);
-
-                              let toDate = new Date(response.model.toDate);
-                                   
-                              
-                              $(`#StartDate_${id}`).val(toDate);
-
-                            $('.StartDate_' + id).val(toDate);
-
+                            // Reset start date to the server-provided toDate
+                            let toDate = new Date(response.model.toDate);
+                            $(`#StartDate_${id}`).val(toDate.toISOString().split('T')[ 0 ]);
                         }
                     },
-                    error: function (xhr, status, error) {
+                    error: function () {
                         toastr.error('Data not found.');
                     }
                 });
+            });
+        }
 
-          });
-
-
-         }
-
-       
 
 
 
