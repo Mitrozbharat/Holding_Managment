@@ -45,36 +45,48 @@ namespace Hoarding_managment.Repository
             return campaigns;
         }
 
-        public async Task<CampaigneditViewModel> UpdateCampaignAsync(CampaigneditViewModel model)
+
+        public async Task<int> UpdateCampaignAsync(CampaigneditViewModel model)
         {
             try
             {
-                        var campaignToUpdate = await _context.TblCampaingitems
-              .Where(x => x.FkCampaignId == model.Id && x.FkInventoryId == model.fk_id && x.IsDelete == 0)
-              .FirstOrDefaultAsync();
+                // Retrieve all campaigns to update with the same FkCampaignId
+                var campaignsToUpdate = await _context.TblCampaingitems
+                    .Where(x => x.FkCampaignId == model.Id && x.FkInventoryId == model.fk_id && x.IsDelete == 0)
+                    .ToListAsync();
 
-                if (campaignToUpdate != null)
+                if (campaignsToUpdate.Any())
                 {
-                    campaignToUpdate.FromDate = model.FromDate;
-                    campaignToUpdate.ToDate = model.ToDate;
-                    campaignToUpdate.BookingAmt = model.BookingAmt;
+                    // Loop through each campaign and update the properties
+                    foreach (var campaign in campaignsToUpdate)
+                    {
+                        campaign.FromDate = model.FromDate;
+                        campaign.ToDate = model.ToDate;
+                        campaign.BookingAmt = model.BookingAmt;
+                    }
 
-                    _context.TblCampaingitems.Update(campaignToUpdate);
-                    await _context.SaveChangesAsync();  // Awaiting the async save operation
+                    // Update all campaigns in bulk
+                    _context.TblCampaingitems.UpdateRange(campaignsToUpdate);
+                    await _context.SaveChangesAsync();
+
+                    return 1;
                 }
             }
             catch (Exception ex)
             {
+                // Log the exception message
                 Console.WriteLine(ex.Message);
+                // Consider logging the error properly using a logging framework
             }
 
-            return model;
+            return 0;
+
         }
 
 
         public async Task<TblCampaingitem> GetCampaingnByIdAsync(int id)
         {
-            return await _context.TblCampaingitems.FirstOrDefaultAsync(x => x.Id == id && x.IsDelete == 0);
+            return await _context.TblCampaingitems.FirstOrDefaultAsync(x => x.FkCampaignId == id && x.IsDelete == 0);
         }
         public async Task<int> DeleteCampaignAsync(int id,int fk_id)
         {

@@ -167,38 +167,43 @@ namespace Hoarding_managment.Controllers
         }
 
 
-        [ HttpPost]
+        [HttpPost]
         public async Task<IActionResult> UpdateCampaign(CampaigneditViewModel model)
         {
             var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
-
             var sessionUserName = HttpContext.Session.GetString("SessionUsername");
-
 
             if (sessionUserId == null)
             {
                 return RedirectToAction("Index", "Auth");
             }
+
             if (model == null)
             {
-                return Json(new { success = false, Meassage = "Invalid data" });
+                return Json(new { success = false, Message = "Invalid data" });
             }
 
-            var Campaign = _context.GetCampaingnByIdAsync(model.Id);
-            if (Campaign == null)
+            var campaign = await _context.GetCampaingnByIdAsync(model.Id);
+            if (campaign == null)
             {
-                return Json(new { success = false, Meassage = "Campaign not found" });
+                return Json(new { success = false, Message = "Campaign not found" });
             }
 
+           int i=  await _context.UpdateCampaignAsync(model);
+            if(i >= 1)
+            {
+                return Json(new { success = true, Message = "Updated successfully" });
 
-            await _context.UpdateCampaignAsync(model);
+            }
 
-            return Json(new { success = true, Meassage = "Updated successfully" });
+            return Json(new { success = false, Message = "something wants to Wrong" });
+
+
         }
 
 
 
-      
+
         [HttpGet]
         public async Task<IActionResult> getallCampaignCount()
         {

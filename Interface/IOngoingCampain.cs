@@ -5,7 +5,7 @@ namespace Hoarding_managment.Interface
     public interface IOngoingCampain
     {
         public Task<List<CampaignViewModel>> GetallOngoingCampaignAsync(int pageNumber, int pageSize);
-        public Task<CampaigneditViewModel> UpdateCampaignAsync(CampaigneditViewModel model);
+        public Task<int> UpdateCampaignAsync(CampaigneditViewModel model);
         public Task<TblCampaingitem> GetCampaingnByIdAsync(int id);
         public Task<int> GetCampaingndelByIdAsync(int id);
 

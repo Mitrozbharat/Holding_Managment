@@ -71,7 +71,6 @@ function openEditcampModal(id, fromDate, toDate, budget, fk_id) {
 }
 
 $('#saveEditcampain').on('click', function () {
-
     var id = $('#editId').val();
     var fromDate = $('#editfromdate').val();
     var toDate = $('#edittodate').val();
@@ -91,6 +90,7 @@ $('#saveEditcampain').on('click', function () {
         }
     });
 });
+
 
 function deleteModel(id, fk_id) {
     $('#editId').val(id);
