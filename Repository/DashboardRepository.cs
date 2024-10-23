@@ -213,7 +213,7 @@ namespace Hoarding_managment.Repository
 
             foreach (var item in lst)
             {
-                var campaignscheck = _context.TblCampaigns
+                var campaignscheck = _context.TblCampaingitems
                     .Where(x => x.FkInventoryId == item.Id
                                 && x.IsDelete == 0
                                 && x.ToDate >= DateTime.Today)
