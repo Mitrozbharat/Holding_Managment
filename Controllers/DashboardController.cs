@@ -335,6 +335,29 @@ namespace Hoarding_managment.Controllers
 
 
 
+        public JsonResult GetCityFilterName(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                return Json(new List<object>());
+            }
+
+            var subproduct = _autocompleteService.GetCityFilterName(query);
+            if (subproduct == null)
+            {
+                return Json(new List<object>());
+            }
+
+            var result = subproduct
+                .Where(f => f.City.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0)
+                .Select(s => new { Name = s.City, Id = s.Id })
+                .ToList();
+
+            return Json(result);
+        }
+
+
+
         [HttpPost]
         public async Task<IActionResult> UpdateInventoryItems(int id, string city, string area, string width, string height, string rate, string VendorName,int vendorid,string Image,string location,string vendoramt,int st)
         {

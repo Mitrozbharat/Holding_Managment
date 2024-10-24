@@ -1,4 +1,6 @@
 ﻿
+using DocumentFormat.OpenXml.Bibliography;
+
 namespace Hoarding_managment
 {
     public class AutocompleteService
@@ -25,5 +27,12 @@ namespace Hoarding_managment
         {
             return _context.TblCustomers.Where(s => s.BusinessName.Contains(businessname) && s.IsDelete == 0).ToList();
         }
+
+
+        public IEnumerable<TblInventory> GetCityFilterName(string cityName)
+        {
+            return _context.TblInventories.Where(s => s.City.Contains(cityName) && s.IsDelete == 0).ToList();
+        }
+
     }
 }
