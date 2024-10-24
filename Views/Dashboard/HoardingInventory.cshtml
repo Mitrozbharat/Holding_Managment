@@ -5,7 +5,29 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <link href="~/css/hoardinginvenorty.css" rel="stylesheet" />
 <link href="~/css/circle.css" rel="stylesheet" />
+<style>
+  
+    .bg-color{
+        color: red;
+        height:10px;
+    }
 
+    .m-top {
+        margin-top: -10px;
+    }
+
+    .custom-list-style {
+        background-color: rgba(0, 0, 0, 0.1); /* Light black background */
+        margin-bottom: 2px; /* Space between items */
+        padding: 10px; /* Padding for better appearance */
+        border-radius: 4px; /* Rounded corners for aesthetics */
+        position: relative; /* For z-index to work */
+        display: inline-block; /* Allow items to shrink to fit their content */
+        box-sizing: border-box;
+    }
+
+
+</style>
 <body>
    <div class="container-fluid my-2">
 
@@ -59,8 +81,21 @@
                         <!-- Grouping related inputs together and adding labels for accessibility -->
                         <div class="form-row">
                             <div class="form-group col-6">
-                                <label for="cityInput"><strong>City  :</strong></label>
-                                <input type="text" id="cityFilter" class="form-control text-black" value="@Model.City" style="border: 1px solid #151414 !important;" placeholder="Enter City" />
+                                <label for="cityInput"><strong>City:</strong></label>
+                                <input type="text" id="cityFilter" class="form-control text-black" style="border: 1px solid #151414 !important;"
+                                       placeholder="Enter City" />
+
+                                <ul id="listCity" style="list-style-type: none; padding: 0; margin: 0;">
+                                    <!-- List items will be added here -->
+                                </ul>
+
+
+                             @*    <button id="addItemButton">
+                                    Add City
+                                </button> *@
+
+
+                               
                             </div>
                             <div class="form-group col-6">
                                 <label for="areaInput"><strong>Area:</strong></label>
@@ -591,6 +626,68 @@
 
             </section>
         </div>
+
+
+
+    @* <script>
+        // Array to hold city names
+        const cityNames = [];
+
+        function addItem() {
+            const cityFilter = document.getElementById('cityFilter');
+            const itemValue = cityFilter.value.trim();
+
+            if (itemValue) {
+                // Add the city name to the array
+                cityNames.push(itemValue);
+
+                const listItem = document.createElement('li');
+                listItem.classList.add('pl-2', 'custom-list-style', 'm-1');
+
+                const itemIndex = document.getElementById('listCity').children.length; // Get current number of items
+                listItem.style.zIndex = itemIndex + 1; // Set z-index higher than existing items
+                listItem.textContent = itemValue;
+
+                const removeButton = document.createElement('span');
+                const icon = document.createElement('i');
+                removeButton.classList.add('bi-x', 'bg-color');
+                removeButton.style.cursor = 'pointer';
+                removeButton.style.padding = '5px';
+                removeButton.classList.add('remove-item', 'pl-2');
+
+                removeButton.onclick = function () {
+                    // Remove city name from array
+                    cityNames.splice(cityNames.indexOf(itemValue), 1);
+                    listItem.remove();
+                    updateInput(); // Update the input field
+                };
+
+                removeButton.appendChild(icon);
+                listItem.appendChild(removeButton);
+                document.getElementById('listCity').appendChild(listItem);
+                cityFilter.value = ''; // Clear the input field
+
+                updateInput(); // Update the input field with all city names
+            }
+        }
+
+        // Function to update the input box with all city names
+        function updateInput() {
+            const cityFilter = document.getElementById('cityFilter');
+            cityFilter.value = cityNames.join(', ', 'pl-2', 'custom-list-style', 'm-1');
+            cityFilter.value = '';
+        }
+
+        // Add item when "Enter" key is pressed in the input field
+        document.getElementById('cityFilter').addEventListener('keypress', function (event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Prevent form submission or other default actions
+                addItem(); // Call the function to add item
+            }
+        });
+    </script>
+ *@
+
       <script>
           
         $('#selectvendorName').on('click', function () {
@@ -1115,8 +1212,6 @@
 
 
 
-
-
     const imageInput = document.getElementById('imageInput');
     const fileName = document.getElementById('fileName');
 
@@ -1202,14 +1297,93 @@
             }
 
 
+
+
+   
+            const cityNames = [];
+
+            function addItem() {
+                    const cityFilter = document.getElementById('cityFilter');
+            const itemValue = cityFilter.value.trim();
+
+            if (itemValue) {
+                // Add the city name to the array
+                cityNames.push(itemValue);
+
+            const listItem = document.createElement('li');
+            listItem.classList.add('pl-2', 'custom-list-style', 'm-1');
+
+            const itemIndex = document.getElementById('listCity').children.length; // Get current number of items
+            listItem.style.zIndex = itemIndex + 1; // Set z-index higher than existing items
+            listItem.textContent = itemValue;
+
+            const removeButton = document.createElement('span');
+            const icon = document.createElement('i');
+            removeButton.classList.add('bi-x', 'bg-color');
+            removeButton.style.cursor = 'pointer';
+            removeButton.style.padding = '5px';
+            removeButton.classList.add('remove-item', 'pl-2');
+
+            removeButton.onclick = function () {
+                // Remove city name from array
+                cityNames.splice(cityNames.indexOf(itemValue), 1);
+            listItem.remove();
+            updateInput(); // Update the input field
+                        };
+
+            removeButton.appendChild(icon);
+            listItem.appendChild(removeButton);
+            document.getElementById('listCity').appendChild(listItem);
+            cityFilter.value = ''; // Clear the input field
+
+            updateInput(); // Update the input field with all city names
+                    }
+                }
+
+            // Function to update the input box with all city names
+            function updateInput() {
+                    const cityFilter = document.getElementById('cityFilter');
+            cityFilter.value = cityNames.join(', ', 'pl-2', 'custom-list-style', 'm-1');
+            cityFilter.value = '';
+                }
+
+            // Add item when "Enter" key is pressed in the input field
+            document.getElementById('cityFilter').addEventListener('keypress', function (event) {
+                    if (event.key === 'Enter') {
+                event.preventDefault(); // Prevent form submission or other default actions
+            addItem(); // Call the function to add item
+                    }
+                });
+    
+
+
+
     function Applayfilter(){
-                var pageSize = document.getElementById('rowQuantity').value;
+        var pageSize = document.getElementById('rowQuantity').value;
     var searchQuery = "";
     //  var searchQuery = document.getElementById('searchQuery').value;
     //cityFilter areaFilter filterwidth filterheight vendoramtFilter
     var amount=$("#filterrangeValue").val();
     var vendor = $("#vendoramtFilter").val();
-    var City=$("#cityFilter").val();
+
+            var names = $("#cityFilter").val()
+
+            if (names) {
+
+                var City = names;
+         
+                console.dir("city filter" + City);
+                alert("ok");
+        }
+        else {
+
+            var City = cityNames.join(',');
+
+            console.dir("city Name" + City);
+                alert("ok");
+        }
+      
+
     var Area=$("#areaFilter").val();
     var Width=$("#filterwidth").val();
     var Height=$("#filterheight").val();

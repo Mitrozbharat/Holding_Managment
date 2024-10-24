@@ -3,7 +3,21 @@
     margin-bottom: 1.5rem;
 }
 
+.no-bullets {
+    list-style: none; /* Removes bullets from list items */
+    padding: 0; /* Optional: Removes default padding */
+    margin: 0; /* Optional: Removes default margin */
+}
 
+#listCity {
+    list-style-type: none; /* Removes the bullets */
+    padding: 0; /* Removes default padding from the list */
+    margin: 0; /* Removes default margin from the list */
+}
+
+    #listCity li {
+        padding: 2px; /* Adds 2px padding to each list item */
+    }
 
 .custom-file {
     position: relative;
