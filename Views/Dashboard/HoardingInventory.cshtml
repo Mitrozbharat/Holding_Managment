@@ -1208,10 +1208,6 @@
 
 
 
-
-
-
-
     const imageInput = document.getElementById('imageInput');
     const fileName = document.getElementById('fileName');
 
@@ -1296,14 +1292,11 @@
     window.location.href = `/Dashboard/HoardingInventory?searchQuery=${searchQuery}&amount=${amount}&vendor=${vendor}&City=${City}&Area=${Area}&Width=${Width}&Height=${Height}&pageNumber=1&pageSize=${pageSize}`;
             }
 
-
-
-
    
             const cityNames = [];
 
             function addItem() {
-                    const cityFilter = document.getElementById('cityFilter');
+            const cityFilter = document.getElementById('cityFilter');
             const itemValue = cityFilter.value.trim();
 
             if (itemValue) {
@@ -1366,24 +1359,15 @@
     var amount=$("#filterrangeValue").val();
     var vendor = $("#vendoramtFilter").val();
 
-            var names = $("#cityFilter").val()
-
-            if (names) {
-
-                var City = names;
-         
-                console.dir("city filter" + City);
-                alert("ok");
+        var names = $("#cityFilter").val()
+        if (names) {
+        var City = names; 
         }
         else {
-
-            var City = cityNames.join(',');
-
-            console.dir("city Name" + City);
-                alert("ok");
-        }
+         var City = cityNames.join(',');
+         }
+               
       
-
     var Area=$("#areaFilter").val();
     var Width=$("#filterwidth").val();
     var Height=$("#filterheight").val();

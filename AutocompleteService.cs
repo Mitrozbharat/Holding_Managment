@@ -34,5 +34,10 @@ namespace Hoarding_managment
             return _context.TblInventories.Where(s => s.City.Contains(cityName) && s.IsDelete == 0).ToList();
         }
 
+        public IEnumerable<TblInventory> GetAreaFilterName(string areaName)
+        {
+            return _context.TblInventories.Where(s => s.Area.Contains(areaName) && s.IsDelete == 0).ToList();
+        }
+
     }
 }

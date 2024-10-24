@@ -332,9 +332,6 @@ namespace Hoarding_managment.Controllers
 
             return Json(result);
         }
-
-
-
         public JsonResult GetCityFilterName(string query)
         {
             if (string.IsNullOrWhiteSpace(query))
@@ -351,6 +348,26 @@ namespace Hoarding_managment.Controllers
             var result = subproduct
                 .Where(f => f.City.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0)
                 .Select(s => new { Name = s.City, Id = s.Id })
+                .ToList();
+
+            return Json(result);
+        }
+       public JsonResult GetAreaFilterName(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                return Json(new List<object>());
+            }
+
+            var subproduct = _autocompleteService.GetAreaFilterName(query);
+            if (subproduct == null)
+            {
+                return Json(new List<object>());
+            }
+
+            var result = subproduct
+                .Where(f => f.Area.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0)
+                .Select(s => new { Name = s.Area, Id = s.Id })
                 .ToList();
 
             return Json(result);
