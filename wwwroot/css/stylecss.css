@@ -80,11 +80,12 @@ seleced Hoarding
 }
 
 .hoarding-item {
-    padding-top:15px 0px;
+    padding-top: 15px 0px;
     display: flex;
     align-items: center;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-    border-radius: 10px
+    border-radius: 10px ;
+    max-height: 150px;
 }
 
 .show-lg {
@@ -94,10 +95,12 @@ seleced Hoarding
     align-items: center;
 }
 
+
 .hoarding-item img {
     max-width: 150px;
     height: auto;
     margin-left: 20px;
+    max-height: 150px;
 }
 
 .hoarding-info {

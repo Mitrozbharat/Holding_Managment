@@ -184,12 +184,22 @@ namespace Hoarding_managment.Repository
 
             if (!string.IsNullOrEmpty(Area))
             {
+                //lst = lst
+                //     .Where(x => x.IsDelete == 0 &&
+                //                 x.Area.ToLower().Contains(Area))
+                //     .OrderByDescending(x => x.CreatedAt) // Ordering by CreatedAt in descending order
+                //     .ToList();
+
+                var AreaNames = Area.Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                                       .Select(c => c.Trim().ToLower()).ToList();
+
+                // Filter the list where the city contains any of the city names
                 lst = lst
-                     .Where(x => x.IsDelete == 0 &&
-                                 x.Area.ToLower().Contains(Area))
-                     .OrderByDescending(x => x.CreatedAt) // Ordering by CreatedAt in descending order
-                    
-                     .ToList();
+                      .Where(x => x.IsDelete == 0 &&
+                                  AreaNames.Any(c => x.Area.ToLower().Contains(c)))
+                      .OrderByDescending(x => x.CreatedAt)
+                      .ToList();
+
 
             }
 

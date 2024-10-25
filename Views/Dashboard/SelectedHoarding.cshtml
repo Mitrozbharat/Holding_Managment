@@ -43,6 +43,12 @@
     .StartDate{
         margin-right:10px;
     }
+
+    .img-height{
+        max-height:130px;
+        width: 50%;
+    }
+
 </style>
 
 ﻿<section>
@@ -390,7 +396,7 @@
                                 var isLight = item.isLight == 1 ? "Yes" : "No";
                                 var cardHtml = `
                                                 <div class="hoarding-item my-2">
-                                                    <img src="data:image/png;base64,${item.image}" alt="Image" class="rounded">
+                                                            <img src="data:image/png;base64,${item.image}" alt="Image" class="rounded img-height">
                                                     <div class="hoarding-info">
                                                         <p class="font-size-4"><b>Vendor Name: ${item.vendorName}</b></p>
                                                         <p>

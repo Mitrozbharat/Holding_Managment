@@ -82,31 +82,22 @@
                         <div class="form-row">
                             <div class="form-group col-6">
                                 <label for="cityInput"><strong>City:</strong></label>
-                                <input type="text" id="cityFilter" class="form-control text-black" style="border: 1px solid #151414 !important;"
-                                       placeholder="Enter City" />
+                                <input type="text" id="cityFilter" class="form-control text-black custom-border " style="border: 1px solid #151414 !important;" placeholder="Enter City" />
+                                <ul id="listCity" style="list-style-type: none; padding: 0; margin: 0;"></ul>
 
-                                <ul id="listCity" style="list-style-type: none; padding: 0; margin: 0;">
-                                    <!-- List items will be added here -->
-                                </ul>
-
-
-                             @*    <button id="addItemButton">
-                                    Add City
-                                </button> *@
-
-
-                               
                             </div>
                             <div class="form-group col-6">
-                                <label for="areaInput"><strong>Area:</strong></label>
-                                <input type="text" id="areaFilter" class="form-control text-black" placeholder="Enter Area" value="@Model.Area" style="border: 1px solid #151414 !important;" />
+                                <label for="areaInput"><strong>Area:</strong></label>   
+                                <input type="text" id="areaFilter" class="form-control text-black custom-border "  style="border: 1px solid #151414 !important;" placeholder="Enter Area" />
+                                <ul id="listArea" style="list-style-type: none; padding: 0; margin: 0;"></ul>
+
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="range-slider" style="display: flex;flex-direction: column;">
                               <label for="rangeValue"><strong>Select Rate Range:</strong></label>
                               <input type="range" id="accountRange" min="0" max="500000" step="1000" value="@Model.amount" oninput="updateRangeValue(this.value)" style="width: 100%;">
-                                <input type="text" id="filterrangeValue" class="form-control text-black" value="@Model.amount" placeholder="Enter Area" style="border: 1px solid #151414 !important;display:none" />
+                                <input type="text" id="filterrangeValue" class="form-control text-black custom-border" value="@Model.amount" placeholder="Enter Area" style="border: 1px solid #151414 !important;display:none" />
                               <center><span id="rangeValue">@Model.amount</span> </center>
                             </div>
                         </div>
@@ -118,7 +109,7 @@
                             <div class="row align-items-center">
                                 <!-- First rate select -->
                                 <div class="col-5">
-                                    <input type="number" id="filterwidth" class="form-control text-black" value="@Model.Width" placeholder="Width" style="border: 1px solid #151414 !important;" />
+                                    <input type="number" id="filterwidth" class="form-control text-black custom-border" value="@Model.Width" placeholder="Width" style="border: 1px solid #151414 !important;" />
                                 </div>
 
                                 <!-- Multiplication symbol -->
@@ -128,7 +119,7 @@
                                 <!-- Second rate select -->
                                 <div class="col-5">
                                   
-                                    <input type="number" id="filterheight" class="form-control text-black" value="@Model.Height" placeholder="Height" style="border: 1px solid #151414 !important;" />
+                                    <input type="number" id="filterheight" class="form-control text-black custom-border" value="@Model.Height" placeholder="Height" style="border: 1px solid #151414 !important;" />
                                  
                                 </div>
                             </div>
@@ -166,7 +157,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" onclick="removeValues()()" data-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-primary"  onclick="Applayfilter()">Apply Filter</button>
                         <button type="button" class="btn btn-danger"  onclick="removefilter()">Remove Filter</button>
                     </div>
@@ -383,10 +374,10 @@
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="styp">Select Type</label>
-                                            <select class="form-control custom-border" id="styp" name="styp" style="border:1px solid black;">
-                                                <option value="1">NL</option>
-                                                <option value="2">FL</option>
-                                                <option value="3">Lit</option>
+                                            <select class="form-control custom-border " id="styp" name="styp" style="border:1px solid black;">
+                                                <option style="color:#000" value="0">FL</option>
+                                            <option style="color:black" value="1">Lit</option>
+                                            <option style="color:black" value="2">NL</option>
                                             </select>
                                         </div>
                                     </div>
@@ -628,66 +619,8 @@
         </div>
 
 
-
-    @* <script>
-        // Array to hold city names
-        const cityNames = [];
-
-        function addItem() {
-            const cityFilter = document.getElementById('cityFilter');
-            const itemValue = cityFilter.value.trim();
-
-            if (itemValue) {
-                // Add the city name to the array
-                cityNames.push(itemValue);
-
-                const listItem = document.createElement('li');
-                listItem.classList.add('pl-2', 'custom-list-style', 'm-1');
-
-                const itemIndex = document.getElementById('listCity').children.length; // Get current number of items
-                listItem.style.zIndex = itemIndex + 1; // Set z-index higher than existing items
-                listItem.textContent = itemValue;
-
-                const removeButton = document.createElement('span');
-                const icon = document.createElement('i');
-                removeButton.classList.add('bi-x', 'bg-color');
-                removeButton.style.cursor = 'pointer';
-                removeButton.style.padding = '5px';
-                removeButton.classList.add('remove-item', 'pl-2');
-
-                removeButton.onclick = function () {
-                    // Remove city name from array
-                    cityNames.splice(cityNames.indexOf(itemValue), 1);
-                    listItem.remove();
-                    updateInput(); // Update the input field
-                };
-
-                removeButton.appendChild(icon);
-                listItem.appendChild(removeButton);
-                document.getElementById('listCity').appendChild(listItem);
-                cityFilter.value = ''; // Clear the input field
-
-                updateInput(); // Update the input field with all city names
-            }
-        }
-
-        // Function to update the input box with all city names
-        function updateInput() {
-            const cityFilter = document.getElementById('cityFilter');
-            cityFilter.value = cityNames.join(', ', 'pl-2', 'custom-list-style', 'm-1');
-            cityFilter.value = '';
-        }
-
-        // Add item when "Enter" key is pressed in the input field
-        document.getElementById('cityFilter').addEventListener('keypress', function (event) {
-            if (event.key === 'Enter') {
-                event.preventDefault(); // Prevent form submission or other default actions
-                addItem(); // Call the function to add item
-            }
-        });
-    </script>
- *@
-
+           
+        
       <script>
           
         $('#selectvendorName').on('click', function () {
@@ -907,7 +840,7 @@
 
     if (file) {
                   
-                        var formData = new FormData();
+     var formData = new FormData();
     formData.append('file', file);
 
     fetch('/Dashboard/Upload',
@@ -1291,94 +1224,260 @@
     var Height = '@(string.IsNullOrEmpty(Model.Height) ? "" : Model.Height)';
     window.location.href = `/Dashboard/HoardingInventory?searchQuery=${searchQuery}&amount=${amount}&vendor=${vendor}&City=${City}&Area=${Area}&Width=${Width}&Height=${Height}&pageNumber=1&pageSize=${pageSize}`;
             }
+        const cityNames = [];
+        const areaNames = [];
 
-   
-            const cityNames = [];
-
-            function addItem() {
+        // Add city name to list and array
+        function addItem() {
             const cityFilter = document.getElementById('cityFilter');
             const itemValue = cityFilter.value.trim();
 
             if (itemValue) {
-                // Add the city name to the array
                 cityNames.push(itemValue);
 
-            const listItem = document.createElement('li');
-            listItem.classList.add('pl-2', 'custom-list-style', 'm-1');
+                const listItem = document.createElement('li');
+                listItem.classList.add('pl-2', 'custom-list-style', 'm-1');
+                listItem.textContent = itemValue;
 
-            const itemIndex = document.getElementById('listCity').children.length; // Get current number of items
-            listItem.style.zIndex = itemIndex + 1; // Set z-index higher than existing items
-            listItem.textContent = itemValue;
+                const removeButton = document.createElement('span');
+                removeButton.classList.add('bi-x', 'bg-color', 'remove-item', 'pl-2');
+                removeButton.style.cursor = 'pointer';
+                removeButton.style.padding = '5px';
+                removeButton.onclick = function () {
+                    cityNames.splice(cityNames.indexOf(itemValue), 1);
+                    listItem.remove();
+                };
 
-            const removeButton = document.createElement('span');
-            const icon = document.createElement('i');
-            removeButton.classList.add('bi-x', 'bg-color');
-            removeButton.style.cursor = 'pointer';
-            removeButton.style.padding = '5px';
-            removeButton.classList.add('remove-item', 'pl-2');
-
-            removeButton.onclick = function () {
-                // Remove city name from array
-                cityNames.splice(cityNames.indexOf(itemValue), 1);
-            listItem.remove();
-            updateInput(); // Update the input field
-                        };
-
-            removeButton.appendChild(icon);
-            listItem.appendChild(removeButton);
-            document.getElementById('listCity').appendChild(listItem);
-            cityFilter.value = ''; // Clear the input field
-
-            updateInput(); // Update the input field with all city names
-                    }
-                }
-
-            // Function to update the input box with all city names
-            function updateInput() {
-                    const cityFilter = document.getElementById('cityFilter');
-            cityFilter.value = cityNames.join(', ', 'pl-2', 'custom-list-style', 'm-1');
-            cityFilter.value = '';
-                }
-
-            // Add item when "Enter" key is pressed in the input field
-            document.getElementById('cityFilter').addEventListener('keypress', function (event) {
-                    if (event.key === 'Enter') {
-                event.preventDefault(); // Prevent form submission or other default actions
-            addItem(); // Call the function to add item
-                    }
-                });
-    
-
-
-
-    function Applayfilter(){
-        var pageSize = document.getElementById('rowQuantity').value;
-    var searchQuery = "";
-    //  var searchQuery = document.getElementById('searchQuery').value;
-    //cityFilter areaFilter filterwidth filterheight vendoramtFilter
-    var amount=$("#filterrangeValue").val();
-    var vendor = $("#vendoramtFilter").val();
-
-        var names = $("#cityFilter").val()
-        if (names) {
-        var City = names; 
-        }
-        else {
-         var City = cityNames.join(',');
-         }
-               
-      
-    var Area=$("#areaFilter").val();
-    var Width=$("#filterwidth").val();
-    var Height=$("#filterheight").val();
-    window.location.href = `/Dashboard/HoardingInventory?searchQuery=${searchQuery}&amount=${amount}&vendor=${vendor}&City=${City}&Area=${Area}&Width=${Width}&Height=${Height}&pageNumber=1&pageSize=${pageSize}`;
-
+                listItem.appendChild(removeButton);
+                document.getElementById('listCity').appendChild(listItem);
+                cityFilter.value = '';
             }
+        }
 
-    function removefilter(){
+        // Add area name to list and array
+        function addArea() {
+            const areaFilter = document.getElementById('areaFilter');
+            const areaValue = areaFilter.value.trim();
+
+            if (areaValue) {
+                areaNames.push(areaValue);
+
+                const listItem = document.createElement('li');
+                listItem.classList.add('p-1', 'custom-list-style', 'm-1');
+                listItem.textContent = areaValue;
+
+                const removeButton = document.createElement('span');
+                removeButton.classList.add('bi-x', 'bg-color', 'remove-item');
+                removeButton.style.cursor = 'pointer';
+                removeButton.style.padding = '5px';
+                removeButton.style.marginLeft = '10px';
+                removeButton.onclick = function () {
+                    const index = areaNames.indexOf(areaValue);
+                    if (index > -1) areaNames.splice(index, 1);
+                    listItem.remove();
+                };
+
+                listItem.appendChild(removeButton);
+                document.getElementById('listArea').appendChild(listItem);
+                areaFilter.value = '';
+            }
+        }
+
+        // Event listeners for "Enter" key on city and area inputs
+        document.getElementById('cityFilter').addEventListener('keypress', function (event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                addItem();
+            }
+        });
+
+        document.getElementById('areaFilter').addEventListener('keypress', function (event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                addArea();
+            }
+        });
+
+        // Apply filter with city, area, and other parameters
+        function Applayfilter() {
+            const pageSize = document.getElementById('rowQuantity').value;
+            const amount = $("#filterrangeValue").val();
+            const vendor = $("#vendoramtFilter").val();
+            const City = $("#cityFilter").val() || cityNames.join(',');
+            const Area = $("#areaFilter").val() || areaNames.join(',');
+            const Width = $("#filterwidth").val();
+            const Height = $("#filterheight").val();
+            console.log("city : ",City);
+            console.log("area : ", Area);
+           
+            window.location.href = `/Dashboard/HoardingInventory?amount=${amount}&vendor=${vendor}&City=${City}&Area=${Area}&Width=${Width}&Height=${Height}&pageNumber=1&pageSize=${pageSize}`;
+        }
+
+   
+    //         const cityNames = [];
+
+    //         function addItem() {
+    //         const cityFilter = document.getElementById('cityFilter');
+    //         const itemValue = cityFilter.value.trim();
+
+    //         if (itemValue) {
+    //             // Add the city name to the array
+    //             cityNames.push(itemValue);
+
+    //         const listItem = document.createElement('li');
+    //         listItem.classList.add('pl-2', 'custom-list-style', 'm-1');
+
+    //         const itemIndex = document.getElementById('listCity').children.length; // Get current number of items
+    //         listItem.style.zIndex = itemIndex + 1; // Set z-index higher than existing items
+    //         listItem.textContent = itemValue;
+
+    //         const removeButton = document.createElement('span');
+    //         const icon = document.createElement('i');
+    //         removeButton.classList.add('bi-x', 'bg-color');
+    //         removeButton.style.cursor = 'pointer';
+    //         removeButton.style.padding = '5px';
+    //         removeButton.classList.add('remove-item', 'pl-2');
+
+    //         removeButton.onclick = function () {
+    //             // Remove city name from array
+    //             cityNames.splice(cityNames.indexOf(itemValue), 1);
+    //         listItem.remove();
+    //         updateInput(); // Update the input field
+    //                     };
+
+    //         removeButton.appendChild(icon);
+    //         listItem.appendChild(removeButton);
+    //         document.getElementById('listCity').appendChild(listItem);
+    //         cityFilter.value = ''; // Clear the input field
+
+    //         updateInput(); // Update the input field with all city names
+    //                 }
+    //             }
+
+    //         // Function to update the input box with all city names
+    //         function updateInput() {
+    //                 const cityFilter = document.getElementById('cityFilter');
+    //         cityFilter.value = cityNames.join(', ', 'pl-2', 'custom-list-style', 'm-1');
+    //         cityFilter.value = '';
+    //             }
+
+    //         // Add item when "Enter" key is pressed in the input field
+    //         document.getElementById('cityFilter').addEventListener('keypress', function (event) {
+    //                 if (event.key === 'Enter') {
+    //             event.preventDefault(); // Prevent form submission or other default actions
+    //         addItem(); // Call the function to add item
+    //                 }
+    //             });
+
+       
+          
+    //         const areaNames = [];
+
+    //         function addArea() {
+    //             const areaFilter = document.getElementById('areaFilter');
+    //             const areaValue = areaFilter.value.trim();
+
+    //         if (areaValue) {
+
+    //             areaNames.push(areaValue);
+
+    //          const listItem = document.createElement('li');
+    //         listItem.classList.add('p-1', 'custom-list-style', 'm-1',);
+    //         listItem.textContent = areaValue;
 
 
-                var pageSize = document.getElementById('rowQuantity').value;
+    //         const removeButton = document.createElement('span');
+    //         removeButton.classList.add('bi-x', 'bg-color', 'remove-item');
+    //         removeButton.style.cursor = 'pointer';
+    //         removeButton.style.padding = '5px';
+    //         removeButton.style.marginLeft = '10px';
+          
+
+    //         removeButton.onclick = function () {
+    //                         const index = areaNames.indexOf(areaValue);
+    //                         if (index > -1) areaNames.splice(index, 1);
+    //         listItem.remove();
+    //                     };
+
+    //         listItem.appendChild(removeButton);
+    //         document.getElementById('listArea').appendChild(listItem);
+    //         areaFilter.value = '';
+    //                 }
+    //             }
+
+           
+    //         // Event listener for "Enter" key on area input
+    //         document.getElementById('areaFilter').addEventListener('keypress', function (event) {
+    //                 if (event.key === 'Enter') {
+    //             event.preventDefault();
+    //             addArea();
+    //                 }
+    //             });
+   
+
+    // function Applayfilter(){
+    //     var pageSize = document.getElementById('rowQuantity').value;
+    // var searchQuery = "";
+    // //  var searchQuery = document.getElementById('searchQuery').value;
+    // //cityFilter areaFilter filterwidth filterheight vendoramtFilter
+
+    // var amount=$("#filterrangeValue").val();
+    // var vendor = $("#vendoramtFilter").val();
+
+    //     var names = $("#cityFilter").val();
+    //     var areanames =  $("#areaFilter").val();
+
+    //         console.dir("areanames Single: ", areanames);
+    //         console.dir("city Single: ", names);
+
+           
+    //             if (names) {
+    //             var City = names;
+
+    //             console.dir("city Single: ", City);
+
+    //             }
+    //             else {
+    //              var City = cityNames.join(',');
+
+    //             console.dir("city : ", City);
+
+    //              }
+
+    //         console.dir("city Single: ", City);
+
+
+    //         if (areanames) {
+    //         var Area = areanames;
+
+
+    //         }
+    //         else {
+    //         var Area = areaNames.join(',');
+    //        }
+    //         alert("ok");
+      
+      
+    // //var Area=$("#Area").val();
+    // var Width=$("#filterwidth").val();
+    // var Height=$("#filterheight").val();
+    // window.location.href = `/Dashboard/HoardingInventory?searchQuery=${searchQuery}&amount=${amount}&vendor=${vendor}&City=${City}&Area=${Area}&Width=${Width}&Height=${Height}&pageNumber=1&pageSize=${pageSize}`;
+
+    //         }
+
+
+   function removeValues(){
+            $("#cityFilter").val('');
+            $("#areaFilter").val('');
+            $("#listCity, #listArea").val('');
+            $("#listCity, #listArea").empty();
+
+
+        }
+
+       function removefilter(){
+
+     var pageSize = document.getElementById('rowQuantity').value;
     //  var searchQuery = document.getElementById('searchQuery').value;
     var searchQuery = "";
     //cityFilter areaFilter filterwidth filterheight vendoramtFilter
@@ -1388,7 +1487,8 @@
     var Area="";
     var Width="";
     var Height="";
-    window.location.href = `/Dashboard/HoardingInventory?searchQuery=${searchQuery}&amount=${amount}&vendor=${vendor}&City=${City}&Area=${Area}&Width=${Width}&Height=${Height}&pageNumber=1&pageSize=${pageSize}`;
+   
+            window.location.href = `/Dashboard/HoardingInventory?searchQuery=${searchQuery}&amount=${amount}&vendor=${vendor}&City=${City}&Area=${Area}&Width=${Width}&Height=${Height}&pageNumber=1&pageSize=${pageSize}`;
 
             }
 
