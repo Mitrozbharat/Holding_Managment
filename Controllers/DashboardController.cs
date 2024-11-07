@@ -373,53 +373,76 @@ namespace Hoarding_managment.Controllers
             return Json(result);
         }
 
-
-
         [HttpPost]
-        public async Task<IActionResult> UpdateInventoryItems(int id, string city, string area, string width, string height, string rate, string VendorName,int vendorid,string Image,string location,string vendoramt,int st)
+        public async Task<IActionResult> UpdateInventoryItems(int id, string city, string area, string width, string height, string rate, string VendorName, int vendorid, string Image, string location, string vendoramt, int st)
         {
             var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
-
             var sessionUserName = HttpContext.Session.GetString("SessionUsername");
-
-            ViewBag.sessionUserId = sessionUserId;
-            ViewBag.sessionUserName = sessionUserName;
-
-
             if (sessionUserId == null)
             {
                 return RedirectToAction("Index", "Auth");
             }
+
             if (!ModelState.IsValid)
             {
                 return Json(new { success = false, message = "Model state is invalid." });
             }
 
-            var existingItem = await _context.GetInventryByIdAsync(id);
-            if (existingItem == null)
+            // Call the extension method to update the item
+            bool updateSuccessful = await _context.UpdateInventoryItemAsync(id, city, area, width, height, rate, VendorName, vendorid, Image, location, vendoramt, st, sessionUserName);
+            if (!updateSuccessful)
             {
                 return Json(new { success = false, message = "Item not found." });
             }
 
-            // Update the properties of the existing item
-            existingItem.Id = id;
-            existingItem.City = city;
-            existingItem.Area = area;
-            existingItem.Width = width;
-            existingItem.Height = height;
-            existingItem.Rate = rate;
-            existingItem.FkVendorId = vendorid;
-            existingItem.Image = Image;
-            existingItem.Location = location;
-            existingItem.VendorAmt = vendoramt;
-            existingItem.Type = st;
-            existingItem.UpdatedBy = sessionUserName;
-
-            // Save changes to the database
-            this._dbContext.SaveChanges();
-
             return Json(new { success = true, message = "Inventory item updated successfully." });
         }
+
+        //[HttpPost]
+        //public async Task<IActionResult> UpdateInventoryItems(int id, string city, string area, string width, string height, string rate, string VendorName,int vendorid,string Image,string location,string vendoramt,int st)
+        //{
+        //    var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+        //    var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+        //    ViewBag.sessionUserId = sessionUserId;
+        //    ViewBag.sessionUserName = sessionUserName;
+
+
+        //    if (sessionUserId == null)
+        //    {
+        //        return RedirectToAction("Index", "Auth");
+        //    }
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return Json(new { success = false, message = "Model state is invalid." });
+        //    }
+
+        //    var existingItem = await _context.GetInventryByIdAsync(id);
+        //    if (existingItem == null)
+        //    {
+        //        return Json(new { success = false, message = "Item not found." });
+        //    }
+
+        //    // Update the properties of the existing item
+        //    existingItem.Id = id;
+        //    existingItem.City = city;
+        //    existingItem.Area = area;
+        //    existingItem.Width = width;
+        //    existingItem.Height = height;
+        //    existingItem.Rate = rate;
+        //    existingItem.FkVendorId = vendorid;
+        //    existingItem.Image = Image;
+        //    existingItem.Location = location;
+        //    existingItem.VendorAmt = vendoramt;
+        //    existingItem.Type = st;
+        //    existingItem.UpdatedBy = sessionUserName;
+
+        //    // Save changes to the database
+        //    this._dbContext.SaveChanges();
+
+        //    return Json(new { success = true, message = "Inventory item updated successfully." });
+        //}
 
 
 

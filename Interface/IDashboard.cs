@@ -15,6 +15,8 @@ namespace Hoarding_managment.Interface
 
         public Task<TblInventory> AddNewInventoryAsync(TblInventory model);
         public  Task<TblInventory> UpdateInventoryItemAsync(TblInventory model);
+        public Task<bool> UpdateInventoryItemAsync(int id, string city, string area, string width, string height, string rate, string VendorName, int vendorid, string Image, string location, string vendoramt, int st, string sessionUserName);
+
         public Task<TblInventory> GetInventryByIdAsync(int id);
         public  Task<TblInventoryitem> GetInventryItemsByIdAsync(int id);
         public Task<int> InventryItemscountAsync();

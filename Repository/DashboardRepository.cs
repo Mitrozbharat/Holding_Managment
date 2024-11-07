@@ -793,127 +793,36 @@ namespace Hoarding_managment.Repository
         }
 
 
-        //public async Task<int> AddQuatationsAsync(QuotationItemListViewModel selectedItems)
-        //{
-        //    var lastQuotation = await _context.TblQuotations
-        //        .Where(x => x.IsDelete == 0)
-        //        .OrderByDescending(x => x.QuotationNumber)
-        //        .FirstOrDefaultAsync();
 
-        //    string lastNumberPart = lastQuotation != null ? lastQuotation.QuotationNumber.Replace("Q", "") : "000";
-        //    int nextNumber = int.Parse(lastNumberPart) + 1;
-        //    string nextQuotationNumber = $"Q{nextNumber:D3}";
+        public async Task<bool> UpdateInventoryItemAsync(int id, string city, string area, string width, string height, string rate, string VendorName, int vendorid, string Image, string location, string vendoramt, int st, string sessionUserName)
+        {
+            var existingItem = await _context.TblInventories.Where(x => x.Id == id).FirstOrDefaultAsync();
 
-        //    var data = new TblQuotation
-        //    {
-        //        QuotationNumber = nextQuotationNumber,
-        //        CreatedAt = DateTime.Now,
-        //        CreatedBy = "admin",
-        //        FkCustomerId = selectedItems.CustomerId,
-        //        IsDelete = 0,
+            // Update the properties of the existing item
+            existingItem.Id = id;
+            existingItem.City = city;
+            existingItem.Area = area;
+            existingItem.Width = width;
+            existingItem.Height = height;
+            existingItem.Rate = rate;
+            existingItem.FkVendorId = vendorid;
+            existingItem.Image = Image;
+            existingItem.Location = location;
+            existingItem.VendorAmt = vendoramt;
+            existingItem.Type = st;
+            existingItem.UpdatedBy = sessionUserName;
 
-        //    };
-
-        //    await _context.TblQuotations.AddAsync(data);
-        //    await _context.SaveChangesAsync();
-
-        //    int qid = data.Id;
-        //    if (qid != 0)
-        //    {
-        //        foreach (var item in selectedItems.SelectedItems)
-        //        {
-        //            var inventoryitems = _context.TblInventoryitems.Where(x => x.Id == item.Id).FirstOrDefault();
-        //            var inventory = _context.TblInventories.Where(x => x.Id == inventoryitems.FkInventoryId).FirstOrDefault();
-
-        //            var newdata = new TblQuotationitem
-        //            {
-        //                FkCustomerId = selectedItems.CustomerId,
-        //                Rate = item.Rate,
-        //                FkQuotationId = qid,
-        //                City = inventoryitems.City,
-        //                Area = inventoryitems.Area,
-        //                Location = inventory.Location,
-        //                CreatedAt = DateTime.Now,
-        //                UpdatedAt = DateTime.Now,
-        //                IsDelete = 0,
-        //                Height = inventoryitems.Height,
-        //                Width = inventoryitems.Width,
-        //                BookingStatus = inventoryitems.BookingStatus,
-        //                type = inventory.type,
-        //                VendorAmt = inventory.VendorAmt,
-        //                Image = inventoryitems.Image,
-        //                LocationDescription = inventory.Location,
-        //                FkVendorId = inventoryitems.FkVendorId,
-        //                UpdatedBy = "admin",
-        //                CreatedBy = "Admin",
-        //                FkInventory = item.FkInventoryId
-        //            };
-
-        //               _context.TblQuotationitems.AddAsync(newdata);
-        //            var recor = await _context.SaveChangesAsync();
-
-        //            if (recor > 0)
-        //            {
-        //                inventoryitems.IsDelete = 1;
-        //               _context.Update(inventoryitems);
-        //                _context.SaveChanges();
-        //            }
-
-
-
-        //        }
-        //    }
-
-        //    return qid;
-        //}
-
-
-        //    public async Task<TblInventory> UploadExcelAsync(TblInventory inventory)
-        //    {
-        //        // Set EPPlus license context
-        //        ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-
-        //        using (var stream = new MemoryStream())
-        //        {
-        //            await file.CopyToAsync(stream);
-        //            using (var package = new ExcelPackage(stream))
-        //            {
-        //                var worksheet = package.Workbook.Worksheets[0];
-        //                var rowCount = worksheet.Dimension.Rows;
-
-        //                var records = new List<TblInventory>();
-
-        //                for (int row = 2; row <= rowCount; row++)
-        //                {
-        //                    DateTime? date = null;
-        //                    var dateString = worksheet.Cells[row, 4].Value?.ToString().Trim();
-        //                    if (!string.IsNullOrEmpty(dateString) && DateTime.TryParse(dateString, out DateTime parsedDate))
-        //                    {
-        //                        date = parsedDate;
-        //                    }
-        //                    var record = new TblInventory
-        //                    {
-        //                        Image = worksheet.Cells[row, 2].Value?.ToString().Trim(),
-        //                        City = worksheet.Cells[row, 3].Value?.ToString().Trim(),
-        //                        Area = worksheet.Cells[row, 3].Value?.ToString().Trim(),
-        //                        Location = worksheet.Cells[row, 3].Value?.ToString().Trim(),
-        //                        Width = worksheet.Cells[row, 3].Value?.ToString().Trim(),
-        //                        Height = worksheet.Cells[row, 3].Value?.ToString().Trim(),
-        //                        Rate = worksheet.Cells[row, 3].Value?.ToString().Trim(),
-        //                        VendorAmt = worksheet.Cells[row, 3].Value?.ToString().Trim(),
-        //                        // Map other columns as needed
-        //                    };
-
-        //                    records.Add(record);
-        //                }
-
-
-
-
-
-        //            }
-        //            return inventory;
-        //    }
+            // Save changes to the database
+            var rowsAffected = this._context.SaveChanges();
+            if (rowsAffected > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 
 }
