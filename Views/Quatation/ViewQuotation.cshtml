@@ -62,6 +62,7 @@
                                             <p><strong>Size:</strong> @item.Width FT x @item.Height FT</p>
                                             <p><strong>Vendor   :</strong> @Model.VendorName</p>
                                             <h5 class="text-primary">Price: @item.Rate/-</h5>
+                                            <h5 class="text-black" style="display:none;" > @item.type </h5>
                                         </div>
                                     </div>
                                 </div>
@@ -318,7 +319,7 @@
 
             var imageUrl = window.location.origin + "/images/logo.png";
             getBase64ImageFromUrl(imageUrl, function (base64String) {
-                console.log('Base64 String:', base64String);
+              //  console.log('Base64 String:', base64String);
                 document.getElementById('myImage').src = "data:image/png;base64," + base64String + "";
                 document.getElementById('imagedata').innerHTML = "data:image/png;base64," + base64String + "";
 
@@ -326,7 +327,7 @@
 
             var imageUrl = window.location.origin + "/images/HoardingImg.png";
             getBase64ImageFromUrl(imageUrl, function (base64String) {
-                console.log('Base64 String:', base64String);
+              //  console.log('Base64 String:', base64String);
                 document.getElementById('myImagetwo').src = "data:image/png;base64," + base64String + "";
                 document.getElementById('imagedatatwo').innerHTML = "data:image/png;base64," + base64String + "";
 
@@ -553,52 +554,40 @@
 
 
 
-        //Start Excel file code Quatation/GenerateExcel
-
         document.getElementById('exportToExcel').addEventListener('click', function () {
-            var quotationNumber = document.querySelector('input[qnumber]').value;
+            // Helper function to get text after ":"
+            const getTextAfterColon = (element) => element ? element.innerText.split(":")[ 1 ].trim() : '';
 
-            // Find the element containing the Date by searching through <p> elements
-            var dateElement = Array.from(document.querySelectorAll('.ml-2 strong'))
+            // Extract Quotation Number and Date
+            const quotationNumber = document.querySelector('input[qnumber]')?.value || '';
+            const dateElement = Array.from(document.querySelectorAll('.ml-2 strong'))
                 .find(p => p.parentElement.innerText.includes("Date"));
-            var quotationDate = dateElement ? dateElement.parentElement.innerText.split(":")[1].trim() : '';
+            const quotationDate = getTextAfterColon(dateElement?.parentElement);
 
-            // Find Business Name, Address, and Total Amount in totalamountclass
-            var businessNameElement = Array.from(document.querySelectorAll('.totalamountclass p'))
-                .find(p => p.innerText.includes("Quotation For"));
-            var addressElement = Array.from(document.querySelectorAll('.totalamountclass p'))
-                .find(p => p.innerText.includes("Address"));
-            var totalAmountElement = Array.from(document.querySelectorAll('.totalamountclass p'))
-                .find(p => p.innerText.includes("Total Amount"));
+            // Extract Business Name, Address, and Total Amount
+            const businessName = getTextAfterColon(Array.from(document.querySelectorAll('.totalamountclass p'))
+                .find(p => p.innerText.includes("Quotation For")));
+            const address = getTextAfterColon(Array.from(document.querySelectorAll('.totalamountclass p'))
+                .find(p => p.innerText.includes("Address")));
+            const totalAmount = getTextAfterColon(Array.from(document.querySelectorAll('.totalamountclass p'))
+                .find(p => p.innerText.includes("Total Amount")));
 
-            var businessName = businessNameElement ? businessNameElement.innerText.split(":")[1].trim() : '';
-            var address = addressElement ? addressElement.innerText.split(":")[1].trim() : '';
-            var totalAmount = totalAmountElement ? totalAmountElement.innerText.split(":")[1].trim() : '';
+            // Collect item data
+            const items = Array.from(document.querySelectorAll('.mycard')).map(card => {
+                const location = card.querySelector('h5')?.innerText || '';
+                const city = getTextAfterColon(Array.from(card.querySelectorAll('p'))
+                    .find(p => p.innerText.includes("City")));
+                const size = getTextAfterColon(Array.from(card.querySelectorAll('p'))
+                    .find(p => p.innerText.includes("Size")));
+                const price = getTextAfterColon(card.querySelector('h5.text-primary'));
+                const type = card.querySelector('h5.text-black')?.innerText.trim() || '';
 
-            // Collecting data from items (assuming multiple items)
-            var items = [];
-            document.querySelectorAll('.mycard').forEach(function (card) {
-                var location = card.querySelector('h5').innerText;
-                var cityElement = Array.from(card.querySelectorAll('p'))
-                    .find(p => p.innerText.includes("City"));
-                var sizeElement = Array.from(card.querySelectorAll('p'))
-                    .find(p => p.innerText.includes("Size"));
-                var priceElement = card.querySelector('h5.text-primary');
+             
 
-                var city = cityElement ? cityElement.innerText.split(":")[1].trim() : '';
-                var size = sizeElement ? sizeElement.innerText.split(":")[1].trim() : '';
-                var price = priceElement ? priceElement.innerText.split(":")[1].trim() : '';
-
-                items.push({
-                    Location: location,
-                    City: city,
-                    Size: size,
-                    Price: price
-                });
+                return { Location: location, City: city, Size: size, Type: type, Price: price };
             });
-
-            // Send all data to the server
-            var data = {
+            // Prepare data to send
+            const data = {
                 QuotationNumber: quotationNumber,
                 QuotationDate: quotationDate,
                 BusinessName: businessName,
@@ -606,22 +595,22 @@
                 TotalAmount: totalAmount,
                 Items: items
             };
+            console.dir(" dir: ", data);
 
+            
+           
+            // Send data to server and download file
             fetch('/Quatation/GenerateExcel', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
             })
                 .then(response => response.blob())
                 .then(blob => {
                     const url = window.URL.createObjectURL(new Blob([ blob ]));
                     const link = document.createElement('a');
-                    let quatationnumber = $('#exportContent').find("input[qnumber]").val();
-
                     link.href = url;
-                    link.setAttribute('download', `Sahu_Advertising_quotation_${quatationnumber}.xlsx`);
+                    link.setAttribute('download', `Sahu_Advertising_quotation_${quotationNumber}.xlsx`);
                     document.body.appendChild(link);
                     link.click();
                     link.parentNode.removeChild(link);
@@ -630,6 +619,91 @@
                     console.error('Error generating Excel file:', error);
                 });
         });
+
+
+        //Start Excel file code Quatation/GenerateExcel
+
+        // document.getElementById('exportToExcel').addEventListener('click', function () {
+        //     var quotationNumber = document.querySelector('input[qnumber]').value;
+
+        //     // Find the element containing the Date by searching through <p> elements
+        //     var dateElement = Array.from(document.querySelectorAll('.ml-2 strong'))
+        //         .find(p => p.parentElement.innerText.includes("Date"));
+        //     var quotationDate = dateElement ? dateElement.parentElement.innerText.split(":")[1].trim() : '';
+
+        //     // Find Business Name, Address, and Total Amount in totalamountclass
+        //     var businessNameElement = Array.from(document.querySelectorAll('.totalamountclass p'))
+        //         .find(p => p.innerText.includes("Quotation For"));
+        //     var addressElement = Array.from(document.querySelectorAll('.totalamountclass p'))
+        //         .find(p => p.innerText.includes("Address"));
+        //     var totalAmountElement = Array.from(document.querySelectorAll('.totalamountclass p'))
+        //         .find(p => p.innerText.includes("Total Amount"));
+
+        //     var businessName = businessNameElement ? businessNameElement.innerText.split(":")[1].trim() : '';
+        //     var address = addressElement ? addressElement.innerText.split(":")[1].trim() : '';
+        //     var totalAmount = totalAmountElement ? totalAmountElement.innerText.split(":")[1].trim() : '';
+
+        //     // Collecting data from items (assuming multiple items)
+        //     var items = [];
+        //     document.querySelectorAll('.mycard').forEach(function (card) {
+        //         var location = card.querySelector('h5').innerText;
+        //         var cityElement = Array.from(card.querySelectorAll('p'))
+        //             .find(p => p.innerText.includes("City"));
+        //         var sizeElement = Array.from(card.querySelectorAll('p'))
+        //             .find(p => p.innerText.includes("Size"));
+        //         var priceElement = card.querySelector('h5.text-primary');
+
+        //         var typeElement = card.querySelector('p.text-primary');
+
+        //         var city = cityElement ? cityElement.innerText.split(":")[1].trim() : '';
+        //         var size = sizeElement ? sizeElement.innerText.split(":")[1].trim() : '';
+        //         var price = priceElement ? priceElement.innerText.split(":")[1].trim() : '';
+        //         var type = typeElement ? typeElement.innerText.split(":")[ 1 ]: '';
+
+        //         items.push({
+        //             Location: location,
+        //             City: city,
+        //             Size: size,
+        //             Type: type,
+        //             Price: price
+        //         });
+
+        //         console.log(" data", items);
+        //     });
+
+        //     // Send all data to the server
+        //     var data = {
+        //         QuotationNumber: quotationNumber,
+        //         QuotationDate: quotationDate,
+        //         BusinessName: businessName,
+        //         Address: address,
+        //         TotalAmount: totalAmount,
+        //         Items: items
+        //     };
+
+        //     fetch('/Quatation/GenerateExcel', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         body: JSON.stringify(data),
+        //     })
+        //         .then(response => response.blob())
+        //         .then(blob => {
+        //             const url = window.URL.createObjectURL(new Blob([ blob ]));
+        //             const link = document.createElement('a');
+        //             let quatationnumber = $('#exportContent').find("input[qnumber]").val();
+
+        //             link.href = url;
+        //             link.setAttribute('download', `Sahu_Advertising_quotation_${quatationnumber}.xlsx`);
+        //             document.body.appendChild(link);
+        //             link.click();
+        //             link.parentNode.removeChild(link);
+        //         })
+        //         .catch((error) => {
+        //             console.error('Error generating Excel file:', error);
+        //         });
+        // });
 
 
 

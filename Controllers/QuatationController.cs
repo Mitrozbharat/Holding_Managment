@@ -216,43 +216,6 @@ namespace Hoarding_managment.Controllers
             }
         }
 
-        //[HttpPost]
-        //public IActionResult GenerateExcel([FromBody] QuotationData model)
-        //{
-        //    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-
-        //    using (var package = new ExcelPackage())
-        //    {
-        //        var worksheet = package.Workbook.Worksheets.Add("Quotation Data");
-
-        //        // Add header row
-        //        worksheet.Cells[1, 1].Value = "Item";
-        //        worksheet.Cells[1, 2].Value = "Location";
-        //        worksheet.Cells[1, 3].Value = "City";
-        //        worksheet.Cells[1, 4].Value = "Size";
-        //        worksheet.Cells[1, 5].Value = "Price";
-
-        //        // Add data rows from the model
-        //        int row = 2;
-        //        foreach (var item in model.Items)
-        //        {
-        //            worksheet.Cells[row, 1].Value = item.Location;
-        //            worksheet.Cells[row, 2].Value = item.City;
-        //            worksheet.Cells[row, 3].Value = item.Size;
-        //            worksheet.Cells[row, 4].Value = item.Price;
-        //            row++;
-        //        }
-
-        //        // AutoFit columns
-        //        worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
-
-        //        var excelFile = package.GetAsByteArray();
-        //        var fileName = "Quotation_" + model.QuotationNumber + ".xlsx";
-
-        //        // Return the file as an Excel download
-        //        return File(excelFile, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
-        //    }
-        //}
 
 
         [HttpPost]
@@ -261,10 +224,6 @@ namespace Hoarding_managment.Controllers
             var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
 
             var sessionUserName = HttpContext.Session.GetString("SessionUsername");
-
-        
-           
-
 
             if (sessionUserId == null)
             {
@@ -302,7 +261,9 @@ namespace Hoarding_managment.Controllers
                 worksheet.Cells[startRow, 1].Value = "Location";
                 worksheet.Cells[startRow, 2].Value = "City";
                 worksheet.Cells[startRow, 3].Value = "Size";
-                worksheet.Cells[startRow, 4].Value = "Price";
+                worksheet.Cells[startRow, 4].Value = "Type";
+
+                worksheet.Cells[startRow, 5].Value = "Price";
 
                 // Add data rows for items
                 int row = startRow + 1;
@@ -311,9 +272,20 @@ namespace Hoarding_managment.Controllers
                     worksheet.Cells[row, 1].Value = item.Location;
                     worksheet.Cells[row, 2].Value = item.City;
                     worksheet.Cells[row, 3].Value = item.Size;
-                    worksheet.Cells[row, 4].Value = item.Price;
+
+                    string type = item.type switch
+                    {
+                        "0" => "FL",
+                        "1" => "LIT",
+                        "2" => "NL",
+                        _ => "NL" // Default value
+                    };
+
+                    worksheet.Cells[row, 4].Value = type;
+                    worksheet.Cells[row, 5].Value = item.Price;
                     row++;
                 }
+
 
                 // AutoFit columns
                 worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
@@ -327,7 +299,7 @@ namespace Hoarding_managment.Controllers
         }
 
 
-       
+
 
     }
 

@@ -340,6 +340,7 @@ namespace HoardingManagement.Repository
                     Location = item.Location,
                     Width = item.Width,
                     Height = item.Height,
+                    type= (ulong)item.Type,
                     Rate = item.Rate,
                     VendorAmt = item.VendorAmt,
                     MarginAmt = item.MarginAmt,
