@@ -46,7 +46,8 @@
                             <p><strong>Address :</strong> @truncatedAddress</p>                           
                             @foreach (var item in Model.Items)
                             { totalprice += Convert.ToDouble(item.Rate); }
-                            <p ><strong>Total Amount  : </strong> @totalprice /-</p>
+                           <p><strong>Total Amount  : </strong> @totalprice.ToString("F2") /-</p>
+
                         </div>
                     </div>
                     <hr>
@@ -61,7 +62,7 @@
                                             <p><strong>City:</strong> @item.City</p>
                                             <p><strong>Size:</strong> @item.Width FT x @item.Height FT</p>
                                             <p><strong>Vendor   :</strong> @Model.VendorName</p>
-                                            <h5 class="text-primary">Price: @item.Rate/-</h5>
+                                            <h5 class="text-primary">Price: @string.Format("{0:F2}", item.Rate)/-</h5>
                                             <h5 class="text-black" style="display:none;" > @item.type </h5>
                                         </div>
                                     </div>

@@ -1,6 +1,9 @@
 ﻿$(document).ready(function () {
     // Listen for changes on the Start Date and End Date
 
+
+
+
     var today = new Date().toISOString().split('T')[ 0 ]; // Get today's date in YYYY-MM-DD format
     $('#editfromdate').attr('min', today); // Set the min attribute to today's date, disabling past dates
 
@@ -11,19 +14,28 @@
     // Handle start date change
     $('.fromdate').on('change', function () {
         var selectedDate = $('#editfromdate').val(); // Get the selected date
+        var editId = $('#editId').val(); // Get the selected date
+
+
+
 
         // Check if the selected date is valid (today or later)
         if (selectedDate >= today) {
+
             toastr.success('Valid date selected.');
             previousStartDate = selectedDate; // Update the valid start date
+
         } else {
             toastr.error('Please select a date that is today or later.');
             $('#editfromdate').val(previousStartDate); // Revert to the previous valid start date
         }
     });
 
+
+
     // Handle end date change
     $('.todate').on('change', function () {
+
         var startDate = new Date($('#editfromdate').val()); // Get the selected start date
         var endDate = new Date($('#edittodate').val()); // Get the selected end date
 

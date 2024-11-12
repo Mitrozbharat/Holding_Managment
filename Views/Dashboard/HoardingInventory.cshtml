@@ -190,14 +190,7 @@
 
                     <div class="col-md-1">
                         <select id="rowQuantity" class="form-control" onchange="updateRowQuantity()" style="outline: 1px solid #b4b4b4;color: #050000;">
-                            @if (Model.PageSize == 5)
-                            {
-                                <option value="5" selected>5</option>
-                            }
-                            else
-                            {
-                                <option value="5">5</option>
-                            }
+                          
 
                             @if (Model.PageSize == 10)
                             {
@@ -370,7 +363,7 @@
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="vendoramt">Vendor Amount</label>
-                                            <input type="text" class="form-control custom-border" id="vendoramt" name="vendoramt" placeholder="Enter Vandor Amount">
+                                            <input type="text" class="form-control custom-border " value="0" id="vendoramt" name="vendoramt" placeholder="Enter Vandor Amount">
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="styp">Select Type</label>

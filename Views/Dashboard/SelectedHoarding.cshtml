@@ -855,15 +855,16 @@
 
             // Validate: Start date should not be in the past
             if (startDate < today) {
-                alert("Start date cannot be in the past.");
+                 toastr.error("Start date cannot be in the past.");
                 startDateInput.value = today.toISOString().split('T')[ 0 ]; // Reset to today's date
                 return; // Stop further validation if this check fails
             }
 
             // Validate: End date should not be before start date
             if (endDate < startDate) {
-                alert("End date cannot be earlier than the start date.");
-                endDateInput.value = startDateInput.value; // Reset to start date
+                 toastr.error("End date cannot be earlier than the start date.");
+                 endDateInput.value = ""; 
+                // endDateInput.value = startDateInput.value; // Reset to start date
                 return; // Stop further validation if this check fails
             }
 
@@ -875,7 +876,7 @@
 
                 // Ensure both dates are provided before proceeding
                 if (!startDateInput.value || !endDateInput.value) {
-                    toastr.error('Please select both start and end dates.');
+                    toastr.error('Please select correct Dates.');
                     return;
                 }
 
@@ -890,15 +891,53 @@
                         status: status
                     },
                     success: function (response) {
-                        if (response.success) {
-                            toastr.success(response.message);
-                            $('#saveCampaign').prop('disabled', false);
-                        } else {
+
+                       if (response.success) {
+
+                                const startDateInput = $(`#StartDate_${id}`).val();
+                                const endDateInput = $(`#EndDate_${id}`).val();
+
+                                console.log("startDateInput : " + startDateInput);
+                                console.log("endDateInput : " + endDateInput);
+
+                                // Convert the input values to Date objects for comparison
+                                const startDate = new Date(startDateInput);
+                                const endDate = new Date(endDateInput);
+
+                                    if (startDate.getTime() === endDate.getTime())
+                                    {
+
+                                     let toDate = new Date(startDate);
+                                         toDate.setDate(toDate.getDate() +1); // Add one day
+                                        // $(`#EndDate_${id}`).val(toDate.toISOString().split('T')[ 0 ]);
+                                         toastr.error('Please select One date after Date.');
+                                         $(`#EndDate_${id}`).val("");
+                                     }
+                                     else
+                                      {
+                                      
+                                        $('#saveCampaign').prop('disabled', false);
+                                      }
+
+                               
+                            }
+
+                        else
+                        {
+
                             toastr.error(response.message);
+
+                            $(`#EndDate_${id}`).val('');
+
                             $('#saveCampaign').prop('disabled', true);
-                            // Reset start date to the server-provided toDate
-                            let toDate = new Date(response.model.toDate);
-                            $(`#StartDate_${id}`).val(toDate.toISOString().split('T')[ 0 ]);
+
+                            let toDate = new Date(response.model);
+                            //console.log("date : " + response.model);
+                            toDate.setDate(toDate.getDate() +2); // Add one day
+                           $(`#StartDate_${id}`).val(toDate.toISOString().split('T')[ 0 ]);
+
+                            
+                           
                         }
                     },
                     error: function () {

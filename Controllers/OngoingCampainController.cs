@@ -328,8 +328,20 @@ namespace Hoarding_managment.Controllers
             // Assuming GetOngoingCampaignCountAsync() returns an integer count value
             //  var upcomingeventCount = await _context.GetOngoingCampaignCountAsync();
             var horingcount = await _dbContext.TblInventories.Where(x => x.IsDelete == 0).Select(x=>x.Id).CountAsync();
-            var vendorcount = await _dbContext.TblVendors.Where(x => x.IsDelete == 0).Select(x=>x.Id).CountAsync();
-            return Json(new { success = true, hcount = horingcount,vcount= vendorcount });
+
+           // int ids = await _dbContext.TblVendors.FirstOrDefaultAsync( x => x.IsDelete == 0 && x.VendorName == "Sahu Advertising").Id;
+
+            var vendor = await _dbContext.TblVendors
+           .FirstOrDefaultAsync(x => x.IsDelete == 0 && x.VendorName == "Sahu Advertising");
+
+            int ids = vendor?.Id ?? 0; // Use 0 or another default value if vendor is null
+
+            var vencount = await _dbContext.TblInventories.Where(x => x.IsDelete == 0 && x.FkVendorId == ids).CountAsync();
+
+            var bookingwonHordings = await _dbContext.TblInventories.Where(x => x.IsDelete == 0 && x.FkVendorId == ids && x.BookingStatus==1).CountAsync();
+
+
+            return Json(new { success = true, hcount = horingcount,vcount= vencount, bookingwonHordings= bookingwonHordings });
         }
 
         [HttpGet]

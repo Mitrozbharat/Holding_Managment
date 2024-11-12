@@ -614,6 +614,13 @@ namespace Hoarding_managment.Repository
                             .Where(x => x.FkInventoryId == item.FkInventoryId);
                         _context.TblInventoryitems.RemoveRange(itemsToDelete);
                         await _context.SaveChangesAsync();
+
+                        var inventoryItem =await _context.TblInventories.FirstOrDefaultAsync(x => x.Id == item.FkInventoryId && x.IsDelete == 0);
+                        if (inventoryItem != null)
+                        {
+                            inventoryItem.BookingStatus = 1;
+                            _context.SaveChanges();
+                        }
                     }
                 }
             }
@@ -677,6 +684,7 @@ namespace Hoarding_managment.Repository
 
             var campaignItems = await _context.TblCampaingitems
                 .Where(c => c.FkInventoryId == FkId && c.IsDelete == 0 && c.ToDate >= DateTime.Today)
+                .OrderByDescending(x=>x.CreatedAt)
                 .ToListAsync();
 
             foreach (var campaignItem in campaignItems)

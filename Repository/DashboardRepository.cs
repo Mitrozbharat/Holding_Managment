@@ -255,7 +255,7 @@ namespace Hoarding_managment.Repository
                     City = !string.IsNullOrEmpty(item.City) ? item.City : "N/A",
                     Area = !string.IsNullOrEmpty(item.Area) ? item.Area : "N/A",
                     location = !string.IsNullOrEmpty(item.Location) ? item.Location : "N/A",
-                    Rate = item.Rate != null ? item.Rate : "N/A", // Assuming Rate is a nullable type, otherwise you can skip this check
+                    Rate = item.Rate != null ? item.Rate :"00", // Assuming Rate is a nullable type, otherwise you can skip this check
                     vendoramt = item.VendorAmt != null ? item.VendorAmt : "N/A", // Same for VendorAmt
                     Width = item.Width != null ? item.Width : "N/A", // Same for Width
                     Height = item.Height != null ? item.Height : "N/A", // Same for Height
