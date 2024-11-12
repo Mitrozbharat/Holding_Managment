@@ -112,9 +112,15 @@ namespace HoardingManagement.Repository
                         .Select(c => c.BusinessName)
                         .FirstOrDefault(),
                     Totalhoarding = _context.TblQuotationitems
-                        .Count(qi => qi.FkQuotationId == q.Id && qi.IsDelete==0)
+                        .Count(qi => qi.FkQuotationId == q.Id && qi.IsDelete==0),
+                    Area = _context.TblQuotationitems
+                        .Where(qi => qi.FkQuotationId == q.Id)
+                        .Select(qi => qi.Area)
+                        .FirstOrDefault(),
+
                 })
                 .ToListAsync();
+
 
             return quotations;
         }

@@ -258,20 +258,23 @@ namespace Hoarding_managment.Controllers
                 int startRow = 7;
 
                 // Add header row for items
-                worksheet.Cells[startRow, 1].Value = "Location";
-                worksheet.Cells[startRow, 2].Value = "City";
-                worksheet.Cells[startRow, 3].Value = "Size";
-                worksheet.Cells[startRow, 4].Value = "Type";
-
-                worksheet.Cells[startRow, 5].Value = "Price";
+                worksheet.Cells[startRow, 1].Value = "City";
+                worksheet.Cells[startRow, 2].Value = "Area";
+                worksheet.Cells[startRow, 3].Value = "Location";
+                worksheet.Cells[startRow, 4].Value = "Width";
+                worksheet.Cells[startRow, 5].Value = "Height";
+                worksheet.Cells[startRow, 6].Value = "Type";
+                worksheet.Cells[startRow, 7].Value = "Price";
 
                 // Add data rows for items
                 int row = startRow + 1;
                 foreach (var item in model.Items)
                 {
-                    worksheet.Cells[row, 1].Value = item.Location;
-                    worksheet.Cells[row, 2].Value = item.City;
-                    worksheet.Cells[row, 3].Value = item.Size;
+                    worksheet.Cells[row, 1].Value = item.City;
+                    worksheet.Cells[row, 2].Value = item.Area;
+                    worksheet.Cells[row, 3].Value = item.Location;
+                    worksheet.Cells[row, 4].Value = item.Width;
+                    worksheet.Cells[row, 5].Value = item.Height;
 
                     string type = item.type switch
                     {
@@ -281,8 +284,8 @@ namespace Hoarding_managment.Controllers
                         _ => "NL" // Default value
                     };
 
-                    worksheet.Cells[row, 4].Value = type;
-                    worksheet.Cells[row, 5].Value = item.Price;
+                    worksheet.Cells[row, 6].Value = type;
+                    worksheet.Cells[row, 7].Value = item.Price;
                     row++;
                 }
 

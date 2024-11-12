@@ -64,6 +64,9 @@
                                             <p><strong>Vendor   :</strong> @Model.VendorName</p>
                                             <h5 class="text-primary">Price: @string.Format("{0:F2}", item.Rate)/-</h5>
                                             <h5 class="text-black" style="display:none;" > @item.type </h5>
+                                            <h5 class="Width" style="display:none;"> @item.Width </h5>
+                                            <h5 class="Height" style="display:none;"> @item.Height </h5>
+                                            <h5 class="Area" style="display:none;"> @item.Area </h5>
                                         </div>
                                     </div>
                                 </div>
@@ -575,6 +578,7 @@
 
             // Collect item data
             const items = Array.from(document.querySelectorAll('.mycard')).map(card => {
+              
                 const location = card.querySelector('h5')?.innerText || '';
                 const city = getTextAfterColon(Array.from(card.querySelectorAll('p'))
                     .find(p => p.innerText.includes("City")));
@@ -583,9 +587,13 @@
                 const price = getTextAfterColon(card.querySelector('h5.text-primary'));
                 const type = card.querySelector('h5.text-black')?.innerText.trim() || '';
 
+                const width = card.querySelector('h5.Width')?.innerText.trim() || '';
+                const height = card.querySelector('h5.Height')?.innerText.trim() || '';
+                const area = card.querySelector('h5.Area')?.innerText.trim() || '';
+
              
 
-                return { Location: location, City: city, Size: size, Type: type, Price: price };
+                return { Location: location, City: city, Size: size, Type: type, Price: price, Width: width, Height: height,Area:area };
             });
             // Prepare data to send
             const data = {
