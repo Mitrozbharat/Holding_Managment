@@ -5,6 +5,39 @@
         <button class="btn btn-info my-4 mb-2 ms-4" id="exportToPDF">Export to PDF</button>
         <button class="btn btn-info my-4 mb-2 ms-4" id="exportToExcel">Export to Excel</button> <!-- New button -->
     </div>
+    <a href="#" id="hiddenRedirectLink" style="text-align: center; color: blue; margin-left:25px; padding :1px;" onclick="generateLink()">Copy Link</a>
+
+    <script>
+        function generateLink() {
+            var id = @Model.Id;  // Your ID value from the model
+
+            // Get the base URL (assuming you are using relative paths)
+            var baseUrl = window.location.origin; // This gets the protocol + domain (e.g., http://example.com)
+
+            // Construct the full URL by appending the path and ID to the base URL
+            var url = baseUrl + '/Quatation/GenerateLink/' + id;  // Full URL with server base path
+
+            // Create a temporary input element to copy the link
+            var tempInput = document.createElement("input");
+            tempInput.value = url;
+            document.body.appendChild(tempInput);
+
+            // Select and copy the link to clipboard
+            tempInput.select();
+            tempInput.setSelectionRange(0, 99999); // For mobile devices
+            document.execCommand("copy");
+
+            // Remove the temporary input element
+            document.body.removeChild(tempInput);
+
+            // Optionally, alert the user that the link has been copied
+            alert("Link copied to clipboard!");
+        }
+    </script>
+
+
+
+
 
     <div id="exportContent" class="card p-4 m-2">
         <div class="container-fluid my-2">
@@ -604,9 +637,9 @@
                 TotalAmount: totalAmount,
                 Items: items
             };
+
             console.dir(" dir: ", data);
 
-            
            
             // Send data to server and download file
             fetch('/Quatation/GenerateExcel', {
@@ -790,5 +823,6 @@
 
 
     </script>
+
 
 </section>

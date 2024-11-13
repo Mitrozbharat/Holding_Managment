@@ -252,7 +252,7 @@
                                          </div>
                                             <div class="col-lg-5">
                                                 <div class="my-2">
-                                                    <p><span class="bold-text">City:</span> <span>@(!string.IsNullOrEmpty(i.City) ? i.City : "N/A")</span></p>
+                                                    <p><span class="bold-text">City:</span> <span>@(!string.IsNullOrEmpty(i.City) ? i.City : "")</span></p>
                                                     <p><span class="bold-text">Area:</span> <span>@(!string.IsNullOrEmpty(i.Area) ? i.Area : "N/A")</span></p>
                                                     <p><span class="bold-text">Size:</span> <span>@i.Width FT X @i.Height FT</span></p>
                                                     <p><span class="bold-text">Rate:</span> <span>@(!string.IsNullOrEmpty(i.Rate) ? i.Rate : "N/A")</span></p>
@@ -336,17 +336,17 @@
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="width">Width (Feet) <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control custom-border" id="width" name="width" placeholder="Enter Width" required>
+                                            <input type="number" class="form-control custom-border" id="width" name="width" placeholder="Enter Width" required>
                                         </div>
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label for="height">Height (Feet)<span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control custom-border" id="height" name="height" placeholder="Enter Height" required>
+                                            <input type="number" class="form-control custom-border" id="height" name="height" placeholder="Enter Height" required>
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="rate">Rate</label>
-                                            <input type="text" class="form-control custom-border" id="rate" name="rate" placeholder="Enter Rate">
+                                        <input type="number" class="form-control custom-border" id="rate" name="rate" placeholder="Enter Rate" required>
                                         </div>
                                     </div>
                                     
@@ -359,15 +359,15 @@
                                         </div>
                                          <div class="form-group col-md-6" style="display:none">
                                         <label for="vendoramt">Vendor id</label>
-                                            <input type="text" class="form-control custom-border" id="vendorids" name="vendorids" placeholder="Enter Vandor Amount">
+                                        <input type="number" class="form-control custom-border" id="vendorids" name="vendorids" placeholder="Enter Vandor Amount" required>
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="vendoramt">Vendor Amount</label>
-                                            <input type="text" class="form-control custom-border " value="0" id="vendoramt" name="vendoramt" placeholder="Enter Vandor Amount">
+                                        <input type="text" class="form-control custom-border " id="vendoramt" name="vendoramt" placeholder="Enter Vandor Amount" required>
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="styp">Select Type</label>
-                                            <select class="form-control custom-border " id="styp" name="styp" style="border:1px solid black;">
+                                        <select class="form-control custom-border " id="styp" name="styp" style="border:1px solid black;" required>
                                                 <option style="color:#000" value="0">FL</option>
                                             <option style="color:black" value="1">Lit</option>
                                             <option style="color:black" value="2">NL</option>
@@ -380,7 +380,7 @@
                                         <div class="form-group col-md-12">
                                             <label for="fileInput" class="form-label">Upload Image</label>
                                             <div class="custom-file">
-                                                <input type="file" id="imageInput" accept="image/*" class="custom-file-input" onchange="updateFileName();" />
+                                                <input type="file" id="imageInput" accept="image/*" class="custom-file-input" onchange="updateFileName();"  required />
                                                 <label class="custom-file-label" id="fileName" for="fileInput">Choose image</label>
                                             </div>
                                         </div>
@@ -467,7 +467,7 @@
                                     <div class="row">
                                         <div class="col-6" style="display: flex;justify-content: space-evenly;">
                                             <div id='profile-upload'>
-                                                <div class="hvr-profile-img" style="text-align: center;margin-top: 50%;"><input type="file" name="logo" id='getval' class="upload w180" title="Dimensions 180 X 180" id="imag" accept="image/*"> Upload new image</div>
+                                                <div class="hvr-profile-img" style="text-align: center;margin-top: 50%;"><input type="file" name="logo" id='getval' class="upload w180" title="Dimensions 180 X 180" id="imag" accept="image/*" required> Upload new image</div>
                                                 <i class="fa fa-camera"></i>
                                             </div>
                                         </div> 
@@ -486,12 +486,12 @@
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                       <label for="vendoramt">Vendor Amount</label>
-                                                     <input type="text" class="form-control custom-border" id="edit-vendoramt" name="edit-vendoramt" placeholder="Enter Vandor Amount">                                                   
-                                                </div>
+                                                <input type="number" class="form-control custom-border" id="edit-vendoramt" name="edit-vendoramt" placeholder="Enter Vandor Amount" required>
+                                            </div>
                                                 <div class="form-group col-md-6">
                                                    <label for="rate">Rate</label>
-                                                      <input type="text" class="form-control custom-border" id="edit-rate" name="edit-rate" placeholder="Enter Rate">
-                                                </div>
+                                                <input type="number" class="form-control custom-border" id="edit-rate" name="edit-rate" placeholder="Enter Rate " required>
+                                            </div>
                                             </div>
                                         </div>
                                     </div>
@@ -516,11 +516,11 @@
                                     </div>
                                          <div class="form-group col-md-6" style="display:none">
                                             <label for="vendoramt">Vendor id</label>
-                                            <input type="text" class="form-control custom-border" id="edit-vendorids" name="edit-vendorids" placeholder="Enter Vandor Amount">
+                                        <input type="number" class="form-control custom-border" id="edit-vendorids" name="edit-vendorids" placeholder="Enter Vandor Amount" required>
                                         </div> 
                                         <div class="form-group col-md-6" style="display:none">
                                             <label for="vendoramt">Vendor image</label>
-                                            <input type="text" class="form-control custom-border" id="edit-image" name="edit-image" placeholder="Enter Vandor Amount">
+                                        <input type="text" class="form-control custom-border" id="edit-image" name="edit-image" placeholder="Enter Vandor Amount" required>
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="City">City <span class="text-danger">*</span></label>
@@ -529,7 +529,7 @@
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="styped">Select Type</label>
-                                            <select class="form-control custom-border" id="styped" name="styped" style="border:1px solid black">
+                                        <select class="form-control custom-border" id="styped" name="styped" style="border:1px solid black" required>
                                                 <option value="1">NL</option>
                                                 <option value="2">FL</option>
                                                 <option value="3">Lit</option>
@@ -615,6 +615,10 @@
            
         
       <script>
+
+
+
+
           
         $('#selectvendorName').on('click', function () {
             $.ajax({
@@ -954,6 +958,16 @@
             }
     $('#editInventory').click(function ()
     {
+
+            $('addCustomerForm').find('input').each(function () {
+                if ($(this).val().trim() === '') {
+                    // If the input is empty, focus on it, set the flag, and exit the loop
+                    $(this).focus();
+                    hasEmptyField = true;
+                    return false; // Exit the .each() loop
+                }
+            });
+
         var id = $('#id').val();
         var city = $('#edit-city').val();
         var area = $('#edit-Area').val();

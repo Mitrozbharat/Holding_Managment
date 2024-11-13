@@ -251,14 +251,14 @@ namespace Hoarding_managment.Repository
                 {
 
                     Id = item.Id,
-                    Image = !string.IsNullOrEmpty(item.Image) ? item.Image : "N/A",
-                    City = !string.IsNullOrEmpty(item.City) ? item.City : "N/A",
-                    Area = !string.IsNullOrEmpty(item.Area) ? item.Area : "N/A",
-                    location = !string.IsNullOrEmpty(item.Location) ? item.Location : "N/A",
+                    Image = !string.IsNullOrEmpty(item.Image) ? item.Image : "",
+                    City = !string.IsNullOrEmpty(item.City) ? item.City : "",
+                    Area = !string.IsNullOrEmpty(item.Area) ? item.Area : "",
+                    location = !string.IsNullOrEmpty(item.Location) ? item.Location : "",
                     Rate = item.Rate != null ? item.Rate :"00", // Assuming Rate is a nullable type, otherwise you can skip this check
-                    vendoramt = item.VendorAmt != null ? item.VendorAmt : "N/A", // Same for VendorAmt
-                    Width = item.Width != null ? item.Width : "N/A", // Same for Width
-                    Height = item.Height != null ? item.Height : "N/A", // Same for Height
+                    vendoramt = item.VendorAmt != null ? item.VendorAmt : "", // Same for VendorAmt
+                    Width = item.Width != null ? item.Width : "", // Same for Width
+                    Height = item.Height != null ? item.Height : "", // Same for Height
                     BookingStatus = (ulong?)bookstatus,
                     CreatedAt = item.CreatedAt,
                     UpdatedAt = item.UpdatedAt,

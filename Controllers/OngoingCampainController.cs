@@ -1,4 +1,5 @@
-﻿using Hoarding_management.Data;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using Hoarding_management.Data;
 
 namespace Hoarding_managment.Controllers
 {
@@ -442,6 +443,52 @@ namespace Hoarding_managment.Controllers
             });
         }
 
+
+        [HttpGet]
+        public async Task<IActionResult> GetBookedRanges(int id, int status)
+        {
+            int? FkId = null;
+
+            if (status == 0)
+            {
+                FkId = await _dbContext.TblInventoryitems
+                    .Where(x => x.Id == id)
+                    .Select(x => x.FkInventoryId)
+                    .FirstOrDefaultAsync();
+            }
+            else if (status == 1)
+            {
+                FkId = await _dbContext.TblQuotationitems
+                    .Where(x => x.Id == id)
+                    .Select(x => x.FkInventory)
+                    .FirstOrDefaultAsync();
+            }
+
+            // Return null if no FkId was found
+            if (FkId == null) return Json(new { success = false, message = "No valid FkId found." });
+
+            // Query tbl_campaignitems to check for any overlapping date ranges for the given inventory item
+            List<DateRangeRequest> dateRanges = await _dbContext.TblCampaingitems
+                .Where(c => c.FkInventoryId == FkId && c.IsDelete == 0)
+                .Select(c => new DateRangeRequest
+                {
+                    Id = c.Id,
+                    FromDate = (DateTime)c.FromDate,
+                    ToDate = (DateTime)c.ToDate
+                })
+                .ToListAsync();
+
+            return Json(new { success = true, model = dateRanges });
+        }
+
+
+        public class DateRangeRequest
+        {
+            public int Id { get; set; }
+            public DateTime FromDate { get; set; }
+            public DateTime ToDate { get; set; }
+            public int Status { get; set; }
+        }
 
     }
 }

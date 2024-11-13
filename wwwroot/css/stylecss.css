@@ -1,7 +1,14 @@
 ﻿﻿body {
     background-color: #f8f9fa;
 }
+#generate-link {
+    transition: background-color 0.3s ease;
+}
 
+    #generate-link.clicked {
+        background-color: green;
+        color: white;
+    }
 
 #importExcelbutton, #addInventory {
     width:180px;
@@ -85,7 +92,8 @@ seleced Hoarding
     align-items: center;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     border-radius: 10px ;
-    max-height: 150px;
+    max-height: 185px;
+
 }
 
 .show-lg {

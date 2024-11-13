@@ -34,7 +34,7 @@ namespace Hoarding_managment.Controllers
 
             var sessionUserName = HttpContext.Session.GetString("SessionUsername");
 
-            
+
 
             if (sessionUserId == null || sessionUserId == 0)
             {
@@ -63,8 +63,8 @@ namespace Hoarding_managment.Controllers
 
             var sessionUserName = HttpContext.Session.GetString("SessionUsername");
 
-        
-          
+
+
             if (sessionUserId == null)
             {
                 return RedirectToAction("Index", "Auth");
@@ -90,7 +90,7 @@ namespace Hoarding_managment.Controllers
 
             var sessionUserName = HttpContext.Session.GetString("SessionUsername");
 
-           
+
             if (sessionUserId == null)
             {
                 return RedirectToAction("Index", "Auth");
@@ -116,7 +116,7 @@ namespace Hoarding_managment.Controllers
 
             var sessionUserName = HttpContext.Session.GetString("SessionUsername");
 
-           
+
 
             if (sessionUserId == null)
             {
@@ -160,8 +160,8 @@ namespace Hoarding_managment.Controllers
 
             var sessionUserName = HttpContext.Session.GetString("SessionUsername");
 
-        
-           
+
+
 
 
             if (sessionUserId == null)
@@ -185,9 +185,6 @@ namespace Hoarding_managment.Controllers
             var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
 
             var sessionUserName = HttpContext.Session.GetString("SessionUsername");
-
-        
-           
 
 
             if (sessionUserId == null)
@@ -304,6 +301,28 @@ namespace Hoarding_managment.Controllers
 
 
 
-    }
+        [HttpGet]
+        public async Task<IActionResult>  GenerateLink(int id)
+        {
+           
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
 
+            var quotation = await _context.GetQuotationByIdDetailAsync(id);
+
+
+            ViewBag.ItemsJson = JsonConvert.SerializeObject(quotation.Items);
+
+
+            if (quotation == null)
+            {
+                return NotFound();
+            }
+
+            return View(quotation);
+        }
+
+    }
 }
