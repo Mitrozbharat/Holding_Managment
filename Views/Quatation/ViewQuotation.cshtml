@@ -5,17 +5,21 @@
         <button class="btn btn-info my-4 mb-2 ms-4" id="exportToPDF">Export to PDF</button>
         <button class="btn btn-info my-4 mb-2 ms-4" id="exportToExcel">Export to Excel</button> <!-- New button -->
     </div>
-    <a href="#" id="hiddenRedirectLink" style="text-align: center; color: blue; margin-left:25px; padding :1px;" onclick="generateLink()">Copy Link</a>
+
+    <a href="#" id="hiddenRedirectLink" style="text-align: center; color: blue; margin-left:90%; padding :1px;" onclick="generateLink()">Copy Link</a>
+  
 
     <script>
         function generateLink() {
             var id = @Model.Id;  // Your ID value from the model
 
+            var encodedId = btoa(id.toString());
+          
             // Get the base URL (assuming you are using relative paths)
             var baseUrl = window.location.origin; // This gets the protocol + domain (e.g., http://example.com)
 
             // Construct the full URL by appending the path and ID to the base URL
-            var url = baseUrl + '/Quatation/GenerateLink/' + id;  // Full URL with server base path
+            var url = baseUrl + '/Quatation/GenerateLink/' + encodedId;  // Full URL with server base path
 
             // Create a temporary input element to copy the link
             var tempInput = document.createElement("input");

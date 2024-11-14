@@ -1,4 +1,6 @@
 ﻿
+using System.Text;
+
 namespace Hoarding_managment.Controllers
 {
     public class QuatationController : Controller
@@ -301,28 +303,71 @@ namespace Hoarding_managment.Controllers
 
 
 
-        [HttpGet]
-        public async Task<IActionResult>  GenerateLink(int id)
-        {
-           
-            if (id <= 0)
+
+
+        [HttpGet("Quatation/GenerateLink/{id}")]
+        public async Task<IActionResult> GenerateLink(string id)
+        { // Decode the Base64-encoded ID directly in the action
+            byte[] data;
+            try
             {
-                return BadRequest();
+                data = Convert.FromBase64String(id);
+            }
+            catch (FormatException)
+            {
+                return BadRequest("Invalid.");
             }
 
-            var quotation = await _context.GetQuotationByIdDetailAsync(id);
+            string decodedString = Encoding.UTF8.GetString(data);
 
+            if (!int.TryParse(decodedString, out int decodedId) || decodedId <= 0)
+            {
+                return BadRequest("Invalid ID format.");
+            }
 
-            ViewBag.ItemsJson = JsonConvert.SerializeObject(quotation.Items);
-
+            // Fetch the quotation by the decoded ID
+            var quotation = await _context.GetQuotationByIdDetailAsync(decodedId);
 
             if (quotation == null)
             {
                 return NotFound();
             }
 
+            ViewBag.ItemsJson = JsonConvert.SerializeObject(quotation.Items);
+
             return View(quotation);
         }
+
+        //public async Task<IActionResult> GenerateLink(string id)
+        //{
+        //    // Decode the Base64 string to retrieve the original integer ID
+        //    try
+        //    {
+        //        byte[] data = Convert.FromBase64String(id);
+        //        string decodedString = Encoding.UTF8.GetString(data);
+
+        //        if (!int.TryParse(decodedString, out int decodedId) || decodedId <= 0)
+        //        {
+        //            return BadRequest("Invalid ID format.");
+        //        }
+
+        //        // Fetch the quotation by the decoded ID
+        //        var quotation = await _context.GetQuotationByIdDetailAsync(decodedId);
+
+        //        if (quotation == null)
+        //        {
+        //            return NotFound();
+        //        }
+
+        //        ViewBag.ItemsJson = JsonConvert.SerializeObject(quotation.Items);
+
+        //        return View(quotation);
+        //    }
+        //    catch (FormatException)
+        //    {
+        //        return BadRequest("Invalid Base64 format.");
+        //    }
+        //}
 
     }
 }
