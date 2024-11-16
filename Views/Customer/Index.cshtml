@@ -134,7 +134,7 @@
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-primary p-2" data-toggle="modal" data-target="#editCustomerModal"
-                                                onclick="openEditModal('@item.Id','@item.BusinessName','@item.CustomerName','@item.Email','@item.GstNo','@item.ContactNo','@item.AlternateNumber','@item.Address','@item.State');">
+                                                onclick="openEditModal('@item.Id','@item.BusinessName','@item.CustomerName','@item.Email','@item.GstNo','@item.ContactNo','@item.AlternateNumber','@item.City','@item.Address','@item.State');">
                                             <i class="mdi mdi-table-edit"></i>
                                         </button> |
                                         <button type="button" class="btn btn-danger p-2" data-toggle="modal" data-target="#deleteModal" onclick="openDeleteModal(@item.Id)">
@@ -179,108 +179,7 @@
     </div>
 </div>
 
-    <!-- add model -->
-    <div class="modal fade" id="addCustomerModal" tabindex="-1" aria-labelledby="addCustomerModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addCustomerModalLabel">Add Customer</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="addCustomerForm">
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="businessName">Business Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control custom-border" id="businessName" name="businessName" placeholder="Business Name" required>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="customerName">Contact Person Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control custom-border" id="customerName" name="customerName" placeholder="Contact Person Name" required>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="email">Email <span class="text-danger">*</span></label>
-                                <input type="email" class="form-control custom-border" id="email" name="email" placeholder="Email" required>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="gstn">GST Number</label>
-                                <input type="text" class="form-control custom-border" id="gstn" name="gstn" placeholder="GST Number" required>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="contactNumber">Contact Number <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control custom-border" id="contactNumber" name="contactNumber" placeholder="Contact Number" required>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="alternateNumber">Alternate Number</label>
-                                <input type="text" class="form-control custom-border" id="alternateNumber" name="alternateNumber" placeholder="Alternate Number">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="address">Address</label>
-                                <input type="text" class="form-control custom-border" id="address" name="address" placeholder="Address">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="state">State</label>
-                                <select class="form-control border-black" id="state" name="state" style="border: 1px solid black; border-radius:10px">
-                                    <option value="">Select state</option>
-                                    <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
-                                    <option value="Andhra Pradesh">Andhra Pradesh</option>
-                                    <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-                                    <option value="Assam">Assam</option>
-                                    <option value="Bihar">Bihar</option>
-                                    <option value="Chandigarh">Chandigarh</option>
-                                    <option value="Chhattisgarh">Chhattisgarh</option>
-                                    <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
-                                    <option value="Daman and Diu">Daman and Diu</option>
-                                    <option value="Delhi">Delhi</option>
-                                    <option value="Goa">Goa</option>
-                                    <option value="Gujarat">Gujarat</option>
-                                    <option value="Haryana">Haryana</option>
-                                    <option value="Himachal Pradesh">Himachal Pradesh</option>
-                                    <option value="Jammu and Kashmir">Jammu and Kashmir</option>
-                                    <option value="Jharkhand">Jharkhand</option>
-                                    <option value="Karnataka">Karnataka</option>
-                                    <option value="Kerala">Kerala</option>
-                                    <option value="Ladakh">Ladakh</option>
-                                    <option value="Lakshadweep">Lakshadweep</option>
-                                    <option value="Madhya Pradesh">Madhya Pradesh</option>
-                                    <option value="Maharashtra">Maharashtra</option>
-                                    <option value="Manipur">Manipur</option>
-                                    <option value="Meghalaya">Meghalaya</option>
-                                    <option value="Mizoram">Mizoram</option>
-                                    <option value="Nagaland">Nagaland</option>
-                                    <option value="Odisha">Odisha</option>
-                                    <option value="Puducherry">Puducherry</option>
-                                    <option value="Punjab">Punjab</option>
-                                    <option value="Rajasthan">Rajasthan</option>
-                                    <option value="Sikkim">Sikkim</option>
-                                    <option value="Tamil Nadu">Tamil Nadu</option>
-                                    <option value="Telangana">Telangana</option>
-                                    <option value="Tripura">Tripura</option>
-                                    <option value="Uttar Pradesh">Uttar Pradesh</option>
-                                    <option value="Uttarakhand">Uttarakhand</option>
-                                    <option value="West Bengal">West Bengal</option>
-                                </select>
-
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="saveCustomerButton">Save</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
+   
 
     <!-- Edit Customer Modal -->
     <div class="modal fade" id="editCustomerModal" tabindex="-1" aria-labelledby="editCustomerModalLabel" aria-hidden="true">
@@ -301,43 +200,49 @@
                             <input type="hidden" id="editCustomerId"/>
                             <div class="form-group col-md-6">
                                 <label for="editBusinessName">Business Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control custom-border" name="editBusinessName" id="editBusinessName" placeholder="Business Name" required>
+                                <input type="text" class="form-control custom-border editBusinessName" name="editBusinessName" id="editBusinessName" placeholder="Business Name" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="editCustomerName">Contact Person Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control custom-border" name="editCustomerName" id="editCustomerName" placeholder="Customer" required>
+                                <input type="text" class="form-control custom-border editCustomerName" name="editCustomerName" id="editCustomerName" placeholder="Customer" required>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="editEmail">Email <span class="text-danger">*</span></label>
-                                <input type="email" class="form-control custom-border" name="editEmail" id="editEmail" placeholder="Email" required>
+                                <input type="email" class="form-control custom-border editEmail" name="editEmail" id="editEmail" placeholder="Email" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="editGstn">GST Number </label>
-                                <input type="text" class="form-control custom-border" id="editGstn" placeholder="GSTN" >
+                                <input type="text" class="form-control custom-border editGstn" id="editGstn" placeholder="GSTN">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="editContactNumber">Contact Person Number <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control custom-border" id="editContactNumber" placeholder="Contact Number" required>
+                                <input type="text" class="form-control custom-border editContactNumber" id="editContactNumber" placeholder="Contact Number" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="editAlternateNumber">Alternate Number</label>
-                                <input type="text" class="form-control custom-border" id="editAlternateNumber" placeholder="Alternate Number" >
+                                <input type="text" class="form-control custom-border editAlternateNumber" id="editAlternateNumber" placeholder="Alternate Number">
                             </div>
                         </div>
 
                         <!-- Horizontal Line with Two Inputs -->
                         <div class="form-row">
+
                             <div class="form-group col-md-6">
-                                <label for="editAddress">Address</label>
-                                <input type="text" class="form-control custom-border" id="editAddress" placeholder="Address">
+                                <label for="editCity">City <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control custom-border editcity" id="editcity" placeholder="City">
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="editAddress">Address <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control custom-border editAddress" id="editAddress" placeholder="Address">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="editState">Enter State</label>
-                                <select class="form-control border-black" id="editState" name="state" style="border: 1px solid black; border-radius:10px">
+                                <select class="form-control border-black editState" id="editState" name="state" style="border: 1px solid black; border-radius:10px">
                                     <option value="">Select state</option>
                                     <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
                                     <option value="Andhra Pradesh">Andhra Pradesh</option>
@@ -414,44 +319,287 @@
         </div>
     </div>
 
- <script>
-    function searchCustomers() {
-        var searchQuery = document.getElementById('searchQuery').value;
-        var pageSize = document.getElementById('rowQuantity').value;
+
+    <!-- add model -->
+    <div class="modal fade" id="addCustomerModal" tabindex="-1" aria-labelledby="addCustomerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCustomerModalLabel">Add Customer</h5>
+                    <button type="button" id="closeaddCustomerForm" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="addCustomerForm">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="businessName">Business Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control custom-border businessName" id="businessName" name="businessName" placeholder="Business Name" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="customerName">Contact Person Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control custom-border customerName" id="customerName" name="customerName" placeholder="Contact Person Name" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="email">Email <span class="text-danger">*</span></label>
+                                <input type="email" class="form-control custom-border email" id="email" name="email" placeholder="Email" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="gstn">GST Number</label>
+                                <input type="text" class="form-control custom-border gstn" id="gstn" name="gstn" placeholder="GST Number" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="contactNumber">Contact Number <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control custom-border contactNumber" id="contactNumber" name="contactNumber" placeholder="Contact Number" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="alternateNumber">Alternate Number</label>
+                                <input type="text" class="form-control custom-border alternateNumber" id="alternateNumber" name="alternateNumber" placeholder="Alternate Number">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="address">Address <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control custom-border address" id="address" name="address" placeholder="Address" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="address">City  <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control custom-border city" id="city" name="city" placeholder="city" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="state">State</label>
+                                <select class="form-control border-black state" id="state" name="state" style="border: 1px solid black; border-radius:10px" required>
+                                    <option value="">Select state</option>
+                                    <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                                    <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                    <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                    <option value="Assam">Assam</option>
+                                    <option value="Bihar">Bihar</option>
+                                    <option value="Chandigarh">Chandigarh</option>
+                                    <option value="Chhattisgarh">Chhattisgarh</option>
+                                    <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+                                    <option value="Daman and Diu">Daman and Diu</option>
+                                    <option value="Delhi">Delhi</option>
+                                    <option value="Goa">Goa</option>
+                                    <option value="Gujarat">Gujarat</option>
+                                    <option value="Haryana">Haryana</option>
+                                    <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                    <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                                    <option value="Jharkhand">Jharkhand</option>
+                                    <option value="Karnataka">Karnataka</option>
+                                    <option value="Kerala">Kerala</option>
+                                    <option value="Ladakh">Ladakh</option>
+                                    <option value="Lakshadweep">Lakshadweep</option>
+                                    <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                    <option value="Maharashtra">Maharashtra</option>
+                                    <option value="Manipur">Manipur</option>
+                                    <option value="Meghalaya">Meghalaya</option>
+                                    <option value="Mizoram">Mizoram</option>
+                                    <option value="Nagaland">Nagaland</option>
+                                    <option value="Odisha">Odisha</option>
+                                    <option value="Puducherry">Puducherry</option>
+                                    <option value="Punjab">Punjab</option>
+                                    <option value="Rajasthan">Rajasthan</option>
+                                    <option value="Sikkim">Sikkim</option>
+                                    <option value="Tamil Nadu">Tamil Nadu</option>
+                                    <option value="Telangana">Telangana</option>
+                                    <option value="Tripura">Tripura</option>
+                                    <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                    <option value="Uttarakhand">Uttarakhand</option>
+                                    <option value="West Bengal">West Bengal</option>
+                                </select>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="savecustomer">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        function searchCustomers() {
+            var searchQuery = document.getElementById('searchQuery').value;
+            var pageSize = document.getElementById('rowQuantity').value;
             window.location.href = `/Customer/Index?searchQuery=${searchQuery}&pageNumber=1&pageSize=${pageSize}`;
-    }
+        }
 
-    function updateRowQuantity() {
-        var pageSize = document.getElementById('rowQuantity').value;
-        var searchQuery = document.getElementById('searchQuery').value;
+        function updateRowQuantity() {
+            var pageSize = document.getElementById('rowQuantity').value;
+            var searchQuery = document.getElementById('searchQuery').value;
             window.location.href = `/Customer/Index?searchQuery=${searchQuery}&pageNumber=1&pageSize=${pageSize}`;
-    }
-</script>
-<script>
-    $(document).ready(function() {
+        }
 
-     
-
-    $('#searchInput').on('input', function() {
-        let searchValue = $(this).val();
-        if (searchValue.length >= 2) { // Trigger search after 2 characters
-            $.ajax({
-                url: '/search',
-                type: 'GET',
-                data: { name: searchValue },
-                success: function(data) {
-                    // Handle the search results here
-                    console.log(data); // For example, log the results
-                    // Update the UI with the search results
-                },
-                error: function(error) {
-                    console.error('Error fetching search results:', error);
+        $(document).ready(function () {
+            $('#searchInput').on('input', function () {
+                let searchValue = $(this).val();
+                if (searchValue.length >= 2) { // Trigger search after 2 characters
+                    $.ajax({
+                        url: '/search',
+                        type: 'GET',
+                        data: { name: searchValue },
+                        success: function (data) {
+                            // Handle the search results here
+                            console.log(data); // For example, log the results
+                            // Update the UI with the search results
+                        },
+                        error: function (error) {
+                            console.error('Error fetching search results:', error);
+                        }
+                    });
                 }
             });
-        }
-    });
-});
+        });
+    </script>
 
-</script>
+    <script>
 
+        $('#savecustomer').on('click',function (e) {
+            // Clear previous error messages
+            $('.error-message').remove();
+
+        // Validate required fields
+        let isValid = true;
+
+
+        let businessName = document.getElementsByClassName('businessName')[ 0 ].value.trim();
+        let customerName = document.getElementsByClassName('customerName')[ 0 ].value.trim();
+        let email = $('#email').val().trim();
+        let contactNumber = $('#contactNumber').val().trim();
+        let gstNumber = $('#gstn').val().trim();
+        let city = document.getElementsByClassName('city')[ 0 ].value.trim();
+        let address = document.getElementsByClassName('address')[ 0 ].value.trim();
+        let state = document.getElementsByClassName('state')[ 0 ].value.trim();
+
+        // Regular expressions for validation
+
+        const hasNumber = /\d/;
+        const textRegex = /^[a-zA-Z\s]+$/; // Text only (letters and spaces)
+        const contactNumberRegex = /^\d{10}$/; // Exactly 10 digits
+
+        if (hasNumber.test(businessName) || hasNumber.test(customerName) || hasNumber.test(city)) {
+            toastr.error('Please Enter text.');
+        return; // Stop further execution
+            }
+
+        // Validate Business Name
+        if (businessName === '') {
+            $('.businessName').after('<span class="error-message text-danger">This field is required.</span>');
+        isValid = false;
+                    } else if (!textRegex.test(businessName)) {
+            $('.businessName').after('<span class="error-message text-danger">Business Name must contain only letters and spaces.</span>');
+        isValid = false;
+                    }
+
+        // Validate Customer Name
+        if (customerName === '') {
+            $('.customerName').after('<span class="error-message text-danger">This field is required.</span>');
+        isValid = false;
+                    } else if (!textRegex.test(customerName)) {
+            $('.customerName').after('<span class="error-message text-danger">Contact Person Name must contain only letters and spaces.</span>');
+        isValid = false;
+                    }
+
+        // Validate Email
+        if (email === '') {
+            $('.email').after('<span class="error-message text-danger">This field is required.</span>');
+        isValid = false;
+                    } else if (!validateEmail(email)) {
+            $('.email').after('<span class="error-message text-danger">Enter a valid email address.</span>');
+        isValid = false;
+                    }
+
+        // Validate Contact Number
+        if (contactNumber === '') {
+            $('.contactNumber').after('<span class="error-message text-danger">This field is required.</span>');
+        isValid = false;
+                    }
+        else if (!contactNumberRegex.test(contactNumber)) {
+            $('.contactNumber').after('<span class="error-message text-danger">Contact Number must be exactly 10 digits.</span>');
+        isValid = false;
+                    }
+
+        // Validate GST Number (if provided)
+        if (gstNumber !== '' && gstNumber.length !== 15) {
+            $('#gstn').after('<span class="error-message text-danger">GST Number must be exactly 15 characters.</span>');
+        isValid = false;
+                    }
+
+
+
+        if (city === '') {
+            $('.city').after('<span class="error-message text-danger">This field is required.</span>');
+        isValid = false;
+                    } else if (!textRegex.test(city)) {
+            $('.city').after('<span class="error-message text-danger">Contact Person Name must contain only letters and spaces.</span>');
+        isValid = false;
+                    }
+
+
+
+        if (address === '') {
+            $('.address').after('<span class="error-message text-danger">This field is required.</span>');
+        isValid = false;
+                    } else if (!textRegex.test(city)) {
+            $('.address').after('<span class="error-message text-danger">Contact Person Name must contain only letters and spaces.</span>');
+        isValid = false;
+                    }
+        if (state === '') {
+            $('.address').after('<span class="error-message text-danger">This field is required.</span>');
+            isValid = false;}
+
+
+        // If the form is valid, proceed with the AJAX submission
+        if (isValid) {
+                    var formData = $('#addCustomerForm').serialize();
+        console.log("Serialized Form Data: ", formData); // For debugging
+
+        $.ajax({
+            type: "POST",
+        url: '/Customer/AddNewCustomer', // Update the URL to match your controller action
+        data: formData,
+        success: function (response) {
+            console.log("Response: " + response);
+        if (response.message == "Customer Add Successfully. ") {
+            toastr.success('Customer added successfully.');
+            location.reload();
+        // $('#closeaddCustomerForm').click();  // Corrected line
+        // document.getElementById('addCustomerForm').reset();
+                                }
+        else {
+            toastr.error('An error occurred while adding the inventory.');
+                            }
+
+                        },
+        error: function (xhr, status, error) {
+            toastr.error('An error occurred while adding the inventory.');
+                        }
+                    });
+                } else {
+            toastr.error('Please fill all the required fields.');
+                }
+            });
+
+        function validateEmail(email) {
+                var re = /^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return re.test(email);
+            }
+
+
+
+
+    </script>
+    <script src="~/js/customer.js"></script>
+   
 </body>

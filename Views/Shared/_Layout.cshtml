@@ -31,6 +31,7 @@
     <!-- Include jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+  
 
     <style>
         .sidebar .nav.sub-menu .nav-item::before {
@@ -51,15 +52,17 @@
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="navbar-brand-wrapper d-flex justify-content-center">
                 <div class="navbar-brand-inner-wrapper d-flex justify-content-between align-items-center w-75">
-                    <a class="navbar-brand brand-logo" href="../../index.html"><img src="~/images/logo.png" alt="logo" /></a>
-                    <a class="navbar-brand brand-logo-mini" href="../../index.html">
-                        <img src="~/images/logo.png"
-                             alt="logo" id="logoImg" onclick="uploadImg()" />
+                    <a class="navbar-brand brand-logo" href="~/Dashboard/index">
+                        <img src="~/images/logo.png" alt="logo" />
+                    </a>
+                    <a class="navbar-brand brand-logo-mini" href="~/Dashboard/index">
+                        <img src="~/images/logo.png" alt="logo" id="logoImg" />
                     </a>
                     <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
                         <span class="mdi mdi-sort-variant"></span>
                     </button>
                 </div>
+
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
               
@@ -195,21 +198,7 @@
     </div>
     @await RenderSectionAsync("Scripts", required: false)
 
-    <script src="~/data/vendors/chart.js/Chart.min.js"></script>
-    <script src="~/data/js/off-canvas.js"></script>
-    <script src="~/data/js/hoverable-collapse.js"></script>
-    <script src="~/data/js/template.js"></script>
-    <script src="~/data/js/chart.js"></script>
-    <script src="~/js/toastr.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
-    <script type="text/javascript" src="~/js/Customer.js"></script>
-    <!-- Include CryptoJS library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1-crypto-js.js"></script>
-
+   
     <script>
         $(document).ready(function () {
             $.ajax({
@@ -259,7 +248,19 @@
 
 
     </script>
+    <script src="~/data/vendors/chart.js/Chart.min.js"></script>
+    <script src="~/data/js/off-canvas.js"></script>
+    <script src="~/data/js/hoverable-collapse.js"></script>
+    <script src="~/data/js/template.js"></script>
+    <script src="~/data/js/chart.js"></script>
+    <script src="~/js/toastr.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+    <script type="text/javascript" src="~/js/Customer.js"></script>
+  
 </body>
 
 </html>

@@ -117,6 +117,7 @@ namespace HoardingManagement.Repository
                         .Where(qi => qi.FkQuotationId == q.Id)
                         .Select(qi => qi.Area)
                         .FirstOrDefault(),
+                   
 
                 })
                 .ToListAsync();

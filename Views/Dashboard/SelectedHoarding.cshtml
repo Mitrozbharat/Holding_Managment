@@ -33,19 +33,18 @@
         margin-left: 60%;
     }
 
-    .StartDate, .EndDate{
+    .StartDate, .EndDate {
         border: 0.2px solid #000;
         color: black;
         border-radius: 15px;
-     
     }
 
-    .StartDate{
-        margin-right:10px;
+    .StartDate {
+        margin-right: 10px;
     }
 
-    .img-height{
-        max-height:130px;
+    .img-height {
+        max-height: 130px;
         width: 50%;
     }
 
@@ -66,7 +65,7 @@
                     <div class="row mb-3">
                         <div class="col-6 " id="labelqute">
                             <input type="radio" id="create-quotation" name="quotation" value="quotation">
-                            <label    for="create-quotation">Create Quotation</label>
+                            <label for="create-quotation">Create Quotation</label>
                         </div>
                         <input type="text" id="idforalldatechange" name="idforalldatechange" style="display:none">
                         <input type="text" id="idforalldatechangestring" name="idforalldatechangestring" style="display:none">
@@ -119,34 +118,34 @@
         </div>
     </div>
 
-   <!-- Delete Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content" style="border-radius:20px;">
-            <div class="modal-header">
-                <h5 class="modal-title text-primary" id="deleteModalLabel">Delete</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p class="text-muted-foreground text-center mt-2">Are you sure you want to Delete this Hoarding?</p>
-                <input type="hidden" id="selectedId" />
-            </div>
-            <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-danger" id="deleteHoarding">Delete</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+    <!-- Delete Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="border-radius:20px;">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary" id="deleteModalLabel">Delete</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted-foreground text-center mt-2">Are you sure you want to Delete this Hoarding?</p>
+                    <input type="hidden" id="selectedId" />
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-danger" id="deleteHoarding">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
- <!-- add model -->
+    <!-- add model -->
     <div class="modal fade" id="addCustomerModal" tabindex="-1" aria-labelledby="addCustomerModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addCustomerModalLabel">Add Customer</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" id="closeaddCustomerForm" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -155,41 +154,45 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="businessName">Business Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control custom-border" id="businessName" name="businessName" placeholder="Business Name" required>
+                                <input type="text" class="form-control custom-border businessName" id="businessName" name="businessName" placeholder="Business Name" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="customerName">Contact Person Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control custom-border" id="customerName" name="customerName" placeholder="Contact Person Name" required>
+                                <input type="text" class="form-control custom-border customerName" id="customerName" name="customerName" placeholder="Contact Person Name" required>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="email">Email <span class="text-danger">*</span></label>
-                                <input type="email" class="form-control custom-border" id="email" name="email" placeholder="Email" required>
+                                <input type="email" class="form-control custom-border email" id="email" name="email" placeholder="Email" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="gstn">GST Number</label>
-                                <input type="text" class="form-control custom-border" id="gstn" name="gstn" placeholder="GST Number" required>
+                                <input type="text" class="form-control custom-border gstn" id="gstn" name="gstn" placeholder="GST Number" required>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="contactNumber">Contact Number <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control custom-border" id="contactNumber" name="contactNumber" placeholder="Contact Number" required>
+                                <input type="text" class="form-control custom-border contactNumber" id="contactNumber" name="contactNumber" placeholder="Contact Number" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="alternateNumber">Alternate Number</label>
-                                <input type="text" class="form-control custom-border" id="alternateNumber" name="alternateNumber" placeholder="Alternate Number">
+                                <input type="text" class="form-control custom-border alternateNumber" id="alternateNumber" name="alternateNumber" placeholder="Alternate Number">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="address">Address</label>
-                                <input type="text" class="form-control custom-border" id="address" name="address" placeholder="Address">
+                                <label for="address">Address <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control custom-border address" id="address" name="address" placeholder="Address" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="address">City  <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control custom-border city" id="city" name="city" placeholder="city" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="state">State</label>
-                                <select class="form-control border-black" id="state" name="state" style="border: 1px solid black; border-radius:10px">
+                                <select class="form-control border-black state" id="state" name="state" style="border: 1px solid black; border-radius:10px" required>
                                     <option value="">Select state</option>
                                     <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
                                     <option value="Andhra Pradesh">Andhra Pradesh</option>
@@ -236,7 +239,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary"  id="savecustomer" >Save</button>
+                    <button type="button" class="btn btn-primary" id="savecustomer">Save</button>
                 </div>
             </div>
         </div>
@@ -249,84 +252,140 @@
 
     <input type="text" id="selecteId" style="display:none;" />
 
-   
-
 
     <script>
-          
-         $('#savecustomer').on('click',function (e) {
-         e.preventDefault(); // Prevent the default form submission
-
-        // Clear previous error messages
-        $('.error-message').remove();
+            $('#savecustomer').on('click',function (e) {
+            // Clear previous error messages
+            $('.error-message').remove();
 
         // Validate required fields
-        var isValid = true;
+        let isValid = true;
 
-        // Check Business Name
-        // if ($('#businessName').val().trim() === '') {
-        //     $('#businessName').after('<span class="error-message text-danger">This field is required.</span>');
-        //     isValid = false;
-        // }
 
-        // // Check Contact Person Name
-        // if ($('#customerName').val().trim() === '') {
-        //     $('#customerName').after('<span class="error-message text-danger">This field is required.</span>');
-        //     isValid = false;
-        // }
+        let businessName = document.getElementsByClassName('businessName')[ 0 ].value.trim();
+        let customerName = document.getElementsByClassName('customerName')[ 0 ].value.trim();
+        let email = $('#email').val().trim();
+        let contactNumber = $('#contactNumber').val().trim();
+        let gstNumber = $('#gstn').val().trim();
+        let city = document.getElementsByClassName('city')[ 0 ].value.trim();
+        let address = document.getElementsByClassName('address')[ 0 ].value.trim();
+        let state = document.getElementsByClassName('state')[ 0 ].value.trim();
 
-        // Check Email
-        if ($('#email').val().trim() === '') {
-            $('#email').after('<span class="error-message text-danger">This field is required.</span>');
-            isValid = false;
+        // Regular expressions for validation
+
+        const hasNumber = /\d/;
+        const textRegex = /^[a-zA-Z\s]+$/; // Text only (letters and spaces)
+        const contactNumberRegex = /^\d{10}$/; // Exactly 10 digits
+
+         if (hasNumber.test(businessName) || hasNumber.test(customerName) || hasNumber.test(city)) {
+            toastr.error('Please Enter text.');
+            return; // Stop further execution
         }
 
-        // Check Contact Number
-        if ($('#contactNumber').val().trim() === '') {
-            $('#contactNumber').after('<span class="error-message text-danger">This field is required.</span>');
-            isValid = false;
-        }
+        // Validate Business Name
+        if (businessName === '') {
+            $('.businessName').after('<span class="error-message text-danger">This field is required.</span>');
+        isValid = false;
+                } else if (!textRegex.test(businessName)) {
+            $('.businessName').after('<span class="error-message text-danger">Business Name must contain only letters and spaces.</span>');
+        isValid = false;
+                }
 
-        // Check if GST Number (if filled) is exactly 15 characters long
-        var gstNumber = $('#gstn').val().trim();
+        // Validate Customer Name
+        if (customerName === '') {
+            $('.customerName').after('<span class="error-message text-danger">This field is required.</span>');
+        isValid = false;
+                } else if (!textRegex.test(customerName)) {
+            $('.customerName').after('<span class="error-message text-danger">Contact Person Name must contain only letters and spaces.</span>');
+        isValid = false;
+                }
+
+        // Validate Email
+        if (email === '') {
+            $('.email').after('<span class="error-message text-danger">This field is required.</span>');
+        isValid = false;
+                } else if (!validateEmail(email)) {
+            $('.email').after('<span class="error-message text-danger">Enter a valid email address.</span>');
+        isValid = false;
+                }
+
+        // Validate Contact Number
+        if (contactNumber === '') {
+            $('.contactNumber').after('<span class="error-message text-danger">This field is required.</span>');
+        isValid = false;
+                }
+                else if (!contactNumberRegex.test(contactNumber)) {
+            $('.contactNumber').after('<span class="error-message text-danger">Contact Number must be exactly 10 digits.</span>');
+        isValid = false;
+                }
+
+        // Validate GST Number (if provided)
         if (gstNumber !== '' && gstNumber.length !== 15) {
             $('#gstn').after('<span class="error-message text-danger">GST Number must be exactly 15 characters.</span>');
-            isValid = false;
-        }
+        isValid = false;
+                }
+
+
+
+          if (city === '') {
+            $('.city').after('<span class="error-message text-danger">This field is required.</span>');
+        isValid = false;
+                } else if (!textRegex.test(city)) {
+            $('.city').after('<span class="error-message text-danger">Contact Person Name must contain only letters and spaces.</span>');
+        isValid = false;
+                }
+
+
+
+          if (address === '') {
+            $('.address').after('<span class="error-message text-danger">This field is required.</span>');
+        isValid = false;
+                } else if (!textRegex.test(city)) {
+            $('.address').after('<span class="error-message text-danger">Contact Person Name must contain only letters and spaces.</span>');
+        isValid = false;
+                }
+              if (state === '') {
+            $('.address').after('<span class="error-message text-danger">This field is required.</span>');
+        isValid = false;}
+
 
         // If the form is valid, proceed with the AJAX submission
         if (isValid) {
-            var formData = $('#addCustomerForm').serialize();
-            console.log("Serialized Form Data: ", formData); // For debugging
+                var formData = $('#addCustomerForm').serialize();
+        console.log("Serialized Form Data: ", formData); // For debugging
 
-            $.ajax({
-                type: "POST",
-                url: '/Customer/AddNewCustomer', // Update the URL to match your controller action
-                data: formData,
-                success: function (response) {
-                    console.log("Response: " + response);
-                    if (response.message == "Customer Add Successfully. ") {
-                        toastr.success('Customer added successfully.');
-                        $('#addCustomerModal').modal('hide'); // Hide the modal
-                       
+        $.ajax({
+            type: "POST",
+        url: '/Customer/AddNewCustomer', // Update the URL to match your controller action
+        data: formData,
+        success: function (response) {
+            console.log("Response: " + response);
+           if (response.message == "Customer Add Successfully. ") {
+            toastr.success('Customer added successfully.');
+                 $('#closeaddCustomerForm').click();  // Corrected line
+                  document.getElementById('addCustomerForm').reset();
+                            }
+        else {
+            toastr.error('An error occurred while adding the inventory.');
+                        }
+
+                    },
+        error: function (xhr, status, error) {
+            toastr.error('An error occurred while adding the inventory.');
                     }
-                    else {
-                        toastr.error('An error occurred while adding the inventory.');
-                    }
-                   
-                },
-                error: function (xhr, status, error) {
-                        toastr.error('An error occurred while adding the inventory.');
-                }
-            });
-        } else {
+                });
+            } else {
             toastr.error('Please fill all the required fields.');
+            }
+        });
+
+        function validateEmail(email) {
+            var re = /^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return re.test(email);
         }
-    });
 
 
-
-      </script>
+    </script>
 
     <script>
 
@@ -340,7 +399,7 @@
             var originalRates = {};
             var id = sessionStorage.getItem('selectedHoardingId');
             let idString = "";  // Step 1: Initialize an empty string
-           
+
 
             function fetchData() {
                 //  updatedRates = [];
@@ -348,7 +407,7 @@
                 //  changedateids = [];
                 //  newRate;
                 //  originalRates = {};
-                
+
                 //  idString = "";
                 // var id = sessionStorage.getItem('selectedHoardingId');
 
@@ -415,7 +474,7 @@
                                                                 <button type="button" style="display: none;" id="deleteQuteHoarding" class="btn btn-danger rounded-circle p-2" data-toggle="modal" data-target="#deleteModalquate" onclick="cnfDeleteselecedInvetry(${item.id})">
                                                                     <i class="mdi mdi-delete"></i>
                                                          </button>
-                                                                 
+
                                                         <div id="rate-section" class="rate-section my-2">
                                                             <h4 class="my-2" id='id_h4' >
                                                                 <span style='font-size:20px;'>&#8377; </span>
@@ -432,14 +491,16 @@
                                                         </div>
 
                                                         <div class="camp-date" style="display:none;">
-                                                                <input type="date" class="form-control" id="StartDate_${item.id}" name="StartDate"
+                                                                <input type="date" class="form-control mr-1" id="StartDate_${item.id}" name="StartDate"
                                                                        min="${new Date().toISOString().split('T')[0]}"
                                                                        onchange="updateEndDateMin(${item.id}); validateDates(${item.id});"
-                                                                       value="${new Date().toISOString().split('T')[0]}">
+                                                                               value="${new Date().toISOString().split('T')[ 0 ]}"  style="border: 0.5px solid;
+                                                                         border-radius: 33px;" >
                                                                 <div id="error-message-${item.id}" style="color: red; display: none;"></div>
 
                                                                 <input type="date" class="form-control" id="EndDate_${item.id}" name="EndDate"
-                                                                       onchange="validateDates(${item.id})">
+                                                                               onchange="validateDates(${item.id})"  style="border: 0.5px solid;
+                                                                      border-radius: 33px;" >
                                                                 <div id="error-message-end-${item.id}" style="color: red; display: none;"></div>
 
                                                       </div>
@@ -459,7 +520,7 @@
 
 
                             if (idString.length > 0) {
-                                idString = idString.slice(0, -1); 
+                                idString = idString.slice(0, -1);
                             }
 
 
@@ -529,7 +590,7 @@
                                 }
                             };
 
-                            
+
                             window.cancelEdit = function (id) {
                                 $('#rateEdit_' + id).hide();
                                 $('#rateDisplay_' + id).show();
@@ -566,7 +627,7 @@
                     ajaxOptions.url = '/Dashboard/GetHordingdata'; // Change URL
                     ajaxOptions.type = 'POST'; // Change request type
                     ajaxOptions.data = { id: id }; // Pass id as data
-                 
+
                       document.getElementById('selecteId').value=id;
 
                     console.log("id :",selecteId);
@@ -619,14 +680,14 @@
                     data: JSON.stringify({ selectedItems: updatedRates, customerId: customerId }),
                     success: function (response) {
 
-                       
+
                         if (response.success) {
                             window.location.href = '/Quatation/ViewQuotation?id=' + response.id; // Corrected line
                         } else {
                             toastr.error(response.message);
                         }
 
-                      
+
 
                     },
                     error: function (xhr, status, error) {
@@ -714,7 +775,7 @@
 
 
 
-  
+
         // Set today's date as default for start date
         document.addEventListener('DOMContentLoaded', function () {
             const items = [ ...document.querySelectorAll('.StartDate') ]; // Assuming you have multiple items
@@ -777,7 +838,7 @@
         //     }
 
 
-          
+
         //   $(document).on('change', `#EndDate_${id}`, function () {
 
         //         const startDateInput = document.getElementById(`StartDate_${id}`);
@@ -815,8 +876,8 @@
         //                     $('#saveCampaign').prop('disabled', true);
 
         //                       let toDate = new Date(response.model.toDate);
-                                   
-                              
+
+
         //                       $(`#StartDate_${id}`).val(toDate);
 
         //                     $('.StartDate_' + id).val(toDate);
@@ -863,7 +924,7 @@
             // Validate: End date should not be before start date
             if (endDate < startDate) {
                  toastr.error("End date cannot be earlier than the start date.");
-                 endDateInput.value = ""; 
+                 endDateInput.value = "";
                 // endDateInput.value = startDateInput.value; // Reset to start date
                 return; // Stop further validation if this check fails
             }
@@ -915,11 +976,11 @@
                                      }
                                      else
                                       {
-                                      
+
                                         $('#saveCampaign').prop('disabled', false);
                                       }
 
-                               
+
                             }
 
                         else
@@ -936,8 +997,8 @@
                             toDate.setDate(toDate.getDate() +2); // Add one day
                            $(`#StartDate_${id}`).val(toDate.toISOString().split('T')[ 0 ]);
 
-                            
-                           
+
+
                         }
                     },
                     error: function () {
@@ -955,9 +1016,9 @@
             $('#selectedId').val(id);
 
         }
-       
 
-      
+
+
              $('#deleteHoarding').off('click').on('click', function () {
                 var selectedCustomerId = $('#selectedId').val();
                 var selectedAction = $('input[name="quotation"]:checked').val(); // Get the selected radio button value
@@ -1009,11 +1070,11 @@
 
             });
 
-        
 
 
-          
-         function fetchData3() 
+
+
+         function fetchData3()
           {
               let selecteId =$('#selecteId').val();
 
@@ -1029,7 +1090,7 @@
             document.getElementById('hiddenRedirectLink').click();
         }
 
-     
+
 
 
     </script>
@@ -1038,7 +1099,7 @@
 
 
     <script>
-       
+
         document.querySelectorAll('.autocomplete').forEach(function (input) {
             let suggestionsContainer;
             let activeSuggestionIndex = -1;
@@ -1149,10 +1210,6 @@
                 suggestionsContainer.innerHTML = '';
                 suggestionsContainer.style.display = 'none';
             }
-      
-
-
-
 
 
             // Function to select a suggestion
@@ -1242,7 +1299,7 @@
         });
 
 
-   
+
 
         function updateDisplay() {
             const actionButtons = document.querySelector('.action-buttons');
@@ -1310,8 +1367,7 @@
                             customerDropdown.append('<option value="' + data.id + '">' + data.businessName + '</option>');
                         });
 
-                        // Open the Add Quotation modal after loading customer details
-                        $('#addQuotationModal').modal('show');
+                        // $('#addQuotationModal').modal('show');
 
                     } else {
                         console.error('Failed to load customer details:', response.Message);
@@ -1376,14 +1432,11 @@
 
         });
 
-      
+
 
 
 
     </script>
-
-
-
 
 
 </section>
