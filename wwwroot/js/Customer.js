@@ -1,23 +1,5 @@
 ﻿
 
-function openEditModal(id, businessName, customerName, email, gstNo, contactNo, alternateNo, city,address, state) {
-        // Set the values of the input fields in the modal
-    $('#editCustomerId').val(id);
-    $('#editBusinessName').val(businessName);
-    $('#editCustomerName').val(customerName);
-    $('#editEmail').val(email);
-    $('#editGstn').val(gstNo);
-    $('#editContactNumber').val(contactNo);
-    $('#editAlternateNumber').val(alternateNo);
-    $('#editcity').val(city);
-    $('#editAddress').val(address);
-    $('#editState').val(state);
-    // Show the modal
-    document.getElementById('editCustomerModal').style.display = 'block';
-
-        }
-
-
     $('#editCustomerForm').on('submit', function (event) {
         event.preventDefault(); // Prevent the default form submission
     // Clear previous error messages

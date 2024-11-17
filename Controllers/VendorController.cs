@@ -102,7 +102,7 @@ namespace Hoarding_managment.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddVendor(string businessName, string vendorName, string email, string gstNo, string contactNo, string alternateNumber, string address, string state)
+        public async Task<IActionResult> AddVendor(string businessName, string vendorName, string email, string gstNo, string contactNo, string alternateNumber,string city ,string address, string state)
         {
             var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
 
@@ -126,6 +126,7 @@ namespace Hoarding_managment.Controllers
                     GstNo = gstNo,
                     ContactNo = contactNo,
                     AlternateNumber = alternateNumber,
+                    City = city,
                     Address = address,
                     State = state,
                     IsDelete = 0,
@@ -166,45 +167,91 @@ namespace Hoarding_managment.Controllers
             return Json(viewModel);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> EditVendor(int id, VendorViewModel viewModel)
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateVendor([FromBody] VendorViewModel model)
         {
             var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
 
             var sessionUserName = HttpContext.Session.GetString("SessionUsername");
-
-            ViewBag.sessionUserId = sessionUserId;
-            ViewBag.sessionUserName = sessionUserName;
 
 
             if (sessionUserId == null)
             {
                 return RedirectToAction("Index", "Auth");
             }
-            if (id != viewModel.Id)
+
+            if (model == null)
             {
-                return BadRequest();
+                return Json(new { success = false, Message = "Invalid data." });
             }
 
-            if (ModelState.IsValid)
+            var vendor = await _context.GetVendorByIdAsync(model.Id); // Ensure this is async
+            if (vendor == null)
             {
-                var vendor = VendorMapper.ToModel(viewModel);
-                vendor.Id = viewModel.Id;
-                vendor.VendorName = viewModel.VendorName;
-                vendor.BusinessName = viewModel.BusinessName;
-                vendor.Address = viewModel.Address;
-                vendor.State = viewModel.State;
-                vendor.IsDelete = 0;
-                vendor.Email = viewModel.Email;
-                vendor.ContactNo = viewModel.ContactNo;
-                vendor.AlternateNumber = viewModel.AlternateNumber;
-
-                await _context.UpdateVendorAsync(id,vendor);
-                return Json(new { success = true,  }); // Return success as JSON
+                return Json(new { success = false, Message = "vendor not found." });
             }
 
-            return Json(new { success = false, errors = ModelState.Values.SelectMany(v => v.Errors) }); // Return errors if any
+            // Update customer properties
+            vendor.BusinessName = model.BusinessName;
+            vendor.VendorName = model.VendorName;
+            vendor.Email = model.Email;
+            vendor.GstNo = model.GstNo;
+            vendor.ContactNo = model.ContactNo;
+            vendor.AlternateNumber = model.AlternateNumber;
+            vendor.City = model.City;
+            vendor.Address = model.Address;
+            vendor.State = model.State;
+            vendor.UpdatedAt = DateTime.Now;
+            vendor.CreatedBy = sessionUserName;
+
+            await _context.UpdateVendorAsync(vendor); // Ensure the update method is async
+
+            return Json(new { success = true, Message = "Customer updated successfully.", model = vendor });
         }
+
+
+        //public async Task<IActionResult> EditVendor(int id, VendorViewModel viewModel)
+        //{
+        //    var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+
+        //    var sessionUserName = HttpContext.Session.GetString("SessionUsername");
+
+        //    ViewBag.sessionUserId = sessionUserId;
+        //    ViewBag.sessionUserName = sessionUserName;
+
+
+        //    if (sessionUserId == null)
+        //    {
+        //        return RedirectToAction("Index", "Auth");
+        //    }
+        //    if (id != viewModel.Id)
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        var vendor = VendorMapper.ToModel(viewModel);
+        //        vendor.Id = viewModel.Id;
+        //        vendor.VendorName = viewModel.VendorName;
+        //        vendor.BusinessName = viewModel.BusinessName;
+        //        vendor.City = viewModel.City;
+        //        vendor.Address = viewModel.Address;
+        //        vendor.State = viewModel.State;
+        //        vendor.IsDelete = 0;
+        //        vendor.Email = viewModel.Email;
+        //        vendor.ContactNo = viewModel.ContactNo;
+        //        vendor.AlternateNumber = viewModel.AlternateNumber;
+
+        //        await _context.UpdateVendorAsync(id,vendor);
+        //        return Json(new { success = true,  }); // Return success as JSON
+        //    }
+
+        //    return Json(new { success = false, errors = ModelState.Values.SelectMany(v => v.Errors) }); // Return errors if any
+        //}
 
 
         [HttpDelete]

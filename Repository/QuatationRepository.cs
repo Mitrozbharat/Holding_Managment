@@ -1,12 +1,4 @@
-﻿using AngleSharp.Dom;
-using HoardingManagement.Interface;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using static iTextSharp.text.pdf.AcroFields;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
-
+﻿
 namespace HoardingManagement.Repository
 {
     public class QuotationRepository : IQuotation

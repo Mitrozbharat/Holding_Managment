@@ -1,4 +1,5 @@
 ﻿
+using DocumentFormat.OpenXml.Bibliography;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hoarding_managment.Controllers
@@ -143,6 +144,7 @@ namespace Hoarding_managment.Controllers
             customer.GstNo = model.GstNo;
             customer.ContactNo = model.ContactNo;
             customer.AlternateNumber = model.AlternateNumber;
+            customer.City = model.City;
             customer.Address = model.Address;
             customer.State = model.State;
             customer.UpdatedAt = DateTime.Now;

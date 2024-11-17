@@ -8,7 +8,7 @@ namespace Hoarding_managment.Interface
        public Task<IEnumerable<TblVendor>> GetAllVendorsAsync(string searchQuery,int pageNumber, int pageSize);
         public Task<TblVendor> GetVendorByIdAsync(int id);
         public Task<TblVendor> AddVendorAsync(TblVendor vendor);
-        public Task<TblVendor> UpdateVendorAsync(int id,TblVendor vendor);
+        public Task<TblVendor> UpdateVendorAsync(TblVendor vendor);
         public TblVendor DeleteVendor(int id);
 
        // public Task<int> GetVendorCountAsync();

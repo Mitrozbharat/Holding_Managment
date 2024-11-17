@@ -119,7 +119,7 @@ namespace Hoarding_managment.Repository
 
             return vendor;
         }
-        public async Task<TblVendor> UpdateVendorAsync(int id, TblVendor vendor)
+        public async Task<TblVendor> UpdateVendorAsync( TblVendor vendor)
         {
             _context.TblVendors.Update(vendor);
             await _context.SaveChangesAsync();

@@ -110,7 +110,7 @@
                             <th>Business Name</th>
                             <th>Customer Name</th>
                             <th>Email</th>
-                            <th>GSTN</th>
+                            <th>GSTIN</th>
                             <th>Contact</th>
                             <th>Address</th>
                             <th>Action</th>
@@ -232,7 +232,7 @@
                         <div class="form-row">
 
                             <div class="form-group col-md-6">
-                                <label for="editCity">City <span class="text-danger">*</span></label>
+                                <label for="editcity">City <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control custom-border editcity" id="editcity" placeholder="City">
                             </div>
 
@@ -461,6 +461,25 @@
                 }
             });
         });
+
+
+            function openEditModal(id, businessName, customerName, email, gstNo, contactNo, alternateNo, city,address, state) {
+            // Set the values of the input fields in the modal
+        $('#editCustomerId').val(id);
+        $('#editBusinessName').val(businessName);
+        $('#editCustomerName').val(customerName);
+        $('#editEmail').val(email);
+        $('#editGstn').val(gstNo);
+        $('#editContactNumber').val(contactNo);
+        $('#editAlternateNumber').val(alternateNo);
+        $('#editcity').val(city);
+        $('#editAddress').val(address);
+        $('#editState').val(state);
+        // Show the modal
+        document.getElementById('editCustomerModal').style.display = 'block';
+
+            }
+
     </script>
 
     <script>
@@ -496,10 +515,10 @@
         // Validate Business Name
         if (businessName === '') {
             $('.businessName').after('<span class="error-message text-danger">This field is required.</span>');
-        isValid = false;
+           isValid = false;
                     } else if (!textRegex.test(businessName)) {
-            $('.businessName').after('<span class="error-message text-danger">Business Name must contain only letters and spaces.</span>');
-        isValid = false;
+            $('#businessName').after('<span class="error-message text-danger">Business Name must contain only letters and spaces.</span>');
+           isValid = false;
                     }
 
         // Validate Customer Name
@@ -547,36 +566,39 @@
                     }
 
 
-
         if (address === '') {
             $('.address').after('<span class="error-message text-danger">This field is required.</span>');
-        isValid = false;
-                    } else if (!textRegex.test(city)) {
-            $('.address').after('<span class="error-message text-danger">Contact Person Name must contain only letters and spaces.</span>');
-        isValid = false;
+             isValid = false;
                     }
+         else if (!textRegex.test(city)) 
+         {
+            $('.address').after('<span class="error-message text-danger">Contact Person Name must contain only letters and spaces.</span>');
+             isValid = false;
+                    }
+
+
         if (state === '') {
-            $('.address').after('<span class="error-message text-danger">This field is required.</span>');
+            $('.state').after('<span class="error-message text-danger">This field is required.</span>');
             isValid = false;}
 
 
         // If the form is valid, proceed with the AJAX submission
         if (isValid) {
-                    var formData = $('#addCustomerForm').serialize();
-        console.log("Serialized Form Data: ", formData); // For debugging
+              var formData = $('#addCustomerForm').serialize();
+              console.log("Serialized Form Data: ", formData); // For debugging
 
-        $.ajax({
-            type: "POST",
-        url: '/Customer/AddNewCustomer', // Update the URL to match your controller action
-        data: formData,
-        success: function (response) {
-            console.log("Response: " + response);
-        if (response.message == "Customer Add Successfully. ") {
-            toastr.success('Customer added successfully.');
-            location.reload();
-        // $('#closeaddCustomerForm').click();  // Corrected line
-        // document.getElementById('addCustomerForm').reset();
-                                }
+                $.ajax({
+                type: "POST",
+                url: '/Customer/AddNewCustomer', // Update the URL to match your controller action
+                data: formData,
+                success: function (response) {
+                    console.log("Response: " + response);
+                if (response.message == "Customer Add Successfully. ") {
+                    toastr.success('Customer added successfully.');
+                    location.reload();
+                // $('#closeaddCustomerForm').click();  // Corrected line
+                // document.getElementById('addCustomerForm').reset();
+                                        }
         else {
             toastr.error('An error occurred while adding the inventory.');
                             }

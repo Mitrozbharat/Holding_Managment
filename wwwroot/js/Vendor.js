@@ -1,250 +1,273 @@
-﻿$(document).ready(function () {
-   
-    $('#saveVendorButton').click(function () {
-        event.preventDefault(); // Prevent the default form submission
-        // Clear previous error messages
-        $('.error-message').remove();
+﻿//$(document).ready(function () {
 
-        // Validate required fields     businessName VendorPersonName email gstn contactNumber
-        var isValid = true;
+//    $('#saveVendorButton').click(function () {
+//        event.preventDefault(); // Prevent the default form submission
+//        // Clear previous error messages
+//        $('.error-message').remove();
 
-        // Check Business Name
-        if ($('#businessName').val().trim() === '') {
-            $('#businessName').after('<span class="error-message text-danger">This field is required.</span>');
-            isValid = false;
-        }
-
-        // Check Contact Person Name
-        if ($('#VendorPersonName').val().trim() === '') {
-            $('#VendorPersonName').after('<span class="error-message text-danger">This field is required.</span>');
-            isValid = false;
-        }
-
-        // Check Email
-        if ($('#email').val().trim() === '') {
-            $('#email').after('<span class="error-message text-danger">This field is required.</span>');
-            isValid = false;
-        }
-
-        // Check Contact Number
-        if ($('#contactNumber').val().trim() === '') {
-            $('#contactNumber').after('<span class="error-message text-danger">This field is required.</span>');
-            isValid = false;
-        }
-
-        // Check if GST Number (if filled) is exactly 15 characters long
-        var gstNumber = $('#gstn').val().trim();
-        if (gstNumber !== '' && gstNumber.length !== 15) {
-            $('#gstn').after('<span class="error-message text-danger">GST Number must be exactly 15 characters.</span>');
-            isValid = false;
-        }
-
-        // If the form is valid, proceed with the AJAX submission
-        if (isValid) {
-            var formData = $('#addVendorForm').serialize();
-            console.log(formData); // Check serialized data in console
-
-            $.ajax({
-                type: "POST",
-                url: '/Vendor/AddVendor', // Match the controller action name
-                data: formData,
-                success: function (response) {
-                    console.log("success" + response);
-                    if (response.message == "Vendor Add Successfully. ") {
-                        toastr.success('Vendor added successfully.');
-                       
-                        location.reload(); // Optionally reload the page
-                    }
-                    else {
-                        toastr.error('An error occurred while adding the customer.');
-                    }
-                   
-                },
-                error: function (xhr, status, error) {
-                    console.error(xhr.responseText); // Log any errors
-                    toastr.error('An error occurred while adding the vendor.');
-                }
-            });
-        } else {
-            toastr.error('Please fill all the required fields.');
-        }
+//        // Validate required fields     businessName VendorPersonName email gstn contactNumber
+//        var isValid = true;
+//        const hasNumber = /\d/;
+//        const textRegex = /^[a-zA-Z\s]+$/; // Text only (letters and spaces)
+//        const contactNumberRegex = /^\d{10}$/; // Exactly 10 digits
 
 
-    });
+//        let businessName = document.getElementsByClassName('businessName')[ 0 ].value.trim();
+
+//        let VendorPersonName = document.getElementsByClassName('VendorPersonName')[ 0 ].value.trim();
+
+//        let email = document.getElementsByClassName('email')[ 0 ].value.trim();
+
+//        let gstn = document.getElementsByClassName('gstn')[ 0 ].value.trim();
+
+//        let contactNumber = document.getElementsByClassName('contactNumber')[ 0 ].value.trim();
+
+//        let alternateNumber = document.getElementsByClassName('alternateNumber')[ 0 ].value.trim();
+
+//        let city = document.getElementsByClassName('city')[ 0 ].value.trim();
+
+//        let address = document.getElementsByClassName('address')[ 0 ].value.trim();
+
+//        let state = document.getElementsByClassName('state')[ 0 ].value.trim();
 
 
-    // Update Vendor
 
-    $('#updateVendorButton').click(function () {
+//        // Check Business Name
+//        if ($('#businessName').val().trim() === '') {
+//            $('#businessName').after('<span class="error-message text-danger">This field is required.</span>');
+//            isValid = false;
 
-        event.preventDefault(); // Prevent the default form submission
-        // Clear previous error messages
-        $('.error-message').remove();
-
-        // Validate required fields
-        var isValid = true;
-
-        // Check Business Name
-        if ($('#editBusinessName').val().trim() === '') {
-            $('#editBusinessName').after('<span class="error-message text-danger">This field is required.</span>');
-            isValid = false;
-        }
-
-        // Check Contact Person Name
-        if ($('#editVendorPersonName').val().trim() === '') {
-            $('#editVendorPersonName').after('<span class="error-message text-danger">This field is required.</span>');
-            isValid = false;
-        }
-
-        // Check Email
-        if ($('#editEmail').val().trim() === '') {
-            $('#editEmail').after('<span class="error-message text-danger">This field is required.</span>');
-            isValid = false;
-        }
-
-        // Check Contact Number
-        if ($('#editContactNo').val().trim() === '') {
-            $('#editContactNo').after('<span class="error-message text-danger">This field is required.</span>');
-            isValid = false;
-        }
-
-        // Check if GST Number (if filled) is exactly 15 characters long
-        var gstNumber = $('#editGstNo').val().trim();
-        if (gstNumber !== '' && gstNumber.length !== 15) {
-            $('#editGstNo').after('<span class="error-message text-danger">GST Number must be exactly 15 characters.</span>');
-            isValid = false;
-        }
-
-        // If the form is valid, proceed with the AJAX submission
-        if (isValid) {
-
-            var vendorId = $('#editVendorId').val(); // Get vendor ID from hidden input
-            var formData = $('#editVendorForm').serialize(); // Serialize form data
-
-            console.log("Updating Vendor with ID: " + formData);
-
-            $.ajax({
-                type: "PUT",
-                url: '/Vendor/EditVendor', // Update URL as needed
-                data: formData,
-                success: function (response) {
-                    if (response.success) {
-                        toastr.success('Vendor updated successfully.');
-                        document.getElementById("editVendorModal").style.display = 'none'
-                        location.reload(); // Reload the page after successful update
-                    } else {
-                        toastr.error('Error updating vendor.');
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error(xhr.responseText); // Log any errors
-                    toastr.error('An error occurred while updating the vendor.');
-                }
-            });
-
-        } else {
-            toastr.error('Please fill all the required fields.');
-        }
-
-      
-    });
-});
-
-
-// <!-- using ajax call -->
-
-//function openEditModal(vendorId) {
-
-//    $.ajax({
-//        type: "GET",
-//        url: '/Vendor/EditVendor', // Adjust this to match your controller action
-//        data: { id: vendorId },
-//        success: function (response) {
-//            // Populate form fields with the vendor data
-//            $('#editVendorId').val(response.id);
-//            $('#editBusinessName').val(response.businessName);
-//            $('#editVendorPersonName').val(response.vendorName);
-//            $('#editEmail').val(response.email);
-//            $('#editGstNo').val(response.gstNo);
-//            $('#editContactNo').val(response.contactNo);
-//            $('#editContactNo2').val(response.contactNo2);
-//            $('#editAddress').val(response.address);
-//            $('#editState').val(response.state);
-
-//            // Open the modal
-//            $('#editVendorModal').modal('show');
-//        },
-//        error: function (xhr, status, error) {
-//            console.error(xhr.responseText); // Log any errors
-//            toastr.error('An error occurred while retrieving the vendor details.');
+//        } else if (!textRegex.test(businessName)) {
+//            $('.businessName').after('<span class="error-message text-danger">Business Name must contain only letters.</span>');
+//            isValid = false;
 //        }
+
+//        // Check Contact Person Name
+//        if ($('#VendorPersonName').val().trim() === '') {
+//            $('#VendorPersonName').after('<span class="error-message text-danger">This field is required.</span>');
+//            isValid = false;
+//        } else if (!textRegex.test(VendorPersonName)) {
+//            $('.VendorPersonName').after('<span class="error-message text-danger">Vendor Name must contain only letters.</span>');
+//            isValid = false;
+//        }
+
+
+//        if ($('.email').val().trim() === '') {
+//            $('.email').after('<span class="error-message text-danger">This field is required.</span>');
+//            isValid = false;
+//        } else if (!validateEmail(email)) {
+//            $('.email').after('<span class="error-message text-danger">Enter a valid email address.</span>');
+//            isValid = false;
+//        }
+
+//        function validateEmail(email) {
+//            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+//            return emailRegex.test(email);
+//        }
+//        // Check Contact Numbe
+
+//        if (contactNumber === '') {
+//            $('.contactNumber').after('<span class="error-message text-danger">This field is required.</span>');
+//            isValid = false;
+//        }
+//        else if (!contactNumberRegex.test(contactNumber)) {
+//            $('.contactNumber').after('<span class="error-message text-danger">Contact Number must be exactly 10 digits.</span>');
+//            isValid = false;
+//        }
+
+
+
+//        // Check if GST Number (if filled) is exactly 15 characters long
+//        var gstNumber = $('#gstn').val().trim();
+//        if (gstNumber !== '' && gstNumber.length !== 15) {
+//            $('#gstn').after('<span class="error-message text-danger">GST Number must be exactly 15 characters.</span>');
+//            isValid = false;
+//        }
+
+
+//        if ($('#city').val().trim() === '') {
+//            $('#city').after('<span class="error-message text-danger">This field is required.</span>');
+//            isValid = false;
+//        } else if (!textRegex.test(city)) {
+//            $('.city').after('<span class="error-message text-danger">City  must contain only letters.</span>');
+//            isValid = false;
+//        }
+
+
+
+//        if (address === '') {
+//            $('.address').after('<span class="error-message text-danger">This field is required.</span>');
+//            isValid = false;
+//        }
+//        else if (!textRegex.test(address)) {
+//            $('.address').after('<span class="error-message text-danger"> must contain only letters and spaces.</span>');
+//            isValid = false;
+//        }
+
+//        if (state === '') {
+//            $('.state').after('<span class="error-message text-danger">This field is required.</span>');
+//            isValid = false;
+//        }
+
+
+
+
+//        // If the form is valid, proceed with the AJAX submission
+//        if (isValid) {
+//            var formData = $('#addVendorForm').serialize();
+//            console.log(formData); // Check serialized data in console
+
+//            $.ajax({
+//                type: "POST",
+//                url: '/Vendor/AddVendor', // Match the controller action name
+//                data: formData,
+//                success: function (response) {
+//                    console.log("success" + response);
+//                    if (response.message == "Vendor Add Successfully. ") {
+//                        toastr.success('Vendor added successfully.');
+//                        location.reload(); // Optionally reload the page
+//                    }
+//                    else {
+//                        toastr.error('An error occurred while adding the customer.');
+//                    }
+
+//                },
+//                error: function (xhr, status, error) {
+//                    console.error(xhr.responseText); // Log any errors
+//                    toastr.error('An error occurred while adding the vendor.');
+//                }
+//            });
+//        } else {
+//            toastr.error('Please fill all the required fields.');
+//        }
+
+
 //    });
-//}
+//});
 
-function openEditmodal(id, businessName, vendorName, email, gstNo, contactNo, alternateNumber, address, state) {
-    // Set the values of the input fields in the modal
-    $('#editVendorId').val(id);
-    $('#editBusinessName').val(businessName);
-    $('#editVendorPersonName').val(vendorName);
-    $('#editEmail').val(email);
-    $('#editGstNo').val(gstNo);
-    $('#editContactNo').val(contactNo);
-    $('#editContactNo2').val(alternateNumber);
-    $('#editAddress').val(address);
-    $('#editState').val(state);
 
-    // Show the modal using Bootstrap's modal method
-    document.getElementById("editVendorModal").style.display = 'block'
-}
-//function openDeleteModal(id) {
-//   // alert("ID: " + id);
-//    $('#deleteVendorId').val(id); // Set the vendor ID in the hidden input
+//$('#updateVendorButton').on('click', function () {
 
-//    $('#deleteConfirmButton').click(function () {
+//    $('.error-message').remove();
+//    alert("ok");
 
-//        var vendorId = $('#deleteVendorId').val(); // Get vendor ID from hidden input
 
+//    const hasNumber = /\d/;
+//    const textRegex = /^[a-zA-Z\s]+$/; // Text only (letters and spaces)
+//    const contactNumberRegex = /^\d{10}$/; // Exactly 10 digits
+
+//    var isValid = true;
+//    var vendorId = $('#editVendorId').val(); // Get vendor ID from hidden input
+//    let editBusinessName = document.getElementsByClassName('editBusinessName')[ 0 ].value.trim();
+//    let editVendorPersonName = document.getElementsByClassName('editVendorPersonName')[ 0 ].value.trim();
+//    let editContactNo = document.getElementsByClassName('editContactNo')[ 0 ].value.trim();
+//    let editemail = document.getElementsByClassName('editemail')[ 0 ].value.trim();
+//    let editGstNo = document.getElementsByClassName('editGstNo')[ 0 ].value.trim();
+//    let editalternateNumber = document.getElementsByClassName('alternateNumber')[ 0 ].value.trim();
+//    let editcity = document.getElementsByClassName('editcity')[ 0 ].value.trim();
+//    let editaddress = document.getElementsByClassName('editaddress')[ 0 ].value.trim();
+//    let editstate = document.getElementsByClassName('editstate')[ 0 ].value.trim();
+
+
+//    // Check Business Name
+//    if ($('#editBusinessName').val().trim() === '') {
+//        $('#editBusinessName').after('<span class="error-message text-danger">This field is required.</span>');
+//        isValid = false;
+//    } else if (!textRegex.test(editBusinessName)) {
+//        $('.editBusinessName').after('<span class="error-message text-danger">Business Name must contain only letters.</span>');
+//        isValid = false;
+//    }
+
+//    // Check Contact Person Name
+//    if ($('#editVendorPersonName').val().trim() === '') {
+//        $('#editVendorPersonName').after('<span class="error-message text-danger">This field is required.</span>');
+//        isValid = false;
+//    } else if (!textRegex.test(editVendorPersonName)) {
+//        $('.editVendorPersonName').after('<span class="error-message text-danger">Vendor Name must contain only letters.</span>');
+//        isValid = false;
+//    }
+
+
+//    // Check Email
+//    if ($('#editemail').val().trim() === '') {
+//        $('#editemail').after('<span class="error-message text-danger">This field is required.</span>');
+//        isValid = false;
+//    } if (!validateEmail(editemail)) {
+//        $('.editemail').after('<span class="error-message text-danger">Enter a valid email address.</span>');
+//        isValid = false;
+//    }
+
+//    function validateEmail(email) {
+//        // Simple email validation regex
+//        const emailRegex = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
+//        return emailRegex.test(email);
+//    }
+
+
+//    // Check Contact Number
+//    if ($('#editContactNo').val().trim() === '') {
+//        $('#editContactNo').after('<span class="error-message text-danger">This field is required.</span>');
+//        isValid = false;
+//    }
+
+//    if (editContactNo === '') {
+//        $('.editContactNo').after('<span class="error-message text-danger">This field is required.</span>');
+//        isValid = false;
+//    }
+//    else if (!contactNumberRegex.test(editContactNo)) {
+//        $('.editContactNo').after('<span class="error-message text-danger">Contact Number must be exactly 10 digits.</span>');
+//        isValid = false;
+//    }
+
+//    // Check if GST Number (if filled) is exactly 15 characters long
+//    var gstNumber = $('#editGstNo').val().trim();
+//    if (gstNumber !== '' && gstNumber.length !== 15) {
+//        $('#editGstNo').after('<span class="error-message text-danger">GST Number must be exactly 15 characters.</span>');
+//        isValid = false;
+//    }
+
+//    // If the form is valid, proceed with the AJAX submission
+//    if (isValid) {
+
+//        var formData = {
+//            Id: vendorId,
+//            BusinessName: editBusinessName,
+//            VendorName: editVendorPersonName,
+//            City: editcity,
+//            Address: editaddress,
+//            Email: editemail,
+//            AlternateNumber: editalternateNumber,
+//            ContactNo: editContactNo,
+//            State: editstates
+
+//        };
+
+//        console.log("Updating Vendor with ID: " + formData.Id);
+        
 //        $.ajax({
-//            type: "DELETE",
-//            url: '/Vendor/DeleteVendor/' + vendorId, // Update URL to include vendor ID
+//            type: "PUT",
+//            url: '/Vendor/EditVendor', // Update URL as needed
+//            data: JSON.stringify(formData),
 //            success: function (response) {
 //                if (response.success) {
-//                    toastr.success('Delete successfully.');
-//                    location.reload(); 
+//                    toastr.success('Vendor updated successfully.');
+//                    $('#editVendorModal').model('hide');
+//                    location.reload(); // Reload the page after successful update
 //                } else {
-//                    toastr.error('Error deleting vendor.');
+//                    toastr.error('Error updating vendor.');
 //                }
 //            },
 //            error: function (xhr, status, error) {
 //                console.error(xhr.responseText); // Log any errors
-//                toastr.error('An error occurred while deleting the vendor.');
+//                toastr.error('An error occurred while updating the vendor.');
 //            }
 //        });
-//    });
-//}
 
-function openDeleteModalforvendor(id) {
+//    } else {
+//        toastr.error('Please fill all the required fields.');
+//    }
 
-    $('#deleteVendorId').val(id); // Set the customer ID in the hidden input
-    $('#deleteConfirmButton').click(function () {
 
-        var id = $('#deleteVendorId').val(); // Get customer ID from hidden input
+//});
 
-        $.ajax({
-            type: "DELETE",
-            url: '/Vendor/Delete/' + id, // Update URL to include customer ID
-            success: function (response) {
-                if (response.success) {
-                    toastr.success('Delete successfully.');
-                    location.reload();
-                } else {
-                    toastr.error('Error deleting .');
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error(xhr.responseText); // Log any errors
-                toastr.error('An error occurred while deleting the vendor.');
-            }
-        });
-    });
-}
+

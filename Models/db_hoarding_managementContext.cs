@@ -315,6 +315,8 @@ namespace Hoarding_managment.Models
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
+                entity.Property(e => e.City).HasMaxLength(255);
+
                 entity.Property(e => e.Address).HasMaxLength(255);
 
                 entity.Property(e => e.AlternateNumber).HasMaxLength(255);

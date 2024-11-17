@@ -109,9 +109,11 @@
                                 <th>Business Name</th>
                                 <th>Vendor Name</th>
                                 <th>Email</th>
-                                <th>GSTN</th>
+                                <th>GSTIN</th>
                                 <th>Contact</th>
+                                <th>City</th>
                                 <th>Address</th>
+                                <th>State</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -128,17 +130,21 @@
                                         <td>@item.Email</td>
                                         <td>@item.GstNo</td>
                                         <td>@item.ContactNo</td>
+                                        <td>@item.City</td>
                                         <td title="@item.Address">
                                             <div class="Addressoverflow">@item.Address</div>
                                         </td>
+                                        <td>@item.State</td>
                                         <td>
-
-                                            <button type="button" class="btn btn-primary p-2" data-toggle="modal" data-target="#editVendorModal"
-                                            onclick="openEditmodal('@item.Id','@item.BusinessName','@item.VendorName','@item.Email','@item.GstNo',
-'@item.ContactNo','@item.AlternateNumber','@item.Address','@item.State')">
-
-                                                <i class="mdi mdi-table-edit"></i>
+                                            <button type="button" class="btn btn-primary p-2"
+                                                    data-toggle="modal"
+                                                    data-target="#editVendorModalLabel"
+                                                    onclick="openVendorEditmodal('@item.Id', '@item.BusinessName', '@item.VendorName',
+                                                     '@item.Email', '@item.GstNo', '@item.ContactNo',
+                                                     '@item.AlternateNumber', '@item.City', '@item.Address', '@item.State')">
+                                                                <i class="mdi mdi-table-edit"></i>
                                             </button>
+                                            |
                                             <button type="button" class="btn btn-danger p-2" data-toggle="modal" data-target="#deleteModal" onclick="openDeleteModalforvendor(@item.Id)">
                                                 <i class="mdi mdi-delete"></i>
                                             </button>
@@ -198,41 +204,47 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="businessName">Business Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control custom-border" id="businessName" name="BusinessName" placeholder="Business Name" required>
+                                <input type="text" class="form-control custom-border businessName" id="businessName" name="BusinessName" placeholder="Business Name" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="VendorPersonName">Contact Person Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control custom-border" id="VendorPersonName" name="VendorName" placeholder="Contact Person Name" required>
+                                <input type="text" class="form-control custom-border VendorPersonName" id="VendorPersonName" name="VendorName" placeholder="Contact Person Name" required>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="email">Email <span class="text-danger">*</span></label>
-                                <input type="email" class="form-control custom-border" id="email" name="email" placeholder="Email" required>
+                                <input type="email" class="form-control custom-border email" id="email" name="email" placeholder="Email" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="gstn">GST Number </label>
-                                <input type="text" class="form-control custom-border" id="gstn" name="GstNo" placeholder="GST Number" >
+                                <input type="text" class="form-control custom-border gstn" id="gstn" name="GstNo" placeholder="GST Number">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="contactNumber">Contact Number <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control custom-border" id="contactNumber" name="ContactNo" placeholder="Contact Number" required>
+                                <input type="text" class="form-control custom-border contactNumber" id="contactNumber" name="ContactNo" placeholder="Contact Number" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="alternateNumber">Alternate Number</label>
-                                <input type="text" class="form-control custom-border" id="alternateNumber" name="alternateNumber" placeholder="Alternate Number">
+                                <input type="text" class="form-control custom-border alternateNumber" id="alternateNumber" name="alternateNumber" placeholder="Alternate Number">
                             </div>
                         </div>
                         <div class="form-row">
+
                             <div class="form-group col-md-6">
-                                <label for="address">Address</label>
-                                <input type="text" class="form-control custom-border" id="address" name="Address" placeholder="Address">
+                                <label for="city">City <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control custom-border city" id="city" name="city" placeholder="City" required>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="address">Address <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control custom-border address" id="address" name="Address" placeholder="Address" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="state">State</label>
-                                <select class ="form-control custom-border" id="state" name="State" style="border: 1px solid black; border-radius:10px">
+                                <select class="form-control custom-border state" id="state" name="State" style="border: 1px solid black; border-radius:10px" required>
                                     <option value="">Select state</option>
                                     <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
                                     <option value="Andhra Pradesh">Andhra Pradesh</option>
@@ -298,46 +310,51 @@
                 <div class="modal-body">
                     <form id="editVendorForm">
                         <input type="hidden" id="editVendorId" name="Id">
-                        <input type="hidden" id="isdelete" name="isdelete" />
+                        <input type="hidden" id="isdelete" name="isdelete">
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="editBusinessName">Business Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control custom-border" id="editBusinessName" name="BusinessName" placeholder="Business Name" required>
+                                <input type="text" class="form-control custom-border editBusinessName" id="editBusinessName" name="editBusinessName" placeholder="Business Name" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="editVendorPersonName">Contact Person Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control custom-border" id="editVendorPersonName" name="VendorName" placeholder="Contact Person Name" required>
+                                <input type="text" class="form-control custom-border editVendorPersonName" id="editVendorPersonName" name="editVendorPersonName" placeholder="Contact Person Name" required>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="editEmail">Email <span class="text-danger">*</span></label>
-                                <input type="email" class="form-control custom-border" id="editEmail" name="Email" placeholder="Email" required>
+                                <label for="editemail">Email <span class="text-danger ">*</span></label>
+                                <input type="email" class="form-control custom-border editemail" id="editemail" name="editemail" placeholder="Email" required>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="editGstNo">GST Number </label>
-                                <input type="text" class="form-control custom-border" id="editGstNo" name="GstNo" placeholder="GST Number" required>
+                                <label for="editGstNo">GST Number</label>
+                                <input type="text" class="form-control custom-border editGstNo" id="editGstNo" name="editGstNo" placeholder="GST Number">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="editContactNo">Contact Number <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control custom-border" id="editContactNo" name="ContactNo" placeholder="Contact Number" required>
+                                <input type="text" class="form-control custom-border editContactNo" id="editContactNo" name="editContactNo" placeholder="Contact Number" required>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="editContactNo2">Alternate Number</label>
-                                <input type="text" class="form-control custom-border" id="alternateNumber" name="alternateNumber" placeholder="Alternate Number">
+                                <label for="editalternateNumber">Alternate Number</label>
+                                <input type="text" class="form-control custom-border editalternateNumber" id="editalternateNumber" name="editalternateNumber" placeholder="Alternate Number">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="editAddress">Address</label>
-                                <input type="text" class="form-control custom-border" id="editAddress" name="Address" placeholder="Address">
+                                <label for="editcity">City</label>
+                                <input type="text" class="form-control custom-border editcity" id="editcity" name="editcity" placeholder="City">
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="editState">State</label>
-
-                                <select class ="form-control custom-border" id="editState" name="State" style="border: 1px solid black; border-radius:10px">
+                                <label for="editaddress">Address</label>
+                                <input type="text" class="form-control custom-border editaddress" id="editaddress" name="editaddress" placeholder="Address">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="editstate">State</label>
+                                <select class="form-control custom-border editstate" id="editstate" name="editstate">
                                     <option value="">Select state</option>
                                     <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
                                     <option value="Andhra Pradesh">Andhra Pradesh</option>
@@ -377,40 +394,18 @@
                                     <option value="Uttarakhand">Uttarakhand</option>
                                     <option value="West Bengal">West Bengal</option>
                                 </select>
-
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="updateVendorButton">Update</button>
+                    <button type="button" class="btn btn-primary updateVendor" id="updateVendor">Update</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Delete Vendor Modal -->
-@*    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Delete Vendor</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to delete this vendor?</p>
-                    <input type="hidden" id="deleteVendorId" value="" />
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" id="deleteConfirmButton">Delete</button>
-                </div>
-            </div>
-        </div>
-    </div>*@
 
     <!-- Delete Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -447,6 +442,324 @@
             var searchQuery = document.getElementById('searchQuery').value;
             window.location.href = `/Vendor/Index?searchQuery=${searchQuery}&pageNumber=1&pageSize=${pageSize}`;
         }
+
+
+        function openVendorEditmodal(id, businessName, vendorName, email, gstNo, contactNo, alternateNumber, city, address, state) {
+                // Set the values of the input fields in the modal
+             $('#editVendorId').val(id);
+            $('#editBusinessName').val(businessName);
+            $('#editVendorPersonName').val(vendorName);
+            $('#editemail').val(email);
+            $('#editGstNo').val(gstNo);
+            $('#editContactNo').val(contactNo);
+            $('#editalternateNumber').val(alternateNumber); // Ensure the field ID matches your HTML
+            $('#editcity').val(city);
+            $('#editaddress').val(address);
+            $('#editstate').val(state);
+
+            // Show the modal using Bootstrap's modal method
+            $('#editVendorModal').modal('show'); // Bootstrap-specific method for better compatibility
+
+            // Create a vendor details object for logging purposes
+            let vendorDetails = {
+                id: id,
+                businessName: businessName,
+                vendorName: vendorName,
+                email: email,
+                gstNo: gstNo,
+                contactNo: contactNo,
+                alternateNumber: alternateNumber,
+                city: city,
+                address: address,
+                state: state
+                    };
+
+            console.table("Vendor:", vendorDetails);
+            }
+
+    //          $('#updateVendorButton').click(function () {
+
+    //     event.preventDefault(); // Prevent the default form submission
+    //     // Clear previous error messages
+    //     $('.error-message').remove();
+
+    //     const hasNumber = /\d/;
+    //     const textRegex = /^[a-zA-Z\s]+$/; // Text only (letters and spaces)
+    //     const contactNumberRegex = /^\d{10}$/; // Exactly 10 digits
+
+    //     var isValid = true;
+
+    //     let id = $('#editVendorId').val();
+    //     let editBusinessName = document.getElementsByClassName('editBusinessName')[ 0 ].value.trim();
+    //     let editVendorPersonName = document.getElementsByClassName('editVendorPersonName')[ 0 ].value.trim();
+    //     let editContactNo = document.getElementsByClassName('editContactNo')[ 0 ].value.trim();
+    //     let editemail = document.getElementsByClassName('editemail')[ 0 ].value.trim();
+    //     let editGstNo = document.getElementsByClassName('editGstNo')[ 0 ].value.trim();
+
+    //     let editalternateNumber = document.getElementsByClassName('alternateNumber')[ 0 ].value.trim();
+    //     let editcity = document.getElementsByClassName('editcity')[ 0 ].value.trim();
+    //     let editaddress = document.getElementsByClassName('editaddress')[ 0 ].value.trim();
+    //     let editstate = document.getElementsByClassName('editstate')[ 0 ].value.trim();
+
+
+    //     // Check Business Name
+    //     if ($('#editBusinessName').val().trim() === '') {
+    //         $('#editBusinessName').after('<span class="error-message text-danger">This field is required.</span>');
+    //         isValid = false;
+    //     } else if (!textRegex.test(editBusinessName)) {
+    //         $('.editBusinessName').after('<span class="error-message text-danger">Business Name must contain only letters.</span>');
+    //         isValid = false;
+    //     }
+
+    //     // Check Contact Person Name
+    //     if ($('#editVendorPersonName').val().trim() === '') {
+    //         $('#editVendorPersonName').after('<span class="error-message text-danger">This field is required.</span>');
+    //         isValid = false;
+    //     } else if (!textRegex.test(editVendorPersonName)) {
+    //         $('.editVendorPersonName').after('<span class="error-message text-danger">Vendor Name must contain only letters.</span>');
+    //         isValid = false;
+    //     }
+
+
+    //     // Check Email
+    //     if ($('#editemail').val().trim() === '') {
+    //         $('#editemail').after('<span class="error-message text-danger">This field is required.</span>');
+    //         isValid = false;
+    //     } if (!validateEmail(editemail)) {
+    //         $('.editemail').after('<span class="error-message text-danger">Enter a valid email address.</span>');
+    //         isValid = false;
+    //     }
+
+    //     function validateEmail(email) {
+    //         // Simple email validation regex
+    //         const emailRegex = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
+    //         return emailRegex.test(email);
+    //     }
+
+
+    //     // Check Contact Number
+    //     if ($('#editContactNo').val().trim() === '') {
+    //         $('#editContactNo').after('<span class="error-message text-danger">This field is required.</span>');
+    //         isValid = false;
+    //     }
+
+    //     if (editContactNo === '') {
+    //         $('.editContactNo').after('<span class="error-message text-danger">This field is required.</span>');
+    //         isValid = false;
+    //     }
+    //     else if (!contactNumberRegex.test(editContactNo)) {
+    //         $('.editContactNo').after('<span class="error-message text-danger">Contact Number must be exactly 10 digits.</span>');
+    //         isValid = false;
+    //     }
+
+    //     // Check if GST Number (if filled) is exactly 15 characters long
+    //     var gstNumber = $('#editGstNo').val().trim();
+    //     if (gstNumber !== '' && gstNumber.length !== 15) {
+    //         $('#editGstNo').after('<span class="error-message text-danger">GST Number must be exactly 15 characters.</span>');
+    //         isValid = false;
+    //     }
+
+    //     // If the form is valid, proceed with the AJAX submission
+    //     if (isValid) {
+
+    //         var vendorId = $('#editVendorId').val(); // Get vendor ID from hidden input
+    //         var formData = {
+    //             Id:id,
+    //             BusinessName: editBusinessName,
+    //             VendorName: editVendorPersonName,
+    //             City: editcity,
+    //             Address: editaddress,
+    //             Email: editemail,
+    //             AlternateNumber:editalternateNumber,
+    //             ContactNo: editContactNo,
+    //             State: editstate   
+
+    //         };
+
+    //         console.log("Updating Vendor with ID: " + formData);
+
+
+    //         alert("ok");
+
+
+    //         $.ajax({
+    //             type: "PUT",
+    //             url: '/Vendor/EditVendor', // Update URL as needed
+    //             data: JSON.stringify(formData),
+    //             success: function (response) {
+    //                 if (response.success) {
+    //                     toastr.success('Vendor updated successfully.');
+    //                     document.getElementById("editVendorModal").style.display = 'none'
+    //                     location.reload(); // Reload the page after successful update
+    //                 } else {
+    //                     toastr.error('Error updating vendor.');
+    //                 }
+    //             },
+    //             error: function (xhr, status, error) {
+    //                 console.error(xhr.responseText); // Log any errors
+    //                 toastr.error('An error occurred while updating the vendor.');
+    //             }
+    //         });
+
+    //     } else {
+    //         toastr.error('Please fill all the required fields.');
+    //     }
+
+      
+    // });
+
+
+
+
+       
     </script>
-    <script type="text/javascript" src="~/js/Vendor.js"></script>
+
+    <script>
+
+        $('#saveVendorButton').on('click',function (e) {
+
+        $('.error-message').remove();
+        
+       // Validate required fields     businessName VendorPersonName email gstn contactNumber
+       var isValid = true;
+       const hasNumber = /\d/;
+       const textRegex = /^[a-zA-Z\s]+$/; // Text only (letters and spaces)
+       const contactNumberRegex = /^\d{10}$/; // Exactly 10 digits
+
+
+       let businessName = document.getElementsByClassName('businessName')[ 0 ].value.trim();
+
+       let VendorPersonName = document.getElementsByClassName('VendorPersonName')[ 0 ].value.trim();
+
+       let email = document.getElementsByClassName('email')[ 0 ].value.trim();
+
+       let gstn = document.getElementsByClassName('gstn')[ 0 ].value.trim();
+
+       let contactNumber = document.getElementsByClassName('contactNumber')[ 0 ].value.trim();
+
+       let alternateNumber = document.getElementsByClassName('alternateNumber')[ 0 ].value.trim();
+
+       let city = document.getElementsByClassName('city')[ 0 ].value.trim();
+
+       let address = document.getElementsByClassName('address')[ 0 ].value.trim();
+
+       let state = document.getElementsByClassName('state')[ 0 ].value.trim();
+
+
+
+       // Check Business Name
+       if ($('#businessName').val().trim() === '') {
+           $('#businessName').after('<span class="error-message text-danger">This field is required.</span>');
+           isValid = false;
+
+       } else if (!textRegex.test(businessName)) {
+           $('.businessName').after('<span class="error-message text-danger">Business Name must contain only letters.</span>');
+           isValid = false;
+       }
+
+       // Check Contact Person Name
+       if ($('#VendorPersonName').val().trim() === '') {
+           $('#VendorPersonName').after('<span class="error-message text-danger">This field is required.</span>');
+           isValid = false;
+       } else if (!textRegex.test(VendorPersonName)) {
+           $('.VendorPersonName').after('<span class="error-message text-danger">Vendor Name must contain only letters.</span>');
+           isValid = false;
+       }
+
+
+       if ($('.email').val().trim() === '') {
+           $('.email').after('<span class="error-message text-danger">This field is required.</span>');
+           isValid = false;
+       } else if (!validateEmail(email)) {
+           $('.email').after('<span class="error-message text-danger">Enter a valid email address.</span>');
+           isValid = false;
+       }
+
+       // Check Contact Numbe
+
+       if (contactNumber === '') {
+           $('.contactNumber').after('<span class="error-message text-danger">This field is required.</span>');
+           isValid = false;
+       }
+       else if (!contactNumberRegex.test(contactNumber)) {
+           $('.contactNumber').after('<span class="error-message text-danger">Contact Number must be exactly 10 digits.</span>');
+           isValid = false;
+       }
+
+
+
+       // Check if GST Number (if filled) is exactly 15 characters long
+       var gstNumber = $('#gstn').val().trim();
+       if (gstNumber !== '' && gstNumber.length !== 15) {
+           $('#gstn').after('<span class="error-message text-danger">GST Number must be exactly 15 characters.</span>');
+           isValid = false;
+       }
+
+
+       if ($('#city').val().trim() === '') {
+           $('#city').after('<span class="error-message text-danger">This field is required.</span>');
+           isValid = false;
+       } else if (!textRegex.test(city)) {
+           $('.city').after('<span class="error-message text-danger">City  must contain only letters.</span>');
+           isValid = false;
+       }
+
+
+
+       if (address === '') {
+           $('.address').after('<span class="error-message text-danger">This field is required.</span>');
+           isValid = false;
+       }
+       else if (!textRegex.test(address)) {
+           $('.address').after('<span class="error-message text-danger"> must contain only letters and spaces.</span>');
+           isValid = false;
+       }
+
+       if (state === '') {
+           $('.state').after('<span class="error-message text-danger">This field is required.</span>');
+           isValid = false;
+       }
+
+
+
+
+       // If the form is valid, proceed with the AJAX submission
+       if (isValid) {
+           var formData = $('#addVendorForm').serialize();
+           console.log(formData); // Check serialized data in console
+
+           $.ajax({
+               type: "POST",
+               url: '/Vendor/AddVendor', // Match the controller action name
+               data: formData,
+               success: function (response) {
+                   console.log("success" + response);
+                   if (response.message == "Vendor Add Successfully. ") {
+                       toastr.success('Vendor added successfully.');
+                       location.reload(); // Optionally reload the page
+                   }
+                   else {
+                       toastr.error('An error occurred while adding the customer.');
+                   }
+
+               },
+               error: function (xhr, status, error) {
+                   console.error(xhr.responseText); // Log any errors
+                   toastr.error('An error occurred while adding the vendor.');
+               }
+           });
+       } else {
+           toastr.error('Please fill all the required fields.');
+       }
+
+
+   });
+          function validateEmail(email) {
+                        var re = /^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                return re.test(email);
+                    }
+
+    </script>
+    <script src="~/js/VendorJavascript.js"></script>
+
 </body>

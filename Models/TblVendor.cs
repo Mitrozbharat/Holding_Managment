@@ -17,6 +17,7 @@ namespace Hoarding_managment.Models
         public string? GstNo { get; set; }
         public string? ContactNo { get; set; }
         public string? AlternateNumber { get; set; }
+        public string ? City { get; set; }
         public string? Address { get; set; }
         public string? State { get; set; }
         public ulong? IsDelete { get; set; }
