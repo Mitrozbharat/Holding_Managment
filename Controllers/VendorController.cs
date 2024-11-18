@@ -1,4 +1,6 @@
 ﻿
+using Microsoft.AspNetCore.Mvc;
+
 namespace Hoarding_managment.Controllers
 {
     public class VendorController : Controller
@@ -168,50 +170,52 @@ namespace Hoarding_managment.Controllers
         }
 
 
-
-
         [HttpPost]
         public async Task<IActionResult> UpdateVendor([FromBody] VendorViewModel model)
         {
-            var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
-
-            var sessionUserName = HttpContext.Session.GetString("SessionUsername");
-
-
-            if (sessionUserId == null)
+            try
             {
-                return RedirectToAction("Index", "Auth");
-            }
+                var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
+                var sessionUserName = HttpContext.Session.GetString("SessionUsername");
 
-            if (model == null)
+                if (sessionUserId == null)
+                {
+                    return Json(new { success = false, Message = "User is not authenticated." });
+                }
+
+                if (model == null || !ModelState.IsValid)
+                {
+                    return Json(new { success = false, Message = "Invalid data." });
+                }
+
+                var vendor = await _context.GetVendorByIdAsync(model.Id);
+                if (vendor == null)
+                {
+                    return Json(new { success = false, Message = "Vendor not found." });
+                }
+
+                // Update vendor properties
+                vendor.BusinessName = model.BusinessName;
+                vendor.VendorName = model.VendorName;
+                vendor.Email = model.Email;
+                vendor.GstNo = model.GstNo;
+                vendor.ContactNo = model.ContactNo;
+                vendor.AlternateNumber = model.AlternateNumber;
+                vendor.City = model.City;
+                vendor.Address = model.Address;
+                vendor.State = model.State;
+                vendor.UpdatedAt = DateTime.Now;
+                vendor.UpdatedBy = sessionUserName;
+
+                await _context.UpdateVendorAsync(vendor);
+
+                return Json(new { success = true, Message = "Vendor updated successfully.", model = vendor });
+            }
+            catch (Exception ex)
             {
-                return Json(new { success = false, Message = "Invalid data." });
+                return Json(new { success = false, Message = "An error occurred.", Error = ex.Message });
             }
-
-            var vendor = await _context.GetVendorByIdAsync(model.Id); // Ensure this is async
-            if (vendor == null)
-            {
-                return Json(new { success = false, Message = "vendor not found." });
-            }
-
-            // Update customer properties
-            vendor.BusinessName = model.BusinessName;
-            vendor.VendorName = model.VendorName;
-            vendor.Email = model.Email;
-            vendor.GstNo = model.GstNo;
-            vendor.ContactNo = model.ContactNo;
-            vendor.AlternateNumber = model.AlternateNumber;
-            vendor.City = model.City;
-            vendor.Address = model.Address;
-            vendor.State = model.State;
-            vendor.UpdatedAt = DateTime.Now;
-            vendor.CreatedBy = sessionUserName;
-
-            await _context.UpdateVendorAsync(vendor); // Ensure the update method is async
-
-            return Json(new { success = true, Message = "Customer updated successfully.", model = vendor });
         }
-
 
         //public async Task<IActionResult> EditVendor(int id, VendorViewModel viewModel)
         //{

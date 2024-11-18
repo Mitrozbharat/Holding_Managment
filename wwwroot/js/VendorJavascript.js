@@ -1,4 +1,6 @@
-﻿$(document).ready(function () {
+﻿$(document).ready(function ()
+{
+
     $("#updateVendor").click(function () {
         // Clear any previous error messages
         $(".error-message").remove();
@@ -78,28 +80,67 @@
 
             console.table(" data: updated: ", formData);
 
+
+            //$.ajax({
+            //    url: '/Vendor/UpdateVendor',
+            //    type: 'POST',
+            //    data: JSON.stringify({
+            //        id: 2, // Example data
+            //        vendorName: "Vendor Name",
+            //        businessName: "Business Name",
+            //        email: "vendor@example.com",
+            //        gstNo: "22AAAAA0000A1Z5",
+            //        contactNo: "1234567890",
+            //        alternateNumber: "0987654321",
+            //        city: "City Name",
+            //        address: "Address",
+            //        state: "State"
+            //    }),
+            //    contentType: 'application/json',
+            //    success: function (response) {
+            //        if (response.success) {
+            //            toastr.success("Vendor updated successfully.");
+            //            $('#editVendorModal').modal('hide'); // Hide modal
+            //            location.reload(); // Reload the page or update the vendor list as needed
+            //        } else {
+            //            toastr.error(response.message || "Failed to update vendor.");
+            //        }
+            //    },
+            //    error: function (xhr, status, error) {
+            //        console.error("Error details:", error); // Log the error for debugging
+            //        console.error("Response text:", xhr.responseText); // Log response text for debugging
+            //        toastr.error("An error occurred while updating the vendor.");
+            //    }
+            //});
+
+
+
             $.ajax({
                 url: '/Vendor/UpdateVendor',
                 type: 'POST',
-                data:formData,
                 contentType: 'application/json',
+                data: JSON.stringify(formData),
                 success: function (response) {
                     if (response.success) {
-                        toastr.success("Vendor updated successfully.");
-                        $('#editVendorModal').modal('hode'); // Bootstrap-specific method for better compatibility
-                        location.reload();
-                        // Optionally reload the vendor list
+                        toastr.success('Customer added successfully.');
+                        $('#editVendorModal').modal('hide');
+                        location.reload(); // Reload the page on success
                     } else {
-                        toastr.error(response.message || "Failed to update vendor.");
+                        toastr.error('Error adding Customer.');
                     }
                 },
-                error: function () {
-                    toastr.error("An error occurred while updating the vendor.");
+                error: function (error) {
+                    // Handle error response
+                    alert('An error occurred while updating customer details.');
                 }
             });
-        }
+
+        } 
+
+
     });
-});
+       
+ });
 
 
 
