@@ -163,9 +163,6 @@ namespace Hoarding_managment.Controllers
             var sessionUserName = HttpContext.Session.GetString("SessionUsername");
 
 
-
-
-
             if (sessionUserId == null)
             {
                 return RedirectToAction("Index", "Auth");

@@ -80,7 +80,8 @@
                             @{
                                 string truncatedAddress = @Model.Address.Length > 30 ? @Model.Address.Substring(0, 30) + "..." : @Model.Address;
                             }
-                            <p><strong>Address :</strong> @truncatedAddress</p>                           
+                            <p><strong>Address :</strong> @Model.Address</p>
+                            @* <p><strong>Address :</strong> @truncatedAddress</p>                            *@
                             @foreach (var item in Model.Items)
                             { totalprice += Convert.ToDouble(item.Rate); }
                            <p><strong>Total Amount  : </strong> @totalprice.ToString("F2") /-</p>
@@ -189,6 +190,13 @@
                 let customer = $('.totalamountclass p').eq(0).text();
                 let address = $('.totalamountclass p').eq(1).text();
                 let totalPrice = $('.totalamountclass p').eq(2).text();
+
+                    let addressString = `${address}`;
+                    let charCount = addressString.length;
+                    const maxLength = 51;  // Maximum characters per line
+
+       
+
                 // Set up padding and background dimensions
                 const backgroundX = 1; // X position of the background
                 const backgroundY = 4.9; // Y position of the background
@@ -207,9 +215,21 @@
                 doc.text(`${date}`, 2, 5.6);
                 doc.text(`${dateone}`, 2, 5.9);
                 doc.text(`${customer}`, 6, 5.6);
-                doc.text(`${address}`, 6, 5.9);
-                doc.text(`${totalPrice}`, 6, 6.2);
 
+                if (charCount > maxLength) {
+
+                 let firstLine = addressString.substring(0, maxLength);
+                 let secondLine = addressString.substring(maxLength);
+                 doc.text(firstLine, 6, 5.8);
+                 doc.text(secondLine, 6, 6);
+                } 
+                else {
+                    // If the text is within the max length, just print it on one line
+                    doc.text(addressString, 6, 5.9);
+                }
+
+                doc.text(`${totalPrice}`, 6,6.20);
+               
 
 
                 // Loop through items and add them to the PDF
@@ -422,20 +442,43 @@
                     line: { color: 'FFFFFF', width: 15 }
                 });
 
-                let quotationId = $('#exportContent').find("input[quotationId]").val();
-                let qnum = $('#exportContent').find("input[qnumber]").val();
-                let date = $('.col-md-9 p').eq(0).text();
-                let dateone = $('.col-md-9 p').eq(1).text();
+                       let quotationId = $('#exportContent').find("input[quotationId]").val();
+        let qnum = $('#exportContent').find("input[qnumber]").val();
+        let date = $('.col-md-9 p').eq(0).text();
+        let dateone = $('.col-md-9 p').eq(1).text();
+        let customer = $('.totalamountclass p').eq(0).text();
+        let address = $('.totalamountclass p').eq(1).text();
+        let totalPrice = $('.totalamountclass p').eq(2).text();
 
-                let customer = $('.totalamountclass p').eq(0).text();
-                let address = $('.totalamountclass p').eq(1).text();
-                let totalPrice = $('.totalamountclass p').eq(2).text();
+        let addressString = `${address}`;
+        let charCount = addressString.length;
+        const maxLength = 51;  // Maximum characters per line
 
-                secondSlide.addText(`${date}`, { x: 1.3, y: 3.5, ...tabletext, align: 'left' });
-                secondSlide.addText(`${dateone}`, { x: 1.3, y: 3.8, ...tabletext, align: 'left' });
-                secondSlide.addText(`${customer}`, { x: 4.5, y: 3.5, ...tabletext, align: 'left' });
-                secondSlide.addText(`${address}`, { x: 4.5, y: 3.7, ...tabletext, align: 'left' });
-                secondSlide.addText(`${totalPrice}`, { x: 4.5, y: 3.9, ...tabletext, align: 'left' });
+        // Adding date, customer, and total price to the document
+        secondSlide.addText(`${date}`, { x: 1.3, y: 3.5, ...tabletext, align: 'left' });
+        secondSlide.addText(`${dateone}`, { x: 1.3, y: 3.8, ...tabletext, align: 'left' });
+        secondSlide.addText(`${customer}`, { x: 4.5, y: 3.5, ...tabletext, align: 'left' });
+
+        // Check if address needs to be split into two lines
+        if (charCount > maxLength) {
+            let firstLine = addressString.substring(0, maxLength);
+            let secondLine = addressString.substring(maxLength);
+
+            // Add both lines of the address
+            secondSlide.addText(`${firstLine}`, { x: 4.5, y: 3.7, ...tabletext, align: 'left' });
+            secondSlide.addText(`${secondLine}`, { x: 4.5, y: 3.9, ...tabletext, align: 'left' });
+            secondSlide.addText(`${totalPrice}`, { x: 4.5, y: 4.1, ...tabletext, align: 'left' });
+
+        } else {
+            // If the address fits on one line
+            secondSlide.addText(`${addressString}`, { x: 4.5, y: 3.7, ...tabletext, align: 'left' });
+
+             secondSlide.addText(`${totalPrice}`, { x: 4.5, y: 3.11, ...tabletext, align: 'left' });
+
+
+        }        
+      
+        // Adding total price
 
                 let totalQuote = 0;
 

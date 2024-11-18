@@ -225,14 +225,5 @@
 </body>
 
 <script>
-    function openEditModal(id, customerName, businessName, city, fromDate, toDate) {
-        $('#editCampaignId').val(id);
-        $('#editCustomerName').val(customerName);
-        $('#editBusinessName').val(businessName);
-        $('#editCity').val(city);
-
-        // Convert dates to ISO format if needed
-        $('#editStartDate').val(new Date(fromDate).toISOString().substring(0, 10));
-        $('#editEndDate').val(new Date(toDate).toISOString().substring(0, 10));
-    }
+    
 </script>
