@@ -43,6 +43,20 @@
             background: #ffff !important;
             margin-top: 15px;
         }
+
+        .profile-circle {
+            width: 50px; /* Adjust the size as needed */
+            height: 50px;
+            background-color: red; /* Red background */
+            color: white; /* Text color */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%; /* Makes it circular */
+            font-size: 20px; /* Adjust the font size as needed */
+            font-weight: bold;
+            text-transform: uppercase; /* Ensure text is uppercase */
+        }
     </style>
 </head>
 
@@ -88,9 +102,10 @@
                                               : ' '; // Handle empty or null case
                         }
 
-                         @*    <span>@firstLetter</span> *@
-@*                             <img src="~/images/Shahu-logo.png" alt="profile" />
- *@                            <span class="nav-profile-name" id="@ViewBag.sessionUserId"> @ViewBag.sessionUserName</span>
+@*                      <img src="~/images/Shahu-logo.png" alt="profile" />
+ *@  
+                        <span class="nav-profile-name" id="@ViewBag.sessionUserId">@ViewBag.sessionUserName?.ToUpper()</span>
+                            @*    <span class="profile-circle">@firstLetter@firstLetter</span> *@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                            

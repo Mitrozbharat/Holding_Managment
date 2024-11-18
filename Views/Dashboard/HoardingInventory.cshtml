@@ -238,16 +238,18 @@
                                     }
                                     <div class="card ">
                                         <div class="row g-0">
-                                           
-                                            
-                                            <div class="col-lg-7 img-container" onclick="showDetail(@i.Id)">
+                                          
+                                            <div class="col-lg-7 img-container">
                                             @if (!string.IsNullOrEmpty(i.Image))
                                             {
-                                                <img src="data:image/png;base64,@i.Image" class="img-fluid" alt="Image" width="100%" height="100%" onclick="Openlivepreview(this.src)" />
+                                                <img src="data:image/png;base64,@i.Image" class="img-fluid" alt="Image" width="100%" height="100%"
+                                                     onclick="Openlivepreview('data:image/png;base64,@i.Image', '@i.City', '@i.Area', '@i.Width', '@i.Height', '@i.Rate', '@i.VendorName','@i.BookingStatus')" />
                                             }
                                             else
                                             {
-                                                <img src="~/images/Shahu-logo.png" class="img-fluid" alt="Image" width="100%" height="100%" onclick="Openlivepreview(this.src)" />
+                                                <img src="~/images/Shahu-logo.png" class="img-fluid" alt="Image" width="100%" height="100%"
+                                                     onclick="Openlivepreview('data:image/png;base64,this.src', '@i.City', '@i.Area', '@i.Width', '@i.Height', '@i.Rate', '@i.VendorName','@i.BookingStatus')" />
+
                                             }
                                          </div>
                                             <div class="col-lg-5">
@@ -381,7 +383,7 @@
                                             <label for="fileInput" class="form-label">Upload Image</label>
                                             <div class="custom-file">
                                                 <input type="file" id="imageInput" accept="image/*" class="custom-file-input" onchange="updateFileName();"  required />
-                                                <label class="custom-file-label" id="fileName" for="fileInput">Choose image</label>
+                                                <label class="custom-file-label" id="fileName" for="imageInput">Choose image</label>
                                             </div>
                                         </div>
 
@@ -611,6 +613,35 @@
             </section>
         </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content modal-lg">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="previewModalLabel">Item Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body  ">
+                    <div class="d-flex justify-content-center align-content-center">
+                        <img id="previewImage" src="" class="img-fluid" alt="Preview" />
+                    </div>
+                    <div class="row">
+                        <p class="col-12 col-md-6"><span class="bold-text">City:</span> <span id="modalCity"></span></p>
+                        <p class="col-12 col-md-6"><span class="bold-text">Area:</span> <span id="modalArea"></span></p>
+                        <p class="col-12 col-md-6"><span class="bold-text">Size:</span> <span id="modalSize"></span></p>
+                        <p class="col-12 col-md-6"><span class="bold-text">Rate:</span> <span id="modalRate"></span></p>
+                        <p class="col-12 col-md-6"><span class="bold-text">Vendor:</span> <span id="modalVendor"></span></p>
+                        <p class="col-12 col-md-6"><span class="bold-text">Status:</span> <span id="modalStatus"></span></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
            
         
@@ -908,22 +939,22 @@
             });
         }
 
-    function Openlivepreview(imageSrc) {
-            // Get the target image element where you want to apply the new src
-            var targetImage = document.getElementById('targetImage');
+    // function Openlivepreview(imageSrc) {
+    //         // Get the target image element where you want to apply the new src
+    //         var targetImage = document.getElementById('targetImage');
 
-    // If the imageSrc contains a relative URL (like '~/images/Shahu-logo.png'), convert it to an absolute path
-    if (imageSrc.startsWith('~/')) {
-        // Assuming the app runs at the root of the site, you can replace '~/' with the actual root path
-        imageSrc = imageSrc.replace('~/', window.location.origin + '/');
-            }
+    // // If the imageSrc contains a relative URL (like '~/images/Shahu-logo.png'), convert it to an absolute path
+    // if (imageSrc.startsWith('~/')) {
+    //     // Assuming the app runs at the root of the site, you can replace '~/' with the actual root path
+    //     imageSrc = imageSrc.replace('~/', window.location.origin + '/');
+    //         }
 
-    // Set the source of the target image to the clicked image's src
-    targetImage.src = imageSrc;
+    // // Set the source of the target image to the clicked image's src
+    // targetImage.src = imageSrc;
 
-    // If you want to display the image in a modal or popup, you can add that logic here
-    $('#imagePreviewModal').modal('show'); // Assuming you are using Bootstrap modal
-        }
+    // // If you want to display the image in a modal or popup, you can add that logic here
+    // $('#imagePreviewModal').modal('show'); // Assuming you are using Bootstrap modal
+    //     }
 
 
     // Set the values of the form fields in the modal
@@ -1149,7 +1180,7 @@
 
 
     const imageInput = document.getElementById('imageInput');
-    const fileName = document.getElementById('fileName');
+         const fileName = document.getElementById('imageInput');
 
     $('imageInput').on('change', function () {
                 const file = this.files[0];
@@ -1165,7 +1196,7 @@
 
 
     const imageInput1 = document.getElementById('imageInputt');
-    const fileName1 = document.getElementById('fileNamee');
+         const fileName1 = document.getElementById('imageInput');
 
     $('imageInput1').on('change', function ()
     {
@@ -1634,6 +1665,43 @@
 
 
       </script>
+      <script>
+                       function Openlivepreview(imageSrc, city, area, width, height, rate, vendorName, status) {
+            // Set the image source for the modal
+            $('#previewImage').attr('src', imageSrc);
+
+            // Populate other fields in the modal
+            $('#modalCity').text(city ? city : 'N/A');
+            $('#modalArea').text(area ? area : 'N/A');
+            $('#modalSize').text(`${width} FT X ${height} FT`);
+            $('#modalRate').text(rate ? rate : 'N/A');
+            $('#modalVendor').text(vendorName ? vendorName : 'N/A');
+
+            // Set status based on its value
+            if (status == 1) {
+                status = "Available";
+            } else if (status == 0) {
+                status = "Booked";
+            } else {
+                status = "N/A"; // Default in case status is neither 0 nor 1
+            }
+
+            $('#modalStatus').text(status); // Set the status text
+
+            // Show the modal
+            $('#previewModal').modal('show');
+        }
+
+
+
+
+
+
+
+      </script>
+
+ 
+
 </body>
 
 
