@@ -122,16 +122,16 @@
                 data: JSON.stringify(formData),
                 success: function (response) {
                     if (response.success) {
-                        toastr.success('Customer added successfully.');
+                        toastr.success('Vendor added successfully.');
                         $('#editVendorModal').modal('hide');
                         location.reload(); // Reload the page on success
                     } else {
-                        toastr.error('Error adding Customer.');
+                        toastr.error('Error adding Vendor.');
                     }
                 },
                 error: function (error) {
                     // Handle error response
-                    alert('An error occurred while updating customer details.');
+                    alert('An error occurred while updating Vendor details.');
                 }
             });
 
