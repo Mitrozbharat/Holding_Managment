@@ -106,7 +106,7 @@
                 <table class="table table-striped" id="customersTable">
                     <thead>
                         <tr class="text-center">
-                            <th>Sr.NO</th>
+                            <th>Sr.No</th>
                             <th>Business Name</th>
                             <th>Customer Name</th>
                             <th>Email</th>
@@ -133,11 +133,12 @@
                                         <div class="Addressoverflow">@item.Address</div>
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-primary p-2" data-toggle="modal" data-target="#editCustomerModal"
+                                        <button type="button" class="btn btn-primary p-1" data-toggle="modal" data-target="#editCustomerModal"
                                                 onclick="openEditModal('@item.Id','@item.BusinessName','@item.CustomerName','@item.Email','@item.GstNo','@item.ContactNo','@item.AlternateNumber','@item.City','@item.Address','@item.State');">
                                             <i class="mdi mdi-table-edit"></i>
-                                        </button> |
-                                        <button type="button" class="btn btn-danger p-2" data-toggle="modal" data-target="#deleteModal" onclick="openDeleteModal(@item.Id)">
+                                        </button> 
+                                        |
+                                        <button type="button" class="btn btn-danger p-1" data-toggle="modal" data-target="#deleteModal" onclick="openDeleteModal(@item.Id)">
                                             <i class="mdi mdi-delete"></i>
                                         </button>
                                     </td>

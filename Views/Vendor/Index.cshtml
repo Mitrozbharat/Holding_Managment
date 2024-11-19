@@ -105,15 +105,14 @@
                     <table class="table table-striped" id="customersTable">
                         <thead>
                             <tr class="text-center">
-                                <th>Sr.NO</th>
+                                <th>Sr.No</th>
                                 <th>Business Name</th>
                                 <th>Vendor Name</th>
                                 <th>Email</th>
                                 <th>GSTIN</th>
                                 <th>Contact</th>
-                                <th>City</th>
+                                @* <th>City</th> *@
                                 <th>Address</th>
-                                <th>State</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -130,13 +129,12 @@
                                         <td>@item.Email</td>
                                         <td>@item.GstNo</td>
                                         <td>@item.ContactNo</td>
-                                        <td>@item.City</td>
+                                        @* <td>@item.City</td> *@
                                         <td title="@item.Address">
                                             <div class="Addressoverflow">@item.Address</div>
                                         </td>
-                                        <td>@item.State</td>
                                         <td>
-                                            <button type="button" class="btn btn-primary p-2"
+                                            <button type="button" class="btn btn-primary p-1"
                                                     data-toggle="modal"
                                                     data-target="#editVendorModalLabel"
                                                     onclick="openVendorEditmodal('@item.Id', '@item.BusinessName', '@item.VendorName',
@@ -145,7 +143,7 @@
                                                                 <i class="mdi mdi-table-edit"></i>
                                             </button>
                                             |
-                                            <button type="button" class="btn btn-danger p-2" data-toggle="modal" data-target="#deleteModal" onclick="openDeleteModalforvendor(@item.Id)">
+                                            <button type="button" class="btn btn-danger p-1" data-toggle="modal" data-target="#deleteModal" onclick="openDeleteModalforvendor(@item.Id)">
                                                 <i class="mdi mdi-delete"></i>
                                             </button>
                                         </td>
