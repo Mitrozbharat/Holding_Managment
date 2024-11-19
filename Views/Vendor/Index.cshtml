@@ -707,10 +707,7 @@
            $('.address').after('<span class="error-message text-danger">This field is required.</span>');
            isValid = false;
        }
-       else if (!textRegex.test(address)) {
-           $('.address').after('<span class="error-message text-danger"> must contain only letters and spaces.</span>');
-           isValid = false;
-       }
+     
 
        if (state === '') {
            $('.state').after('<span class="error-message text-danger">This field is required.</span>');
