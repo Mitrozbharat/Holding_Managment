@@ -203,6 +203,72 @@ namespace Hoarding_managment.Controllers
         }
 
 
+        [HttpPost]
+        public async Task<IActionResult> checkValidatedate(CampaigneditViewModel model)
+        {
+            try
+            {
+                // Retrieve all campaigns with the same FkCampaignId and FkInventoryId, excluding deleted ones
+                var campaignsToUpdate = await _dbContext.TblCampaingitems
+                    .Where(x => x.FkCampaignId == model.Id && x.FkInventoryId == model.fk_id && x.IsDelete == 0)
+                    .ToListAsync();
+
+                // Check if the requested FromDate falls within any existing date range
+                bool isOverlap = campaignsToUpdate.Any(campaign =>
+                    model.FromDate >= campaign.FromDate && model.FromDate <= campaign.ToDate
+                );
+
+                if (isOverlap)
+                {
+                    return Json(new { success = false, message = "The requested FromDate overlaps with existing campaign dates." });
+                }
+
+                return Json(new { success = true, message = "Dates are valid." });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception message
+                Console.WriteLine(ex.Message);
+                // Consider logging the error properly using a logging framework
+                return Json(new { success = false, message = "An error occurred while validating the dates." });
+            }
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> checkTodateValidatedate(CampaigneditViewModel model)
+        {
+            try
+            {
+                // Retrieve all campaigns with the same FkCampaignId and FkInventoryId, excluding deleted ones
+                var campaignsToUpdate = await _dbContext.TblCampaingitems
+                    .Where(x => x.FkCampaignId == model.Id && x.FkInventoryId == model.fk_id && x.IsDelete == 0)
+                    .ToListAsync();
+
+                // Check if the requested ToDate falls within any existing date range
+                bool isOverlap = campaignsToUpdate.Any(campaign =>
+                    model.ToDate >= campaign.FromDate && model.ToDate <= campaign.ToDate
+                );
+
+                if (isOverlap)
+                {
+                    return Json(new { success = false, message = "The requested ToDate overlaps with existing campaign dates." });
+                }
+
+                return Json(new { success = true, message = "validate dates." });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception message
+                Console.WriteLine(ex.Message);
+                // Consider logging the error properly using a logging framework
+                return Json(new { success = false, message = "An error occurred while validating the ToDate." });
+            }
+        }
+
+
+
+
 
 
         [HttpGet]

@@ -21,6 +21,7 @@
     @if (!string.IsNullOrEmpty(Model.SearchQuery))
     {
         <script>
+        <script>
             $(document).ready(function () {
                 var searchInput = $('#searchQuery');
                 searchInput.focus();
@@ -185,18 +186,18 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="startDate">Start Date <span class="text-danger">*</span></label>
-                                <input type="date" class="form-control fromdate" id="editfromdate" required>
+                                <input type="date" class="form-control fromdate editfromdate" id="editfromdate" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="endDate">End Date <span class="text-danger">*</span></label>
-                                <input type="date" class="form-control  todate" id="edittodate" required>
+                                <input type="date" class="form-control odate  edittodate" id="edittodate" required>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <div class="form-group col-md-12">
                                     <label for="budget">Budget <span class="text-danger">*</span></label>
-                                    <input type="number" class="form-control" id="budget" placeholder="Budget" required>
+                                    <input type="number" class="form-control budget" id="budget" placeholder="Budget" required>
                                 </div>
                                 <input type="hidden" id="editId" />
 
@@ -236,4 +237,6 @@
 
 <input type="text" id="fk_id" style="display:none";/>
 </body>
+
+
 <script src="~/js/campaignscript.js"></script>
