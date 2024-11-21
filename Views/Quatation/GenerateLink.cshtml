@@ -66,7 +66,7 @@
                             @{
                                 string truncatedAddress = @Model.Address.Length > 30 ? @Model.Address.Substring(0, 30) + "..." : @Model.Address;
                             }
-                            <p><strong>Address :</strong> @truncatedAddress</p>
+                            <p><strong>Address :</strong> @Model.Address</p>
                             @foreach (var item in Model.Items)
                             { totalprice += Convert.ToDouble(item.Rate); }
                             <p><strong>Total Amount  : </strong> @totalprice.ToString("F2") /-</p>
