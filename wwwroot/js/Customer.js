@@ -244,3 +244,7 @@ $('#saveInventoryButton').click(function () {
     reader.readAsDataURL(imageFile); // Start reading the image file
 });
 
+
+
+
+

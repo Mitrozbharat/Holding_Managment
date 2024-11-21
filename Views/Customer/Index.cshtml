@@ -583,13 +583,23 @@
 
         // If the form is valid, proceed with the AJAX submission
         if (isValid) {
-              var formData = $('#addCustomerForm').serialize();
-              console.log("Serialized Form Data: ", formData); // For debugging
+               let customerData = {
+            BusinessName: $('#businessName').val(),
+            CustomerName: $('#customerName').val(),
+            Email: $('#email').val(),
+            Gstn: $('#gstn').val(),
+            ContactNumber: $('#contactNumber').val(),
+            AlternateNumber: $('#alternateNumber').val(),
+            State: $('#state').val(),
+            Address: $('#address').val(),
+            City: $('#city').val(),
+        };
+              console.log("Serialized Form Data: ", customerData); // For debugging
 
                 $.ajax({
                 type: "POST",
                 url: '/Customer/AddNewCustomer', // Update the URL to match your controller action
-                data: formData,
+                data: customerData,
                 success: function (response) {
                     console.log("Response: " + response);
                 if (response.message == "Customer Add Successfully. ") {
@@ -599,12 +609,12 @@
                 // document.getElementById('addCustomerForm').reset();
                                         }
         else {
-            toastr.error('An error occurred while adding the inventory.');
+            toastr.error('An error occurred while adding.');
                             }
 
                         },
         error: function (xhr, status, error) {
-            toastr.error('An error occurred while adding the inventory.');
+            toastr.error('An error occurred while adding.');
                         }
                     });
                 } else {
@@ -621,6 +631,8 @@
 
 
     </script>
+
+
     <script src="~/js/customer.js"></script>
    
 </body>

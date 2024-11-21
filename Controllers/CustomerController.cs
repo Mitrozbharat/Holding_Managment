@@ -62,7 +62,7 @@ namespace Hoarding_managment.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> AddNewCustomer(string businessName, string customerName, string email, string gstn, string contactNumber, string alternateNumber, string address, string state)
+        public async Task<IActionResult> AddNewCustomer(string businessName, string customerName, string email, string gstn, string contactNumber, string alternateNumber, string city,string address, string state)
         {
             var sessionUserId = HttpContext.Session.GetInt32("SessionUserIdKey");
 
@@ -86,6 +86,7 @@ namespace Hoarding_managment.Controllers
                     GstNo = gstn,
                     ContactNo = contactNumber,
                     AlternateNumber = alternateNumber,
+                    City =city,
                     Address = address,
                     State = state,
                     IsDelete = 0,
