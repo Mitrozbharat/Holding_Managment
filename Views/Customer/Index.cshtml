@@ -504,6 +504,7 @@
 
         // Regular expressions for validation
 
+
         const hasNumber = /\d/;
         const textRegex = /^[a-zA-Z\s]+$/; // Text only (letters and spaces)
         const contactNumberRegex = /^\d{10}$/; // Exactly 10 digits
@@ -517,12 +518,9 @@
         if (businessName === '') {
             $('.businessName').after('<span class="error-message text-danger">This field is required.</span>');
            isValid = false;
-                    } else if (!textRegex.test(businessName)) {
-            $('#businessName').after('<span class="error-message text-danger">Business Name must contain only letters and spaces.</span>');
-           isValid = false;
                     }
 
-        // Validate Customer Name
+            // Validate Customer Name
         if (customerName === '') {
             $('.customerName').after('<span class="error-message text-danger">This field is required.</span>');
         isValid = false;

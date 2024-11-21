@@ -620,7 +620,7 @@
        const hasNumber = /\d/;
        const textRegex = /^[a-zA-Z\s]+$/; // Text only (letters and spaces)
        const contactNumberRegex = /^\d{10}$/; // Exactly 10 digits
-        const nonNumberRegex = /^[^\d]+$/;
+
 
        let businessName = document.getElementsByClassName('businessName')[ 0 ].value.trim();
 
@@ -647,20 +647,9 @@
            $('#businessName').after('<span class="error-message text-danger">This field is required.</span>');
            isValid = false;
 
+       } 
 
-       }
-
-                   if (!validateInput($('#businessName').val().trim())) {
-                // Clear previous error message
-                $('#businessName').next('.error-message').remove();
-
-                // Add error message
-                $('#businessName').after('<span class="error-message text-danger">Business Name must not contain numbers.</span>');
-                isValid = false;
-            }
-
-
-               // Check Contact Person Name
+       // Check Contact Person Name
        if ($('#VendorPersonName').val().trim() === '') {
            $('#VendorPersonName').after('<span class="error-message text-danger">This field is required.</span>');
            isValid = false;
@@ -713,8 +702,6 @@
            $('.address').after('<span class="error-message text-danger">This field is required.</span>');
            isValid = false;
        }
-
-
      
 
        if (state === '') {
@@ -767,8 +754,6 @@
                         var re = /^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
                 return re.test(email);
                     }
-
-          
 
     </script>
     <script src="~/js/VendorJavascript.js"></script>
