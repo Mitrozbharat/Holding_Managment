@@ -399,7 +399,7 @@ namespace Hoarding_managment.Controllers
            // int ids = await _dbContext.TblVendors.FirstOrDefaultAsync( x => x.IsDelete == 0 && x.VendorName == "Sahu Advertising").Id;
 
             var vendor = await _dbContext.TblVendors
-           .FirstOrDefaultAsync(x => x.IsDelete == 0 && x.VendorName == "Sahu Advertising");
+           .FirstOrDefaultAsync(x => x.IsDelete == 0 && x.Id==1);
 
             int ids = vendor?.Id ?? 0; // Use 0 or another default value if vendor is null
 
