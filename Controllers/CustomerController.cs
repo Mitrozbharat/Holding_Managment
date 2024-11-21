@@ -20,6 +20,9 @@ namespace Hoarding_managment.Controllers
 
             var sessionUserName = HttpContext.Session.GetString("SessionUsername");
 
+            ViewBag.sessionUserId = sessionUserId;
+            ViewBag.sessionUserName = sessionUserName;
+
 
             if (sessionUserId == null)
             {
