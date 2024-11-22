@@ -1,7 +1,6 @@
 ﻿$(document).ready(function () {
     // Listen for changes on the Start Date and End Date
 
-
     var today = new Date().toISOString().split('T')[ 0 ]; // Get today's date in YYYY-MM-DD format
     $('#editfromdate').attr('min', today); // Set the min attribute to today's date, disabling past dates
 
@@ -193,33 +192,6 @@ $('#saveEditcampain').on('click', function () {
     });
 });
 
-
-//function deleteModel(id, fk_id) {
-//    $('#editId').val(id);
-//    $('#fk_id').val(fk_id);
-//}
-
-//$('#DeleteBtn').on('click', function () {
-
-//    var id = $('#editId').val();
-//    var fk_id = $('#fk_id').val();
-
-//    console.log(id);
-//    console.log(fk_id);
-
-//    $.ajax({
-//        url: '/OngoingCampain/DeleteCampaign',
-//        type: 'DELETE',
-//        data: { id: id, fk_id },
-//        success: function (response) {
-//            toastr.success('Campaign deleted successfully.');
-//            location.reload();
-//        },
-//        error: function (xhr, status, error) {
-//            toastr.error('Error deleting campaign.');
-//        }
-//    });
-//});
 
 
 

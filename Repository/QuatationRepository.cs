@@ -160,8 +160,6 @@ namespace HoardingManagement.Repository
         }
 
 
-
-
         public async Task<List<TblCustomer>> SearchCustomersByNameAsync(string name)
         {
             var lowerCaseName = name.ToLower();
@@ -169,11 +167,6 @@ namespace HoardingManagement.Repository
                                  .Where(c => c.IsDelete == 0 && c.CustomerName.ToLower().Contains(lowerCaseName))
                                  .ToListAsync();
         }
-
-
-
-
-
 
         public async Task<IEnumerable<QuatationViewModel>> GetCustomerDetailsAsync()
         {
@@ -361,9 +354,8 @@ namespace HoardingManagement.Repository
             return viewModel;
         }
 
-
        
-            public async Task<QuatationDetaileViewModel> GetLatestQuotationById(int id)
+        public async Task<QuatationDetaileViewModel> GetLatestQuotationById(int id)
             {
             // Retrieve the quotation by ID
             var quotation = await _context.TblQuotations
@@ -438,9 +430,6 @@ namespace HoardingManagement.Repository
 
             return viewModel;
         }
-
-
-
 
 
         public async Task<int> DeleteQuotationitemByIdAsync(int id)

@@ -236,7 +236,40 @@
 </div>
 
 <input type="text" id="fk_id" style="display:none";/>
-</body>
 
+
+    <script>
+
+        function deleteModel(id, fk_id) {
+            $('#editId').val(id);
+            $('#fk_id').val(fk_id);
+        }
+
+        $('#DeleteBtn').on('click', function () {
+
+            var id = $('#editId').val();
+            var fk_id = $('#fk_id').val();
+
+            console.log(id);
+            console.log(fk_id);
+
+            $.ajax({
+                url: '/OngoingCampain/DeleteCampaign',
+                type: 'DELETE',
+                data: { id: id, fk_id },
+                success: function (response) {
+                    toastr.success('Campaign deleted successfully.');
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    toastr.error('Error deleting campaign.');
+                }
+            });
+        });
+
+    </script>
+
+
+</body>
 
 <script src="~/js/campaignscript.js"></script>
