@@ -248,7 +248,7 @@ namespace Hoarding_managment.Controllers
                 //worksheet.Cells[4, 2].Value = model.Address;
                 string truncatedAddress = model.Address.Length > 30 ? model.Address.Substring(0, 30) + "..." : model.Address;
                 worksheet.Cells[4, 1].Value = "Address";
-                worksheet.Cells[4, 2].Value = truncatedAddress;
+                worksheet.Cells[4, 2].Value = model.Address;
 
                 worksheet.Cells[5, 1].Value = "Total Amount";
                 worksheet.Cells[5, 2].Value = model.TotalAmount;

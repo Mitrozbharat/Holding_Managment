@@ -1348,7 +1348,7 @@
             isValid = false;
         }
 
-        if (gstNumber && !gstRegex.test(gstNumber)) {
+        if (gstNumber == '') {
             $('#gstn').after('<span class="error-message text-danger">Enter a valid 15-character GST Number.</span>');
             isValid = false;
         }
