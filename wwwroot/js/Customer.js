@@ -32,13 +32,7 @@
     isValid = false;
                }
 
-    // Check if GST Number (if filled) is exactly 15 characters long
-    var gstNumber = $('#editGstn').val().trim();
-    if (gstNumber !== '' && gstNumber.length !== 15) {
-        $('#editGstn').after('<span class="error-message text-danger">GST Number must be exactly 15 characters.</span>');
-    isValid = false;
-               }
-
+  
     // If the form is valid, proceed with the AJAX submission
     if (isValid) {
 

@@ -1347,11 +1347,14 @@
             $('.contactNumber').after('<span class="error-message text-danger">Enter a valid 10-digit Contact Number.</span>');
             isValid = false;
         }
-
-        if (gstNumber == '') {
+                if (gstNumber !== '' && gstNumber.trim().length !== 15) {
+            $('#gstn').next('.error-message').remove(); // Remove existing error message if any
             $('#gstn').after('<span class="error-message text-danger">Enter a valid 15-character GST Number.</span>');
             isValid = false;
+        } else {
+            $('#gstn').next('.error-message').remove(); // Remove the error message if the input is valid
         }
+
 
         if (!textRegex.test(city) || city === '') {
             $('.city').after('<span class="error-message text-danger">Enter a valid City Name.</span>');
