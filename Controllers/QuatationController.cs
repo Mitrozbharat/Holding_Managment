@@ -135,8 +135,7 @@ namespace Hoarding_managment.Controllers
             var quotation = await _context.GetQuotationByIdDetailAsync(id);
 
 
-            ViewBag.ItemsJson = JsonConvert.SerializeObject(quotation.Items);
-
+         
 
             if (quotation == null)
             {

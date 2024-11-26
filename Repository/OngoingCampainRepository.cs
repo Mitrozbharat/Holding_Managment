@@ -606,7 +606,6 @@ namespace Hoarding_managment.Repository
 
                     _context.TblCampaingitems.Add(newdata);
                     var recordsAffected = await _context.SaveChangesAsync();
-
                     if (recordsAffected > 0)
                     {
                         // Remove associated inventory items if the quotation item was saved successfully.
@@ -615,13 +614,17 @@ namespace Hoarding_managment.Repository
                         _context.TblInventoryitems.RemoveRange(itemsToDelete);
                         await _context.SaveChangesAsync();
 
-                        var inventoryItem =await _context.TblInventories.FirstOrDefaultAsync(x => x.Id == item.FkInventoryId && x.IsDelete == 0);
+                        // Update the inventory item's booking status
+                        var inventoryItem = await _context.TblInventories
+                            .FirstOrDefaultAsync(x => x.Id == item.FkInventoryId && x.IsDelete == 0);
+
                         if (inventoryItem != null)
                         {
                             inventoryItem.BookingStatus = 1;
-                            _context.SaveChanges();
+                            await _context.SaveChangesAsync();
                         }
                     }
+
                 }
             }
 

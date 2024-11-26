@@ -407,7 +407,7 @@ namespace Hoarding_managment.Controllers
 
             var bookingwonHordings = await _dbContext.TblInventories.Where(x => x.IsDelete == 0 && x.FkVendorId == ids && x.BookingStatus==1).CountAsync();
 
-
+         
             return Json(new { success = true, hcount = horingcount,vcount= vencount, bookingwonHordings= bookingwonHordings });
         }
 
