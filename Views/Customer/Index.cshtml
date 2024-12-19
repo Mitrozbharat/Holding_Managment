@@ -346,7 +346,7 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="email">Email <span class="text-danger">*</span></label>
-                                <input type="email" class="form-control custom-border email" id="email" name="email" placeholder="Email" required>
+                                <input type="email" class="form-control custom-border email" id="email" name="email" placeholder="Email" >
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="gstn">GST Number</label>
@@ -533,13 +533,13 @@
                     }
 
         // Validate Email
-        if (email === '') {
-            $('.email').after('<span class="error-message text-danger">This field is required.</span>');
-        isValid = false;
-                    } else if (!validateEmail(email)) {
-            $('.email').after('<span class="error-message text-danger">Enter a valid email address.</span>');
-        isValid = false;
-                    }
+        // if (email === '') {
+        //     $('.email').after('<span class="error-message text-danger">This field is required.</span>');
+        // isValid = false;
+        //             } else if (!validateEmail(email)) {
+        //     $('.email').after('<span class="error-message text-danger">Enter a valid email address.</span>');
+        // isValid = false;
+        //             }
 
         // Validate Contact Number
         if (contactNumber === '') {
@@ -552,10 +552,10 @@
                     }
 
         // Validate GST Number (if provided)
-        if (gstNumber !== '' && gstNumber.length !== 15) {
-            $('#gstn').after('<span class="error-message text-danger">GST Number must be exactly 15 characters.</span>');
-        isValid = false;
-                    }
+        // if (gstNumber !== '' && gstNumber.length !== 15) {
+        //     $('#gstn').after('<span class="error-message text-danger">GST Number must be exactly 15 characters.</span>');
+        // isValid = false;
+        //             }
 
 
 

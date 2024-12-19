@@ -20,11 +20,11 @@
     isValid = false;
                }
 
-    // Check Email
-    if ($('#editEmail').val().trim() === '') {
-        $('#editEmail').after('<span class="error-message text-danger">This field is required.</span>');
-    isValid = false;
-               }
+    //// Check Email
+    //if ($('#editEmail').val().trim() === '') {
+    //    $('#editEmail').after('<span class="error-message text-danger">This field is required.</span>');
+    //isValid = false;
+    //           }
 
     // Check Contact Number
     if ($('#editContactNumber').val().trim() === '') {

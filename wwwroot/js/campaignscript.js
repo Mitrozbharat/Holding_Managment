@@ -11,7 +11,7 @@
     // Handle start date change
     $('.editfromdate').on('change', function () {
 
-     
+
         var id = $('#editId').val();
         var fromDate = $('#editfromdate').val();
         var toDate = $('#edittodate').val();
@@ -42,10 +42,10 @@
 
             previousStartDate = fromDate; // Update the valid start date
 
-        }// else {
-        //    toastr.error('Please select a date that is today or later.');
-        //    $('#editfromdate').val(previousStartDate); // Revert to the previous valid start date
-        //}
+        } else {
+            toastr.error('Please select a date that is today or later.');
+            $('#editfromdate').val(previousStartDate); // Revert to the previous valid start date
+        }
 
 
     });
@@ -60,8 +60,8 @@
         today.setHours(0, 0, 0, 0); // Normalize time to midnight for comparison
 
         // Add 1 day to the start date for validation
-        //var minEndDate = new Date(startDate);
-        //minEndDate.setDate(minEndDate.getDate() + 1); // Minimum end date is start date + 1 day
+        var minEndDate = new Date(startDate);
+        minEndDate.setDate(minEndDate.getDate() + 1); // Minimum end date is start date + 1 day
 
         // Validate the end date against the start date
         if (isNaN(startDate) || isNaN(endDate)) {
@@ -157,8 +157,8 @@ $('#saveEditcampain').on('click', function () {
     var fk_id = $('#fk_id').val();
 
 
-    //var startDate = new Date($('#editfromdate').val()); // Get the selected start date
-    //var endDate = new Date($('#edittodate').val()); // Get the selected end date
+    var startDate = new Date($('#editfromdate').val()); // Get the selected start date
+    var endDate = new Date($('#edittodate').val()); // Get the selected end date
 
     // Add 1 day to the start date for validation
     var minEndDate = new Date(startDate);
@@ -177,13 +177,12 @@ $('#saveEditcampain').on('click', function () {
         return; // Stop further processing if validation fails
     }
 
-   
+
     $.ajax({
         url: '/OngoingCampain/UpdateCampaign',
         type: 'POST',
         data: { Id: id, FromDate: fromDate, ToDate: toDate, BookingAmt: bookingAmt, fk_id: fk_id },
         success: function (response) {
-            toastr.success('Campaign updated successfully.');
             location.reload();
         },
         error: function (xhr, status, error) {
@@ -192,65 +191,4 @@ $('#saveEditcampain').on('click', function () {
     });
 });
 
-
-
-
-
-//document.getElementById("editCampaignForm").addEventListener("submit", function (event) {
-//    // Get form values
-//    const fromDateInput = document.getElementById("editfromdate");
-//    const toDateInput = document.getElementById("edittodate");
-//    const fromDate = new Date(fromDateInput.value);
-//    const toDate = new Date(toDateInput.value);
-//    const today = new Date();
-//    today.setHours(0, 0, 0, 0); // Normalize to start of the day
-
-//    let isValid = true;
-//    let errorMessage = "";
-
-//    // Validate fromDate is today or later
-//    if (fromDate < today) {
-//        isValid = false;
-//        errorMessage = "Start Date must be today or later.";
-//        fromDateInput.classList.add("is-invalid");
-//    } else {
-//        fromDateInput.classList.remove("is-invalid");
-//    }
-
-//    // Validate toDate is after fromDate
-//    if (toDate <= fromDate) {
-//        isValid = false;
-//        errorMessage = "End Date must be after Start Date.";
-//        toDateInput.classList.add("is-invalid");
-//    } else {
-//        toDateInput.classList.remove("is-invalid");
-//    }
-
-//    if (!isValid) {
-//        event.preventDefault();
-//        alert(errorMessage); // Show error message
-//    }
-
-//     var id = $('#editId').val();
-//    var fromDate = $('#editfromdate').val();
-//    var toDate = $('#edittodate').val();
-//    var bookingAmt = $('#budget').val();
-//    var fk_id = $('#fk_id').val();
-
-
-
-//    $.ajax({
-//        url: '/OngoingCampain/UpdateCampaign',
-//        type: 'POST',
-//        data: { Id: id, FromDate: fromDate, ToDate: toDate, BookingAmt: bookingAmt, fk_id: fk_id },
-//        success: function (response) {
-//            toastr.success('Campaign updated successfully.');
-//            location.reload();
-//        },
-//        error: function (xhr, status, error) {
-//            toastr.error('Error updating campaign.');
-//        }
-//    });
-
-//});
 
