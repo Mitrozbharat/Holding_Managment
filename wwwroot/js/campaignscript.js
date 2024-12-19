@@ -131,6 +131,10 @@
 
 });
 
+$(document).ready(function () {
+
+
+});
 function openEditcampModal(id, fromDate, toDate, budget, fk_id) {
     // Check if valid dates and budget   
 
@@ -157,32 +161,31 @@ $('#saveEditcampain').on('click', function () {
     var fk_id = $('#fk_id').val();
 
 
-    var startDate = new Date($('#editfromdate').val()); // Get the selected start date
-    var endDate = new Date($('#edittodate').val()); // Get the selected end date
+    //var startDate = new Date($('#editfromdate').val()); // Get the selected start date
+    //var endDate = new Date($('#edittodate').val()); // Get the selected end date
 
-    // Add 1 day to the start date for validation
-    var minEndDate = new Date(startDate);
-    minEndDate.setDate(minEndDate.getDate() + 1); // Set minimum end date to start date + 1 day
+    //// Add 1 day to the start date for validation
+    //var minEndDate = new Date(startDate);
+    //minEndDate.setDate(minEndDate.getDate() + 1); // Set minimum end date to start date + 1 day
 
     // Check if the selected end date is at least 1 day after the start date
-    if (endDate >= minEndDate) {
-        toastr.success('Valid end date selected.');
-        previousEndDate = $('#edittodate').val(); // Update the valid end date
-    } else {
-        toastr.error('End date must be at least one day after the start date.');
-        $('#edittodate').val(endDate); // Revert to the previous valid end date
-    }
+    //if (endDate >= minEndDate) {
+    //    toastr.success('Valid end date selected.');
+    //    previousEndDate = $('#edittodate').val(); // Update the valid end date
+    //} else {
+    //    toastr.error('End date must be at least one day after the start date.');
+    //    $('#edittodate').val(endDate); // Revert to the previous valid end date
+    //}
     if (!bookingAmt || isNaN(bookingAmt) || parseFloat(bookingAmt) <= 0) {
         toastr.error('Booking amount must be a positive number.');
         return; // Stop further processing if validation fails
     }
-
-
     $.ajax({
         url: '/OngoingCampain/UpdateCampaign',
         type: 'POST',
         data: { Id: id, FromDate: fromDate, ToDate: toDate, BookingAmt: bookingAmt, fk_id: fk_id },
-        success: function (response) {
+        success: function (response)
+        {
             location.reload();
         },
         error: function (xhr, status, error) {
