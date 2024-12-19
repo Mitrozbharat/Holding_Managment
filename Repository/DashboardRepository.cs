@@ -266,7 +266,7 @@ namespace Hoarding_managment.Repository
 
                     VendorName = _context.TblVendors.FirstOrDefault(x => x.Id == item.FkVendorId) != null ?
                                      _context.TblVendors.FirstOrDefault(x => x.Id == item.FkVendorId).VendorName :
-                                     "N/A",
+                                     "",
 
                     FkVendorId = item.FkVendorId != null ? item.FkVendorId : 0 // Assuming FkVendorId is nullable, adjust accordingly
 

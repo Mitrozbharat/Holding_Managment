@@ -255,10 +255,10 @@
                                             <div class="col-lg-5">
                                                 <div class="my-2">
                                                     <p><span class="bold-text">City:</span> <span>@(!string.IsNullOrEmpty(i.City) ? i.City : "")</span></p>
-                                                    <p><span class="bold-text">Area:</span> <span>@(!string.IsNullOrEmpty(i.Area) ? i.Area : "N/A")</span></p>
+                                                    <p><span class="bold-text">Area:</span> <span>@(!string.IsNullOrEmpty(i.Area) ? i.Area : "")</span></p>
                                                     <p><span class="bold-text">Size:</span> <span>@i.Width FT X @i.Height FT</span></p>
-                                                    <p><span class="bold-text">Rate:</span> <span>@(!string.IsNullOrEmpty(i.Rate) ? i.Rate : "N/A")</span></p>
-                                                    <p><span class="bold-text">Vendor:</span> <span>@(!string.IsNullOrEmpty(i.VendorName) ? i.VendorName : "N/A")</span></p>
+                                                    <p><span class="bold-text">Rate:</span> <span>@(!string.IsNullOrEmpty(i.Rate) ? i.Rate : "")</span></p>
+                                                    <p><span class="bold-text">Vendor:</span> <span>@(!string.IsNullOrEmpty(i.VendorName) ? i.VendorName : "")</span></p>
 
                                                     <div class="action-icons mt-3 d-flex justify-content-center">
                                                     <img src="/images/cart.svg" alt="Add to Cart" class="start-icon" 
@@ -364,7 +364,7 @@
                                         <input type="number" class="form-control custom-border" id="vendorids" name="vendorids" placeholder="Enter Vandor Amount" required>
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="vendoramt">Vendor Amount</label>
+                                        <label for="vendoramt">Vendor Amount <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control custom-border " id="vendoramt" name="vendoramt" placeholder="Enter Vandor Amount" required>
                                         </div>
                                         <div class="form-group col-md-6">
@@ -481,11 +481,11 @@
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
-                                                      <label for="vendoramt">Vendor Amount</label>
+                                                <label for="vendoramt">Vendor Amount <span class="text-danger">*</span></label>
                                                 <input type="number" class="form-control custom-border" id="edit-vendoramt" name="edit-vendoramt" placeholder="Enter Vandor Amount" required>
                                             </div>
                                                 <div class="form-group col-md-6">
-                                                   <label for="rate">Rate</label>
+                                                <label for="rate">Rate <span class="text-danger">*</span></label>
                                                 <input type="number" class="form-control custom-border" id="edit-rate" name="edit-rate" placeholder="Enter Rate " required>
                                             </div>
                                             </div>
@@ -507,11 +507,11 @@
                                     
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <label for="height">Vendor</label>
+                                            <label for="height">Vendor <span class="text-danger">*</span></label>
                                         <input type="text" class="autocomplete form-control custom-border" id="edit-vendorName" name="edit-vendorName" placeholder="Enter Vendor" data-id="edit-vendorName" data-width="nowidth" autocomplete="off" required>
                                     </div>
                                          <div class="form-group col-md-6" style="display:none">
-                                            <label for="vendoramt">Vendor id</label>
+                                        <label for="vendoramt">Vendor id <span class="text-danger">*</span></label>
                                         <input type="number" class="form-control custom-border" id="edit-vendorids" name="edit-vendorids" placeholder="Enter Vandor Amount" required>
                                         </div> 
                                         <div class="form-group col-md-6" style="display:none">
@@ -983,7 +983,25 @@
                 } 
             }
     $('#editInventory').click(function ()
-    {
+         {
+             
+             var id = $('#id').val();
+             var city = $('#edit-city').val();
+             var area = $('#edit-Area').val();
+             var width = $('#edit-width').val();
+             var height = $('#edit-height').val();
+             var rate = $('#edit-rate').val();
+             var vendorName = $('#edit-vendorName').val();
+             var vendorid = $('#edit-vendorids').val();
+             var imageFile = $('#edit-image').val(); // Get the selected image file
+             var locations = $('#edit-location').val(); // Get the selected image file
+             var st = $('#styped').val(); // Get the selected image file
+             var vendoramt = $('#edit-vendoramt').val(); // Get the selected image file
+
+
+              if(vendoramt ==""){
+               toastr.error('Enter vendor Amount.');
+               }
 
             $('addCustomerForm').find('input').each(function () {
                 if ($(this).val().trim() === '') {
@@ -994,20 +1012,9 @@
                 }
             });
 
-        var id = $('#id').val();
-        var city = $('#edit-city').val();
-        var area = $('#edit-Area').val();
-        var width = $('#edit-width').val();
-        var height = $('#edit-height').val();
-        var rate = $('#edit-rate').val();
-        var vendorName = $('#edit-vendorName').val();
-        var vendorid = $('#edit-vendorids').val();
-        var imageFile = $('#edit-image').val(); // Get the selected image file
-        var locations = $('#edit-location').val(); // Get the selected image file
-        var vendoramt = $('#edit-vendoramt').val(); // Get the selected image file
-        var st = $('#styped').val(); // Get the selected image file
+      
 
-    if (imageFile !="" && vendorName != "")
+         if (imageFile !="" && vendorName != "")
     {
 
         // Send the form data along with the Base64 string via AJAX
@@ -1033,9 +1040,7 @@
                     toastr.success(response.message);
                     $('#editModal').modal('hide'); // Close the modal
                     location.reload();
-                } else {
-                    toastr.error(response.message);
-                }
+                } 
             },
             error: function () {
                 toastr.error('An error occurred while updating the item.');

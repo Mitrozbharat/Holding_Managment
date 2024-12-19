@@ -509,11 +509,14 @@
         const textRegex = /^[a-zA-Z\s]+$/; // Text only (letters and spaces)
         const contactNumberRegex = /^\d{10}$/; // Exactly 10 digits
 
-        if (hasNumber.test(businessName) || hasNumber.test(customerName) || hasNumber.test(city)) {
-            toastr.error('Please Enter text.');
+        if ( hasNumber.test(customerName)) {
+            toastr.error('Please enter text customer Name.');
         return; // Stop further execution
             }
-
+             if ( hasNumber.test(city)) {
+            toastr.error('Please enter text city.');
+        return; // Stop further execution
+            }
         // Validate Business Name
         if (businessName === '') {
             $('.businessName').after('<span class="error-message text-danger">This field is required.</span>');

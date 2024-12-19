@@ -42,10 +42,10 @@
 
             previousStartDate = fromDate; // Update the valid start date
 
-        } else {
-            toastr.error('Please select a date that is today or later.');
-            $('#editfromdate').val(previousStartDate); // Revert to the previous valid start date
-        }
+        }// else {
+        //    toastr.error('Please select a date that is today or later.');
+        //    $('#editfromdate').val(previousStartDate); // Revert to the previous valid start date
+        //}
 
 
     });
@@ -60,8 +60,8 @@
         today.setHours(0, 0, 0, 0); // Normalize time to midnight for comparison
 
         // Add 1 day to the start date for validation
-        var minEndDate = new Date(startDate);
-        minEndDate.setDate(minEndDate.getDate() + 1); // Minimum end date is start date + 1 day
+        //var minEndDate = new Date(startDate);
+        //minEndDate.setDate(minEndDate.getDate() + 1); // Minimum end date is start date + 1 day
 
         // Validate the end date against the start date
         if (isNaN(startDate) || isNaN(endDate)) {
@@ -157,8 +157,8 @@ $('#saveEditcampain').on('click', function () {
     var fk_id = $('#fk_id').val();
 
 
-    var startDate = new Date($('#editfromdate').val()); // Get the selected start date
-    var endDate = new Date($('#edittodate').val()); // Get the selected end date
+    //var startDate = new Date($('#editfromdate').val()); // Get the selected start date
+    //var endDate = new Date($('#edittodate').val()); // Get the selected end date
 
     // Add 1 day to the start date for validation
     var minEndDate = new Date(startDate);
