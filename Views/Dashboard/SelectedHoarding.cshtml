@@ -163,7 +163,7 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="email">Email <span class="text-danger">*</span></label>
+                                <label for="email">Email </label>
                                 <input type="email" class="form-control custom-border email" id="email" name="email" placeholder="Email" required>
                             </div>
                             <div class="form-group col-md-6">
@@ -1328,8 +1328,8 @@
         const gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
 
         // Validation checks
-        if (!textRegex.test(businessName) || businessName === '') {
-            $('.businessName').after('<span class="error-message text-danger">Enter a valid Business Name.</span>');
+        if (businessName === '') {
+            $('.businessName').after('<span class="error-message text-danger">Enter Business Name.</span>');
             isValid = false;
         }
 
@@ -1338,10 +1338,10 @@
             isValid = false;
         }
 
-        if (!validateEmail(email)) {
-            $('#email').after('<span class="error-message text-danger">Enter a valid Email Address.</span>');
-            isValid = false;
-        }
+        // if (!validateEmail(email)) {
+        //     $('#email').after('<span class="error-message text-danger">Enter a valid Email Address.</span>');
+        //     isValid = false;
+        // }
 
         if (!contactNumberRegex.test(contactNumber)) {
             $('.contactNumber').after('<span class="error-message text-danger">Enter a valid 10-digit Contact Number.</span>');
