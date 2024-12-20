@@ -1,9 +1,7 @@
 ﻿$(document).ready(function () {
     // Listen for changes on the Start Date and End Date
 
-    var today = new Date().toISOString().split('T')[ 0 ]; // Get today's date in YYYY-MM-DD format
-    $('#editfromdate').attr('min', today); // Set the min attribute to today's date, disabling past dates
-
+  
     // Initialize variables to store valid start and end dates
     var previousStartDate = $('#editfromdate').val();
     var previousEndDate = $('#edittodate').val();
@@ -19,8 +17,7 @@
         var fk_id = $('#fk_id').val();
 
         // Check if the selected date is valid (today or later)
-        if (fromDate >= today) {
-
+      
             $.ajax({
                 url: '/OngoingCampain/checkValidatedate',
                 type: 'POST',
@@ -42,11 +39,7 @@
 
             previousStartDate = fromDate; // Update the valid start date
 
-        } else {
-            toastr.error('Please select a date that is today or later.');
-            $('#editfromdate').val(previousStartDate); // Revert to the previous valid start date
-        }
-
+       
 
     });
 
