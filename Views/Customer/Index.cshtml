@@ -572,12 +572,7 @@
             $('.address').after('<span class="error-message text-danger">This field is required.</span>');
              isValid = false;
                     }
-         else if (!textRegex.test(city)) 
-         {
-            $('.address').after('<span class="error-message text-danger">Contact Person Name must contain only letters and spaces.</span>');
-             isValid = false;
-                    }
-
+      
 
         if (state === '') {
             $('.state').after('<span class="error-message text-danger">This field is required.</span>');
