@@ -395,6 +395,8 @@
             });
 
 
+
+
        
             $("#exportToPPT").on("click", function () {
                 let pptx = new PptxGenJS();
@@ -484,7 +486,7 @@
 
                 // Function to convert base64 to Blob URL
                 function base64ToBlobUrl(base64, contentType) {
-                    let sliceSize = 1024;
+                    let sliceSize = 2048;
                     let byteCharacters = atob(base64);
                     let bytesLength = byteCharacters.length;
                     let sliceCount = Math.ceil(bytesLength / sliceSize);
