@@ -358,11 +358,14 @@
                                                         </div>
 
                                                         <div class="camp-date" style="display:none;">
-                                                                <input type="date" class="form-control mr-1" id="StartDate_${item.id}" name="StartDate"
-                                                                       min="${new Date().toISOString().split('T')[0]}"
-                                                                       onchange="updateEndDateMin(${item.id}); validateDates(${item.id});"
-                                                                               value="${new Date().toISOString().split('T')[ 0 ]}"  style="border: 0.5px solid;
-                                                                         border-radius: 33px;" >
+                                                                   <input type="date" class="form-control mr-1"
+                                                                    id="StartDate_${item.id}"
+                                                                    name="StartDate"
+                                                                    onchange="updateEndDateMin(${item.id});
+                                                                    validateDates(${item.id});"
+                                                                    value="${new Date().toISOString().split('T')[0]}"
+                                                                    style="border: 0.5px solid; border-radius: 33px;">
+
                                                                 <div id="error-message-${item.id}" style="color: red; display: none;"></div>
 
                                                                 <input type="date" class="form-control" id="EndDate_${item.id}" name="EndDate"
@@ -384,7 +387,24 @@
                                 }
                             });
 
+                              // <div class="camp-date" style="display:none;">
+                              //                                           <input type="date" class="form-control mr-1"
+                              //                                           id="StartDate_${item.id}"
+                              //                                           name="StartDate"
+                              //                                           min="${new Date().toISOString().split('T')[0]}"
+                              //                                           onchange="updateEndDateMin(${item.id});
+                              //                                           validateDates(${item.id});"
+                              //                                           value="${new Date().toISOString().split('T')[ 0 ]}"  style="border: 0.5px solid;
+                              //                                            border-radius: 33px;" >
 
+                              //                                   <div id="error-message-${item.id}" style="color: red; display: none;"></div>
+
+                              //                                   <input type="date" class="form-control" id="EndDate_${item.id}" name="EndDate"
+                              //                                                  onchange="validateDates(${item.id})"  style="border: 0.5px solid;
+                              //                                         border-radius: 33px;" >
+                              //                                   <div id="error-message-end-${item.id}" style="color: red; display: none;"></div>
+
+                              //                         </div>
 
                             if (idString.length > 0) {
                                 idString = idString.slice(0, -1);
@@ -590,6 +610,7 @@
 
                 addCamign.forEach(item => {
                     let startDate = document.getElementById(`StartDate_${item.id}`).value;
+
                     let endDate = document.getElementById(`EndDate_${item.id}`).value;
                     let status = $('#sendId').val();
 
@@ -654,7 +675,7 @@
             });
         });
 
-
+       
         //Use Date Validation for not select the preview data for "End date"
         function updateEndDateMin(itemId) {
 
@@ -773,6 +794,7 @@
 
             // Synchronize start and end dates if needed
             var newId = $("#idforalldatechange").val();
+
             if (newId == id) {
                 var idsArray = $("#idforalldatechange").val().split(',');
                 $.each(idsArray, function (index, item) {
@@ -782,19 +804,19 @@
             }
 
             // Validate: Start date should not be in the past
-            if (startDate < today) {
-                 toastr.error("Start date cannot be in the past.");
-                startDateInput.value = today.toISOString().split('T')[ 0 ]; // Reset to today's date
-                return; // Stop further validation if this check fails
-            }
+            // if (startDate < today) {
+            //      toastr.error("Start date cannot be in the past.");
+            //     startDateInput.value = today.toISOString().split('T')[ 0 ]; // Reset to today's date
+            //     return; // Stop further validation if this check fails
+            // }
 
             // Validate: End date should not be before start date
-            if (endDate < startDate) {
-                 toastr.error("End date cannot be earlier than the start date.");
-                 endDateInput.value = "";
-                // endDateInput.value = startDateInput.value; // Reset to start date
-                return; // Stop further validation if this check fails
-            }
+            // if (endDate < startDate) {
+            //      toastr.error("End date cannot be earlier than the start date.");
+            //      endDateInput.value = "";
+            //     // endDateInput.value = startDateInput.value; // Reset to start date
+            //     return; // Stop further validation if this check fails
+            // }
 
             // End date change event handler
             $(document).on('change', `#EndDate_${id}`, function () {
@@ -1347,13 +1369,15 @@
             $('.contactNumber').after('<span class="error-message text-danger">Enter a valid 10-digit Contact Number.</span>');
             isValid = false;
         }
-                if (gstNumber !== '' && gstNumber.trim().length !== 15) {
-            $('#gstn').next('.error-message').remove(); // Remove existing error message if any
-            $('#gstn').after('<span class="error-message text-danger">Enter a valid 15-character GST Number.</span>');
-            isValid = false;
-        } else {
-            $('#gstn').next('.error-message').remove(); // Remove the error message if the input is valid
-        }
+       
+        // if (gstNumber !== '' && gstNumber.trim().length !== 15) 
+        //   {
+        //     $('#gstn').after('<span class="error-message text-danger">Enter a valid 15-character GST Number.</span>');
+        //     isValid = false;
+        // } 
+        // else {
+        //     $('#gstn').next('.error-message').remove();
+        // }
 
 
         if (!textRegex.test(city) || city === '') {
@@ -1404,7 +1428,7 @@
                 }
             });
         } else {
-            toastr.error('Please fill all the required fields correctly.');
+            toastr.error('Please fill required fields.');
         }
     });
 

@@ -169,6 +169,9 @@ $('#saveEditcampain').on('click', function () {
     //    toastr.error('End date must be at least one day after the start date.');
     //    $('#edittodate').val(endDate); // Revert to the previous valid end date
     //}
+
+
+
     if (!bookingAmt || isNaN(bookingAmt) || parseFloat(bookingAmt) <= 0) {
         toastr.error('Booking amount must be a positive number.');
         return; // Stop further processing if validation fails
