@@ -125,6 +125,9 @@ namespace Hoarding_managment.Repository
             return await _context.TblCampaigns
                                  .CountAsync(c => c.FromDate >= DateTime.Today && c.IsDelete == 0);
         }
+
+
+
         //public async Task<QuotationItemListViewModel> addCampaign(QuotationItemListViewModel selectedItems)
         //{
         //    if (selectedItems.CustomerId != null && selectedItems.SelectedItems != null)
@@ -525,144 +528,8 @@ namespace Hoarding_managment.Repository
         }
 
 
-        public async Task<QuotationItemListViewModel> addCampaign(QuotationItemListViewModel selectedItems)
-        {
 
-
-            if (selectedItems.CustomerId != null && selectedItems.SelectedItems != null)
-            {
-
-
-                int currentYear = DateTime.Now.Year;
-                int nextYear = DateTime.Now.Month >= 4 ? currentYear + 1 : currentYear;
-                string financialYearCode = $"{currentYear % 100}{nextYear % 100}"; // For example: "2425"
-
-                // Get the last quotation number
-                var lastQuotation = await _context.TblCampaignnews
-                    .Where(x => x.IsDelete == 0 && x.CampaignNumber.Contains(financialYearCode))
-                    .OrderByDescending(x => x.CampaignNumber)
-                    .FirstOrDefaultAsync();
-
-                // Extract the sequence number
-                string lastNumberPart = lastQuotation != null
-                    ? lastQuotation.CampaignNumber.Substring(6) // Extracts the last three digits (sequence)
-                    : "000";
-
-                int nextNumber = int.Parse(lastNumberPart) + 1;
-
-                // Generate the next quotation number
-                string nextNumberString = $"C{financialYearCode}{nextNumber:D3}"; // Example: "Q2425001"
-
-
-                // Create and add the new quotation
-                var data = new TblCampaignnew
-                {
-                    CampaignNumber = nextNumberString,
-                    CreatedAt = DateTime.Now,
-                    CreatedBy = "admin",
-                    FkCustomerId = selectedItems.CustomerId,
-                    IsDelete = 0
-                };
-
-                await _context.AddRangeAsync(data);
-                await _context.SaveChangesAsync();
-
-                var lastCampId = data.Id;
-
-
-                foreach (var item in selectedItems.SelectedItems)
-                {
-
-                    var inventory = _context.TblInventories.Where(x => x.Id == item.Id).FirstOrDefault();
-                    var newdata = new TblCampaingitem();
-                    if (item.status == 0)
-                    {
-                        newdata = new TblCampaingitem
-                        {
-                            FkCampaignId = lastCampId,
-                            FkInventoryId = item.FkInventoryId,
-                            FromDate = item.FromDate,
-                            ToDate = item.ToDate,
-                            BookingAmt = item.Rate,
-                            CreatedAt = DateTime.Now,
-                            CreatedBy = "Admin",
-                            IsDelete = 0,
-                        };
-                    }
-                    else
-                    {
-                        newdata = new TblCampaingitem
-                        {
-                            FkCampaignId = lastCampId,
-                            FkInventoryId = _context.TblQuotationitems.Where(x => x.Id == item.Id).Select(x => x.FkInventory).FirstOrDefault(),
-                            FromDate = item.FromDate,
-                            ToDate = item.ToDate,
-                            BookingAmt = item.Rate,
-                            CreatedAt = DateTime.Now,
-                            CreatedBy = "Admin",
-                            IsDelete = 0,
-                        };
-                    }
-
-                    _context.TblCampaingitems.Add(newdata);
-                    var recordsAffected = await _context.SaveChangesAsync();
-                    if (recordsAffected > 0)
-                    {
-                        // Remove associated inventory items if the quotation item was saved successfully.
-                        var itemsToDelete = _context.TblInventoryitems
-                            .Where(x => x.FkInventoryId == item.FkInventoryId);
-                        _context.TblInventoryitems.RemoveRange(itemsToDelete);
-                        await _context.SaveChangesAsync();
-
-                        // Update the inventory item's booking status
-                        var inventoryItem = await _context.TblInventories
-                            .FirstOrDefaultAsync(x => x.Id == item.FkInventoryId && x.IsDelete == 0);
-
-                        if (inventoryItem != null)
-                        {
-                            inventoryItem.BookingStatus = 1;
-                            await _context.SaveChangesAsync();
-                        }
-                    }
-
-                }
-            }
-
-            return null;
-        }
-
-
-        //public async Task<TblCampaingitem> IsCampaignBooked(int id, DateTime requestedFromDate, DateTime requestedToDate)
-        //{
-
-
-        //    var FkId = await _context.TblInventoryitems
-        //        .Where(x => x.Id == id) // Replace 'id' with your actual Id value
-        //        .Select(x => x.FkInventoryId)
-        //        .FirstOrDefaultAsync(); // Execute the query and return the first matching result or null
-
-
-        //    var campaignItems = await _context.TblCampaingitems
-        //        .Where(c => c.FkInventoryId == id && c.IsDelete == 0 && c.ToDate >= DateTime.Today) // Ensure it's not marked as deleted and ToDate is in the future
-        //        .ToListAsync();
-
-        //    // Check if the requested date range is outside all existing campaign date ranges
-        //    foreach (var campaignItem in campaignItems)
-        //    {
-        //        // Check if the requested dates are outside the existing campaign's dates
-        //        bool isOutside = (requestedFromDate > campaignItem.ToDate) || (requestedToDate < campaignItem.FromDate);
-
-        //        // If requested dates are outside any campaign's date range, return false (no conflict)
-        //        if (!isOutside)
-        //        {
-        //            return campaignItem; // No overlap found
-        //        }
-        //    }
-
-        //    // No overlap found, return false
-        //    return null;
-        //}
-
+   
         public async Task<TblCampaingitem> IsCampaignBooked(int id, DateTime requestedFromDate, DateTime requestedToDate, int status)
         {
             int? FkId = null;
@@ -703,6 +570,220 @@ namespace Hoarding_managment.Repository
 
             return null; // No overlap found
         }
+
+
+
+        public async Task<QuotationItemListViewModel> addCampaign(QuotationItemListViewModel selectedItems)
+        {
+            if (selectedItems.CustomerId != null && selectedItems.SelectedItems != null)
+            {
+                // Determine the financial year (current and next year)
+                int currentYear = DateTime.Now.Year;
+                int nextYear = DateTime.Now.Month >= 4 ? currentYear + 1 : currentYear + 1;
+                string financialYearCode = $"{currentYear % 100}{nextYear % 100}"; // Corrects the year transition logic, example: "2425", "2526"
+
+                // Get the last quotation number for the current financial year
+                var lastQuotation = await _context.TblCampaignnews
+                    .Where(x => x.IsDelete == 0 && x.CampaignNumber.Contains(financialYearCode))
+                    .OrderByDescending(x => x.CampaignNumber)
+                    .FirstOrDefaultAsync();
+
+                // Extract the last sequence number (e.g., "001", "002")
+                string lastNumberPart = lastQuotation != null
+                    ? lastQuotation.CampaignNumber.Substring(6) // Extracts the sequence part after the "Cxxxx" prefix
+                    : "000";
+
+                // Increment the sequence number
+                int nextNumber = int.Parse(lastNumberPart) + 1;
+
+                // Generate the next quotation number (e.g., "C2526001")
+                string nextNumberString = $"C{financialYearCode}{nextNumber:D3}";
+
+                // Create and add the new campaign
+                var data = new TblCampaignnew
+                {
+                    CampaignNumber = nextNumberString,
+                    CreatedAt = DateTime.Now,
+                    CreatedBy = "admin",
+                    FkCustomerId = selectedItems.CustomerId,
+                    IsDelete = 0
+                };
+
+                await _context.TblCampaignnews.AddAsync(data);
+                await _context.SaveChangesAsync();
+
+                var lastCampId = data.Id;
+
+                // Process each selected item
+                foreach (var item in selectedItems.SelectedItems)
+                {
+                    TblCampaingitem newdata;
+
+                    if (item.status == 0)
+                    {
+                        newdata = new TblCampaingitem
+                        {
+                            FkCampaignId = lastCampId,
+                            FkInventoryId = item.FkInventoryId,
+                            FromDate = item.FromDate,
+                            ToDate = item.ToDate,
+                            BookingAmt = item.Rate,
+                            CreatedAt = DateTime.Now,
+                            CreatedBy = "Admin",
+                            IsDelete = 0
+                        };
+                    }
+                    else
+                    {
+                        newdata = new TblCampaingitem
+                        {
+                            FkCampaignId = lastCampId,
+                            FkInventoryId = await _context.TblQuotationitems
+                                .Where(x => x.Id == item.Id)
+                                .Select(x => x.FkInventory)
+                                .FirstOrDefaultAsync(),
+                            FromDate = item.FromDate,
+                            ToDate = item.ToDate,
+                            BookingAmt = item.Rate,
+                            CreatedAt = DateTime.Now,
+                            CreatedBy = "Admin",
+                            IsDelete = 0
+                        };
+                    }
+
+                    _context.TblCampaingitems.Add(newdata);
+                    var recordsAffected = await _context.SaveChangesAsync();
+
+                    if (recordsAffected > 0)
+                    {
+                        // Remove associated inventory items if saved successfully
+                        var itemsToDelete = _context.TblInventoryitems
+                            .Where(x => x.FkInventoryId == item.FkInventoryId);
+                        _context.TblInventoryitems.RemoveRange(itemsToDelete);
+                        await _context.SaveChangesAsync();
+
+                        // Update the inventory item's booking status
+                        var inventoryItem = await _context.TblInventories
+                            .FirstOrDefaultAsync(x => x.Id == item.FkInventoryId && x.IsDelete == 0);
+
+                        if (inventoryItem != null)
+                        {
+                            inventoryItem.BookingStatus = 1;
+                            await _context.SaveChangesAsync();
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        //public async Task<QuotationItemListViewModel> addCampaign(QuotationItemListViewModel selectedItems)
+        //{
+
+
+        //    if (selectedItems.CustomerId != null && selectedItems.SelectedItems != null)
+        //    {
+
+
+        //        int currentYear = DateTime.Now.Year;
+        //        int nextYear = DateTime.Now.Month >= 4 ? currentYear + 1 : currentYear;
+        //        string financialYearCode = $"{currentYear % 100}{nextYear % 100}"; // For example: "2425"
+
+        //        // Get the last quotation number
+        //        var lastQuotation = await _context.TblCampaignnews
+        //            .Where(x => x.IsDelete == 0 && x.CampaignNumber.Contains(financialYearCode))
+        //            .OrderByDescending(x => x.CampaignNumber)
+        //            .FirstOrDefaultAsync();
+
+        //        // Extract the sequence number
+        //        string lastNumberPart = lastQuotation != null
+        //            ? lastQuotation.CampaignNumber.Substring(6) // Extracts the last three digits (sequence)
+        //            : "000";
+
+        //        int nextNumber = int.Parse(lastNumberPart) + 1;
+
+        //        // Generate the next quotation number
+        //        string nextNumberString = $"C{financialYearCode}{nextNumber:D3}"; // Example: "Q2425001"
+
+
+        //        // Create and add the new quotation
+        //        var data = new TblCampaignnew
+        //        {
+        //            CampaignNumber = nextNumberString,
+        //            CreatedAt = DateTime.Now,
+        //            CreatedBy = "admin",
+        //            FkCustomerId = selectedItems.CustomerId,
+        //            IsDelete = 0
+        //        };
+
+        //        await _context.AddRangeAsync(data);
+        //        await _context.SaveChangesAsync();
+
+        //        var lastCampId = data.Id;
+
+
+        //        foreach (var item in selectedItems.SelectedItems)
+        //        {
+
+        //            var inventory = _context.TblInventories.Where(x => x.Id == item.Id).FirstOrDefault();
+        //            var newdata = new TblCampaingitem();
+        //            if (item.status == 0)
+        //            {
+        //                newdata = new TblCampaingitem
+        //                {
+        //                    FkCampaignId = lastCampId,
+        //                    FkInventoryId = item.FkInventoryId,
+        //                    FromDate = item.FromDate,
+        //                    ToDate = item.ToDate,
+        //                    BookingAmt = item.Rate,
+        //                    CreatedAt = DateTime.Now,
+        //                    CreatedBy = "Admin",
+        //                    IsDelete = 0,
+        //                };
+        //            }
+        //            else
+        //            {
+        //                newdata = new TblCampaingitem
+        //                {
+        //                    FkCampaignId = lastCampId,
+        //                    FkInventoryId = _context.TblQuotationitems.Where(x => x.Id == item.Id).Select(x => x.FkInventory).FirstOrDefault(),
+        //                    FromDate = item.FromDate,
+        //                    ToDate = item.ToDate,
+        //                    BookingAmt = item.Rate,
+        //                    CreatedAt = DateTime.Now,
+        //                    CreatedBy = "Admin",
+        //                    IsDelete = 0,
+        //                };
+        //            }
+
+        //            _context.TblCampaingitems.Add(newdata);
+        //            var recordsAffected = await _context.SaveChangesAsync();
+        //            if (recordsAffected > 0)
+        //            {
+        //                // Remove associated inventory items if the quotation item was saved successfully.
+        //                var itemsToDelete = _context.TblInventoryitems
+        //                    .Where(x => x.FkInventoryId == item.FkInventoryId);
+        //                _context.TblInventoryitems.RemoveRange(itemsToDelete);
+        //                await _context.SaveChangesAsync();
+
+        //                // Update the inventory item's booking status
+        //                var inventoryItem = await _context.TblInventories
+        //                    .FirstOrDefaultAsync(x => x.Id == item.FkInventoryId && x.IsDelete == 0);
+
+        //                if (inventoryItem != null)
+        //                {
+        //                    inventoryItem.BookingStatus = 1;
+        //                    await _context.SaveChangesAsync();
+        //                }
+        //            }
+
+        //        }
+        //    }
+
+        //    return null;
+        //}
+
 
 
 
