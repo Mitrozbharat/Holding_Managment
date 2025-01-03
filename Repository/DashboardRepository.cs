@@ -657,16 +657,104 @@ namespace Hoarding_managment.Repository
             return selectedInvert;
         }
 
+        //public async Task<int> AddQuatationsAsync(QuotationItemListViewModel selectedItems, string sessionUserName)
+        //{
+
+
+        //    // Determine the financial year part
+        //    int currentYear = DateTime.Now.Year;
+        //    int nextYear = DateTime.Now.Month >= 4 ? currentYear + 1 : currentYear;
+        //    string financialYearCode = $"{currentYear % 100}{nextYear % 100}"; // For example: "2425"
+
+        //    // Get the last quotation number
+        //    var lastQuotation = await _context.TblQuotations
+        //        .Where(x => x.IsDelete == 0 && x.QuotationNumber.Contains(financialYearCode))
+        //        .OrderByDescending(x => x.QuotationNumber)
+        //        .FirstOrDefaultAsync();
+
+        //    // Extract the sequence number
+        //    string lastNumberPart = lastQuotation != null
+        //        ? lastQuotation.QuotationNumber.Substring(6) // Extracts the last three digits (sequence)
+        //        : "000";
+
+        //    int nextNumber = int.Parse(lastNumberPart) + 1;
+
+        //    // Generate the next quotation number
+        //    string nextQuotationNumber = $"Q{financialYearCode}{nextNumber:D3}"; // Example: "Q2425001"
+
+        //    // Create and add the new quotation
+        //    var data = new TblQuotation
+        //    {
+        //        QuotationNumber = nextQuotationNumber,
+        //        CreatedAt = DateTime.Now,
+        //        CreatedBy = sessionUserName,
+        //        FkCustomerId = selectedItems.CustomerId,
+        //        IsDelete = 0
+
+        //    };
+
+        //    await _context.TblQuotations.AddAsync(data);
+        //    await _context.SaveChangesAsync();
+
+        //    int qid = data.Id;
+
+        //    // Proceed with saving the quotation items
+        //    if (qid != 0)
+        //    {
+        //        foreach (var item in selectedItems.SelectedItems)
+        //        {
+        //            var inventoryitems = _context.TblInventoryitems.FirstOrDefault(x => x.Id == item.Id);
+        //            var inventory = _context.TblInventories.FirstOrDefault(x => x.Id == inventoryitems.FkInventoryId);
+
+        //            var newdata = new TblQuotationitem
+        //            {
+        //                FkCustomerId = selectedItems.CustomerId,
+        //                Rate = item.Rate,
+        //                FkQuotationId = qid,
+        //                City = inventoryitems.City,
+        //                Area = inventoryitems.Area,
+        //                Location = inventory.Location,
+        //                CreatedAt = DateTime.Now,
+        //                UpdatedAt = DateTime.Now,
+        //                IsDelete = 0,
+        //                Height = inventoryitems.Height,
+        //                Width = inventoryitems.Width,
+        //                BookingStatus = inventoryitems.BookingStatus,
+        //                Type = inventory.Type,
+        //                VendorAmt = inventory.VendorAmt,
+        //                Image = inventoryitems.Image,
+        //                LocationDescription = inventory.Location,
+        //                FkVendorId =inventoryitems.FkVendorId,
+        //                UpdatedBy = "",
+        //                CreatedBy = sessionUserName,
+        //                FkInventory = item.FkInventoryId
+        //            };
+
+        //            await _context.TblQuotationitems.AddAsync(newdata);
+        //            var recor = await _context.SaveChangesAsync();
+
+        //            if (recor > 0)
+        //            {
+        //                _context.TblInventoryitems.Remove(inventoryitems);  // Remove the record from the database
+        //                await _context.SaveChangesAsync();  // Save the changes
+
+        //            }
+        //        }
+        //    }
+
+        //    return qid;
+        //}
+
+
         public async Task<int> AddQuatationsAsync(QuotationItemListViewModel selectedItems, string sessionUserName)
         {
-           
-
-            // Determine the financial year part
             int currentYear = DateTime.Now.Year;
-            int nextYear = DateTime.Now.Month >= 4 ? currentYear + 1 : currentYear;
-            string financialYearCode = $"{currentYear % 100}{nextYear % 100}"; // For example: "2425"
+            int lastYear = currentYear - 1;
 
-            // Get the last quotation number
+            // Financial year code (e.g., "2324" for 2024)
+            string financialYearCode = $"{lastYear % 100}{currentYear % 100}";
+
+            // Get the last quotation number for this financial year
             var lastQuotation = await _context.TblQuotations
                 .Where(x => x.IsDelete == 0 && x.QuotationNumber.Contains(financialYearCode))
                 .OrderByDescending(x => x.QuotationNumber)
@@ -680,7 +768,7 @@ namespace Hoarding_managment.Repository
             int nextNumber = int.Parse(lastNumberPart) + 1;
 
             // Generate the next quotation number
-            string nextQuotationNumber = $"Q{financialYearCode}{nextNumber:D3}"; // Example: "Q2425001"
+            string nextQuotationNumber = $"Q{financialYearCode}{nextNumber:D3}"; // Example: "Q2324001"
 
             // Create and add the new quotation
             var data = new TblQuotation
@@ -690,7 +778,6 @@ namespace Hoarding_managment.Repository
                 CreatedBy = sessionUserName,
                 FkCustomerId = selectedItems.CustomerId,
                 IsDelete = 0
-                
             };
 
             await _context.TblQuotations.AddAsync(data);
@@ -698,7 +785,7 @@ namespace Hoarding_managment.Repository
 
             int qid = data.Id;
 
-            // Proceed with saving the quotation items
+            // Save quotation items and process inventory logic
             if (qid != 0)
             {
                 foreach (var item in selectedItems.SelectedItems)
@@ -724,27 +811,25 @@ namespace Hoarding_managment.Repository
                         VendorAmt = inventory.VendorAmt,
                         Image = inventoryitems.Image,
                         LocationDescription = inventory.Location,
-                        FkVendorId =inventoryitems.FkVendorId,
+                        FkVendorId = inventoryitems.FkVendorId,
                         UpdatedBy = "",
                         CreatedBy = sessionUserName,
                         FkInventory = item.FkInventoryId
                     };
 
                     await _context.TblQuotationitems.AddAsync(newdata);
-                    var recor = await _context.SaveChangesAsync();
+                    var records = await _context.SaveChangesAsync();
 
-                    if (recor > 0)
+                    if (records > 0)
                     {
-                        _context.TblInventoryitems.Remove(inventoryitems);  // Remove the record from the database
-                        await _context.SaveChangesAsync();  // Save the changes
-
+                        _context.TblInventoryitems.Remove(inventoryitems);
+                        await _context.SaveChangesAsync();
                     }
                 }
             }
 
             return qid;
         }
-
 
         public async Task<QuotationItemListViewModel> addCampaign(QuotationItemListViewModel selectedItems, string sessionUserName)
         {
