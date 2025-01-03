@@ -32,19 +32,19 @@ namespace Hoarding_managment.Repository
                         .Select(c => c.CustomerName)
                         .FirstOrDefault(),
                     City = _context.TblInventories
-                        .Where(v => v.Id == item.FkInventoryId)
+                        .Where(v => v.Id == item.FkInventoryId && v.IsDelete==0)
                         .Select(v => v.City)
                         .FirstOrDefault(),
-                    BusinessName = _context.TblVendors
-                        .Where(v => v.Id == item.FkInventoryId)
+                    BusinessName = _context.TblCustomers
+                        .Where(v => v.Id == item.FkCustomerId && v.IsDelete==0)
                         .Select(v => v.BusinessName)
-                        .FirstOrDefault()
+                        .FirstOrDefault(),
+                  
                 })
                 .ToListAsync();
 
             return campaigns;
         }
-
 
         public async Task<int> UpdateCampaignAsync(CampaigneditViewModel model)
         {
@@ -119,52 +119,12 @@ namespace Hoarding_managment.Repository
             return findthecampaign;
         }
 
-
         public async Task<int> GetOngoingCampaignCountAsync()
         {
             return await _context.TblCampaigns
                                  .CountAsync(c => c.FromDate >= DateTime.Today && c.IsDelete == 0);
         }
 
-
-
-        //public async Task<QuotationItemListViewModel> addCampaign(QuotationItemListViewModel selectedItems)
-        //{
-        //    if (selectedItems.CustomerId != null && selectedItems.SelectedItems != null)
-        //    {
-        //        foreach (var item in selectedItems.SelectedItems)
-        //        {
-        //            var newdata = new TblCampaign
-        //            {
-        //                FkCustomerId = selectedItems.CustomerId,
-        //                FkInventoryId = item.Id,
-                        
-        //                FromDate = item.FromDate,
-        //                ToDate = item.ToDate,
-        //                BookingAmt = item.Rate,
-        //                CreatedAt = DateTime.Now,
-        //                UpdatedAt = DateTime.Now,
-        //                IsDelete = 0,
-        //                UpdatedBy = "admin",
-        //                CreatedBy = "Admin"
-        //            };
-
-        //            _context.TblCampaigns.Add(newdata);
-        //            var recordsAffected = await _context.SaveChangesAsync();
-
-        //            if (recordsAffected > 0)
-        //            {
-        //                // Remove associated inventory items if the quotation item was saved successfully.
-        //                var itemsToDelete = _context.TblInventoryitems
-        //                    .Where(x => x.FkInventoryId == item.FkInventoryId);
-        //                _context.TblInventoryitems.RemoveRange(itemsToDelete);
-        //                await _context.SaveChangesAsync();
-        //            }
-        //        }
-        //    }
-
-        //    return null;
-        //}
         public async Task<List<CampaignViewModel>> GetallOngoingCampaignAsync(string searchQuery, int pageNumber, int pageSize)
         {
             // Retrieve all campaigns that are not deleted
@@ -386,6 +346,83 @@ namespace Hoarding_managment.Repository
             return existingCampaign;
         }
 
+
+        //public async Task<List<CampaignViewModel>> GetCampaignAsync(string searchQuery, int pageNumber, int pageSize)
+        //{
+        //    // Retrieve all campaigns that are not deleted and join with tbl_campaingitem
+        //    var campaigns = await (from campaign in _context.TblCampaignnews
+        //                           join campaignItem in _context.TblCampaingitems
+        //                           on campaign.Id equals campaignItem.FkCampaignId
+        //                           where campaign.IsDelete == 0 && campaignItem.IsDelete == 0 && campaignItem.ToDate >= DateTime.Today
+        //                           select new { campaign, campaignItem })
+        //                           .ToListAsync();
+
+        //    // Filter by CustomerName, City, or BusinessName if a search query is provided
+        //    if (!string.IsNullOrEmpty(searchQuery))
+        //    {
+        //        campaigns = campaigns.Where(x =>
+        //            _context.TblCustomers.Any(c => c.Id == x.campaign.FkCustomerId && c.CustomerName.Contains(searchQuery)) ||
+        //            _context.TblInventories.Any(v => v.Id == x.campaignItem.FkInventoryId && v.City.Contains(searchQuery)) ||
+        //            _context.TblVendors.Any(v => v.Id == x.campaignItem.FkInventoryId && v.BusinessName.Contains(searchQuery))
+        //        ).ToList();
+        //    }
+
+
+        //    // Apply pagination (Skip and Take)
+        //    var pagedCampaigns = campaigns
+        //        .OrderByDescending(x => x.campaign.CreatedAt)
+        //        .Skip((pageNumber - 1) * pageSize)
+        //        .Take(pageSize)
+        //        .ToList();
+
+        //    // Map the paged campaigns to the CampaignViewModel
+        //    var result = pagedCampaigns.Select(item => new CampaignViewModel
+        //    {
+        //        Id = item.campaign.Id,
+        //        ToDate = item.campaignItem.ToDate,
+        //        FromDate = item.campaignItem.FromDate,
+        //        BookingAmt = item.campaignItem.BookingAmt,
+        //        UpdatedBy = item.campaign.UpdatedBy,
+        //        CreatedAt = item.campaign.CreatedAt,
+        //        IsDelete = item.campaign.IsDelete,
+        //        FkInventoryId = item.campaignItem.FkInventoryId,
+        //        CustomerName = _context.TblCustomers
+        //            .Where(c => c.Id == item.campaign.FkCustomerId)
+        //            .Select(c => c.CustomerName)
+        //            .FirstOrDefault(),
+
+
+
+        //        BusinessName = _context.TblVendors
+        //            .Where(v => v.Id == _context.TblInventories.Where(f => f.Id == item.campaignItem.FkInventoryId).Select(f => f.FkVendorId).FirstOrDefault())
+        //            .Select(v => v.BusinessName)
+        //            .FirstOrDefault(),
+
+
+
+
+        //        VendorName = _context.TblVendors
+        //            .Where(v => v.Id == _context.TblInventories.Where(f => f.Id == item.campaignItem.FkInventoryId).Select(f => f.FkVendorId).FirstOrDefault())
+        //            .Select(v => v.VendorName)
+        //            .FirstOrDefault(),
+        //        City = _context.TblInventories
+        //            .Where(v => v.Id == item.campaignItem.FkInventoryId)
+        //            .Select(v => v.City)
+        //            .FirstOrDefault(),
+        //        Location = _context.TblInventories
+        //            .Where(v => v.Id == item.campaignItem.FkInventoryId)
+        //            .Select(v => v.Location)
+        //            .FirstOrDefault(),
+        //        Image = _context.TblInventories
+        //            .Where(v => v.Id == item.campaignItem.FkInventoryId)
+        //            .Select(v => v.Image)
+        //            .FirstOrDefault(),
+        //    }).ToList();
+
+        //    return result;
+        //}
+
+
         public async Task<List<CampaignViewModel>> GetCampaignAsync(string searchQuery, int pageNumber, int pageSize)
         {
             // Retrieve all campaigns that are not deleted and join with tbl_campaingitem
@@ -402,7 +439,7 @@ namespace Hoarding_managment.Repository
                 campaigns = campaigns.Where(x =>
                     _context.TblCustomers.Any(c => c.Id == x.campaign.FkCustomerId && c.CustomerName.Contains(searchQuery)) ||
                     _context.TblInventories.Any(v => v.Id == x.campaignItem.FkInventoryId && v.City.Contains(searchQuery)) ||
-                    _context.TblVendors.Any(v => v.Id == x.campaignItem.FkInventoryId && v.BusinessName.Contains(searchQuery))
+                    _context.TblCustomers.Any(c => c.Id == x.campaign.FkCustomerId && c.BusinessName.Contains(searchQuery))
                 ).ToList();
             }
 
@@ -423,15 +460,18 @@ namespace Hoarding_managment.Repository
                 UpdatedBy = item.campaign.UpdatedBy,
                 CreatedAt = item.campaign.CreatedAt,
                 IsDelete = item.campaign.IsDelete,
-                FkInventoryId= item.campaignItem.FkInventoryId,
+                FkInventoryId = item.campaignItem.FkInventoryId,
                 CustomerName = _context.TblCustomers
                     .Where(c => c.Id == item.campaign.FkCustomerId)
                     .Select(c => c.CustomerName)
                     .FirstOrDefault(),
-                BusinessName = _context.TblVendors
-                    .Where(v => v.Id == _context.TblInventories.Where(f=>f.Id== item.campaignItem.FkInventoryId).Select(f=>f.FkVendorId).FirstOrDefault() )
-                    .Select(v => v.BusinessName)
+
+                // Retrieve BusinessName from TblCustomer
+                BusinessName = _context.TblCustomers
+                    .Where(c => c.Id == item.campaign.FkCustomerId)
+                    .Select(c => c.BusinessName)
                     .FirstOrDefault(),
+
                 VendorName = _context.TblVendors
                     .Where(v => v.Id == _context.TblInventories.Where(f => f.Id == item.campaignItem.FkInventoryId).Select(f => f.FkVendorId).FirstOrDefault())
                     .Select(v => v.VendorName)
@@ -454,6 +494,82 @@ namespace Hoarding_managment.Repository
         }
 
 
+
+
+
+        //public async Task<List<CampaignViewModel>> CompletedOngoingcampaignAsync(string searchQuery, int pageNumber, int pageSize)
+        //{
+        //    // Join tbl_campaignnew and tbl_campaingitem to retrieve completed campaigns
+        //    var campaigns = await (from campaign in _context.TblCampaignnews
+        //                           join campaignItem in _context.TblCampaingitems
+        //                           on campaign.Id equals campaignItem.FkCampaignId
+        //                           where campaign.IsDelete == 0 && campaignItem.ToDate < DateTime.Today
+        //                           select new { campaign, campaignItem })
+        //                           .ToListAsync();
+
+        //    // Filter by CustomerName, City, or BusinessName if a search query is provided
+        //    if (!string.IsNullOrEmpty(searchQuery))
+        //    {
+        //        campaigns = campaigns.Where(x =>
+        //            _context.TblCustomers.Any(c => c.Id == x.campaign.FkCustomerId && c.CustomerName.Contains(searchQuery)) ||
+        //            _context.TblInventories.Any(v => v.Id == x.campaignItem.FkInventoryId && v.City.Contains(searchQuery)) ||
+        //            _context.TblVendors.Any(v => v.Id == x.campaignItem.FkInventoryId && v.BusinessName.Contains(searchQuery))
+        //        ).ToList();
+        //    }
+
+        //    // Group campaigns by CustomerId and InventoryId, selecting the last entry for each group
+        //    var groupedCampaigns = campaigns
+        //        .GroupBy(c => new { c.campaign.FkCustomerId, c.campaignItem.FkInventoryId })
+        //        .Select(g => g.OrderBy(c => c.campaign.CreatedAt).FirstOrDefault())
+        //        .ToList();
+
+        //    // Apply pagination (Skip and Take)
+        //    var pagedCampaigns = groupedCampaigns
+        //        .OrderByDescending(x => x.campaign.CreatedAt)
+        //        .Skip((pageNumber - 1) * pageSize)
+        //        .Take(pageSize)
+        //        .ToList();
+
+        //    // Map the paged campaigns to the CampaignViewModel
+        //    var result = pagedCampaigns.Select(item => new CampaignViewModel
+        //    {
+        //        Id = item.campaign.Id,
+        //        ToDate = item.campaignItem.ToDate,
+        //        FromDate = item.campaignItem.FromDate,
+        //        BookingAmt = item.campaignItem.BookingAmt,
+        //        UpdatedBy = item.campaign.UpdatedBy,
+        //        CreatedAt = item.campaign.CreatedAt,
+        //        IsDelete = item.campaign.IsDelete,
+
+        //        CustomerName = _context.TblCustomers
+        //           .Where(c => c.Id == item.campaign.FkCustomerId)
+        //           .Select(c => c.CustomerName)
+        //           .FirstOrDefault(),
+        //        BusinessName = _context.TblVendors
+        //           .Where(v => v.Id == _context.TblInventories.Where(f => f.Id == item.campaignItem.FkInventoryId).Select(f => f.FkVendorId).FirstOrDefault())
+        //           .Select(v => v.BusinessName)
+        //           .FirstOrDefault(),
+        //        VendorName = _context.TblVendors
+        //           .Where(v => v.Id == _context.TblInventories.Where(f => f.Id == item.campaignItem.FkInventoryId).Select(f => f.FkVendorId).FirstOrDefault())
+        //           .Select(v => v.VendorName)
+        //           .FirstOrDefault(),
+        //        City = _context.TblInventories
+        //           .Where(v => v.Id == item.campaignItem.FkInventoryId)
+        //           .Select(v => v.City)
+        //           .FirstOrDefault(),
+        //        Location = _context.TblInventories
+        //           .Where(v => v.Id == item.campaignItem.FkInventoryId)
+        //           .Select(v => v.Location)
+        //           .FirstOrDefault(),
+        //        Image = _context.TblInventories
+        //           .Where(v => v.Id == item.campaignItem.FkInventoryId)
+        //           .Select(v => v.Image)
+        //           .FirstOrDefault(),
+        //    }).ToList();
+
+        //    return result;
+        //}
+
         public async Task<List<CampaignViewModel>> CompletedOngoingcampaignAsync(string searchQuery, int pageNumber, int pageSize)
         {
             // Join tbl_campaignnew and tbl_campaingitem to retrieve completed campaigns
@@ -470,7 +586,7 @@ namespace Hoarding_managment.Repository
                 campaigns = campaigns.Where(x =>
                     _context.TblCustomers.Any(c => c.Id == x.campaign.FkCustomerId && c.CustomerName.Contains(searchQuery)) ||
                     _context.TblInventories.Any(v => v.Id == x.campaignItem.FkInventoryId && v.City.Contains(searchQuery)) ||
-                    _context.TblVendors.Any(v => v.Id == x.campaignItem.FkInventoryId && v.BusinessName.Contains(searchQuery))
+                    _context.TblCustomers.Any(c => c.Id == x.campaign.FkCustomerId && c.BusinessName.Contains(searchQuery))
                 ).ToList();
             }
 
@@ -502,9 +618,9 @@ namespace Hoarding_managment.Repository
                    .Where(c => c.Id == item.campaign.FkCustomerId)
                    .Select(c => c.CustomerName)
                    .FirstOrDefault(),
-                BusinessName = _context.TblVendors
-                   .Where(v => v.Id == _context.TblInventories.Where(f => f.Id == item.campaignItem.FkInventoryId).Select(f => f.FkVendorId).FirstOrDefault())
-                   .Select(v => v.BusinessName)
+                BusinessName = _context.TblCustomers
+                   .Where(c => c.Id == item.campaign.FkCustomerId)
+                   .Select(c => c.BusinessName)
                    .FirstOrDefault(),
                 VendorName = _context.TblVendors
                    .Where(v => v.Id == _context.TblInventories.Where(f => f.Id == item.campaignItem.FkInventoryId).Select(f => f.FkVendorId).FirstOrDefault())
@@ -529,7 +645,6 @@ namespace Hoarding_managment.Repository
 
 
 
-   
         public async Task<TblCampaingitem> IsCampaignBooked(int id, DateTime requestedFromDate, DateTime requestedToDate, int status)
         {
             int? FkId = null;
@@ -854,6 +969,10 @@ namespace Hoarding_managment.Repository
 
         //    return null;
         //}
+
+
+       
+
 
 
 

@@ -82,9 +82,18 @@
                                     @*  <select class="form-control custom-border" id="businessName" name="businessName" style="border:1px solid black;" required>
                                     <option value="">Select Customer</option>
                                     </select> *@
+
+
                                     <!-- Autocomplete Input Element -->
                                     <input type="text" class="autocomplete form-control custom-border " id="businessName" name="businessName" placeholder="Enter Business Name" data-id="businessName" data-width="nowidth" autocomplete="off" required>
                                     <input type="text" id="businessNameid" name="businessNameid" style="display:none">
+
+                                   @*  <label for="customer">Customer Details</label>
+
+                                    <!-- Autocomplete Input Element customer Name -->
+                                    <input type="text" class="autocomplete form-control custom-border " id="customerName" name="customerName" placeholder="Enter Customer Name" data-id="customerName" data-width="nowidth" autocomplete="off" required>
+                                    <input type="text" id="bid" name="customerNameid" style="display:none">
+ *@
 
                                 </div>
                                 <div class="col-3 d-flex justify-content-center align-items-center mt-3">
@@ -1327,6 +1336,13 @@
 
     </script>
 
+
+
+
+
+
+
+
 <script>
     $('#savecustomerSelect').on('click', function (e) {
         // Clear previous error messages
@@ -1438,5 +1454,351 @@
     }
 </script>
 
+
+@* autocomplete by customername  *@
+
+   @*  <script>
+
+        document.querySelectorAll('.autocomplete').forEach(function (input) {
+            let suggestionsContainer;
+            let activeSuggestionIndex = -1;
+            let debounceTimeout;
+            let selectedCustomerId = null;  // Store the selected customer ID
+
+            // Debounce function
+            function debounce(func, delay) {
+                return function () {
+                    clearTimeout(debounceTimeout);
+                    debounceTimeout = setTimeout(func, delay);
+                };
+            }
+
+            // Input event with debounce
+            input.addEventListener('input', debounce(function () {
+                const query = input.value;
+                const id = input.getAttribute('data-id');
+                let urls = "";
+
+                if (id === "customerName") {
+                    urls = `/Dashboard/GetCustomerName?query=${query}`;
+                }
+
+                if (query.length < 1) {
+                    if (suggestionsContainer) {
+                        suggestionsContainer.innerHTML = '';
+                        suggestionsContainer.style.display = 'none';
+                    }
+                    return;
+                }
+
+                // Fetch suggestions from the server
+                fetch(urls)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (!suggestionsContainer) {
+                            suggestionsContainer = document.createElement('div');
+                            suggestionsContainer.className = 'autocomplete-suggestions';
+                            input.parentNode.appendChild(suggestionsContainer);
+                        }
+
+                        suggestionsContainer.innerHTML = '';
+                        suggestionsContainer.style.display = 'block';
+                        activeSuggestionIndex = -1;
+
+                        if (data.length === 0) {
+                            // If no matches are found, show a message
+                            suggestionsContainer.innerHTML = `<div class="no-results">No matches found</div>`;
+                            return;
+                        }
+
+                        // Populate suggestions
+                        data.forEach((item) => {
+                            const suggestionItem = document.createElement('div');
+                            suggestionItem.className = 'autocomplete-suggestion';
+                            suggestionItem.textContent = item.name;
+                            suggestionItem.dataset.key = item.id;
+                            suggestionItem.dataset.value = item.name;
+
+                            // Handle suggestion click
+                            suggestionItem.addEventListener('click', function () {
+                                selectSuggestion(item, input, suggestionsContainer);
+                            });
+                            suggestionsContainer.appendChild(suggestionItem);
+                        });
+                    });
+            }, 300)); // Debounce delay
+
+            // Handle keyboard navigation
+            input.addEventListener('keyup', function (e) {
+                const suggestions = suggestionsContainer?.querySelectorAll('.autocomplete-suggestion');
+                if (!suggestions || suggestions.length === 0) return;
+
+                if (e.key === 'ArrowDown') {
+                    activeSuggestionIndex = (activeSuggestionIndex + 1) % suggestions.length;
+                    updateActiveSuggestion(suggestions);
+                } else if (e.key === 'ArrowUp') {
+                    activeSuggestionIndex = (activeSuggestionIndex - 1 + suggestions.length) % suggestions.length;
+                    updateActiveSuggestion(suggestions);
+                } else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (activeSuggestionIndex > -1) {
+                        const activeSuggestion = suggestions[ activeSuggestionIndex ];
+                        const item = {
+                            id: activeSuggestion.dataset.key,
+                            name: activeSuggestion.dataset.value
+                        };
+                        selectSuggestion(item, input, suggestionsContainer);
+                    }
+                }
+            });
+
+            // Update active suggestion style
+            function updateActiveSuggestion(suggestions) {
+                suggestions.forEach((suggestion, index) => {
+                    suggestion.classList.remove('active');
+                    if (index === activeSuggestionIndex) {
+                        suggestion.classList.add('active');
+                    }
+                });
+            }
+
+            // Function to handle suggestion selection
+            function selectSuggestion(item, input, suggestionsContainer) {
+                input.value = item.name;
+                document.getElementById('customerNameid').value = item.id;
+                suggestionsContainer.innerHTML = '';
+                suggestionsContainer.style.display = 'none';
+            }
+
+
+            // Function to select a suggestion
+            function selectSuggestion(item, input, suggestionsContainer) {
+                input.value = item.name;
+                selectedCustomerId = item.id;
+                suggestionsContainer.style.display = 'none';
+                $("#customerNameid").val(item.id);  // Set the hidden field for ID
+
+                // Fetch customer info after selection
+                fetchCustomerInfo(item.id);
+            }
+
+            // Fetch customer info
+            function fetchCustomerInfo(id) {
+                $.ajax({
+                    url: '/Customer/GetCustomerinfoById',
+                    type: 'GET',
+                    data: { id: id },
+                    success: function (response) {
+                        if (response.success) {
+                            const customer = response.model.result;
+                            if (customer) {
+                                $('#customerName').text(customer.customerName);
+                                $('#address').text(customer.address);
+                                $('#city').text(customer.city);
+                                $('#gstNo').text(customer.gstNo);
+                                $('#contactNo').text(customer.contactNo);
+                                $('#alternateNumber').text(customer.alternateNumber);
+                                $('#state').text(customer.state);
+                            } else {
+                                clearCustomerInfo();
+                                toastr.error('No customer data found.');
+                            }
+                        } else {
+                            clearCustomerInfo();
+                            toastr.error('Failed to load customer info.');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        clearCustomerInfo();
+                        toastr.error('Error fetching customer info.');
+                    }
+                });
+            }
+
+            // Handle form submission to ensure valid customer is selected
+            document.querySelector('#saveQuotation').addEventListener('click', function (e) {
+                if (!selectedCustomerId) {
+                    e.preventDefault();
+                }
+            });
+
+            // Clear customer info on invalid selection
+            input.addEventListener('blur', function () {
+                const query = input.value.trim();
+
+                // Check if the current input value matches any suggestion
+                fetch(`/Dashboard/GetcustomerName?query=${query}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const match = data.find(item => item.name.toLowerCase() === query.toLowerCase());
+                        if (!match) {
+                            clearCustomerInfo();
+                            selectedCustomerId = null;
+                            $("#businessNameid").val('');  // Clear hidden field for ID
+                            // setTimeout(function () {
+                            //     toastr.error('Please select a valid business name.');
+
+                            // }, 1000); // Adjust the timeout duration (3000 milliseconds = 3 seconds)
+                            toastr.clear(); // This will clear all toastr notifications
+
+                        }
+                    });
+            });
+
+            // Clear customer info function
+            function clearCustomerInfo() {
+                $('#customerName').text('');
+                $('#address').text('');
+                $('#city').text('');
+                $('#gstNo').text('');
+                $('#contactNo').text('');
+                $('#alternateNumber').text('');
+                $('#state').text('');
+            }
+        });
+
+
+
+
+        function updateDisplay() {
+            const actionButtons = document.querySelector('.action-buttons');
+            const campaignFields = document.getElementById('campaign-fields');
+            const saveQuotationButton = document.getElementById('saveQuotation');
+            const saveCampaignButton = document.getElementById('saveCampaign');
+            const openCustomerModalButton = document.getElementById('openCustomerModal');
+
+
+            if (document.getElementById('create-quotation').checked) {
+                actionButtons.style.display = 'block';
+                saveQuotationButton.style.display = 'inline-block';
+                saveCampaignButton.style.display = 'none';
+                // openCustomerModalButton.style.display = 'inline-block';
+
+            }
+            else if (document.getElementById('add-campaign').checked) {
+                actionButtons.style.display = 'block';
+                $('#campDate').show();
+                saveQuotationButton.style.display = 'none';
+                saveCampaignButton.style.display = 'inline-block';
+                // openCustomerModalButton.style.display = 'block';
+            }
+            else {
+                actionButtons.style.display = 'none';
+            }
+        }
+
+        document.querySelectorAll('input[name="quotation"]').forEach((radio) => {
+            radio.addEventListener('change', updateDisplay);
+        });
+
+        // Set default selection and update display accordingly
+        document.getElementById('create-quotation').checked = true;
+        updateDisplay();
+
+        $(document).ready(function () {
+            // Initially hide the date fields
+            $('#campDate').hide();
+
+            // Event listener for the radio buttons
+            $('input[name="quotation"]').change(function () {
+                if ($(this).val() === 'campaign') {
+                    $('#campDate').show();
+                } else {
+                    $('#campDate').hide();
+                }
+            });
+
+
+        });
+
+        $(document).ready(function () {
+
+            $.ajax({
+                url: '/Customer/GetCustomerinfo', // Corrected endpoint for getting all customer info
+                type: 'GET',
+                success: function (response) {
+                    if (response.success) {
+                        var customerDropdown = $('#customerName');
+                        customerDropdown.empty(); // Clear existing options
+                        customerDropdown.append('<option value="">Select Customer</option>'); // Default option
+
+                        $.each(response.model, function (index, data) {
+                            customerDropdown.append('<option value="' + data.id + '">' + data.customerName + '</option>');
+                        });
+
+                        // $('#addQuotationModal').modal('show');
+
+                    } else {
+                        console.error('Failed to load customer details:', response.Message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching customer details:', error);
+                }
+            });
+
+            // Fetch and display customer details when a customer is selected
+            $('#customerName').change(function () {
+
+                var selectedCustomerId = document.getElementById('customerNameid').value;
+
+
+                if (selectedCustomerId) {
+                    $.ajax({
+                        url: '/Customer/GetCustomerinfoById', // Correct endpoint for getting customer by ID
+                        type: 'GET',
+                        data: { id: selectedCustomerId },
+                        success: function (response) {
+                            console.log("Selected Customer :", response.model.result.id);
+                            if (response.success) {
+                                // Accessing properties from response.model.result
+                                //  $('#businessName').text(response.model.result.businessName);
+                                $('#customerName').text(response.model.result.customerName);
+                                $('#businessName').text(response.model.result.businessName);
+
+                                $('#address').text(response.model.result.address);
+                                $('#city').text(response.model.result.city);
+                                $('#gstNo').text(response.model.result.gstNo);
+                                $('#contactNo').text(response.model.result.contactNo);
+                                $('#alternateNumber').text(response.model.result.alternateNumber);
+                                $('#state').text(response.model.result.state);
+
+                                // setTimeout(function () {
+                                //     toastr.success('Customer loaded successfully.');
+                                // },);
+
+                            } else {
+                                console.error('Failed to load customer info:', response.message);
+                            }
+
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error fetching customer info:', error);
+                        }
+                    });
+                }
+                else {
+                    // Clear customer info if no customer is selected
+                    // $('#businessName').text('');
+                    $('#customerName').text('');
+                    $('#city').text('');
+                    $('#area').text('');
+                    $('#gstNo').text('');
+                    $('#contactNo').text('');
+                    $('#alternateNumber').text('');
+                    $('#address').text('');
+                    $('#state').text('');
+                }
+            });
+
+        });
+
+
+
+
+
+    </script>
+
+ *@
 
 </section>

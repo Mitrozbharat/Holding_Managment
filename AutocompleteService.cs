@@ -28,6 +28,11 @@ namespace Hoarding_managment
             return _context.TblCustomers.Where(s => s.BusinessName.Contains(businessname) && s.IsDelete == 0).ToList();
         }
 
+        public IEnumerable<TblCustomer> GetCustomername(string customername)
+        {
+            return _context.TblCustomers.Where(s => s.CustomerName.Contains(customername) && s.IsDelete == 0).ToList();
+        }
+
 
         public IEnumerable<TblInventory> GetCityFilterName(string cityName)
         {

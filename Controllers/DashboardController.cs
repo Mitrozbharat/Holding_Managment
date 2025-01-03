@@ -312,6 +312,20 @@ namespace Hoarding_managment.Controllers
               .ToList();
             return Json(result);
         }
+
+
+        public JsonResult GetCustomerName(string query)
+        {
+
+
+            var subproduct = _autocompleteService.GetCustomername(query);
+
+            var result = subproduct
+              .Where(f => f.CustomerName.ToLower().Contains(query.ToLower())).Select(s => new { Name = s.CustomerName, Id = s.Id })
+              .ToList();
+            return Json(result);
+        }
+
         public JsonResult GetBusinessName(string query)
         {
             if (string.IsNullOrWhiteSpace(query))
@@ -332,6 +346,12 @@ namespace Hoarding_managment.Controllers
 
             return Json(result);
         }
+
+
+
+
+
+
         public JsonResult GetCityFilterName(string query)
         {
             if (string.IsNullOrWhiteSpace(query))
