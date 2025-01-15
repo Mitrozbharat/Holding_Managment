@@ -752,13 +752,21 @@ namespace Hoarding_managment.Repository
                     {
                         // Remove associated inventory items
                         var itemsToDelete = _context.TblInventoryitems
-                            .Where(x => x.Id == item.FkInventoryId);
+                         .Where(x => x.FkInventoryId == item.FkInventoryId)
+                         .ToList(); // Ensure we get the full list to delete
+
+                        // Remove the inventory items
                         _context.TblInventoryitems.RemoveRange(itemsToDelete);
+
+                        // Save the changes to the database
                         await _context.SaveChangesAsync();
+
+
 
                         // Update inventory booking status
                         var inventoryItem = await _context.TblInventories
                             .FirstOrDefaultAsync(x => x.Id == item.FkInventoryId && x.IsDelete == 0);
+
 
                         if (inventoryItem != null)
                         {
