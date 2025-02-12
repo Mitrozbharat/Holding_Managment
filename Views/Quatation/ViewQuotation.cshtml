@@ -554,7 +554,13 @@
                         line: { color: 'FFFFFF', width: 15 }
                     });
                     //itemSlide.addImage({ path: base64ToBlobUrl(itemImage, 'image/png'), x: 1.1, y: yPosition + 0.1, w: 2.3, h: 1.6 });
-                    itemSlide.addImage({ path: base64ToBlobUrl(itemImage, 'image/png'), x: 0, y: 0, w: '100%', h: 4.6 });
+        itemSlide.addImage({
+            path: base64ToBlobUrl(itemImage, 'image/png'),
+            x: '10%',  // Centered by setting x to 10% (since 100% - 80% = 20%, then divide by 2)
+            y: 0,
+            w: '80%',  // 80% of total width
+            h: 4.6
+        });
 
                     const maxLineLength = 150;
                     let lines = [];
