@@ -1,0 +1,441 @@
+﻿<section >
+    <style>
+   
+   
+
+        #weekInfo {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        label {
+            font-size: 16px;
+        }
+
+        input[type="date"] {
+            padding: 5px;
+            font-size: 16px;
+        }
+
+        canvas {
+            margin-top: 20px;
+        }
+    </style>
+     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <div class="row bg-background rounded-lg shadow-md p-4">
+       
+        <div class="col-12 col-md-12">
+            <div class="row">
+                <div class="col-12 col-sm-6 col-lg-4 ">
+                    <div class="d-flex align-items-center  bg-card rounded-lg shadow-lg p-3  py-4 mb-lg-4 mb-2  bg-white rounded">
+                        <div class="d-flex align-items-center justify-content-center bg-primary rounded-circle text-white"
+                             style="width: 50px; height: 50px;">
+                            👥
+                        </div>
+                        <div class="ml-3">
+                            <h2 class="h4 font-weight-bold text-foreground" id="invcount"></h2>
+                            <p class="text-muted-foreground">Total Inventory</p>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4 mb-4">
+                    <div class="d-flex align-items-center  bg-card rounded-lg shadow-lg p-3  py-4 mb-lg-4 mb-2  bg-white rounded">
+                        <div class="d-flex align-items-center justify-content-center bg-primary rounded-circle text-white"
+                             style="width: 50px; height: 50px;">
+                            👥
+                        </div>
+                        <div class="ml-3">
+                            <h2 class="h4 font-weight-bold text-foreground" id="vencount"></h2>
+                            <p class="text-muted-foreground">Total Own Inventory</p>
+                        </div>
+                    </div>
+                </div>
+                
+
+
+
+                <div class="col-12 col-sm-6 col-lg-4 mb-4">
+                    <div class="d-flex align-items-center  bg-card rounded-lg shadow-lg p-3 py-4  mb-lg-4 mb-2  bg-white rounded">
+                        <div class="d-flex align-items-center justify-content-center bg-primary rounded-circle text-white"
+                             style="width: 50px; height: 50px;">
+                            📅
+                        </div>
+                        <div class="ml-3">
+                            <h2 class="h4 font-weight-bold text-foreground" id="QuotationCount">  </h2>
+                            <p class="text-muted-foreground">Total Quotation</p>
+                        </div>
+                    </div>
+                </div>
+               
+
+               
+               
+            </div>
+        </div>
+        <div class="col-12 col-md-12">
+            <div class="row" style="    margin-top: -32px !important;">
+
+
+
+                <div class="col-12 col-sm-6 col-lg-4 mb-4">
+                    <div class="d-flex align-items-center  bg-card rounded-lg shadow-lg p-3 py-4  mb-lg-4 mb-2  bg-white rounded">
+                        <div class="d-flex align-items-center justify-content-center bg-info rounded-circle text-white"
+                             style="width: 50px; height: 50px;">
+                            📦
+                        </div>
+                        <div class="ml-3">
+                            <h2 class="h4 font-weight-bold text-foreground" id="ongoingCount"></h2>
+                            <p class="text-muted-foreground">Ongoing Campaigns</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-lg-4 mb-4">
+                    <div class="d-flex align-items-center  bg-card rounded-lg shadow-lg p-3  py-4 mb-lg-4 mb-2  bg-white rounded">
+                        <div class="d-flex align-items-center justify-content-center bg-primary rounded-circle text-white"
+                             style="width: 50px; height: 50px;">
+                            👥
+                        </div>
+                        <div class="ml-3">
+                            <h2 class="h4 font-weight-bold text-foreground" id="bookingwonHordings"></h2>
+                            <p class="text-muted-foreground">Own Booking Inventory </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4 mb-4">
+                    <div class="d-flex align-items-center  bg-card rounded-lg shadow-lg p-3  py-4 mb-lg-4 mb-2  bg-white rounded">
+                        <div class="d-flex align-items-center justify-content-center bg-primary rounded-circle text-white"
+                             style="width: 50px; height: 50px;">
+                            👥
+                        </div>
+                        <div class="ml-3">
+                            <h2 class="h4 font-weight-bold text-foreground" id="Duedatecampians"></h2>
+                            <p class="text-muted-foreground">Campaigns expiring within two weeks</p>
+                        </div>
+                    </div>
+                </div>
+
+                @* <div class="col-12 col-sm-6 col-lg-4 mb-4 ">
+                <div class="d-flex align-items-center p-3 bg-card rounded-lg shadow-lg p-3 py-4 mb-lg-4 mb-2 bg-white rounded">
+                <div class="d-flex align-items-center justify-content-center bg-danger rounded-circle text-white"
+                style="width: 50px; height: 50px;">
+                📈
+                </div>
+                <div class="ml-3">
+                <h2 class="h4 font-weight-bold text-foreground">235</h2>
+                <p class="text-muted-foreground">Total Sales</p>
+                </div>
+                </div>
+                </div> *@
+                @*  <div class="col-12 col-sm-6 col-lg-4 mb-4 ">
+                <div class="d-flex align-items-center  bg-card rounded-lg shadow-lg p-3 py-4 mb-lg-4 mb-2  bg-white rounded">
+                <div class="d-flex align-items-center justify-content-center bg-success rounded-circle text-white"
+                style="width: 50px; height: 50px;">
+                📦
+                </div>
+                <div class="ml-3">
+                <h2 class="h4 font-weight-bold text-foreground">48</h2>
+                <p class="text-muted-foreground">Pending Orders</p>
+                </div>
+                </div>
+                </div> *@
+                @*  <div class="col-12 col-sm-6 col-lg-4 mb-4">
+                <div class="d-flex align-items-center  bg-card rounded-lg shadow-lg p-3 py-4 mb-lg-4 mb-2  bg-white rounded">
+                <div class="d-flex align-items-center justify-content-center bg-info rounded-circle text-white"
+                style="width: 50px; height: 50px;">
+                📊
+                </div>
+                <div class="ml-3">
+                <h2 class="h4 font-weight-bold text-foreground">78%</h2>
+                <p class="text-muted-foreground">Conversion Rate</p>
+                </div>
+                </div>
+                </div> *@
+              
+
+               @*  <div class="col-12 col-sm-6 col-lg-4 mb-4">
+                    <div class="d-flex align-items-center  bg-card rounded-lg shadow-lg p-3  py-4 mb-lg-4 mb-2  bg-white rounded">
+                        <div class="d-flex align-items-center justify-content-center bg-primary rounded-circle text-white"
+                             style="width: 50px; height: 50px;">
+                            👥
+                        </div>
+                        <div class="ml-3">
+                            <h2 class="h4 font-weight-bold text-foreground" id="upcommingscampians"></h2>
+                            <p class="text-muted-foreground">Upcoming Scheduled Campaign</p>
+                        </div>
+                    </div>
+                </div> *@
+                
+
+            </div>
+        </div>
+
+        <!-- <div class="col-12 col-md-3">
+            <div
+                class=" bg-card rounded-lg d-flex flex-column flex-md-row align-items-start justify-content-between">
+                <div class=" mb-3 mb-md-0">
+                    <h2 class="h5 font-weight-bold text-foreground">Hello, User!</h2>
+                    <p class="text-muted-foreground">Click "Generate Report" in the Reports section to view detailed
+                        insights about your business performance.</p>
+                    <p class="text-muted-foreground">Have a productive day ahead!</p>
+                    <button class="btn btn-secondary">View Reports</button>
+                </div>
+
+            </div>
+        </div> -->
+        <!-- Date Picker for Week Selection -->
+
+        <div class="col-12 col-md-12">
+         
+            <div class="col-12 col-md-12">
+                  <label for="weekPicker">Select a Date:</label>
+                  <input type="date" id="weekPicker" onchange="updateWeekInfo()" />
+
+                <div id="weekInfo"></div>
+            </div>
+        
+        </div>
+        <div class="col-12">
+            <div class="col-12 col-md-6">
+                <canvas id="quotationChart" width="200" height="150"></canvas>
+            </div>
+            <div class="col-12 col-md-6">
+                @*<canvas id="quotationChart" width="400" height="200"></canvas>*@
+            </div>
+        </div>
+
+       
+
+       
+
+       
+
+    </div>
+        <script>
+           $(document).ready(function () {
+
+            $.ajax({
+                url: '/OngoingCampain/getallhordingandVendorCount',
+                type: 'GET',
+                success: function (data)
+                {
+                    //invcount vencount
+                    if (data.success) {
+                        $('#invcount').text(data.hcount);
+                        $('#vencount').text(data.vcount);
+                        $('#bookingwonHordings').text(data.bookingwonHordings);
+
+                    } 
+                    else {
+                        $('#invcount').text("");
+                        $('#vencount').text("");
+                        $('#bookingwonHordings').text("");
+                    }
+                },
+                error: function () {
+                    $('#CampaignCount').text('Error occurred while fetching data.');
+                }
+            });
+
+            
+
+            $.ajax({
+                url: '/OngoingCampain/getallQuotationCount',
+                type: 'GET',
+                success: function (data) {
+                    if (data.success) {
+                        $('#QuotationCount').text(data.count);
+                    } else {
+                        $('#QuotationCount').text('Error: ' + data.message);
+                    }
+                },
+                error: function () {
+                    $('#QuotationCount').text('Error occurred while fetching data.');
+                }
+            });
+
+            
+            $.ajax({
+                url: '/OngoingCampain/getallongoingCount',
+                type: 'GET',
+                success: function (data) {
+                    if (data.success) {
+                        $('#ongoingCount').text(data.count);
+                    } else {
+                        $('#ongoingCount').text('Error: ' + data.message);
+                    }
+                },
+                error: function () {
+                    $('#ongoingCount').text('Error occurred while fetching data.');
+                }
+            }); 
+
+            
+            $.ajax({
+                url: '/OngoingCampain/getallongoingDuedateCount',
+                type: 'GET',
+                success: function (data) {
+                    if (data.success) {
+
+                        $('#Duedatecampians').text(data.expiringCount);
+                        let due = $('#Duedatecampians').val();
+                        console.log("Duedatecampians: ", due);
+                        
+                       
+                        $('#upcommingscampians').text(data.upcomingCount);
+                        let up = $('#upcommingscampians').val();
+                        console.log("upcommingscampians: ", up);
+
+                    } else {
+                        $('#Duedatecampians').text('Error: ' + data.message);
+                    }
+                },
+                error: function () {
+                    $('#Duedatecampians').text('Error occurred while fetching data.');
+                }
+            });
+
+
+
+              
+
+
+
+});
+
+
+
+
+        
+
+    </script>
+
+    <script>
+        let chart;
+
+        function setDefaultDate() {
+            const today = new Date();
+            const formattedDate = today.toISOString().split('T')[0]; // Format to YYYY-MM-DD
+            document.getElementById("weekPicker").value = formattedDate;
+            updateWeekInfo();
+        }
+
+        setDefaultDate();
+
+        // Helper function to format date as DD-MM-YYYY
+        function formatDateDDMMYYYY(date) {
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-based
+            const year = date.getFullYear();
+            return `${day}-${month}-${year}`;
+        }
+
+        function updateWeekInfo() {
+            const selectedDate = new Date(document.getElementById('weekPicker').value);
+            const firstDayOfWeek = getFirstDayOfWeek(selectedDate);
+            const lastDayOfWeek = getLastDayOfWeek(selectedDate);
+
+            // Format dates as DD-MM-YYYY
+            const formattedFirstDay = formatDateDDMMYYYY(firstDayOfWeek);
+            const formattedLastDay = formatDateDDMMYYYY(lastDayOfWeek);
+
+            // Display the start and end of the week in DD-MM-YYYY format
+            document.getElementById('weekInfo').innerText = `Selected Week: ${formattedFirstDay} - ${formattedLastDay}`;
+
+
+            // Display the start and end of the week
+          //  document.getElementById('weekInfo').innerText = `Selected Week: ${firstDayOfWeek.toLocaleDateString()} - ${lastDayOfWeek.toLocaleDateString()}`;
+
+            // Fetch data for the selected week
+            fetchQuotationData(firstDayOfWeek, lastDayOfWeek);
+        }
+
+        function getFirstDayOfWeek(date) {
+            const dayOfWeek = date.getUTCDay(); // Get the current day of the week (0-6)
+            const firstDay = new Date(date); // Copy the date
+            const daysToSubtract = (dayOfWeek === 0 ? 6 : dayOfWeek - 1); // Adjust for Monday as the first day of the week
+            firstDay.setDate(date.getUTCDate() - daysToSubtract);
+            return firstDay;
+        }
+
+        function getLastDayOfWeek(date) {
+            const dayOfWeek = date.getUTCDay(); // Get the current day of the week (0-6)
+            const lastDay = new Date(date); // Copy the date
+            const daysToAdd = (dayOfWeek === 0 ? 0 : 7 - dayOfWeek); // Adjust for Sunday as the last day of the week
+            lastDay.setDate(date.getUTCDate() + daysToAdd);
+            return lastDay;
+        }
+
+        function fetchQuotationData(startDate, endDate) {
+            console.log(`Fetching data from ${startDate.toISOString()} to ${endDate.toISOString()}`);
+            fetch(`/OngoingCampain/GetWeeklyQuotationData?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Handle your data here and display it on the chart
+                    console.log(data);
+                    displayLineChart(data, startDate);
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        }
+
+        function displayLineChart(data, startDate) {
+            const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const labels = daysOfWeek.map((day, index) => {
+                const date = new Date(startDate);
+                date.setDate(startDate.getDate() + index); // Add index to start date
+                return day; // Use day names for x-axis labels
+            });
+
+            // Initialize a data array for each day of the week
+            const values = new Array(7).fill(0);
+
+            // Map the data to the respective day of the week
+            data.forEach(q => {
+                const createdDate = new Date(q.createdAt);
+                const dayIndex = (createdDate.getUTCDay() + 6) % 7; // Adjust to match index for Sunday as the first day
+                values[dayIndex]++; // Increment count for the corresponding day
+            });
+
+            const ctx = document.getElementById('quotationChart').getContext('2d');
+
+            // If the chart already exists, destroy it before creating a new one
+            if (chart) {
+                chart.destroy();
+            }
+
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Quotation Count',
+                        data: values,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderWidth: 1,
+                        fill: true,
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+
+
+ 
+</section>

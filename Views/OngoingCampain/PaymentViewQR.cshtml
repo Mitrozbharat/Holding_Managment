@@ -1,0 +1,141 @@
+﻿
+@{
+    string encoded = Context.Request.Query["data"];
+}
+<div class="container mt-4">
+    <h3 class="text-center">Scanned Payment Details</h3>
+
+    <div class="card shadow p-4" id="paymentDetails" style="display:none;">
+
+        <div class="row mb-2">
+            <div class="col-4"><strong>Customer</strong></div>
+            <div class="col-8" id="uiCustomer"></div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-4"><strong>UPI ID</strong></div>
+            <div class="col-8" id="uiUPI"></div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-4"><strong>Amount</strong></div>
+            <div class="col-8">₹ <span id="uiAmount"></span></div>
+        </div>
+
+        <div class="row mb-2" style="display:none">
+            <div class="col-4"><strong>Mobile</strong></div>
+            <div class="col-8" id="uiMobile"></div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-4"><strong>Payment Mode</strong></div>
+            <div class="col-8" id="uiMode"></div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-4"><strong>Campaign ID</strong></div>
+            <div class="col-8" id="uiCampaignId"></div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-4"><strong>Item ID</strong></div>
+            <div class="col-8" id="uiItemId"></div>
+        </div>
+
+        <hr />
+
+        <div class="text-center">
+            <button class="btn btn-success btn-lg" onclick="completePayment()">Confirm Payment</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    console.log("🔵 STEP 1: Raw encoded Base64 from URL:", "@encoded");
+
+    // 1. Get encoded QR query
+    let encodedQR = "@encoded";
+
+    // Fix spaces replaced as "+"
+    encodedQR = encodedQR.replace(/ /g, "+");
+    console.log("🔵 STEP 2: Encoded Base64 after fixing spaces:", encodedQR);
+
+    // 2. Decode base64
+    let decodedQR = "";
+    try {
+        decodedQR = atob(encodedQR);
+        console.log("🟢 STEP 3: Decoded QR string:", decodedQR);
+    } catch (e) {
+        console.error("🔴 ERROR: Base64 decode failed", e);
+    }
+
+    // 3. Remove prefix
+    let queryString = decodedQR.replace("upi://pay?", "");
+    console.log("🟢 STEP 4: Extracted query string:", queryString);
+
+    // 4. Parse parameters
+    const params = new URLSearchParams(queryString);
+
+    let qrData = {
+        customer: params.get("pn"),
+        upi: params.get("pa"),
+        amount: params.get("am"),
+        currency: params.get("cu"),
+        campaignId: params.get("cid"),
+        itemId: params.get("item"),
+        mode: params.get("mode"),
+        mobile: params.get("mobile")
+    };
+
+    console.log("🟢 STEP 5: EXTRACTED QR DATA OBJECT:", qrData);
+
+    // Update UI
+    document.getElementById("uiCustomer").textContent = qrData.customer;
+    document.getElementById("uiUPI").textContent = qrData.upi;
+    document.getElementById("uiAmount").textContent = qrData.amount;
+    document.getElementById("uiMobile").textContent = qrData.mobile;
+    document.getElementById("uiMode").textContent = qrData.mode;
+    document.getElementById("uiCampaignId").textContent = qrData.campaignId;
+    document.getElementById("uiItemId").textContent = qrData.itemId;
+
+    document.getElementById("paymentDetails").style.display = "block";
+
+    console.log("🟢 STEP 6: UI updated & visible");
+
+    function completePayment() {
+
+        console.log("🟡 STEP 7: SENDING PAYMENT TO SERVER:");
+        console.table(qrData);
+
+
+         const paymentData = {
+                CampaignId: qrData.campaignId,
+                itemid: qrData.itemId,
+                CustomerName: qrData.customer,
+                Amount: qrData.amount,
+                PaymentMode:  qrData.mode,
+                MobileNumber: qrData.mobile,
+                UpiId: qrData.upi
+            };
+
+            console.table(paymentData);
+
+            // AJAX request to backend
+            $.ajax({
+                url: '/OngoingCampain/SavePaymentCash',
+                type: 'POST',
+                data: JSON.stringify(paymentData),
+                contentType: 'application/json',
+                success: function (response) {
+                    $('#payModal').modal('hide');
+                    alert("Payment saved successfully!");
+
+           window.location.href = "index";
+
+                },
+                error: function (xhr) {
+                    alert("Error saving payment: " + xhr.responseText);
+                }
+            });
+    }
+</script>

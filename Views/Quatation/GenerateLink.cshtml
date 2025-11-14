@@ -1,0 +1,159 @@
+﻿@model QuatationDetaileViewModel
+@{
+    Layout = null;
+}
+<link rel="stylesheet" href="~/data/vendors/base/vendor.bundle.base.css">
+<link href="~/css/mycss.css" rel="stylesheet" />
+<link href="~/css/mycss.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/data/css/style.css">
+<link href="~/css/stylecss.css" rel="stylesheet" />
+<link href="~/css/stylesheet.css" rel="stylesheet" />
+<link href="~/css/toastr.min.css" rel="stylesheet" />
+<link href="~/data/vendors/mdi/css/materialdesignicons.min.css" rel="stylesheet" />
+<!-- endinject -->
+<link rel="shortcut icon" href="~/images/favicon.png" />
+<link href="~/css/stylesheet1.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+<!-- Include JSZip library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
+<!-- Include PptxGenJS library -->
+<script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.6.0/dist/pptxgen.min.js"></script>
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<section>
+  
+    <div id="exportContent" class="card p-4 m-2">
+        <div class="container-fluid my-2">
+            <div class="mb-3">
+                <div class="row">
+
+                    <div class="col-lg-6 text-center">
+                        <img id="myImage" class="ml-3 mr-3 mb-3" alt="Location Image" style="width:100%; max-width: 300px" />
+                        <span id="imagedata" style="display:none"></span>
+                        <img id="myImagetwo" class="m-3" alt="Location Image" style="display:none" />
+                        <span id="imagedatatwo" style="display:none"></span>
+                    </div>
+
+
+                    <div class="col-lg-6 text-lg-right pr-4">
+                        <div class="text-end">
+                            <h1 class="display-4 text-end">SAHU ADVERTISING</h1>
+                            <p class="lead">Office No. 307, Supreme Classic Building,<br /> Salunke Vihar Road, Pune 411048</p>
+                            <p>Email: <a href="mailto:marketing@sahuads.com">marketing@sahuads.com</a><br /> GSTIN: 27ABJCS1061L1Z3</p>
+                        </div>
+                    </div>
+                </div>
+                @if (Model != null)
+                {
+                    var totalprice = 0.0;
+                    <h4 class="text-center my-4">Quotation</h4>
+                    <div class="row">
+                        <div class="col-md-9 text-start mb-3 mb-md-0">
+                            <input type="hidden" class="hidden" quotationId="@Model.Id" value="@Model.Id" />
+                            <p class="ml-2"><strong>Quotation Number :</strong> @Model.QuotationNumber</p>
+                            <input type="hidden" qnumber="@Model.QuotationNumber" name="name" value="@Model.QuotationNumber" />
+                            <p class="ml-2"><strong>Date :</strong> @Model.CreatedAt?.ToString("dd/MMM/yyyy")</p>
+                        </div>
+                        <div class="col-md-3 totalamountclass" style="text-align:start">
+                            <p><strong>Quotation For :</strong> @Model.BusinessName</p>
+                            @{
+                                string truncatedAddress = @Model.Address.Length > 30 ? @Model.Address.Substring(0, 30) + "..." : @Model.Address;
+                            }
+                            <p><strong>Address :</strong> @Model.Address</p>
+                            @foreach (var item in Model.Items)
+                            { totalprice += Convert.ToDouble(item.Rate); }
+                            <p><strong>Total Amount  : </strong> @totalprice.ToString("F2") /-</p>
+
+                        </div>
+                    </div>
+                    <hr>
+                    @foreach (var item in Model.Items)
+                    {
+                        <div class="card mycard mt-4">
+                            <div class="media my-2 flex-column flex-md-row align-items-center">
+                                <img src="data:image/png;base64,@item.Image" class="img-size m-3 col-3" style=" max-height:175px;" alt="Location Image">
+
+                                <div class="media-body mt-4 text-center text-md-left col-9">
+                                    <h5 class="mt-0">@item.Location</h5>
+                                    <p><strong>City:</strong> @item.City</p>
+                                    <p><strong>Size:</strong> @item.Width FT x @item.Height FT</p>
+                                    <p><strong>Vendor   :</strong> @Model.VendorName</p>
+                                    <h5 class="text-primary">Price: @string.Format("{0:F2}", item.Rate)/-</h5>
+                                    <h5 class="text-black" style="display:none;"> @item.type </h5>
+                                    <h5 class="Width" style="display:none;"> @item.Width </h5>
+                                    <h5 class="Height" style="display:none;"> @item.Height </h5>
+                                    <h5 class="Area" style="display:none;"> @item.Area </h5>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                }
+
+                else
+
+                {
+                    <p>No data available.</p>
+                }
+            </div>
+        </div>
+    </div>
+
+    @* <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <script>
+        function getBase64ImageFromUrl(url, callback) {
+            fetch(url)
+                .then(response => response.blob())
+                .then(blob => {
+                    var reader = new FileReader();
+                    reader.onloadend = function () {
+                        var base64String = reader.result.replace("data:", "").replace(/^.+,/, '');
+                        callback(base64String);
+                    };
+                    reader.readAsDataURL(blob);
+                })
+                .catch(error => console.error('Error converting image:', error));
+        }
+
+        var imageUrl = window.location.origin + "/images/logo.png";
+        getBase64ImageFromUrl(imageUrl, function (base64String) {
+          //  console.log('Base64 String:', base64String);
+            document.getElementById('myImage').src = "data:image/png;base64," + base64String + "";
+            document.getElementById('imagedata').innerHTML = "data:image/png;base64," + base64String + "";
+
+        });
+
+        var imageUrl = window.location.origin + "/images/HoardingImg.png";
+        getBase64ImageFromUrl(imageUrl, function (base64String) {
+          //  console.log('Base64 String:', base64String);
+            document.getElementById('myImagetwo').src = "data:image/png;base64," + base64String + "";
+            document.getElementById('imagedatatwo').innerHTML = "data:image/png;base64," + base64String + "";
+
+        });
+    </script> <script src="~/data/vendors/chart.js/Chart.min.js"></script>
+    <script src="~/data/js/off-canvas.js"></script>
+    <script src="~/data/js/hoverable-collapse.js"></script>
+    <script src="~/data/js/template.js"></script>
+    <script src="~/data/js/chart.js"></script>
+    <script src="~/js/toastr.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="~/js/Customer.js"></script>
+
+    <!-- Include CryptoJS library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1-crypto-js.js"></script>
+
+  
+</section>

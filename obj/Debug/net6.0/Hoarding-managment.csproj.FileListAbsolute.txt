@@ -1,0 +1,549 @@
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\appsettings.Development.json
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\appsettings.json
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Hoarding-managment.staticwebassets.runtime.json
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Hoarding-managment.staticwebassets.endpoints.json
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Hoarding-managment.exe
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Hoarding-managment.deps.json
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Hoarding-managment.runtimeconfig.json
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Hoarding-managment.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Hoarding-managment.pdb
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\AngleSharp.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Azure.Core.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Azure.Identity.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Azure.Security.KeyVault.Certificates.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Azure.Security.KeyVault.Secrets.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\BouncyCastle.Cryptography.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\ClosedXML.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\ClosedXML.Parser.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\DocumentFormat.OpenXml.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\DocumentFormat.OpenXml.Framework.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\EPPlus.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\EPPlus.Interfaces.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\EPPlus.System.Drawing.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\ExcelNumberFormat.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Humanizer.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\itext.barcodes.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\itext.bouncy-castle-connector.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\itext.forms.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\itext.io.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\itext.kernel.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\itext.layout.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\itext.pdfa.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\itext.pdfua.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\itext.sign.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\itext.styledxmlparser.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\itext.svg.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\itext.commons.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\itextsharp.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.Bcl.TimeProvider.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.DotNet.PlatformAbstractions.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Relational.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.Caching.Memory.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.Configuration.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Abstractions.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.Configuration.FileExtensions.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Json.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.DependencyModel.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.FileProviders.Abstractions.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.FileProviders.Physical.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.FileSystemGlobbing.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.Logging.Abstractions.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.Primitives.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.Identity.Abstractions.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.Identity.Client.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.Identity.Client.Extensions.Msal.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.Identity.Web.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.Identity.Web.Certificate.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.Identity.Web.Certificateless.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.Identity.Web.Diagnostics.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.Identity.Web.TokenAcquisition.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.Identity.Web.TokenCache.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.IdentityModel.LoggingExtensions.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.IdentityModel.Validators.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.IO.RecyclableMemoryStream.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.OpenApi.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\MySqlConnector.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Newtonsoft.Json.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Pomelo.EntityFrameworkCore.MySql.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\RBush.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\SixLabors.Fonts.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\System.ClientModel.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\System.Diagnostics.DiagnosticSource.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\System.Drawing.Common.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\System.Formats.Asn1.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\System.IO.Packaging.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\System.Memory.Data.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\System.Security.Cryptography.Pkcs.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\System.Security.Cryptography.ProtectedData.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\System.Security.Cryptography.Xml.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\System.Text.Encoding.CodePages.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\System.Text.Encodings.Web.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\System.Text.Json.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Toolbelt.AspNetCore.CssLiveReloader.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.Pkcs.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Text.Encoding.CodePages.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.csproj.AssemblyReference.cache
+D:\Maverick Services\BharatRepository\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.GeneratedMSBuildEditorConfig.editorconfig
+D:\Maverick Services\BharatRepository\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.AssemblyInfoInputs.cache
+D:\Maverick Services\BharatRepository\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.AssemblyInfo.cs
+D:\Maverick Services\BharatRepository\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.csproj.CoreCompileInputs.cache
+D:\Maverick Services\BharatRepository\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.MvcApplicationPartsAssemblyInfo.cs
+D:\Maverick Services\BharatRepository\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.MvcApplicationPartsAssemblyInfo.cache
+D:\Maverick Services\BharatRepository\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.RazorAssemblyInfo.cache
+D:\Maverick Services\BharatRepository\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.RazorAssemblyInfo.cs
+D:\Maverick Services\BharatRepository\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.sourcelink.json
+D:\Maverick Services\BharatRepository\Holding_Managment\obj\Debug\net6.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+D:\Maverick Services\BharatRepository\Holding_Managment\obj\Debug\net6.0\scopedcss\bundle\Hoarding-managment.styles.css
+D:\Maverick Services\BharatRepository\Holding_Managment\obj\Debug\net6.0\scopedcss\projectbundle\Hoarding-managment.bundle.scp.css
+D:\Maverick Services\BharatRepository\Holding_Managment\obj\Debug\net6.0\staticwebassets.build.json
+D:\Maverick Services\BharatRepository\Holding_Managment\obj\Debug\net6.0\staticwebassets.development.json
+D:\Maverick Services\BharatRepository\Holding_Managment\obj\Debug\net6.0\staticwebassets.build.endpoints.json
+D:\Maverick Services\BharatRepository\Holding_Managment\obj\Debug\net6.0\staticwebassets\msbuild.Hoarding-managment.Microsoft.AspNetCore.StaticWebAssets.props
+D:\Maverick Services\BharatRepository\Holding_Managment\obj\Debug\net6.0\staticwebassets\msbuild.Hoarding-managment.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+D:\Maverick Services\BharatRepository\Holding_Managment\obj\Debug\net6.0\staticwebassets\msbuild.build.Hoarding-managment.props
+D:\Maverick Services\BharatRepository\Holding_Managment\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.Hoarding-managment.props
+D:\Maverick Services\BharatRepository\Holding_Managment\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.Hoarding-managment.props
+D:\Maverick Services\BharatRepository\Holding_Managment\obj\Debug\net6.0\staticwebassets.pack.json
+D:\Maverick Services\BharatRepository\Holding_Managment\obj\Debug\net6.0\staticwebassets.upToDateCheck.txt
+D:\Maverick Services\BharatRepository\Holding_Managment\obj\Debug\net6.0\Hoarding.6350DBFA.Up2Date
+D:\Maverick Services\BharatRepository\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\obj\Debug\net6.0\refint\Hoarding-managment.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.pdb
+D:\Maverick Services\BharatRepository\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.genruntimeconfig.cache
+D:\Maverick Services\BharatRepository\Holding_Managment\obj\Debug\net6.0\ref\Hoarding-managment.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.Data.SqlClient.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\System.Runtime.Caching.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\System.Security.Permissions.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\System.Windows.Extensions.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
+D:\Maverick Services\BharatRepository\Holding_Managment\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\appsettings.Development.json
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\appsettings.json
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Hoarding-managment.staticwebassets.endpoints.json
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Hoarding-managment.staticwebassets.runtime.json
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Hoarding-managment.exe
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Hoarding-managment.deps.json
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Hoarding-managment.runtimeconfig.json
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Hoarding-managment.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Hoarding-managment.pdb
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\AngleSharp.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Azure.Core.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Azure.Identity.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Azure.Security.KeyVault.Certificates.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Azure.Security.KeyVault.Secrets.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\BouncyCastle.Cryptography.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\ClosedXML.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\ClosedXML.Parser.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\DocumentFormat.OpenXml.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\DocumentFormat.OpenXml.Framework.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\EPPlus.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\EPPlus.Interfaces.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\EPPlus.System.Drawing.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\ExcelNumberFormat.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Humanizer.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\itext.barcodes.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\itext.bouncy-castle-connector.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\itext.forms.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\itext.io.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\itext.kernel.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\itext.layout.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\itext.pdfa.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\itext.pdfua.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\itext.sign.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\itext.styledxmlparser.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\itext.svg.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\itext.commons.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\itextsharp.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.Bcl.TimeProvider.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.Data.SqlClient.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.DotNet.PlatformAbstractions.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.Caching.Memory.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.Configuration.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.Configuration.FileExtensions.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Json.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.DependencyModel.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.FileProviders.Physical.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.FileSystemGlobbing.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.Primitives.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.Identity.Abstractions.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.Identity.Client.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.Identity.Client.Extensions.Msal.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.Identity.Web.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.Identity.Web.Certificate.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.Identity.Web.Certificateless.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.Identity.Web.Diagnostics.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.Identity.Web.TokenAcquisition.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.Identity.Web.TokenCache.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.IdentityModel.LoggingExtensions.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.IdentityModel.Validators.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.IO.RecyclableMemoryStream.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.OpenApi.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\MySqlConnector.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Pomelo.EntityFrameworkCore.MySql.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\RBush.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\SixLabors.Fonts.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\System.ClientModel.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\System.Diagnostics.DiagnosticSource.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\System.Drawing.Common.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\System.Formats.Asn1.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\System.IO.Packaging.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\System.Memory.Data.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\System.Runtime.Caching.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\System.Security.Cryptography.Pkcs.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\System.Security.Cryptography.Xml.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\System.Security.Permissions.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\System.Text.Encoding.CodePages.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\System.Text.Encodings.Web.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\System.Text.Json.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\System.Windows.Extensions.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\Toolbelt.AspNetCore.CssLiveReloader.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.Pkcs.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Text.Encoding.CodePages.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.csproj.AssemblyReference.cache
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.AssemblyInfoInputs.cache
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.AssemblyInfo.cs
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.csproj.CoreCompileInputs.cache
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.RazorAssemblyInfo.cache
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.RazorAssemblyInfo.cs
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.sourcelink.json
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\obj\Debug\net6.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\obj\Debug\net6.0\scopedcss\bundle\Hoarding-managment.styles.css
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\obj\Debug\net6.0\scopedcss\projectbundle\Hoarding-managment.bundle.scp.css
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\obj\Debug\net6.0\staticwebassets.build.json
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\obj\Debug\net6.0\staticwebassets.development.json
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\obj\Debug\net6.0\staticwebassets.build.endpoints.json
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\obj\Debug\net6.0\staticwebassets\msbuild.Hoarding-managment.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\obj\Debug\net6.0\staticwebassets\msbuild.Hoarding-managment.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\obj\Debug\net6.0\staticwebassets\msbuild.build.Hoarding-managment.props
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.Hoarding-managment.props
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.Hoarding-managment.props
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\obj\Debug\net6.0\staticwebassets.pack.json
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\obj\Debug\net6.0\staticwebassets.upToDateCheck.txt
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\obj\Debug\net6.0\Hoarding.6350DBFA.Up2Date
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\obj\Debug\net6.0\refint\Hoarding-managment.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.pdb
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.genruntimeconfig.cache
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\Holding_Managment\obj\Debug\net6.0\ref\Hoarding-managment.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\appsettings.Development.json
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\appsettings.json
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Hoarding-managment.staticwebassets.runtime.json
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Hoarding-managment.staticwebassets.endpoints.json
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Hoarding-managment.exe
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Hoarding-managment.deps.json
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Hoarding-managment.runtimeconfig.json
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Hoarding-managment.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Hoarding-managment.pdb
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\AngleSharp.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\BouncyCastle.Cryptography.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\ClosedXML.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\ClosedXML.Parser.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\DocumentFormat.OpenXml.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\DocumentFormat.OpenXml.Framework.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\EPPlus.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\EPPlus.Interfaces.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\EPPlus.System.Drawing.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\ExcelNumberFormat.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Humanizer.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\itext.barcodes.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\itext.bouncy-castle-connector.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\itext.forms.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\itext.io.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\itext.kernel.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\itext.layout.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\itext.pdfa.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\itext.pdfua.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\itext.sign.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\itext.styledxmlparser.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\itext.svg.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\itext.commons.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\itextsharp.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Microsoft.Data.SqlClient.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Microsoft.DotNet.PlatformAbstractions.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.Configuration.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.Configuration.FileExtensions.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Json.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.DependencyModel.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.FileProviders.Physical.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.FileSystemGlobbing.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.Primitives.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Microsoft.Identity.Client.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Microsoft.IO.RecyclableMemoryStream.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Microsoft.OpenApi.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\MySqlConnector.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Pomelo.EntityFrameworkCore.MySql.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\RBush.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\SixLabors.Fonts.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\System.Drawing.Common.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\System.Formats.Asn1.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\System.IO.Packaging.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\System.Runtime.Caching.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\System.Security.Cryptography.Pkcs.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\System.Security.Permissions.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\System.Text.Encoding.CodePages.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\System.Text.Encodings.Web.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\System.Text.Json.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\System.Windows.Extensions.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Toolbelt.AspNetCore.CssLiveReloader.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.Pkcs.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Text.Encoding.CodePages.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.csproj.AssemblyReference.cache
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\obj\Debug\net6.0\rpswa.dswa.cache.json
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.AssemblyInfoInputs.cache
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.AssemblyInfo.cs
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.csproj.CoreCompileInputs.cache
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.RazorAssemblyInfo.cache
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.RazorAssemblyInfo.cs
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.sourcelink.json
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\obj\Debug\net6.0\rjimswa.dswa.cache.json
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\obj\Debug\net6.0\rjsmrazor.dswa.cache.json
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\obj\Debug\net6.0\rjsmcshtml.dswa.cache.json
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\obj\Debug\net6.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\obj\Debug\net6.0\scopedcss\bundle\Hoarding-managment.styles.css
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\obj\Debug\net6.0\scopedcss\projectbundle\Hoarding-managment.bundle.scp.css
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\obj\Debug\net6.0\staticwebassets.build.json
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\obj\Debug\net6.0\staticwebassets.build.json.cache
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\obj\Debug\net6.0\staticwebassets.development.json
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\obj\Debug\net6.0\staticwebassets.build.endpoints.json
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\obj\Debug\net6.0\staticwebassets.upToDateCheck.txt
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\obj\Debug\net6.0\Hoarding.6350DBFA.Up2Date
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\obj\Debug\net6.0\refint\Hoarding-managment.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.pdb
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.genruntimeconfig.cache
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\obj\Debug\net6.0\ref\Hoarding-managment.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Azure.Core.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Azure.Identity.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Microsoft.Identity.Client.Extensions.Msal.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\Microsoft.SqlServer.Server.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\System.Memory.Data.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\bhara\Desktop\Company_projects\Holding_Managment\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\appsettings.Development.json
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\appsettings.json
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Hoarding-managment.staticwebassets.endpoints.json
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Hoarding-managment.staticwebassets.runtime.json
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Hoarding-managment.exe
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Hoarding-managment.deps.json
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Hoarding-managment.runtimeconfig.json
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Hoarding-managment.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Hoarding-managment.pdb
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\AngleSharp.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Azure.Core.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Azure.Identity.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\BouncyCastle.Cryptography.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\ClosedXML.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\ClosedXML.Parser.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\DocumentFormat.OpenXml.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\DocumentFormat.OpenXml.Framework.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\EPPlus.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\EPPlus.Interfaces.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\EPPlus.System.Drawing.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\ExcelNumberFormat.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Humanizer.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\itext.barcodes.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\itext.bouncy-castle-connector.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\itext.forms.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\itext.io.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\itext.kernel.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\itext.layout.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\itext.pdfa.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\itext.pdfua.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\itext.sign.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\itext.styledxmlparser.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\itext.svg.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\itext.commons.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\itextsharp.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Microsoft.Data.SqlClient.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Microsoft.DotNet.PlatformAbstractions.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.Configuration.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.Configuration.FileExtensions.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Json.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.DependencyModel.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.FileProviders.Physical.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.FileSystemGlobbing.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Microsoft.Extensions.Primitives.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Microsoft.Identity.Client.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Microsoft.Identity.Client.Extensions.Msal.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Microsoft.IO.RecyclableMemoryStream.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Microsoft.OpenApi.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Microsoft.SqlServer.Server.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\MySqlConnector.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Pomelo.EntityFrameworkCore.MySql.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\RBush.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\SixLabors.Fonts.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\System.Drawing.Common.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\System.Formats.Asn1.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\System.IO.Packaging.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\System.Memory.Data.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\System.Runtime.Caching.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\System.Security.Cryptography.Pkcs.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\System.Security.Permissions.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\System.Text.Encoding.CodePages.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\System.Text.Encodings.Web.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\System.Text.Json.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\System.Windows.Extensions.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\Toolbelt.AspNetCore.CssLiveReloader.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.Pkcs.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Text.Encoding.CodePages.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.csproj.AssemblyReference.cache
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\obj\Debug\net6.0\rpswa.dswa.cache.json
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.AssemblyInfoInputs.cache
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.AssemblyInfo.cs
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.csproj.CoreCompileInputs.cache
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.RazorAssemblyInfo.cache
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.RazorAssemblyInfo.cs
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\obj\Debug\net6.0\rjimswa.dswa.cache.json
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\obj\Debug\net6.0\rjsmrazor.dswa.cache.json
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\obj\Debug\net6.0\rjsmcshtml.dswa.cache.json
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\obj\Debug\net6.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\obj\Debug\net6.0\scopedcss\bundle\Hoarding-managment.styles.css
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\obj\Debug\net6.0\scopedcss\projectbundle\Hoarding-managment.bundle.scp.css
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\obj\Debug\net6.0\staticwebassets.build.json
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\obj\Debug\net6.0\staticwebassets.build.json.cache
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\obj\Debug\net6.0\staticwebassets.development.json
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\obj\Debug\net6.0\staticwebassets.build.endpoints.json
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\obj\Debug\net6.0\staticwebassets.upToDateCheck.txt
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\obj\Debug\net6.0\Hoarding.6350DBFA.Up2Date
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\obj\Debug\net6.0\refint\Hoarding-managment.dll
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.pdb
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\obj\Debug\net6.0\Hoarding-managment.genruntimeconfig.cache
+C:\Users\bhara\Desktop\Company_project\Holding_Managment\obj\Debug\net6.0\ref\Hoarding-managment.dll
