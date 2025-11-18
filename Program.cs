@@ -41,6 +41,15 @@ namespace HoardingManagement
             builder.Services.AddScoped<IQuotation, QuotationRepository>();
             builder.Services.AddScoped<IOngoingCampain, OngoingCampainRepository>();
             builder.Services.AddScoped<AutocompleteService>();
+           
+                // HTTPS (mobile must accept certificate)
+           builder.WebHost.ConfigureKestrel(options =>
+            {
+                    // Only use HTTP for LAN access
+                    options.ListenAnyIP(5000);
+            });
+
+           
 
             var app = builder.Build();
 
@@ -50,8 +59,8 @@ namespace HoardingManagement
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-
-            app.UseHttpsRedirection();
+           
+          //  app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();

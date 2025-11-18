@@ -14,112 +14,7 @@ namespace Hoarding_managment.Repository
             _context = db_hoarding_managementContext;
         }
 
-        //public async Task<List<InventoryViewModel>> GetAllHoarldingInvenrotyAsync(
-        //         string searchQuery, int pageNumber, int pageSize,
-        //         string? city, string? area, string? minRate, string? maxRate,
-        //         string? width, string? height, int? vendorId)
-        // {
-
-        //    return null;
-
-        //}
-
-
-        //  public async Task<List<InventoryViewModel>> GetAllHoarldingInvenrotyAsync(
-        //string searchQuery,
-        //int pageNumber,
-        //int pageSize,
-        //string? city = null,
-        //string? area = null,
-        //string? minRate = null,
-        //string? maxRate = null,
-        //string? width = null,
-        //string? height = null,
-        //int? vendorId = null)
-        //  {
-        //      // Normalize the search query
-        //      searchQuery = searchQuery?.ToLower().Trim();
-
-        //      // Start the base query (without any filters yet)
-        //      var query = _context.TblInventories
-        //          .Where(x => x.IsDelete == 0 &&
-        //                      (string.IsNullOrEmpty(searchQuery) ||
-        //                       x.City.ToLower().Contains(searchQuery) ||
-        //                       x.Area.ToLower().Contains(searchQuery) ||
-        //                       x.Location.ToLower().Contains(searchQuery)));
-
-        //      // Apply filters only if they are provided (not null or empty)
-        //      if (!string.IsNullOrEmpty(city))
-        //          query = query.Where(x => x.City.ToLower() == city.ToLower());
-
-        //      if (!string.IsNullOrEmpty(area))
-        //          query = query.Where(x => x.Area.ToLower() == area.ToLower());
-
-        //      // Handle minRate and maxRate as strings for comparison
-        //      if (!string.IsNullOrEmpty(minRate))
-        //          query = query.Where(x => string.Compare(x.Rate, minRate) >= 0);
-
-        //      if (!string.IsNullOrEmpty(maxRate))
-        //          query = query.Where(x => string.Compare(x.Rate, maxRate) <= 0);
-
-        //      if (!string.IsNullOrEmpty(width))
-        //          query = query.Where(x => x.Width == width);
-
-        //      if (!string.IsNullOrEmpty(height))
-        //          query = query.Where(x => x.Height == height);
-
-        //      if (vendorId.HasValue)
-        //          query = query.Where(x => x.FkVendorId == vendorId.Value);
-
-        //      // Paginate and order by creation date
-        //      var lst = await query
-        //          .OrderByDescending(x => x.CreatedAt)
-        //          .Skip((pageNumber - 1) * pageSize)  // Apply pagination
-        //          .Take(pageSize)
-        //          .ToListAsync();
-
-        //      // Map the results to view models
-        //      var inventory = new List<InventoryViewModel>();
-        //      foreach (var item in lst)
-        //      {
-        //          // Check if there are active campaigns for the inventory item
-        //          var campaignsCheck = await _context.TblCampaigns
-        //              .Where(x => x.FkInventoryId == item.Id && x.IsDelete == 0 && x.ToDate >= DateTime.Today)
-        //              .ToListAsync();
-
-        //          // Set booking status based on campaign check
-        //          var bookStatus = campaignsCheck.Any() ? 0 : 1; // 0 if campaigns exist, else 1
-
-        //          // Get the associated vendor (if any)
-        //          var vendor = await _context.TblVendors.FindAsync(item.FkVendorId);
-
-        //          // Create the view model
-        //          var model = new InventoryViewModel
-        //          {
-        //              Id = item.Id,
-        //              Image = item.Image,
-        //              City = item.City,
-        //              Area = item.Area,
-        //              location = item.Location,
-        //              Width = item.Width,
-        //              Height = item.Height,
-        //              Rate = item.Rate, // Rate as a string
-        //              vendoramt = item.VendorAmt, // VendorAmt as a string
-        //              BookingStatus = (ulong?)bookStatus,
-        //              CreatedAt = item.CreatedAt,
-        //              UpdatedAt = item.UpdatedAt,
-        //              Type = item.Type,
-        //              VendorName = vendor?.VendorName,
-        //              FkVendorId = item.FkVendorId
-        //          };
-
-        //          inventory.Add(model);
-        //      }
-
-        //      return inventory;
-        //  }
-
-
+   
         public async Task<List<InventoryViewModel>> GetAllHoarldingInvenrotyAsync(string searchQuery, string amount, string vendor, string City, string Area, string Width, string Height, int pageNumber, int pageSize)
         {
             List<InventoryViewModel> inventory = new List<InventoryViewModel>();
@@ -279,67 +174,6 @@ namespace Hoarding_managment.Repository
 
 
 
-        //public async Task<List<InventoryViewModel>> GetAllHoarldingInvenrotyAsync(string searchQuery, int pageNumber, int pageSize)
-        //{
-        //    List<InventoryViewModel> inventory = new List<InventoryViewModel>();
-
-        //    // Ensure the search query is not null or empty
-        //    searchQuery = searchQuery?.ToLower().Trim();
-
-        //    var lst = _context.TblInventories
-        //              .Where(x => x.IsDelete == 0 &&
-        //                          (string.IsNullOrEmpty(searchQuery) ||
-        //                          x.City.ToLower().Contains(searchQuery) ||
-        //                          x.Area.ToLower().Contains(searchQuery) ||
-        //                          x.Location.ToLower().Contains(searchQuery)))
-        //              .OrderByDescending(x => x.CreatedAt) // Ordering by CreatedAt in descending order
-        //              .Skip((pageNumber - 1) * pageSize)
-        //              .Take(pageSize)
-        //              .ToList();
-
-        //    foreach (var item in lst)
-        //    {
-        //        var campaignscheck = _context.TblCampaigns
-        //            .Where(x => x.FkInventoryId == item.Id
-        //                        && x.IsDelete == 0
-        //                        && x.ToDate >= DateTime.Today)
-        //            .ToList();
-        //        int bookstatus = 1;
-        //        if (campaignscheck.Count > 0)
-        //        {
-        //            bookstatus = 0;
-        //        }
-
-        //        InventoryViewModel model = new InventoryViewModel
-        //        {
-
-        //            Id = item.Id,
-        //            Image = !string.IsNullOrEmpty(item.Image) ? item.Image : "N/A",
-        //            City = !string.IsNullOrEmpty(item.City) ? item.City : "N/A",
-        //            Area = !string.IsNullOrEmpty(item.Area) ? item.Area : "N/A",
-        //            location = !string.IsNullOrEmpty(item.Location) ? item.Location : "N/A",
-        //            Rate = item.Rate != null ? item.Rate : "N/A", // Assuming Rate is a nullable type, otherwise you can skip this check
-        //            vendoramt = item.VendorAmt != null ? item.VendorAmt : "N/A", // Same for VendorAmt
-        //            Width = item.Width != null ? item.Width : "N/A", // Same for Width
-        //            Height = item.Height != null ? item.Height : "N/A", // Same for Height
-        //            BookingStatus = (ulong?)bookstatus,
-        //            CreatedAt = item.CreatedAt,
-        //            UpdatedAt = item.UpdatedAt,
-        //            Type = item.Type,
-
-        //            VendorName = _context.TblVendors.FirstOrDefault(x => x.Id == item.FkVendorId) != null ?
-        //                             _context.TblVendors.FirstOrDefault(x => x.Id == item.FkVendorId).VendorName :
-        //                             "N/A",
-
-        //            FkVendorId = item.FkVendorId != null ? item.FkVendorId : 0 // Assuming FkVendorId is nullable, adjust accordingly
-
-        //        };
-        //        inventory.Add(model);
-        //    }
-
-        //    return inventory;
-        //}
-
 
         public async Task<int> GetAllHoarldingInvenrotyCountAsync(string searchQuery, string amount, string vendor, string City, string Area, string Width, string Height)
         {
@@ -412,18 +246,7 @@ namespace Hoarding_managment.Repository
                 lst = lst.Where(x => x.IsDelete == 0 && x.Height == Height).OrderByDescending(x => x.CreatedAt)
                     .ToList();
             }
-            //// Ensure the search query is not null or empty
-            //searchQuery = searchQuery?.ToLower().Trim();
-
-            //// Count the total number of matching hoardings
-            //var count = await _context.TblInventories
-            //             .Where(x => x.IsDelete == 0 &&
-            //                         (string.IsNullOrEmpty(searchQuery) ||
-            //                         x.City.ToLower().Contains(searchQuery) ||
-            //                         x.Area.ToLower().Contains(searchQuery) ||
-            //                         x.Location.ToLower().Contains(searchQuery)))
-            //             .CountAsync();
-
+      
             var count = lst.Count();
 
             return count;

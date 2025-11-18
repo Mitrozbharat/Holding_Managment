@@ -588,33 +588,9 @@ namespace Hoarding_managment.Controllers
             return View(model);
         }
 
+      
 
-
-
-        [HttpGet]
-        public IActionResult PaymentViewQR(string qr)
-        {
-            if (string.IsNullOrEmpty(qr))
-                return Content("Invalid QR Data!");
-
-            // Parse UPI data
-            var query = HttpUtility.ParseQueryString(new Uri(qr).Query);
-
-            ViewBag.PA = query["pa"];
-            ViewBag.PN = query["pn"];
-            ViewBag.Amount = query["am"];
-            ViewBag.Currency = query["cu"];
-            ViewBag.CID = query["cid"];
-            ViewBag.ItemId = query["item"];
-            ViewBag.Mode = query["mode"];
-            ViewBag.Mobile = query["mobile"];
-
-            ViewBag.DecodedQR = qr;
-
-            return View();
-        }
-
-
+        
         [HttpPost]
         public async Task<IActionResult> SavePayment(int cid,int itemid, string customer,string upi,decimal amount, string mode, string mobile, string rawQr)
         {

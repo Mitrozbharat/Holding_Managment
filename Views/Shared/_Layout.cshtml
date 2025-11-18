@@ -224,15 +224,25 @@
             $.ajax({
                 url: '/Dashboard/getallCount',
                 type: 'GET',
-                success: function (data) {
-                    if (data.success) {
-                      
-                        const empCountElement = document.getElementById('empCount');
-                        empCountElement.setAttribute('data-count', data.count);
-                    } else {
-                        $('#empCount').text('Error: ' + data.message);
-                    }
-                },
+               success: function (data) {
+
+            const empCountElement = document.getElementById('empCount');
+
+            if (data && data.success) {
+
+                // If count is undefined, set default = 0
+                let countValue = (data.count !== undefined && data.count !== null)
+                    ? data.count
+                    : 0;
+
+                empCountElement.setAttribute('data-count', countValue);
+
+            } else {
+
+                // If server returns success:false OR undefined response
+                empCountElement.setAttribute('data-count', 0);
+            }
+        },
                 error: function () {
                     $('#empCount').text('Error occurred while fetching data.');
                 }

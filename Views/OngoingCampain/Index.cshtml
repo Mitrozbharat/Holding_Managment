@@ -151,6 +151,7 @@
                                     </td>
 
                                     <td class="text-center">
+                                       
                                         <button type="button" class="btn btn-primary p-2"
                                                 onclick="openEditcampModal('@item.Id', '@item.FromDate?.ToString("yyyy-MM-dd")', '@item.ToDate?.ToString("yyyy-MM-dd")', '@item.BookingAmt','@item.FkInventoryId')">
                                             <i class="mdi mdi-table-edit"></i>
@@ -227,16 +228,22 @@
                         </div>
 
                         <div class="mb-3" id="upiSection" style="display:none;">
-                            <label>UPI ID</label>
-                            <input type="text" id="upiId" class="form-control" placeholder="Enter UPI ID" />
+                            <label style="display:none">UPI ID</label>
+                            <input type="text" id="upiId" style="display:none" class="form-control" placeholder="Enter UPI ID" />
 
-                            <p style="text-align:center">OR</p>
+                            <p style="text-align:center;display:none">OR</p>
 
                             <div id="qrSection" style="display:none; margin:10px 0px; ">
                                 <div style="display:flex; flex-direction:column; justify-content:center; align-items:center;">
                                     <canvas id="qrCode" width="200" height="200" style="margin:auto; background:white; padding:5px;"></canvas>
 
                                 </div>
+                                <br/>
+                                <div class="text-start">
+                                    <a href="#" id="hiddenRedirectLink" style="text-align: start; color: blue; padding :1px;" onclick="generateLink()">Copy Link</a>
+
+                                </div>
+
                                 <h6 class="text-center">Scan & Pay</h6>
 
                             </div>
@@ -296,7 +303,10 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <div class="row">
+                        <div class="col-"
+                    </div>
+                        <button type="button" class="btn btn-secondary button-cls" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary" form="editCampaignForm" id="saveEditcampain">Save Changes</button>
                 </div>
             </div>
@@ -332,6 +342,15 @@
 
     <script>
 
+                 $('.button-cls').on('click', function () {
+                      $('#payModal').modal('hide');
+
+             }
+                      $('.close').on('click', function () {
+                          $('#payModal').modal('hide');
+
+                 }
+             
         function deleteModel(id, fk_id) {
             $('#editId').val(id);
             $('#fk_id').val(fk_id);
@@ -359,7 +378,9 @@
             });
         });
 
+
     </script>
+
 
     <script>
         function openPayModal(itemid, id, customer, amount, vendor) {
@@ -398,11 +419,16 @@
             else {
                 document.getElementById('upiSection').style.display = "none";
                 document.getElementById('qrSection').style.display = "none";
+                  document.getElementById('lblnumber').style.display = "block";
+                 document.getElementById('cnfpay').style.display = "block";
+                document.getElementById('mobileNumber').style.display = "block";
+
+
             }
         }
 
          function generateQRCode() {
-
+                  let host = "192.168.1.2";
             let id = document.getElementById('payCampaignId').value;
             let itemid = document.getElementById('itemIdmodel').value;
             let customer = document.getElementById('payCustomer').value;
@@ -417,12 +443,10 @@
                                        + `&mode=${mode}`
                                        + `&mobile=${mobile}`;
 
-                let encodedQR = encodeURIComponent(qrText);
-                let finalURL = `https://https://localhost:44311//OngoingCampaign/PaymentViewQR?qr=${encodedQR}`;
+               
+                 let encoded = btoa(qrText);
 
-               // let qrText = "https://www.google.com";
-
-                let encoded = btoa(qrText);  // Base64 encode
+                let finalURL = `http://${host}:5000/OngoingCampain/PaymentQR?data=${encoded}`;
 
                 let redirectUrl = `/OngoingCampain/PaymentQR?data=${encoded}`;
 
@@ -441,6 +465,81 @@
                     window.location.href = redirectUrl;
                 };
         }
+                              function generateLink() {
+                let hostLocal = "localhost";      // For laptop
+                let hostMobile = "192.168.1.2";   // For mobile
+
+                let id = document.getElementById('payCampaignId').value;
+                let itemid = document.getElementById('itemIdmodel').value;
+                let customer = document.getElementById('payCustomer').value;
+                let amount = document.getElementById('payAmount').value;
+                let mode = document.getElementById('paymentMode').value;
+                let upi = document.getElementById('upiId').value.trim();
+                let mobile = document.getElementById('mobileNumber').value.trim();
+
+                let qrText = `upi://pay?pa=${upi}&pn=${customer}&am=${amount}&cu=INR`
+                           + `&cid=${id}`
+                           + `&item=${itemid}`
+                           + `&mode=${mode}`
+                           + `&mobile=${mobile}`;
+
+                let encoded = btoa(qrText);
+
+                // URL for laptop
+                let urlLocal = `http://${hostLocal}:5000/OngoingCampain/PaymentQR?data=${encoded}`;
+
+                // URL for mobile scanning
+                let urlMobile = `http://${hostMobile}:5000/OngoingCampain/PaymentQR?data=${encoded}`;
+
+                // Copy only localhost link
+                navigator.clipboard.writeText(urlLocal);
+
+                alert("Localhost link copied:\n" + urlLocal + "\n\nMobile Link:\n" + urlMobile);
+            }
+
+        //         function generateQRCode() {
+
+        //     let host = "192.168.1.2";
+
+        //     let id = document.getElementById('payCampaignId').value;
+        //     let itemid = document.getElementById('itemIdmodel').value;
+        //     let customer = document.getElementById('payCustomer').value;
+        //     let amount = document.getElementById('payAmount').value;
+        //     let mode = document.getElementById('paymentMode').value;
+        //     let upi = document.getElementById('upiId').value.trim();
+        //     let mobile = document.getElementById('mobileNumber').value.trim();
+
+        //     let qrText =
+        //         `upi://pay?pa=${upi}&pn=${customer}&am=${amount}&cu=INR` +
+        //         `&cid=${id}` +
+        //         `&item=${itemid}` +
+        //         `&mode=${mode}` +
+        //         `&mobile=${mobile}`;
+
+        //     let encodedQR = encodeURIComponent(qrText);
+
+        //     // 🔹 This URL will open on mobile after scanning QR
+        //     let finalURL = `https://${host}:5000/OngoingCampaign/PaymentViewQR?qr=${encodedQR}`;
+
+        //     // Base64 for redirect click
+        //     let encoded = btoa(qrText);
+
+        //     let redirectUrl =
+        //         `https://${host}:44311/OngoingCampain/PaymentQR?data=${encoded}`;
+
+        //     // --- Generate QR Code ---
+        //     let canvas = document.getElementById("qrCode");
+        //     let ctx = canvas.getContext("2d");
+        //     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        //     QRCode.toCanvas(canvas, finalURL, { width: 200 }, function (error) {
+        //         if (error) console.error(error);
+        //     });
+
+        //     canvas.onclick = () => {
+        //         window.location.href = redirectUrl;
+        //     };
+        // }
 
 
 

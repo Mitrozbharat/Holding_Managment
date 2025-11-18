@@ -11,16 +11,7 @@ namespace Hoarding_managment.Repository
         {
             _context = db_hoarding_managementContext;
         }
-        //public async Task<IEnumerable<TblCustomer>> GetallCustomerAsync(int pageNumber, int pageSize)
-        //{
-
-        //    return await _context.TblCustomers
-        //        .Where(v => v.IsDelete == 0)
-        //        .Skip((pageNumber - 1) * pageSize)
-        //        .Take(pageSize)
-        //        .ToListAsync();
-
-        //}
+      
         public async Task<IEnumerable<TblCustomer>> GetallCustomerAsync(string searchQuery, int pageNumber, int pageSize)
         {
             // Start with the base query for customers

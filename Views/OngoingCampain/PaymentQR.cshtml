@@ -1,71 +1,9 @@
-﻿@* @model PaymentQRViewModel
-
-<div class="container mt-4">
-
-    <h3 class="text-center">Payment Verification</h3>
-    <hr />
-
-    <div class="card p-4 shadow">
-
-        <div class="mb-3">
-            <label>Campaign ID</label>
-            <input class="form-control" value="@Model.CampaignId" readonly />
-        </div>
-
-        <div class="mb-3">
-            <label>Index ID</label>
-            <input class="form-control" value="@Model.IndexId" readonly />
-        </div>
-
-        <div class="mb-3">
-            <label>Customer</label>
-            <input class="form-control" value="@Model.Customer" readonly />
-        </div>
-
-        <div class="mb-3">
-            <label>Amount</label>
-            <input class="form-control" value="@Model.Amount" readonly />
-        </div>
-
-        <div class="mb-3">
-            <label>Paid UPI ID</label>
-            <input class="form-control" value="@Model.UpiId" readonly />
-        </div>
-
-        <button class="btn btn-success w-100" onclick="confirmFinalPayment()">Confirm Payment</button>
-    </div>
-</div>
-
-<script>
-    function confirmFinalPayment() {
-
-        let body = {
-            CampaignId: "@Model.CampaignId",
-            IndexId: "@Model.IndexId",
-            Customer: "@Model.Customer",
-            Amount: "@Model.Amount",
-            UpiId: "@Model.UpiId"
-        };
-
-        $.ajax({
-            url: "/OngoingCampaign/SaveFinalPayment",
-            type: "POST",
-            data: JSON.stringify(body),
-            contentType: "application/json",
-            success: function () {
-                alert("Payment Saved Successfully!");
-                window.location.href = "/OngoingCampaign/Index";
-            },
-            error: function (err) {
-                alert("Error: " + err.responseText);
-            }
-        });
-    }
-</script>
- *@
+﻿
 @{
     string encoded = Context.Request.Query["data"];
 }
+
+
 <div class="container mt-4">
     <h3 class="text-center">Scanned Payment Details</h3>
 
@@ -109,7 +47,7 @@
         <hr />
 
         <div class="text-center">
-            <button class="btn btn-success btn-lg" onclick="completePayment()">Confirm Payment</button>
+            <button class="btn btn-success btn-lg" onclick="completePayment()">pay</button>
         </div>
     </div>
 </div>
